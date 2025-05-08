@@ -176,7 +176,7 @@
           <div class="page-content">
 
                <!-- Start Container Fluid -->
-               @yield('conten')
+               @yield('content')
                <!-- End Container Fluid -->
 
                <!-- ========== Footer Start ========== -->
