@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 // =================================ADMIN=================================
 use App\Http\Controllers\admin\ProductController as AdminProductController;
-use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 
 // =================================CLIENT=================================
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -27,20 +27,22 @@ use App\Http\Controllers\Client\ProductController as ClientProductController;
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
 
-    //              ==================   PRODUCTS =====================
-    Route::prefix('list-product')->name('admin.')->group(function () {
+    //              ==================  PRODUCTS =====================
+    Route::prefix('listProduct')->name('listProduct.')->group(function () {
         Route::get('/', [AdminProductController::class, 'list'])->name('listProduct');
         Route::get('/add', [AdminProductController::class, 'add'])->name('addProduct');
         Route::get('/update', [AdminProductController::class, 'update'])->name('updateProduct');
         Route::get('/delete', [AdminProductController::class, 'delete'])->name('deleteProduct');
     });
 
-    //              ==================   CATEGORY =====================
-    Route::prefix('listCategory')->name('admin.')->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('listCategory');
-        // Route::get('/add', [AdminCategoryController::class, 'add'])->name('addCategory');
-        // Route::get('/update', [AdminCategoryController::class, 'update'])->name('updateCategory');
-        // Route::get('/delete', [AdminCategoryController::class, 'delete'])->name('deleteProduct');
+    //              ==================  CATEGORY =====================
+    Route::prefix('listCategory')->name('listCategory.')->group(function () {
+        Route::get('/', [AdminCategoryController::class, 'index'])->name('list');
+        Route::get('/add', [AdminCategoryController::class, 'create'])->name('addCategory');
+        Route::post('/store', [AdminCategoryController::class, 'store'])->name('storeCategory');
+        Route::get('/edit/{id}', [AdminCategoryController::class, 'edit'])->name('editCategory');
+        Route::put('/update{id}', [AdminCategoryController::class, 'update'])->name('updateCategory');
+        Route::delete('/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
     });
 });
 

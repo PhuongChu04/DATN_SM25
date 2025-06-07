@@ -60,7 +60,7 @@
                          </li>
 
                          <li class="nav-item">
-                              <a class="nav-link menu-arrow" href="#sidebarCategory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCategory">
+                              <a class="nav-link menu-arrow" href="{{route('admin.listCategory.list')}}" >
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:clipboard-list-bold-duotone"></iconify-icon>
                                    </span>
