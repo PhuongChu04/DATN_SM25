@@ -1,6 +1,6 @@
 @extends('client.layout.layout')
 
-@section('conten')
+@section('content')
  <!-- Slider -->
  <div class="tf-slideshow slider-electronic slider-default">
     <div dir="ltr" class="swiper tf-sw-slideshow slider-effect-fade" data-preview="1" data-tablet="1"

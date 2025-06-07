@@ -2,6 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckSentinelMiddleware;
+use App\Http\Middleware\CheckUserRole;
+use \App\Http\Middleware\SentinelAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,5 +67,8 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'checkAdmin' => CheckSentinelMiddleware::class,
+        'checkUser' => CheckUserRole::class,
+        'checkLogin' => SentinelAuth::class,
     ];
 }
