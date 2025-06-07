@@ -38,8 +38,7 @@
                                                 <label class="form-check-label" for="customCheck1"></label>
                                             </div>
                                         </th>
-                                        <th>Categories</th>
-                                        <th>ID</th>
+                                        <th>Categories</th>                                       
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -63,10 +62,10 @@
                                                 </div>
 
                                             </td>
-                                            <td>{{ $value->id_parent }}</td>
+                                            
                                             <td>
                                                 <div class="d-flex gap-2">
-                                                    <a href="#!" class="btn btn-light btn-sm"><iconify-icon
+                                                    <a href="{{ route('admin.listCategory.detailCategory', $value) }}" class="btn btn-light btn-sm"><iconify-icon
                                                             icon="solar:eye-broken"
                                                             class="align-middle fs-18"></iconify-icon></a>
                                                     <a href="{{ route('admin.listCategory.editCategory', $value) }}"
@@ -94,14 +93,14 @@
                         <!-- end table-responsive -->
                     </div>
                     <div class="card-footer border-top">
-                        {{$category->links()}}
+                        {{ $category->links() }}
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
-    
+
 
     <!-- End Container Fluid -->
 @endsection

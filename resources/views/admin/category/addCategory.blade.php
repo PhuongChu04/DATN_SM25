@@ -40,16 +40,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-lg-6">
-
-                                <div class="mb-3">
-                                    <label for="product-id" class="form-label">ID Parent</label>
-                                    <input type="number" name="id_parent" id="product-id" class="form-control"
-                                        placeholder="******">
-                                </div>
-
-
-                            </div>
+                            
 
                         </div>
                     </div>

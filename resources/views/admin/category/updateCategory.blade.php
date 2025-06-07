@@ -19,10 +19,7 @@
                                     <h5 class="mb-0">{{$category['name']}}</h5>
                                 </div>
                                 
-                                <div class="col-lg-4 col-4">
-                                    <p class="mb-1 mt-2">ID :</p>
-                                    <h5 class="mb-0">{{$category['id_parent']}}</h5>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -69,11 +66,7 @@
                                 </div>
                                 <div class="col-lg-6">
 
-                                    <div class="mb-3">
-                                        <label for="product-id" class="form-label">ID Parent</label>
-                                        <input type="number" name="id_parent" value="{{$category['id_parent']}}" id="product-id" class="form-control"
-                                            placeholder="******">
-                                    </div>
+                                    
 
 
                                 </div>
