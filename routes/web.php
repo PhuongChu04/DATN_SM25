@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\ProductController as AdminProductController;
 
 use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 
@@ -43,6 +44,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logoutAdmin');
     });
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
+    Route::get('/brands/create', [BrandController::class, 'create'])->name('brands.create');
+    Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
+    Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
 });
 
 
