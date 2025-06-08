@@ -56,7 +56,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient');
     Route::get('/acc',[ClientController::class , 'account'])->middleware('checkLogin')->name('account');
-     Route::get('/acc-detail',[ClientController::class , 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
+     Route::get('/acc-detail',[AuthController::class , 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
      Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
 
 });
