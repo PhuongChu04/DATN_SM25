@@ -12,14 +12,14 @@
                             <img src="{{ Storage::url($category['image']) }}" alt="" class="avatar-xxl">
                         </div>
                         <div class="mt-3">
-                            <h4>{{$category['name']}}</h4>
+                            <h4>{{ $category['name'] }}</h4>
                             <div class="row">
                                 <div class="col-lg-4 col-4">
                                     <p class="mb-1 mt-2">Name:</p>
-                                    <h5 class="mb-0">{{$category['name']}}</h5>
+                                    <h5 class="mb-0">{{ $category['name'] }}</h5>
                                 </div>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
@@ -27,7 +27,8 @@
             </div>
 
             <div class="col-xl-9 col-lg-8 ">
-                <form action="{{ route('admin.listCategory.updateCategory', $category) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.listCategory.updateCategory', $category) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card">
@@ -59,18 +60,32 @@
 
                                     <div class="mb-3">
                                         <label for="category-title" class="form-label">Name</label>
-                                        <input type="text" name="name" value="{{$category['name']}}" id="category-title" class="form-control"
-                                            placeholder="Enter Name">
+                                        <input type="text" name="name" value="{{ $category['name'] }}"
+                                            id="category-title" class="form-control" placeholder="Enter Name">
                                     </div>
 
                                 </div>
                                 <div class="col-lg-6">
 
-                                    
+
 
 
                                 </div>
 
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="category-parent" class="form-label">Parent Category</label>
+                                    <select name="id_parent" id="category-parent" class="form-control">
+                                        <option value="">-- No Parent --</option>
+                                        @foreach ($allCategories as $cat)
+                                            <option value="{{ $cat->id }}"
+                                                {{ $category->id_parent == $cat->id ? 'selected' : '' }}>
+                                                {{ $cat->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>

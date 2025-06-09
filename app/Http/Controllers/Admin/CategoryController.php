@@ -23,7 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.category.addCategory');
+        $categories = Category::all(); 
+        return view('admin.category.addCategory', compact('categories'));
     }
 
     /** 
@@ -38,6 +39,8 @@ class CategoryController extends Controller
             // dd($request->file('image'));
             $data['image'] = Storage::put('public/category', $request->file('image'));
         }
+        $data['id_parent'] = $request->input('id_parent'); 
+
 
         Category::create($data);
 
@@ -59,9 +62,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        // $category = Category::all();
-        $category = Category::findOrFail($id);
-        return view('admin.category.updateCategory', compact('category'));
+         $category = Category::findOrFail($id);
+        $allCategories = Category::all(); 
+        return view('admin.category.updateCategory', compact('category', 'allCategories'));
 
     }
 
@@ -82,6 +85,8 @@ class CategoryController extends Controller
             $newImagePath = Storage::put('public/category', $request->file('image')); // Lưu ảnh mới
             $data["image"] = $newImagePath; // Cập nhật đường dẫn ảnh MỚI vào mảng $data
         }
+                $data['id_parent'] = $request->input('id_parent'); 
+
 
         $is_update = $category->update($data); // Cập nhật category vào database
 
@@ -116,4 +121,12 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('admin.listCategory.list');
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $category = Category::where('name', 'like', '%' . $search . '%')->paginate(10);
+        return view('admin.category.listCategories', compact('category'));
+    }
+    
 }

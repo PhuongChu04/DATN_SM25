@@ -48,6 +48,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/update{id}', [AdminCategoryController::class, 'update'])->name('updateCategory');
 
         Route::delete('/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
+        Route::get('/search', [AdminCategoryController::class, 'search'])->name('searchCategory');
+
     });
 });
 

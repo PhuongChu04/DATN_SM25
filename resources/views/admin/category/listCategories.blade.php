@@ -1,31 +1,22 @@
 @extends('admin.layouts.layout')
 @section('content')
-    <!-- Start Container Fluid -->
     <div class="container-xxl">
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center gap-1">
                         <h4 class="card-title flex-grow-1">All Categories List</h4>
-
                         <a href="{{ route('admin.listCategory.addCategory') }}" class="btn btn-sm btn-primary">
                             Add Category
                         </a>
-
-                        <div class="dropdown">
-                            <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                This Month
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <!-- item-->
-                                <a href="#!" class="dropdown-item">Download</a>
-                                <!-- item-->
-                                <a href="#!" class="dropdown-item">Export</a>
-                                <!-- item-->
-                                <a href="#!" class="dropdown-item">Import</a>
-                            </div>
+                        <form action="{{ route('admin.listCategory.searchCategory') }}" method="GET">
+                            <div class="search-bar">    
+                            <span><i class="bx bx-search-alt"></i></span>
+                            <input name="search" type="search" class="form-control" id="search" placeholder="Search task...">
                         </div>
+                        </form>
+
+
                     </div>
                     <div>
                         <div class="table-responsive">
@@ -38,7 +29,8 @@
                                                 <label class="form-check-label" for="customCheck1"></label>
                                             </div>
                                         </th>
-                                        <th>Categories</th>                                       
+                                        <th>Categories</th>
+                                        <th>Parent Category</th> {{-- Thêm cột này --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -62,11 +54,18 @@
                                                 </div>
 
                                             </td>
-                                            
+                                            <td> {{-- Thêm cột hiển thị tên category cha --}}
+                                                @if ($value->parent) {{-- Kiểm tra xem có category cha không --}}
+                                                    {{ $value->parent->name }}
+                                                @else
+                                                    No Parent
+                                                @endif
+                                            </td>
+
                                             <td>
                                                 <div class="d-flex gap-2">
-                                                    <a href="{{ route('admin.listCategory.detailCategory', $value) }}" class="btn btn-light btn-sm"><iconify-icon
-                                                            icon="solar:eye-broken"
+                                                    <a href="{{ route('admin.listCategory.detailCategory', $value) }}"
+                                                        class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken"
                                                             class="align-middle fs-18"></iconify-icon></a>
                                                     <a href="{{ route('admin.listCategory.editCategory', $value) }}"
                                                         class="btn btn-soft-primary btn-sm"><iconify-icon
@@ -90,8 +89,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- end table-responsive -->
-                    </div>
+                        </div>
                     <div class="card-footer border-top">
                         {{ $category->links() }}
                     </div>
@@ -102,5 +100,4 @@
     </div>
 
 
-    <!-- End Container Fluid -->
-@endsection
+    @endsection

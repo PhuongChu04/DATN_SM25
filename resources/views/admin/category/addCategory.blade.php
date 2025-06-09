@@ -40,8 +40,19 @@
                                 </div>
 
                             </div>
-                            
 
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="category-parent" class="form-label">Parent Category</label>
+                                <select name="id_parent" id="category-parent" class="form-control">
+                                    <option value="">-- No Parent --</option>
+                                    @foreach ($categories as $cat)
+                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -52,7 +63,7 @@
                             <button type="submit" class="btn btn-outline-secondary w-100">Add</button>
                         </div>
                         <div class="col-lg-2">
-                            <a href="{{route('admin.listCategory.list')}}" class="btn btn-primary w-100">Cancel</a>
+                            <a href="{{ route('admin.listCategory.list') }}" class="btn btn-primary w-100">Cancel</a>
                         </div>
                     </div>
                 </div>
