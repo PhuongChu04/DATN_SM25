@@ -64,6 +64,28 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/update/{id}', [SizeController::class, 'update'])->name('updateSize');
         Route::get('/delete/{id}', [SizeController::class, 'destroy'])->name('deleteSize');
     });
+
+    Route::prefix('/category')->name('category.')->group(function () {
+        Route::get('/', [SizeController::class, 'list'])->name('listCate');
+        Route::get('/list', [SizeController::class, 'list'])->name('listCate');
+        Route::get('/add', [SizeController::class, 'create'])->name('addCate'); 
+        Route::post('/store', [SizeController::class, 'store'])->name('storeCate');
+        Route::get('/edit/{id}', [SizeController::class, 'edit'])->name('editCate');
+        Route::post('/update/{id}', [SizeController::class, 'update'])->name('updateCate');
+        Route::get('/delete/{id}', [SizeController::class, 'destroy'])->name('deleteCate');
+    });
+
+    Route::prefix('/parentCate')->name('parentCate.')->group(function () {
+        Route::get('/', [SizeController::class, 'list'])->name('listParentcate');
+        Route::get('/list', [SizeController::class, 'list'])->name('listParentcate');
+        Route::get('/add', [SizeController::class, 'create'])->name('addParentcate'); 
+        Route::post('/store', [SizeController::class, 'store'])->name('storeParentcate');
+        Route::get('/edit/{id}', [SizeController::class, 'edit'])->name('editParentcate');
+        Route::post('/update/{id}', [SizeController::class, 'update'])->name('updateParentcate');
+        Route::get('/delete/{id}', [SizeController::class, 'destroy'])->name('deleteParentcate');
+    });
+
+
 });
 
 
