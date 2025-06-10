@@ -7,7 +7,8 @@ use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
-
+use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\SizeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
 use Faker\Guesser\Name;
@@ -42,6 +43,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/attach-role', [RoleController::class, 'attachUserRole'])->name('attachUserRole');
         
         Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logoutAdmin');
+    });
+
+    Route::prefix('/color')->name('color.')->group(function () {
+        Route::get('/list', [ColorController::class, 'list'])->name('listColor');
+        Route::get('/add', [ColorController::class, 'create'])->name('addColor');
+        Route::post('/store', [ColorController::class, 'store'])->name('storeColor');
+        Route::get('/edit/{id}', [ColorController::class, 'edit'])->name('editColor');
+        Route::post('/update/{id}', [ColorController::class, 'update'])->name('updateColor');
+        Route::get('/delete/{id}', [ColorController::class, 'destroy'])->name('deleteColor');
+    });
+
+    Route::prefix('/size')->name('size.')->group(function () {
+        Route::get('/list', [SizeController::class, 'list'])->name('listSize');
+        Route::get('/add', [SizeController::class, 'create'])->name('addSize'); 
+        Route::post('/store', [SizeController::class, 'store'])->name('storeSize');
+        Route::get('/edit/{id}', [SizeController::class, 'edit'])->name('editSize');
+        Route::post('/update/{id}', [SizeController::class, 'update'])->name('updateSize');
+        Route::get('/delete/{id}', [SizeController::class, 'destroy'])->name('deleteSize');
     });
 });
 

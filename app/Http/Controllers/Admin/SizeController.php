@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Services\SizeService;
+class SizeController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    protected $sizeService;
+    public function __construct(SizeService $sizeService)
+    {
+        $this->sizeService = $sizeService;
+    }
+    public function list()
+    {
+        //
+        $sizes = $this->sizeService->getAllSizes();
+        return view('admin.size.listSize', compact('sizes'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+
+        return view('admin.size.addSize');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $size = $this->sizeService->createSize($request);
+        if($size){
+            return redirect()->route('admin.size.list')->with('success', 'Size created successfully');
+        }else{
+            return redirect()->route('admin.size.list')->with('error', 'Size creation failed');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+        $size = $this->sizeService->getSizeById($id);
+        return view('admin.size.editSize', compact('size'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}

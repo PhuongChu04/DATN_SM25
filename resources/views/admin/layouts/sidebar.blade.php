@@ -255,10 +255,10 @@
                 <div class="collapse" id="sidebarAttributes">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="attributes-list.html">List</a>
+                            <a class="sub-nav-link" href="{{route('admin.color.listColor')   }}">Color</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="attributes-edit.html">Edit</a>
+                            <a class="sub-nav-link" href="{{route('admin.size.listSize')}}">Size</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="attributes-add.html">Create</a>
