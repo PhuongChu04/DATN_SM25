@@ -46,6 +46,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('/color')->name('color.')->group(function () {
+        Route::get('/', [ColorController::class, 'list'])->name('listColor');
         Route::get('/list', [ColorController::class, 'list'])->name('listColor');
         Route::get('/add', [ColorController::class, 'create'])->name('addColor');
         Route::post('/store', [ColorController::class, 'store'])->name('storeColor');
@@ -55,6 +56,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('/size')->name('size.')->group(function () {
+        Route::get('/', [SizeController::class, 'list'])->name('listSize');
         Route::get('/list', [SizeController::class, 'list'])->name('listSize');
         Route::get('/add', [SizeController::class, 'create'])->name('addSize'); 
         Route::post('/store', [SizeController::class, 'store'])->name('storeSize');
