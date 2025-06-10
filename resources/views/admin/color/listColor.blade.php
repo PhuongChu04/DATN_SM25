@@ -60,7 +60,7 @@
                                                             <td>{{$color->id}}</td>
                                                             <td>{{$color->name}}</td>
                                                             <td>{{$color->code}}</td>
-                                                            <td>10 Sep 2023</td>
+                                                            <td>{{$color->updated_at}}</td>
                                                             <td>
                                                                  <div class="form-check form-switch">
                                                                       <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked1" checked="">

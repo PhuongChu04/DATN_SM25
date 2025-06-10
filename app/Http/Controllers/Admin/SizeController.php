@@ -43,9 +43,9 @@ class SizeController extends Controller
         ]);
         $size = $this->sizeService->createSize($request);
         if($size){
-            return redirect()->route('admin.size.list')->with('success', 'Size created successfully');
+            return redirect()->route('admin.size.listSize')->with('success', 'Size created successfully');
         }else{
-            return redirect()->route('admin.size.list')->with('error', 'Size creation failed');
+            return redirect()->route('admin.size.listSize')->with('error', 'Size creation failed');
         }
     }
 
@@ -73,6 +73,18 @@ class SizeController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            
+        ]);
+
+        $size = $this->sizeService->updateSize($request, $id);
+        $size->save();
+        if($size){
+            return redirect()->route('admin.size.listSize')->with('success', 'Color updated successfully');
+        }else{
+            return redirect()->route('admin.size.listSize')->with('error', 'Color update failed');
+        }
     }
 
     /**
@@ -81,5 +93,11 @@ class SizeController extends Controller
     public function destroy(string $id)
     {
         //
+        $size = $this->sizeService->deleteSize($id);
+        if($size){
+            return redirect()->route('admin.size.listSize')->with('success', 'Color deleted successfully');
+        }else{
+            return redirect()->route('admin.size.listSize')->with('error', 'Color deletion failed');
+        }
     }
 }

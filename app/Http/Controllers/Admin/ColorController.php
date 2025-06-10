@@ -48,9 +48,9 @@ class ColorController extends Controller
         $color = $this->colorService->createColor($request);
 
         if($color){
-            return redirect()->route('admin.color.list')->with('success', 'Color created successfully');
+            return redirect()->route('admin.color.listColor')->with('success', 'Color created successfully');
         }else{
-            return redirect()->route('admin.color.list')->with('error', 'Color creation failed');
+            return redirect()->route('admin.color.listColor')->with('error', 'Color creation failed');
         }
 
         
@@ -89,9 +89,9 @@ class ColorController extends Controller
         $color = $this->colorService->updateColor($request, $id);
         $color->save();
         if($color){
-            return redirect()->route('admin.color.list')->with('success', 'Color updated successfully');
+            return redirect()->route('admin.color.listColor')->with('success', 'Color updated successfully');
         }else{
-            return redirect()->route('admin.color.list')->with('error', 'Color update failed');
+            return redirect()->route('admin.color.listColor')->with('error', 'Color update failed');
         }
     }
 
@@ -108,9 +108,9 @@ class ColorController extends Controller
 
         $color = $this->colorService->deleteColor($id);
         if($color){
-            return redirect()->route('admin.color.list')->with('success', 'Color deleted successfully');
+            return redirect()->route('admin.color.listColor')->with('success', 'Color deleted successfully');
         }else{
-            return redirect()->route('admin.color.list')->with('error', 'Color deletion failed');
+            return redirect()->route('admin.color.listColor')->with('error', 'Color deletion failed');
         }
     }
 }

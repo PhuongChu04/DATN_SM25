@@ -42,6 +42,7 @@
                                                             </th>
                                                             <th>ID</th>
                                                             <th>Name Size</th>
+                                                            <th>Created On</th>
                                                             <th></th>
                                                             <th>Action</th>
                                                             
@@ -58,6 +59,7 @@
                                                             </td>
                                                             <td>{{$size->id}}</td>
                                                             <td>{{$size->name}}</td>
+                                                            <td>{{$size->updated_at}}</td>
                                                            
                                                             <td>
                                                                  <div class="form-check form-switch">
