@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -23,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all(); 
+        $categories = Category::all();
         return view('admin.category.addCategory', compact('categories'));
     }
 
@@ -34,12 +35,34 @@ class CategoryController extends Controller
     {
         $data = $request->except('image');
 
+        $request->validate(
+            [
+                'name' => [
+                    'required',              
+                    Rule::unique('categories') 
+                ],
+                'image' => [
+                    'required',               
+                    'image',                  
+                    'max:2048'                
+                ],
+
+            ],
+            [
+                'name.required' => 'Bạn chưa nhập tên.',
+                'name.unique' => 'Tên này đã tồn tại, vui lòng chọn tên khác.',
+                'image.required' => 'Bạn chưa chọn ảnh.',
+                'image.image' => 'File phải là ảnh hợp lệ.',
+                'image.max' => 'Ảnh không được vượt quá 2MB.',
+            ]
+        );
         if ($request->hasFile('image')) {
             // Tự động lưu vào storage/app/category và trả về path
             // dd($request->file('image'));
             $data['image'] = Storage::put('public/category', $request->file('image'));
         }
-        $data['id_parent'] = $request->input('id_parent'); 
+        $data['id_parent'] = $request->input('id_parent');
+
 
 
         Category::create($data);
@@ -62,8 +85,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-         $category = Category::findOrFail($id);
-        $allCategories = Category::all(); 
+        $category = Category::findOrFail($id);
+        $allCategories = Category::all();
         return view('admin.category.updateCategory', compact('category', 'allCategories'));
 
     }
@@ -73,11 +96,27 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id) // Giả định bạn đang dùng Request và id
     {
+
         $category = Category::findOrFail($id); // Tìm category theo ID
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        
+        ], [
+            'name.required' => 'Tên danh mục không được để trống.',
+            'name.unique' => 'Tên danh mục đã tồn tại.',
+            'name.max' => 'Tên danh mục không được vượt quá 255 ký tự.',
+            'image.image' => 'File tải lên phải là hình ảnh.',
+            'image.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif, svg.',
+            'image.max' => 'Kích thước hình ảnh không được vượt quá 2MB.',
+            
+        ]);
 
         $data = $request->except('image'); // Lấy tất cả dữ liệu trừ 'image'
 
         $currentImage = $category->image; // Lưu đường dẫn ảnh CŨ trước khi xử lý ảnh mới
+
 
         $newImagePath = null; // Biến để lưu đường dẫn ảnh mới nếu có
 
@@ -85,7 +124,7 @@ class CategoryController extends Controller
             $newImagePath = Storage::put('public/category', $request->file('image')); // Lưu ảnh mới
             $data["image"] = $newImagePath; // Cập nhật đường dẫn ảnh MỚI vào mảng $data
         }
-                $data['id_parent'] = $request->input('id_parent'); 
+        $data['id_parent'] = $request->input('id_parent');
 
 
         $is_update = $category->update($data); // Cập nhật category vào database
@@ -97,6 +136,7 @@ class CategoryController extends Controller
             }
         }
         // ---------------------------------------------------------------
+
 
         if ($is_update) {
             return redirect()->route("admin.listCategory.list")->with("success", "Sửa thành công sản phẩm!");
@@ -128,5 +168,5 @@ class CategoryController extends Controller
         $category = Category::where('name', 'like', '%' . $search . '%')->paginate(10);
         return view('admin.category.listCategories', compact('category'));
     }
-    
+
 }

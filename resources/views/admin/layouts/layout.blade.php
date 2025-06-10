@@ -26,6 +26,7 @@
 
      <!-- Theme Config js (Require in all Page) -->
      <script src="{{ asset('admin/assets/js/config.js') }}"></script>
+     <link href="{{ asset('admin/assets/css/custom_image_upload.css') }}" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -204,7 +205,8 @@
 
      <!-- Dashboard Js -->
      <script src="{{ asset('admin/assets/js/pages/dashboard.js') }}"></script>
-
+     <script src="{{ asset('admin/assets/js/custom_image_upload.js') }}"></script>
+     
 </body>
 
 
