@@ -1,9 +1,0 @@
-* [33ma06baf9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mkrean[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m update migration 2
-* [33ma5b71cd[m[33m ([m[1;31morigin/krean[m[33m)[m update migration
-* [33m6e29609[m update detail account
-* [33mdd4b163[m đăng kí đăng nhập và phân quyền + đổ user ra giao diện
-* [33me79d5c5[m[33m ([m[1;31morigin/dev[m[33m)[m Update  views
-* [33m30a5774[m cắt giao diện website
-* [33ma71372f[m test 2
-* [33m41aa13d[m[33m ([m[1;31morigin/huy[m[33m)[m test
-* [33m26bd1fd[m Initial Laravel 10 setup

@@ -171,12 +171,7 @@
                     </div>
 
                     <!-- App Search-->
-                    <form class="app-search d-none d-md-block ms-2">
-                         <div class="position-relative">
-                              <input type="search" class="form-control" placeholder="Search..." autocomplete="off" value="">
-                              <iconify-icon icon="solar:magnifer-linear" class="search-widget-icon"></iconify-icon>
-                         </div>
-                    </form>
+                    
                </div>
           </div>
      </div>

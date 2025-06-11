@@ -161,7 +161,7 @@
                 <div class="collapse" id="sidebarCategory">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-list.html">List</a>
+                            <a class="sub-nav-link" href="{{ route('listCategory.list') }}">List</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="category-edit.html">Edit</a>

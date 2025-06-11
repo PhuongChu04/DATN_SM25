@@ -166,7 +166,7 @@
 
                 </div>
                 <div class="popup-inner">
-                    <form action="{{ route('postRegisterClient') }}" class="form-login" method="POST">
+                    <form action="{{ route('auth.postRegisterClient') }}" class="form-login" method="POST">
                         @csrf
                        
 
@@ -199,7 +199,7 @@
                             <div class="button-wrap d-flex flex-column gap-2">
                                 <button class="btn btn-primary w-100" type="submit">Sign Up</button>
 
-                                <a href="{{ route('loginClient') }}" class="btn btn-outline-dark w-100" style="text-decoration: none;">Sign In</a>
+                                <a href="{{ route('auth.loginClient') }}" class="btn btn-outline-dark w-100" style="text-decoration: none;">Sign In</a>
                                 {{-- <button type="submit" data-bs-target="#login" data-bs-toggle="offcanvas"></button> --}}
                             </div>
 
