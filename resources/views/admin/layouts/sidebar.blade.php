@@ -235,7 +235,7 @@
                             <a class="sub-nav-link" href="purchase-list.html">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="purchase-order.html">Order</a>
+                            <a class="sub-nav-link" href="{{ route('admin.order.index') }}">Order</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="purchase-returns.html">Return</a>

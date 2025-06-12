@@ -27,7 +27,7 @@
                 <td>{{ $order->status }}</td>
                 <td>{{ $order->created_at }}</td>
                 <td>
-                    <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="d-flex">
+                    <form action="{{ route('admin.order.updateStatus', $order->id) }}" method="POST" enctype="multipart/form-data" class="d-flex">
                         @csrf
                         <select name="status" class="form-select me-2">
                             <option {{ $order->status == 'pending' ? 'selected' : '' }}>pending</option>
