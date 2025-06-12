@@ -11,7 +11,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
-
+use App\Http\Controllers\Admin\OrderController;
 // =================================CLIENT=================================
 
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -35,6 +35,9 @@ use Faker\Guesser\Name;
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
     Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
+     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::post('/order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+
 
 
 
