@@ -41,7 +41,7 @@
                                     </div>
                               </div>
                               <div class="card-footer border-top">
-                                    <button type="submit" name="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Add Color?')">Save</button>
                               </div>
                               </form>
                        </div>

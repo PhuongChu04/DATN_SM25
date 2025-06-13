@@ -9,6 +9,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\VoucherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
 use Faker\Guesser\Name;
@@ -64,6 +65,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/update/{id}', [SizeController::class, 'update'])->name('updateSize');
         Route::get('/delete/{id}', [SizeController::class, 'destroy'])->name('deleteSize');
     });
+    Route::prefix('/voucher')->name('voucher.')->group(function () {
+        Route::get('/', [VoucherController::class, 'list'])->name('listVoucher');
+        Route::get('/list', [VoucherController::class, 'list'])->name('listVoucher');
+        Route::get('/add', [VoucherController::class, 'create'])->name('addVoucher'); 
+        Route::post('/store', [VoucherController::class, 'store'])->name('storeVoucher');
+        Route::get('/edit/{id}', [VoucherController::class, 'edit'])->name('editVoucher');
+        Route::post('/update/{id}', [VoucherController::class, 'update'])->name('updateVoucher');
+        Route::get('/delete/{id}', [VoucherController::class, 'destroy'])->name('deleteVoucher');
+    });
+
 });
 
 
