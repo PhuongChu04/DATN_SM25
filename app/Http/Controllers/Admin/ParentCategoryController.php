@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+use App\Services\ParentCategoryService;
 use Illuminate\Http\Request;
 
 class ParentCategoryController extends Controller
@@ -10,9 +12,18 @@ class ParentCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    protected $parentCate;
+    public function __construct(ParentCategoryService $parentCate)
+    {
+        $this->parentCate = $parentCate;
+    }
+    public function list()
     {
         //
+        $categories= $this->parentCate->getAllParentCategory();
+        return view("admin.category.listParentCategory", compact("categories"));
+
+
     }
 
     /**

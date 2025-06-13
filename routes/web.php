@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\ParentCategoryController;
 use App\Http\Controllers\Admin\SizeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -76,13 +77,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('/parentCate')->name('parentCate.')->group(function () {
-        Route::get('/', [SizeController::class, 'list'])->name('listParentcate');
-        Route::get('/list', [SizeController::class, 'list'])->name('listParentcate');
-        Route::get('/add', [SizeController::class, 'create'])->name('addParentcate'); 
-        Route::post('/store', [SizeController::class, 'store'])->name('storeParentcate');
-        Route::get('/edit/{id}', [SizeController::class, 'edit'])->name('editParentcate');
-        Route::post('/update/{id}', [SizeController::class, 'update'])->name('updateParentcate');
-        Route::get('/delete/{id}', [SizeController::class, 'destroy'])->name('deleteParentcate');
+        Route::get('/', [ParentCategoryController::class, 'list'])->name('listParentcate');
+        Route::get('/list', [ParentCategoryController::class, 'list'])->name('listParentcate');
+        Route::get('/add', [ParentCategoryController::class, 'create'])->name('addParentcate'); 
+        Route::post('/store', [ParentCategoryController::class, 'store'])->name('storeParentcate');
+        Route::get('/edit/{id}', [ParentCategoryController::class, 'edit'])->name('editParentcate');
+        Route::post('/update/{id}', [ParentCategoryController::class, 'update'])->name('updateParentcate');
+        Route::get('/delete/{id}', [ParentCategoryController::class, 'destroy'])->name('deleteParentcate');
     });
 
 
