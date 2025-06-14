@@ -12,6 +12,8 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\ShippingController;
+use App\Http\Controllers\Admin\ShippingRateController;
 
 // =================================CLIENT=================================
 
@@ -75,32 +77,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
 });
 
-
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
-    Route::get('/brands/create', [BrandController::class, 'create'])->name('brands.create');
-    Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
-    Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
+
+    // Shipping routes
+    Route::get('/shippings', [ShippingController::class, 'index'])->name('shippings.index');
+    Route::get('/shippings/create', [ShippingController::class, 'create'])->name('shippings.create');
+    Route::post('/shippings', [ShippingController::class, 'store'])->name('shippings.store');
+    Route::get('/shippings/{shipping}/edit', [ShippingController::class, 'edit'])->name('shippings.edit');
+    Route::put('/shippings/{shipping}', [ShippingController::class, 'update'])->name('shippings.update');
+    Route::delete('/shippings/{shipping}', [ShippingController::class, 'destroy'])->name('shippings.destroy');
+
+    // Shipping Rates routes
+    Route::get('/shipping-rates', [ShippingRateController::class, 'index'])->name('shipping-rates.index');
+    Route::get('/shipping-rates/create', [ShippingRateController::class, 'create'])->name('shipping-rates.create');
+    Route::post('/shipping-rates', [ShippingRateController::class, 'store'])->name('shipping-rates.store');
+    Route::get('/shipping-rates/{shippingRate}/edit', [ShippingRateController::class, 'edit'])->name('shipping-rates.edit');
+    Route::put('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'update'])->name('shipping-rates.update');
+    Route::delete('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'destroy'])->name('shipping-rates.destroy');
+
 });
-
-
-//             ==================  CATEGORY =====================
-Route::prefix('listCategory')->name('listCategory.')->group(function () {
-    Route::get('/', [AdminCategoryController::class, 'index'])->name('list');
-
-    Route::get('/detail/{id}', [AdminCategoryController::class, 'show'])->name('detailCategory');
-
-    Route::get('/add', [AdminCategoryController::class, 'create'])->name('addCategory');
-    Route::post('/store', [AdminCategoryController::class, 'store'])->name('storeCategory');
-
-    Route::get('/edit/{id}', [AdminCategoryController::class, 'edit'])->name('editCategory');
-    Route::put('/update{id}', [AdminCategoryController::class, 'update'])->name('updateCategory');
-
-    Route::delete('/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
-    Route::get('/search', [AdminCategoryController::class, 'search'])->name('searchCategory');
-});
-
-
 
 //client
 Route::prefix('client')->name('client.')->group(function () {
