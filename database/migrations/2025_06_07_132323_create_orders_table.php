@@ -17,6 +17,7 @@ return new class extends Migration
             $table->json('user_data');
             $table->json('address_data');
             $table->json('voucher_data')->nullable();
+            $table->string('status', 50)->default('pending');
             $table->string('note')->nullable();
             $table->decimal('subtotal', 15, 2);
             $table->decimal('shipping', 10, 2)->nullable();

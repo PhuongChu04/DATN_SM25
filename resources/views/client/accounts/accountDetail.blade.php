@@ -10,7 +10,20 @@
                 </button>
             </div>
             <!-- /sidebar-account -->
-
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <!-- Section-acount -->
             <div class="main-content-account">
                 <div class="sidebar-account-wrap sidebar-content-wrap sticky-top d-lg-block d-none">
@@ -45,70 +58,64 @@
                 <div class="my-acount-content account-dashboard">
                     <form action="{{ route('client.updateAccountDetail') }}" class="form-edit-account" method="POST">
                         @csrf
-                        <h6 class="display-xs title-form">Account Details</h6>
+                        <h6 class="display-xs title-form">Thông tin tài khoản</h6>
                         <div class="form-name">
                             <div class="tf-field style-2 style-3">
-                                <input class="tf-field-input tf-input" id="firstname" placeholder=" " type="text"
-                                    name="firstname" value="{{ old('firstname', $user->first_name ?? '') }}">
-                                <label class="tf-field-label" for="firstname">First name</label>
+                                <input class="tf-field-input tf-input" id="first_name" placeholder=" " type="text"
+                                    name="first_name" value="{{ old('first_name', $user->first_name ?? '') }}">
+                                <label class="tf-field-label" for="first_name">Họ</label>
+                                @error('first_name')
+                                    <div class="text-danger text-sm">{{ $message }}</div>
+                                @enderror
                             </div>
+
                             <div class="tf-field style-2 style-3">
-                                <input class="tf-field-input tf-input" id="lastname" placeholder=" " type="text"
-                                    name="lastname" value="{{ old('lastname', $user->last_name ?? '') }}">
-                                <label class="tf-field-label" for="lastname">Last name</label>
+                                <input class="tf-field-input tf-input" id="last_name" placeholder=" " type="text"
+                                    name="last_name" value="{{ old('last_name', $user->last_name ?? '') }}">
+                                <label class="tf-field-label" for="last_name">Tên</label>
+                                @error('last_name')
+                                    <div class="text-danger text-sm">{{ $message }}</div>
+                                @enderror
                             </div>
+
                             <div class="tf-field style-2 style-3">
                                 <input class="tf-field-input tf-input" id="email" placeholder=" " type="email"
                                     name="email" value="{{ old('email', $user->email ?? '') }}">
                                 <label class="tf-field-label" for="email">Email</label>
+                                @error('email')
+                                    <div class="text-danger text-sm">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-pass">
-                            <div class="text-lg title-pass">Password Change</div>
+                            <div class="text-lg title-pass">Thay đổi mật khẩu</div>
                             <div class="tf-field style-2 style-3">
-                                <input class="tf-field-input tf-input" id="pass" placeholder=" " type="text"
-                                    name="pass">
-                                <label class="tf-field-label" for="pass">Current password</label>
+                                <input class="tf-field-input tf-input" id="password" placeholder=" " type="password"
+                                    name="password">
+                                <label class="tf-field-label" for="password">Mật khẩu hiện tại</label>
+                                @error('password')
+                                    <div class="text-danger text-sm">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="tf-field style-2 style-3">
-                                <input class="tf-field-input tf-input" id="newpass" placeholder=" " type="password"
-                                    name="newpass">
-                                <label class="tf-field-label" for="newpass">New password</label>
+                                <input class="tf-field-input tf-input" id="newPassword" placeholder=" " type="password"
+                                    name="newPassword">
+                                <label class="tf-field-label" for="newPassword">Mật khẩu mới</label>
+                                @error('newPassword')
+                                    <div class="text-danger text-sm">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="tf-field style-2 style-3">
-                                <input class="tf-field-input tf-input" id="confirm-password" placeholder=" " type="password"
-                                    name="confirm-password">
-                                <label class="tf-field-label" for="confirm-password">Confirm password</label>
+                                <input class="tf-field-input tf-input" id="newPassword_confirmation" placeholder=" "
+                                    type="password" name="newPassword_confirmation">
+                                <label class="tf-field-label" for="newPassword_confirmation">Xác nhận mật khẩu</label>
+                                @error('newPassword')
+                                    <div class="text-danger text-sm">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
-                        <button type="submit" class="tf-btn animate-btn">Save Changes</button>
+                        <button type="submit" class="tf-btn animate-btn">Lưu thay đổi</button>
                     </form>
-                    @if ($errors->has('pass'))
-                        <div class="alert alert-danger">
-                            {{ $errors->first('pass') }}
-                        </div>
-                    @endif
-                    {{-- <form action="">
-                        <div class="form-pass">
-                            <div class="text-lg title-pass">Password Change</div>
-                            <div class="tf-field style-2 style-3">
-                                <input class="tf-field-input tf-input" id="pass" placeholder=" " type="text"
-                                    name="pass">
-                                <label class="tf-field-label" for="pass">Current password</label>
-                            </div>
-                            <div class="tf-field style-2 style-3">
-                                <input class="tf-field-input tf-input" id="newpass" placeholder=" " type="password"
-                                    name="newpass">
-                                <label class="tf-field-label" for="newpass">New password</label>
-                            </div>
-                            <div class="tf-field style-2 style-3">
-                                <input class="tf-field-input tf-input" id="confirm-password" placeholder=" " type="password"
-                                    name="confirm-password">
-                                <label class="tf-field-label" for="confirm-password">Confirm password</label>
-                            </div>
-                        </div>
-                        <button type="submit" class="tf-btn animate-btn">Save Changes</button>
-                    </form> --}}
                 </div>
             </div>
             <!-- /Account -->
