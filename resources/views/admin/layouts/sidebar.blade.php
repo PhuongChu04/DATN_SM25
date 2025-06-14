@@ -270,7 +270,7 @@
                             <a class="sub-nav-link" href="orders-list.html">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="order-detail.html">Details</a>
+                            <a class="sub-nav-link" href="{{ route('admin.order-details.index') }}">Details</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="order-cart.html">Cart</a>

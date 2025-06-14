@@ -12,29 +12,27 @@ class OrderDetail extends Model
     protected $table = 'order_details';
 
     protected $fillable = [
-        'order_id',
-        'product_id',
-        'product_name',
+        'id_order',
+        'id_variant',
+        'variant_data',
         'quantity',
-        'price',
-        'color',
-        'size',
+        'unit_price',
+       'total',
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
-        'quantity' => 'integer',
+        'variant_data' => 'array',
     ];
 
     // Quan hệ: chi tiết đơn hàng thuộc về một đơn hàng
     public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id');
+        return $this->belongsTo(Order::class, 'id_order');
     }
 
     // Quan hệ: chi tiết đơn hàng có thể liên kết với sản phẩm
-    public function product()
+    public function variant()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(ProductVariant::class, 'id_variant');
     }
 }
