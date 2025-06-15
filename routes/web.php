@@ -47,6 +47,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
 
+
     Route::prefix('/auth')->name('auth.')->group(function () {
         Route::get('/dashboard', [AdminAuthController::class, 'login'])->name('loginAdmin'); //form đăng nhập
         Route::post('/login', [AdminAuthController::class, 'postLogin'])->name('postLoginAdmin');

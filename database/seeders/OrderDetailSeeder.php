@@ -17,7 +17,7 @@ class OrderDetailSeeder extends Seeder
     {
             DB::table('order_details')->insert([
             [
-                'id_order'      => 3,
+                'id_order' => DB::table('orders')->inRandomOrder()->value('id'),
                 'id_variant'    => 3,
                 'variant_data'  => json_encode([
                     'color' => 'Đen',
