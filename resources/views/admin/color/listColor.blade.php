@@ -43,6 +43,7 @@
                                                             <th>ID</th>
                                                             <th>Color Name</th>
                                                             <th>Color Code</th>
+                                                            <th>Color</th>
                                                             <th>Created On</th>
                                                             <th></th>
                                                             <th>Action</th>
@@ -60,6 +61,12 @@
                                                             <td>{{$color->id}}</td>
                                                             <td>{{$color->name}}</td>
                                                             <td>{{$color->code}}</td>
+                                                            <td>
+                                                                 <div style="display: flex; align-items: center; gap: 8px;">
+                                                                      <div style="width: 20px; height: 20px; background-color: {{ $color->code }}; border: 1px solid #ccc; border-radius: 3px;"></div>
+                                                                      {{ $color->code }}
+                                                                  </div>
+                                                            </td>
                                                             <td>{{$color->updated_at}}</td>
                                                             <td>
                                                                  <div class="form-check form-switch">
