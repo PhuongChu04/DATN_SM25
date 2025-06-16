@@ -9,6 +9,7 @@ use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
+use App\Http\Controllers\Client\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 
@@ -66,7 +67,22 @@ Route::prefix('listCategory')->name('listCategory.')->group(function () {
     Route::get('/search', [AdminCategoryController::class, 'search'])->name('searchCategory');
 });
 
+// PRODUCT//
+Route::prefix('product')->name('product.')->group(function () {
+    // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('home');
 
+    Route::get('/list', [AdminProductController::class, 'list'])->name('listProduct');
+
+    Route::get('/create', [AdminProductController::class, 'create'])->name('createProduct');
+    Route::post('/create', [AdminProductController::class, 'store'])->name('storeProduct');
+
+    Route::get('/detail/{product}', [AdminProductController::class, 'detail'])->name('detailProduct');
+
+    Route::get('/edit/{product}', [AdminProductController::class, 'edit'])->name('editProduct');
+    Route::put('/update/{product}', [AdminProductController::class, 'update'])->name('updateProduct');
+
+    Route::delete('/delete/{product}', [AdminProductController::class, 'destroy'])->name('destroyProduct');
+});
 
 
 
