@@ -4,7 +4,7 @@ use App\Http\Controllers\admin\AdminController;
 
 // =================================ADMIN=================================
 use App\Http\Controllers\admin\ProductController as AdminProductController;
-
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\BrandController;
@@ -39,7 +39,7 @@ use Faker\Guesser\Name;
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
     Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
-     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
     Route::post('/order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
     Route::resource('order-details', \App\Http\Controllers\Admin\OrderDetailController::class)->only(['index', 'store', 'destroy']);
 
@@ -51,13 +51,27 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('/auth')->name('auth.')->group(function () {
         Route::get('/dashboard', [AdminAuthController::class, 'login'])->name('loginAdmin'); //form đăng nhập
         Route::post('/login', [AdminAuthController::class, 'postLogin'])->name('postLoginAdmin');
+        Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logoutAdmin');
+
+        Route::get('/list', [UserController::class, 'list'])->name('list');
+
         Route::get('/register', [RoleController::class, 'createRole'])->name('createRole'); //form tạo role
         Route::post('/create_role', [RoleController::class, 'postCreateRole'])->name('postCreateRole');
         Route::get('/attach-role', [RoleController::class, 'showAttachForm'])->name('attachRoleForm'); //form gán quyền
         Route::post('/attach-role', [RoleController::class, 'attachUserRole'])->name('attachUserRole');
 
-        Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logoutAdmin');
+       
     });
+});
+
+
+Route::prefix('user')->name('user.')->group(function(){
+     Route::get('/create',[UserController::class, 'createUser'])->name('createUser');
+     Route::get('/update/{id}',[UserController::class, 'userDetail'])->name('userDetail');
+
+        Route::post('/register-user', [UserController::class, 'postRegister'])->name('postRegister');
+        Route::get('/account-detail/{id}', [UserController::class, 'accountDetail'])->name('accountDetail');
+        Route::post('/update-user/{id}', [UserController::class, 'updateAccountDetail'])->name('updateAccountDetail');
 });
 
 //             ==================  CATEGORY =====================
@@ -101,7 +115,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/shipping-rates/{shippingRate}/edit', [ShippingRateController::class, 'edit'])->name('shipping-rates.edit');
     Route::put('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'update'])->name('shipping-rates.update');
     Route::delete('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'destroy'])->name('shipping-rates.destroy');
-
 });
 
 //client

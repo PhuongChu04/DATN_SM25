@@ -1,106 +1,28 @@
 
 
-<style>
-.main-nav {
-    width: 250px; /* Độ rộng cố định cho sidebar */
-    background-color: var(--bs-secondary-bg); /* Màu nền từ app.min.css */
-    height: 100vh; /* Chiều cao toàn màn hình */
-    position: fixed; /* Cố định sidebar */
-    top: 0;
-    left: 0;
-    padding: 15px 0;
-    transition: all 0.3s ease; /* Hiệu ứng khi toggle */
-}
-
-.logo-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    margin-bottom: 20px; /* Khoảng cách với phần menu */
-}
-
-.logo-dark,
-.logo-light {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    text-align: center;
-}
-
-.logo-sm,
-.logo-lg {
-    width: 90%;
-    height: auto;
-    object-fit: cover;
-    max-width: 90%;
-    display: block;
-    margin: 0 auto;
-    border-radius: var(--bs-border-radius, 0.5rem);
-}
-
-.button-sm-hover {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-    background-color: var(--bs-light); /* Màu nền từ app.min.css */
-    border: none;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-.button-sm-hover-icon {
-    font-size: 1.5rem;
-    color: var(--bs-dark); /* Màu icon từ app.min.css */
-}
-
-@media (min-width: 768px) {
-    .logo-sm {
-        display: none;
-    }
-    .logo-lg {
-        display: block;
-    }
-}
-
-@media (max-width: 767px) {
-    .logo-lg {
-        display: none;
-    }
-    .logo-sm {
-        display: block;
-    }
-    .main-nav {
-        width: 100%; /* Mở rộng toàn màn hình trên mobile */
-        transform: translateX(-100%); /* Ẩn sidebar ban đầu */
-    }
-    .main-nav.active {
-        transform: translateX(0); /* Hiển thị khi active */
-    }
-}
-</style>
 
 
 <div class="main-nav">
 
-    <!-- Sidebar Logo -->
-   <div class="logo-box">
+    
+    <div class="logo-box d-flex justify-content-center align-items-center py-3" style="height: 100px;">
         <a href="{{ route('admin.homeAdmin') }}" class="logo-dark">
-            <img src="{{ asset('admin/assets/images/cdp1.png') }}" class="logo-sm" alt="logo sm">
+            <img src="{{ asset('admin/assets/images/cdp2.png') }}" class="logo-sm" alt="logo sm" style="height: 150px;">
         </a>
         <a href="{{ route('admin.homeAdmin') }}" class="logo-dark">
-            <img src="{{ asset('admin/assets/images/cdp1.png') }}" class="logo-lg" alt="logo dark">
+            <img src="{{ asset('admin/assets/images/cdp2.png') }}" class="logo-lg" alt="logo dark"
+                style="height: 150px;">
         </a>
 
         <a href="{{ route('admin.homeAdmin') }}" class="logo-light">
-            <img src="{{ asset('admin/assets/images/cdp.png') }}" class="logo-sm" alt="logo sm">
+            <img src="{{ asset('admin/assets/images/cdp2.png') }}" class="logo-sm" alt="logo sm" style="height: 150px;">
         </a>
         <a href="{{ route('admin.homeAdmin') }}" class="logo-light">
-            <img src="{{ asset('admin/assets/images/cdp1.png') }}" class="logo-lg" alt="logo light">
+            <img src="{{ asset('admin/assets/images/cdp2.png') }}" class="logo-lg" alt="logo light"
+                style="height: 150px;">
         </a>
     </div>
+
 
     <!-- Menu Toggle Button (sm-hover) -->
     <button type="button" class="button-sm-hover" aria-label="Show Full Sidebar">
@@ -124,9 +46,9 @@
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarProducts" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarProducts">
-                    <span class="nav-icon">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:t-shirt-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Products </span>
                 </a>
                 <div class="collapse" id="sidebarProducts">
@@ -151,10 +73,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarBrand" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarBrand">
-                    <span class="nav-icon">
+                <a class="nav-link menu-arrow" href="#sidebarBrand" data-bs-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="sidebarBrand">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:clipboard-list-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Brand </span>
                 </a>
 
@@ -171,10 +94,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarShipping" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarShipping">
-                    <span class="nav-icon">
+                <a class="nav-link menu-arrow" href="#sidebarShipping" data-bs-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="sidebarShipping">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:truck-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Shipping </span>
                 </a>
 
@@ -191,10 +115,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarShippingRate" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarShippingRate">
-                    <span class="nav-icon">
+                <a class="nav-link menu-arrow" href="#sidebarShippingRate" data-bs-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="sidebarShippingRate">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:coin-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Shipping Rates </span>
                 </a>
 
@@ -214,9 +139,9 @@
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarCategory" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarCategory">
-                    <span class="nav-icon">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:clipboard-list-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Category </span>
                 </a>
                 <div class="collapse" id="sidebarCategory">
@@ -233,8 +158,8 @@
                     </ul>
                 </div>
             </li>
-
-            <li class="nav-item">
+            {{-- Inventory --}}
+            {{-- <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarInventory" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarInventory">
                     <span class="nav-icon">
@@ -253,14 +178,14 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarOrders" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarOrders">
-                    <span class="nav-icon">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:bag-smile-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Orders </span>
                 </a>
                 <div class="collapse" id="sidebarOrders">
@@ -281,13 +206,13 @@
                     </ul>
                 </div>
             </li>
-
+{{-- Purchases --}}
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarPurchases" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarPurchases">
-                    <span class="nav-icon">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:card-send-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Purchases </span>
                 </a>
                 <div class="collapse" id="sidebarPurchases">
@@ -308,9 +233,9 @@
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarAttributes" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarAttributes">
-                    <span class="nav-icon">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:confetti-minimalistic-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Attributes </span>
                 </a>
                 <div class="collapse" id="sidebarAttributes">
@@ -327,8 +252,8 @@
                     </ul>
                 </div>
             </li>
-
-            <li class="nav-item">
+{{-- Invoices- hóa đơn --}}
+            {{-- <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarInvoice" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarInvoice">
                     <span class="nav-icon">
@@ -349,17 +274,17 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
             <li class="nav-item">
                 <a class="nav-link" href="settings.html">
-                    <span class="nav-icon">
+                    {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
-                    </span>
+                    </span> --}}
                     <span class="nav-text"> Settings </span>
                 </a>
             </li>
-
+{{--  --}}
             <li class="menu-title mt-2">Users</li>
 
             <li class="nav-item">
@@ -383,15 +308,18 @@
                     <ul class="nav sub-navbar-nav">
                         <ul class="nav sub-navbar-nav">
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="role-list.html">List</a>
+                                <a class="sub-nav-link" href="role-list.html">{{ route('admin.auth.list') }}</a>
                             </li>
                             <li class="sub-nav-item">
+                                <a class="sub-nav-link" href="role-edit.html">List</a>
+                            </li>
+                            {{-- <li class="sub-nav-item">
                                 <a class="sub-nav-link" href="role-edit.html">Edit</a>
                             </li>
                             <li class="sub-nav-item">
                                 <a class="sub-nav-link" href="role-add.html">Create</a>
-                            </li>
-                        </ul>
+                            </li> --}}
+                        </ul>{{ route('admin.auth.list') }}
                     </ul>
                 </div>
             </li>
@@ -405,7 +333,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarCustomers" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarCustomers">
                     <span class="nav-icon">
@@ -951,7 +879,7 @@
                     </span>
                     <span class="nav-text"> Disable Item </span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </div>

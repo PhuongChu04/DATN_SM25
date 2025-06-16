@@ -29,17 +29,7 @@ class AuthController extends Controller
                 'email' => 'required|email|exists:users,email',
                 'password' => 'required'
             ]);
-            // $user = Sentinel::authenticate($credentials);
-
-            // if ($user) {
-            //     return redirect()->route('client.dashboard')->with([
-            //         'message' => 'Đăng nhập thành công!'
-            //     ]);
-            // }
-
-            // return redirect()->back()->withErrors([
-            //     'error' => 'Email hoặc mật khẩu không đúng.'
-            // ])->withInput();
+            
             Sentinel::authenticate($credentials);
              return redirect('/client/dashboard')->with([
                 // alert('Đăng Nhập thành công!')

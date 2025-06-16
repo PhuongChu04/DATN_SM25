@@ -57,4 +57,12 @@ class RoleController extends Controller
 
         return back()->with('success', 'Gán vai trò thành công!');
     }
+
+
+
+
+
+    public function list(){
+        
+    }
 }
