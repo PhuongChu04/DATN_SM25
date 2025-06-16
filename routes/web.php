@@ -72,6 +72,8 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::post('/register-user', [UserController::class, 'postRegister'])->name('postRegister');
         Route::get('/account-detail/{id}', [UserController::class, 'accountDetail'])->name('accountDetail');
         Route::post('/update-user/{id}', [UserController::class, 'updateAccountDetail'])->name('updateAccountDetail');
+        Route::get('/delete/{id}', [UserController::class, 'deleteUser'])->name('deleteUser');
+
 });
 
 //             ==================  CATEGORY =====================

@@ -85,4 +85,22 @@ class UserService
             return redirect()->back()->withErrors(['system' => 'Có lỗi xảy ra.'])->withInput();
         }
     }
+    public function deleteUser($id)
+{
+    try {
+        $user = \Cartalyst\Sentinel\Laravel\Facades\Sentinel::findById($id);
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['user' => 'Không tìm thấy người dùng.']);
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.auth.list')->with('success', 'Xóa người dùng thành công!');
+    } catch (\Exception $e) {
+        Log::error('Lỗi khi xóa người dùng', ['message' => $e->getMessage()]);
+        return redirect()->back()->withErrors(['error' => 'Có lỗi xảy ra khi xóa người dùng.']);
+    }
+}
+
 }

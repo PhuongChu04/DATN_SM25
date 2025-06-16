@@ -43,6 +43,10 @@ class UserController extends Controller
     {
         return $this->userService->updateAccountDetail($req, $id);
     }
+    public function deleteUser($id)
+{
+    return $this->userService->deleteUser($id);
+}
 
 
     

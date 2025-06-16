@@ -308,7 +308,7 @@
                     <ul class="nav sub-navbar-nav">
                         <ul class="nav sub-navbar-nav">
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="role-list.html">{{ route('admin.auth.list') }}</a>
+                                <a class="sub-nav-link" href="{{ route('admin.auth.list') }}">User</a>
                             </li>
                             <li class="sub-nav-item">
                                 <a class="sub-nav-link" href="role-edit.html">List</a>
