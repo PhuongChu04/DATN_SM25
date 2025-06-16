@@ -139,9 +139,7 @@
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarCategory" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarCategory">
-                    {{-- <span class="nav-icon">
-                        <iconify-icon icon="solar:clipboard-list-bold-duotone"></iconify-icon>
-                    </span> --}}
+                   
                     <span class="nav-text"> Category </span>
                 </a>
                 <div class="collapse" id="sidebarCategory">
@@ -149,12 +147,7 @@
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{ route('listCategory.list') }}">List</a>
                         </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-edit.html">Edit</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-add.html">Create</a>
-                        </li>
+                     
                     </ul>
                 </div>
             </li>
@@ -192,7 +185,7 @@
                     <ul class="nav sub-navbar-nav">
 
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="orders-list.html">List</a>
+                            <a class="sub-nav-link" href="{{ route('admin.order.index') }}">List</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{ route('admin.order-details.index') }}">Details</a>
@@ -221,7 +214,7 @@
                             <a class="sub-nav-link" href="purchase-list.html">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.order.index') }}">Order</a>
+                            <a class="sub-nav-link" href="#">Order</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="purchase-returns.html">Return</a>

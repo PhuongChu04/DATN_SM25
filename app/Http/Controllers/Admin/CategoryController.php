@@ -139,9 +139,9 @@ class CategoryController extends Controller
 
 
         if ($is_update) {
-            return redirect()->route("admin.listCategory.list")->with("success", "Sửa thành công sản phẩm!");
+            return redirect()->route("listCategory.list")->with("success", "Sửa thành công sản phẩm!");
         } else {
-            return redirect()->route("admin.listCategory.list")->with("error", "Sửa không thành công!");
+            return redirect()->route("listCategory.list")->with("error", "Sửa không thành công!");
         }
     }
 
