@@ -10,7 +10,7 @@
                  <div class="col-lg-12">
                        <div class="card">
                               <div class="card-header">
-                                    <h4 class="card-title">Add Color</h4>
+                                    <h4 class="card-title">Thêm Màu</h4>
                               </div>
                               <div class="card-body">
                                     <div class="row">
@@ -19,7 +19,7 @@
                                           <div class="col-lg-6">
                                                 
                                                        <div class="mb-3">
-                                                             <label for="value-name" class="form-label text-dark">Color Name
+                                                             <label for="value-name" class="form-label text-dark">Tên Màu
                                                                    </label>
                                                              <input type="text" id="value-name" name="name" class="form-control"
                                                                    placeholder="Enter Name">
@@ -29,7 +29,7 @@
                                           <div class="col-lg-6">
                                                 
                                                        <div class="">
-                                                             <label for="attribute-id" class="form-label text-dark">Color Code</label>
+                                                             <label for="attribute-id" class="form-label text-dark">Mã màu</label>
                                                              <input type="text" id="attribute-id" name="code" class="form-control"
                                                                    placeholder="Enter ID">
                                                        </div>
@@ -40,7 +40,7 @@
                                     </div>
                               </div>
                               <div class="card-footer border-top">
-                                    <button type="submit" name="submit" onclick="return confirm('add size?')" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="submit" onclick="return confirm('add size?')" class="btn btn-primary">Thêm</button>
                               </div>
                               </form>
                        </div>

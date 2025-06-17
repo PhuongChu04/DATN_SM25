@@ -12,8 +12,8 @@
                                    <div class="d-flex card-header justify-content-between align-items-center">
                                         <div>
                                              
-                                             <a href="{{route('admin.color.addColor')}}" type="button" class="btn btn-secondary mb-3">Add Color</a>
-                                             <h4 class="card-title">All Color List</h4>
+                                             <a href="{{route('admin.color.addColor')}}" type="button" class="btn btn-secondary mb-3">Thêm màu</a>
+                                             <h4 class="card-title">Danh Sách Màu</h4>
                                         </div>
                                         <div class="dropdown">
                                              <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,25 +40,29 @@
                                                                       <label class="form-check-label" for="customCheck1"></label>
                                                                  </div>
                                                             </th>
-                                                            <th>ID</th>
-                                                            <th>Color Name</th>
-                                                            <th>Color Code</th>
-                                                            <th>Color</th>
-                                                            <th>Created On</th>
+                                                            <th>STT</th>
+                                                            
+                                                            <th>Tên Màu</th>
+                                                            <th>Mã Màu</th>
+                                                            <th>Màu</th>
+                                                            <th>Tạo Ngày</th>
                                                             <th></th>
-                                                            <th>Action</th>
+                                                            <th></th>
                                                        </tr>
                                                   </thead>
-                                                  <tbody>
+                                                  <tbody >
                                                       @foreach($colors as $color)
                                                        <tr>
+                                                            <td>
+                                                                 {{ $loop->iteration }}
+                                                            </td>
                                                             <td>
                                                                  <div class="form-check">
                                                                       <input type="checkbox" class="form-check-input" id="customCheck2">
                                                                       <label class="form-check-label" for="customCheck2">&nbsp;</label>
                                                                  </div>
                                                             </td>
-                                                            <td>{{$color->id}}</td>
+                                                            
                                                             <td>{{$color->name}}</td>
                                                             <td>{{$color->code}}</td>
                                                             <td>

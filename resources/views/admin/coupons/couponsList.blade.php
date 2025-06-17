@@ -145,7 +145,7 @@
                               <div class="card">
                                    <div class="d-flex card-header justify-content-between align-items-center">
                                         <div>
-                                             <a href="{{route('admin.voucher.addVoucher')}}" class="card-title">All Product List</a>
+                                             <a href="{{route('admin.voucher.addVoucher')}}" class="card-title">Danh Sách Giảm Giá</a>
                                         </div>
                                         <div class="dropdown">
                                              <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
@@ -166,26 +166,30 @@
                                              <table class="table align-middle mb-0 table-hover table-centered">
                                                   <thead class="bg-light-subtle">
                                                        <tr>
+                                                            <th>STT</th>
                                                             <th style="width: 20px;">
                                                                  <div class="form-check">
                                                                       <input type="checkbox" class="form-check-input" id="customCheck1">
                                                                       <label class="form-check-label" for="customCheck1"></label>
                                                                  </div>
                                                             </th>
-                                                            <th>Name Coupons</th>
-                                                            <th>Coupons Code</th>
-                                                            <th>Description</th>
-                                                            <th>Discounts Amoount</th>
-                                                            <th>Type</th>
-                                                            <th>Start Date</th>
-                                                            <th>End Date</th>
-                                                            <th>Status</th>
-                                                            <th>Action</th>
+                                                            <th>Tên Vouchers</th>
+                                                            <th>Mã Vouchers</th>
+                                                            <th>Ghi Chú</th>
+                                                            <th>Phần Trăm giảm giá</th>
+                                                            <th>loại</th>
+                                                            <th>Ngày bắt đầu</th>
+                                                            <th>ngày kết thúc</th>
+                                                            <th>trạng thái</th>
+                                                            <th></th>
                                                        </tr>
                                                   </thead>
                                                   <tbody>
                                                        @foreach ($vouchers as $voucher)
                                                        <tr>
+                                                            <td>
+                                                                 {{ $loop->iteration }}
+                                                            </td>
                                                             <td>
                                                                  <div class="form-check">
                                                                       <input type="checkbox" class="form-check-input" id="customCheck2">
@@ -210,7 +214,7 @@
                                                             <td>
                                                                  @if($voucher->type == 0)
                                                                      <span class="badge bg-light text-dark fs-12">
-                                                                         <i class="bx bx-send"></i> Free Shipping
+                                                                         <i class="bx bx-send"></i> Miễn Phí Ship
                                                                      </span>
                                                                  @elseif($voucher->type == 1)
                                                                      <span class="badge bg-light text-dark fs-12">

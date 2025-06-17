@@ -40,7 +40,7 @@
                                                                       <label class="form-check-label" for="customCheck1"></label>
                                                                  </div>
                                                             </th>
-                                                            <th>ID</th>
+                                                            <th>STT</th>
                                                             <th>Name Size</th>
                                                             <th>Created On</th>
                                                             <th></th>
@@ -57,7 +57,9 @@
                                                                       <label class="form-check-label" for="customCheck2">&nbsp;</label>
                                                                  </div>
                                                             </td>
-                                                            <td>{{$size->id}}</td>
+                                                            <td>
+                                                                 {{ $loop->iteration }}
+                                                            </td>
                                                             <td>{{$size->name}}</td>
                                                             <td>{{$size->updated_at}}</td>
                                                            
