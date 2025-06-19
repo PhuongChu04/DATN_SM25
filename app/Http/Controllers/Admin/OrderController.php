@@ -11,6 +11,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with('customer')->latest()->get();
+        
 
         $order_cancel = Order::where('order_status', 'canceled')->count();
         $order_delivering = Order::where('order_status', 'delivering')->count();
