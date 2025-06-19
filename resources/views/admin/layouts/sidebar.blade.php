@@ -185,7 +185,7 @@
                     <ul class="nav sub-navbar-nav">
 
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.order.index') }}">List</a>
+                            <a class="sub-nav-link" href="{{ route('admin.orders.index') }}">List</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{ route('admin.order-details.index') }}">Details</a>

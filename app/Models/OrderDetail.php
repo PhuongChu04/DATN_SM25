@@ -29,7 +29,10 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Order::class, 'id_order');
     }
-
+public function product()
+{
+    return $this->belongsTo(Product::class);
+}
     // Quan hệ: chi tiết đơn hàng có thể liên kết với sản phẩm
     public function variant()
     {

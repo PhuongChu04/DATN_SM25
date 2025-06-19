@@ -23,11 +23,21 @@
 
      <!-- App css (Require in all Page) -->
      <link href="{{ asset('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap 5 -->
+    <!-- Bootstrap 5 CDN -->
+{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Optional: Font Google -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
      <!-- Theme Config js (Require in all Page) -->
      <script src="{{ asset('admin/assets/js/config.js') }}"></script>
      <link href="{{ asset('admin/assets/css/custom_image_upload.css') }}" rel="stylesheet" type="text/css" />
 </head>
+
 
 <body>
 
@@ -206,7 +216,7 @@
      <!-- Dashboard Js -->
      <script src="{{ asset('admin/assets/js/pages/dashboard.js') }}"></script>
      <script src="{{ asset('admin/assets/js/custom_image_upload.js') }}"></script>
-     
+     @stack('scripts')
 </body>
 
 

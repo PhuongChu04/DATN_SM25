@@ -39,7 +39,8 @@ use Faker\Guesser\Name;
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
     Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
-    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
+     Route::get('/order-details', [OrderController::class, 'details'])->name('order.details');
     Route::post('/order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
     Route::resource('order-details', \App\Http\Controllers\Admin\OrderDetailController::class)->only(['index', 'store', 'destroy']);
 
