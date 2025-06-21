@@ -42,6 +42,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
      Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
      Route::get('/order-details', [OrderController::class, 'details'])->name('order.details');
     Route::post('/order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+     Route::post('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::post('/orders/{id}/refund', [OrderController::class, 'refund'])->name('orders.refund');
+      Route::get('/orders/{id}/print', [OrderController::class, 'print'])->name('orders.print');
     Route::resource('order-details', \App\Http\Controllers\Admin\OrderDetailController::class)->only(['index', 'store', 'destroy']);
 
 

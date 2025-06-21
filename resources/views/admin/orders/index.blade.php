@@ -24,15 +24,10 @@
         <div class="row g-4 mb-5">
             @php
                 $statuses = [
-                    ['count' => $order_cancel, 'label' => 'Order Cancel', 'icon' => 'cart-x', 'color' => 'danger'],
-                    ['count' => $order_delivering, 'label' => 'Order Delivering', 'icon' => 'truck', 'color' => 'info'],
-                    [
-                        'count' => $pending_payment,
-                        'label' => 'Pending Payment',
-                        'icon' => 'clock',
-                        'color' => 'warning',
-                    ],
-                    ['count' => $delivered, 'label' => 'Delivered', 'icon' => 'box-seam', 'color' => 'success'],
+                    ['count' => $orderCancel, 'label' => 'Order Cancel', 'icon' => 'cart-x', 'color' => 'danger'],
+                    ['count' => $orderDelivering, 'label' => 'Order Delivering', 'icon' => 'truck', 'color' => 'info'],
+                    ['count' => $pendingPayment, 'label' => 'Pending Payment', 'icon' => 'clock', 'color' => 'warning'],
+                    ['count' => $orderDelivered, 'label' => 'Delivered', 'icon' => 'box-seam', 'color' => 'success'],
                 ];
             @endphp
             @foreach ($statuses as $item)
@@ -71,7 +66,7 @@
                             <tr class="text-center">
                                 <td>#{{ $order->order_code }}</td>
                                 <td>{{ $order->created_at->format('M d, Y') }}</td>
-                                <td class="text-danger fw-semibold">{{ $order->customer->full_name }}</td>
+                                <td class="text-danger fw-semibold">{{ $order->user->email }}</td>
                                 <td class="fw-medium">{{ number_format($order->total_price, 0, ',', '.') }}₫</td>
 
                                 <td>
@@ -89,10 +84,10 @@
                                 </td>
                                 <td>{{ ucfirst($order->order_status) }}</td>
                                 <td>
-                                    <button onclick="showOrderDetail({{ $order->id }})"
-                                        class="btn btn-sm btn-outline-primary me-1" title="View">
+                                    <a href="{{ route('admin.orders.show', $order->id) }}"
+                                        class="btn btn-sm btn-outline-primary me-1" title="Xem chi tiết">
                                         <i class="bi bi-eye-fill"></i>
-                                    </button>
+                                    </a>
                                     <button onclick="showEditModal({{ $order->id }})"
                                         class="btn btn-sm btn-outline-warning me-1" title="Edit">
                                         <i class="bi bi-pencil-fill"></i>
@@ -178,17 +173,6 @@
 
     @push('scripts')
         <script>
-            function showOrderDetail(orderId) {
-                document.getElementById('orderDetailContent').innerHTML = '<div class="text-center py-3">Loading...</div>';
-
-                fetch('/admin/orders/' + orderId)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('orderDetailContent').innerHTML = html;
-                        new bootstrap.Modal(document.getElementById('modalViewOrder')).show();
-                    });
-            }
-
             function showEditModal(orderId) {
                 document.getElementById('formEditOrder').action = '/admin/order/update-status/' + orderId;
                 new bootstrap.Modal(document.getElementById('modalEditOrder')).show();

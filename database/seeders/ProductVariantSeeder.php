@@ -13,16 +13,35 @@ class ProductVariantSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        DB::table('product_variants')->insert([
-            'id'         => 3,
-            'id_product' => 1,
-            'id_color'   => 1, // Đen
-            'id_size'    => 42,
-            'status'     => 'available',
-            'price'      => 1200000,
-            'created_at' => now(),
-            'updated_at' => now(),
+    {DB::table('product_variants')->insert([
+            [
+                'id_product' => 1,
+                'id_color' => 1,
+                'id_size' => '42',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id_product' => 1,
+                'id_color' => 2,
+                'id_size' => '42',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id_product' => 2,
+                'id_color' => 3,
+                'id_size' => '43',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id_product' => 2,
+                'id_color' => 4,
+                'id_size' => '42',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
         ]);
     }
 }

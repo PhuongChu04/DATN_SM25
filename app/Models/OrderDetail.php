@@ -10,6 +10,7 @@ class OrderDetail extends Model
      use HasFactory;
 
     protected $table = 'order_details';
+    
 
     protected $fillable = [
         'id_order',
@@ -38,4 +39,5 @@ public function product()
     {
         return $this->belongsTo(ProductVariant::class, 'id_variant');
     }
+    
 }
