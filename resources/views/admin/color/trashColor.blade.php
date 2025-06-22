@@ -2,24 +2,21 @@
 
 @section('content')
 
-
                <!-- Start Container Fluid -->
                <div class="container-xxl">
 
                     <div class="row">
                          <div class="col-xl-12">
                               <div class="card">
-                                   <div class="d-flex card-header justify-content-between align-items-center">
-                                        <div>
-                                             
-                                             <a href="{{route('admin.color.addColor')}}" type="button" class="btn btn-secondary mb-3">Thêm màu</a>
-                                             <h4 class="card-title">Danh Sách Màu</h4>
-                                        </div>
+                                   <div class="card-header d-flex justify-content-between align-items-center gap-1">
+                                        <h4 class="card-title flex-grow-1">Danh Sách Đã Xóa</h4>
+
+                                        <a href="product-add.html" class="btn btn-sm btn-primary">
+                                             Add Product
+                                        </a>
+
                                         <div class="dropdown">
-                                             <a href="{{route('admin.color.trashColor')}}" class="btn btn-soft-danger btn-sm" aria-expanded="false">
-                                                  Đã Xóa
-                                             </a>
-                                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
+                                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false">
                                                   This Month
                                              </a>
                                              <div class="dropdown-menu dropdown-menu-end">
@@ -39,57 +36,59 @@
                                                        <tr>
                                                             <th style="width: 20px;">
                                                                  <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck1">
+                                                                      <input type="checkbox" class="form-check-input" id="checkAll">
                                                                       <label class="form-check-label" for="customCheck1"></label>
                                                                  </div>
                                                             </th>
-                                                            <th>STT</th>
-                                                            
+                                                            <th>ID</th>
                                                             <th>Tên Màu</th>
                                                             <th>Mã Màu</th>
+                                                          
                                                             <th>Màu</th>
-                                                            <th>Tạo Ngày</th>
-                                                            <th></th>
                                                             <th></th>
                                                        </tr>
                                                   </thead>
-                                                  <tbody >
-                                                      @foreach($colors as $color)
+                                                  <tbody>
+                                                       @foreach ($trashedColors as $color)
+                                                            
+                                                      
                                                        <tr>
                                                             <td>
-                                                                 {{ $loop->iteration }}
-                                                            </td>
-                                                            <td>
                                                                  <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
-                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                      <input type="checkbox" class="form-check-input" name="selected[]" value="{{ $color->id }}">
+                                                                      <label class="form-check-label" for="customCheck2"></label>
                                                                  </div>
                                                             </td>
-                                                            
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      
+                                                                 </div>
+
+                                                            </td>
                                                             <td>{{$color->name}}</td>
                                                             <td>{{$color->code}}</td>
-                                                            <td>
-                                                                 <div style="display: flex; align-items: center; gap: 8px;">
-                                                                      <div style="width: 20px; height: 20px; background-color: {{ $color->code }}; border: 1px solid #ccc; border-radius: 3px;"></div>
-                                                                      {{ $color->code }}
-                                                                  </div>
+                                                            <td> <div style="display: flex; align-items: center; gap: 8px;">
+                                                                 <div style="width: 20px; height: 20px; background-color: {{ $color->code }}; border: 1px solid #ccc; border-radius: 3px;"></div>
+                                                                 {{ $color->code }}
+                                                             </div>
                                                             </td>
-                                                            <td>{{$color->updated_at}}</td>
-                                                            <td>
-                                                                 <div class="form-check form-switch">
-                                                                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked1" checked="">
-                                                                 </div>
-                                                            </td>
+                                                          
                                                             <td>
                                                                  <div class="d-flex gap-2">
-                                                                      {{-- <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a> --}}
-                                                                      <a href="{{route('admin.color.editColor', $color->id)}}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                      <a href="{{route('admin.color.deleteColor', $color->id)}}" class="btn btn-soft-danger btn-sm" onclick="return confirm('Bạn có muốn xóa màu này không?')"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="{{route('admin.color.restoreColor', $color->id)}}" class="btn btn-sm btn-primary" onclick="return confirm('bạn có muốn khôi phục màu này không?')">
+                                                                           Khôi Phục
+                                                                      </a>
+                                                                      <form action="{{ route('admin.color.forceDeleteColor', $color->id) }}" method="POST" style="display:inline;">
+                                                                           @csrf
+                                                                           @method('DELETE')
+                                                                           <button type="submit" class="btn btn-sm btn-primary" onclick="return confirm('bạn có muốn xóa vĩnh viễn màu này?')">Xóa</button>
+                                                                      </form>
                                                                  </div>
                                                             </td>
                                                        </tr>
                                                        @endforeach
-                                                       
+
+                                                      
                                                   </tbody>
                                              </table>
                                         </div>
@@ -113,17 +112,8 @@
                </div>
                <!-- End Container Fluid -->
 
-               <!-- ========== Footer Start ========== -->
-               <footer class="footer">
-                   <div class="container-fluid">
-                       <div class="row">
-                           <div class="col-12 text-center">
-                               <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon> <a
-                                   href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
-                           </div>
-                       </div>
-                   </div>
-               </footer>
-               <!-- ========== Footer End ========== -->
 
+               
 @endsection
+
+        

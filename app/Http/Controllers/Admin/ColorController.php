@@ -113,4 +113,24 @@ class ColorController extends Controller
             return redirect()->route('admin.color.listColor')->with('error', 'Color deletion failed');
         }
     }
+
+    public function trash()
+    {
+        $trashedColors = $this->colorService->getTrashedList();
+
+        return view('admin.color.trashColor', compact('trashedColors'));
+    }
+    public function restore($id)
+{
+    $this->colorService->restore($id);
+    return redirect()->route('admin.color.listColor');
+}
+
+public function forceDelete($id)
+{
+    $this->colorService->forceDelete($id);
+    return redirect()->route('admin.color.listColor');
+}
+
+    
 }

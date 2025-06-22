@@ -56,6 +56,22 @@ class ColorService
         $color = Color::where('name', $name)->first();
         return $color;
     }
+    
+    public function getTrashedList(){
+        $list = Color::onlyTrashed()->get();
+        return $list;
+    }
+    public function restore($id)
+{
+    $color = Color::withTrashed()->findOrFail($id);
+    return $color->restore();
+}
+
+public function forceDelete($id)
+{
+    $color = Color::withTrashed()->findOrFail($id);
+    return $color->forceDelete();
+}
 
     
     

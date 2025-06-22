@@ -40,7 +40,7 @@
                                     </div>
                               </div>
                               <div class="card-footer border-top">
-                                    <button type="submit" name="submit" onclick="return confirm('add size?')" class="btn btn-primary">Thêm</button>
+                                    <button type="submit" name="submit" onclick="return confirm('Bạn có muốn tạo màu không?')" class="btn btn-primary">Thêm</button>
                               </div>
                               </form>
                        </div>
