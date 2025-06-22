@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Size;
 use Illuminate\Http\Request;
 use App\Services\SizeService;
 class SizeController extends Controller
@@ -100,4 +101,21 @@ class SizeController extends Controller
             return redirect()->route('admin.size.listSize')->with('error', 'Color deletion failed');
         }
     }
+    public function trash()
+    {
+        $trashedSizes = $this->sizeService->getTrashedList();
+
+        return view('admin.size.trashSize', compact('trashedSizes'));
+    }
+    public function restore($id)
+{
+    $this->sizeService->restore($id);
+    return redirect()->route('admin.size.listSize');
+}
+
+public function forceDelete($id)
+{
+    $this->sizeService->forceDelete($id);
+    return redirect()->route('admin.size.listSize');
+}
 }

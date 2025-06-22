@@ -88,4 +88,20 @@ class VoucherService
         return Voucher::whereBetween('start_date', [$start_date, $end_date])->get();
     }
 
+    public function getTrashedList(){
+        $list = Voucher::onlyTrashed()->get();
+        return $list;
+    }
+    public function restore($id)
+{
+    $voucher = Voucher::withTrashed()->findOrFail($id);
+    return $voucher->restore();
+}
+
+public function forceDelete($id)
+{
+    $voucher = Voucher::withTrashed()->findOrFail($id);
+    return $voucher->forceDelete();
+}
+
 }

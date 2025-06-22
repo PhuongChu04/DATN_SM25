@@ -50,4 +50,19 @@ use App\Models\Size;
         $size = Size::where('name', $name)->first();
         return $size;
     }
+    public function getTrashedList(){
+        $list = Size::onlyTrashed()->get();
+        return $list;
+    }
+    public function restore($id)
+{
+    $size = Size::withTrashed()->findOrFail($id);
+    return $size->restore();
+}
+
+public function forceDelete($id)
+{
+    $size = Size::withTrashed()->findOrFail($id);
+    return $size->forceDelete();
+}
 }

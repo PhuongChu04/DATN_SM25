@@ -81,4 +81,31 @@ class VoucherController extends Controller
     
         return redirect()->route('admin.voucher.listVoucher')->with('success', 'Cập nhật voucher thành công!');
     }
+    public function destroy(string $id)
+    {
+        $voucher = $this->voucherService->deleteVoucher($id);
+        if($voucher){
+            return redirect()->route('admin.voucher.listVoucher')->with('success', 'Voucher Xóa Thành Công');
+        }else{
+            return redirect()->route('admin.color.listVoucher')->with('error', 'Voucher Xóa Không Thành Công');
+        }
+    }
+
+    public function trash()
+    {
+        $trashedVouchers = $this->voucherService->getTrashedList();
+
+        return view('admin.coupons.trashVoucher', compact('trashedVouchers'));
+    }
+    public function restore($id)
+{
+    $this->voucherService->restore($id);
+    return redirect()->route('admin.voucher.listVoucher');
+}
+
+public function forceDelete($id)
+{
+    $this->voucherService->forceDelete($id);
+    return redirect()->route('admin.voucher.listVoucher');
+}
 }

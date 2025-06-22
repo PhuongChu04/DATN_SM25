@@ -68,7 +68,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [SizeController::class, 'edit'])->name('editSize');
         Route::post('/update/{id}', [SizeController::class, 'update'])->name('updateSize');
         Route::get('/delete/{id}', [SizeController::class, 'destroy'])->name('deleteSize');
+        Route::get('/trash', [SizeController::class, 'trash'])->name('trashSize');
+        Route::get('/restore/{id}', [SizeController::class, 'restore'])->name('restoreSize');
+        Route::delete('size/force-delete/{id}', [SizeController::class, 'forceDelete'])->name('forceDeleteSize');
+
     });
+
     Route::prefix('/voucher')->name('voucher.')->group(function () {
         Route::get('/', [VoucherController::class, 'list'])->name('listVoucher');
         Route::get('/list', [VoucherController::class, 'list'])->name('listVoucher');
@@ -77,6 +82,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [VoucherController::class, 'edit'])->name('editVoucher');
         Route::post('/update/{id}', [VoucherController::class, 'update'])->name('updateVoucher');
         Route::get('/delete/{id}', [VoucherController::class, 'destroy'])->name('deleteVoucher');
+        Route::get('/trash', [VoucherController::class, 'trash'])->name('trashVoucher');
+        Route::get('/restore/{id}', [VoucherController::class, 'restore'])->name('restoreVoucher');
+        Route::delete('voucher/force-delete/{id}', [VoucherController::class, 'forceDelete'])->name('forceDeleteVoucher');
     });
 
 });

@@ -145,9 +145,15 @@
                               <div class="card">
                                    <div class="d-flex card-header justify-content-between align-items-center">
                                         <div>
-                                             <a href="{{route('admin.voucher.addVoucher')}}" class="card-title">Danh Sách Giảm Giá</a>
+                                             {{-- <a href="{{route('admin.voucher.addVoucher')}}" class="card-title">Danh Sách Giảm Giá</a> --}}
+                                             <a href="{{route('admin.voucher.addVoucher')}}" class="btn btn-primary btn-sm" aria-expanded="false">
+                                                  Thêm Mã Giảm Giá
+                                             </a>
                                         </div>
                                         <div class="dropdown">
+                                             <a href="{{route('admin.voucher.trashVoucher')}}" class="btn btn-soft-danger btn-sm" aria-expanded="false">
+                                                  Đã Xóa
+                                             </a>
                                              <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
                                                   This Month
                                              </a>
