@@ -72,6 +72,15 @@ public function forceDelete($id)
     $color = Color::withTrashed()->findOrFail($id);
     return $color->forceDelete();
 }
+public function bulkDelete(array $ids)
+{
+    return Color::whereIn('id', $ids)->delete(); // soft delete
+}
+
+public function bulkRestoreColor(array $ids)
+{
+    return Color::onlyTrashed()->whereIn('id', $ids)->restore();
+}
 
     
     

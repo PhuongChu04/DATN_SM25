@@ -5,7 +5,9 @@
 
                <!-- Start Container Fluid -->
                <div class="container-xxl">
-
+                    <form action="{{route('admin.color.bulkDeleteColor')}}">
+                         @csrf
+                         @method('DELETE')
                     <div class="row">
                          <div class="col-xl-12">
                               <div class="card">
@@ -39,8 +41,8 @@
                                                        <tr>
                                                             <th style="width: 20px;">
                                                                  <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                                      <label class="form-check-label" for="customCheck1"></label>
+                                                                      <input type="checkbox" class="form-check-input" id="checkAll">
+                                                                      <label class="form-check-label" for="checkAll"></label>
                                                                  </div>
                                                             </th>
                                                             <th>STT</th>
@@ -49,22 +51,26 @@
                                                             <th>Mã Màu</th>
                                                             <th>Màu</th>
                                                             <th>Tạo Ngày</th>
-                                                            <th></th>
+                                                            
                                                             <th></th>
                                                        </tr>
                                                   </thead>
+                                               
                                                   <tbody >
+                                   
+                                                       
                                                       @foreach($colors as $color)
                                                        <tr>
                                                             <td>
-                                                                 {{ $loop->iteration }}
-                                                            </td>
-                                                            <td>
                                                                  <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <input type="checkbox" name="ids[]" value="{{$color->id}}" class="form-check-input checkbox-item" >
                                                                       <label class="form-check-label" for="customCheck2">&nbsp;</label>
                                                                  </div>
                                                             </td>
+                                                            <td>
+                                                                 {{ $loop->iteration }}
+                                                            </td>
+                                                          
                                                             
                                                             <td>{{$color->name}}</td>
                                                             <td>{{$color->code}}</td>
@@ -75,11 +81,7 @@
                                                                   </div>
                                                             </td>
                                                             <td>{{$color->updated_at}}</td>
-                                                            <td>
-                                                                 <div class="form-check form-switch">
-                                                                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked1" checked="">
-                                                                 </div>
-                                                            </td>
+                                                           
                                                             <td>
                                                                  <div class="d-flex gap-2">
                                                                       {{-- <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a> --}}
@@ -89,6 +91,7 @@
                                                             </td>
                                                        </tr>
                                                        @endforeach
+                                                
                                                        
                                                   </tbody>
                                              </table>
@@ -96,8 +99,11 @@
                                         <!-- end table-responsive -->
                                    </div>
                                    <div class="card-footer border-top">
+                                        
                                         <nav aria-label="Page navigation example">
+                                             
                                              <ul class="pagination justify-content-end mb-0">
+                                                  <button type="submit" class="btn btn-primary me-4" onclick="return confirm('bạn có muốn xóa các mục đã chọn?')">Xóa các mục đã chọn</button>
                                                   <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
                                                   <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
                                                   <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
@@ -111,6 +117,7 @@
                     </div>
 
                </div>
+          </form>
                <!-- End Container Fluid -->
 
                <!-- ========== Footer Start ========== -->
@@ -125,5 +132,28 @@
                    </div>
                </footer>
                <!-- ========== Footer End ========== -->
-
+               
+               <script>
+                       document.addEventListener('DOMContentLoaded', function () {
+                       const checkAll = document.getElementById('checkAll');
+                       const checkboxes = document.querySelectorAll('.checkbox-item');
+               
+                       // Khi bấm "Chọn tất cả"
+                       checkAll.addEventListener('change', function () {
+                           checkboxes.forEach(cb => {
+                               cb.checked = checkAll.checked;
+                           });
+                       });
+               
+                       // Nếu thay đổi checkbox con → kiểm tra lại checkbox tổng
+                       checkboxes.forEach(cb => {
+                           cb.addEventListener('change', function () {
+                               const allChecked = [...checkboxes].every(input => input.checked);
+                               checkAll.checked = allChecked;
+                           });
+                       });
+                   });
+                   </script>
 @endsection
+
+
