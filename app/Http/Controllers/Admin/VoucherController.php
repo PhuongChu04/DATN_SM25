@@ -108,4 +108,26 @@ public function forceDelete($id)
     $this->voucherService->forceDelete($id);
     return redirect()->route('admin.voucher.listVoucher');
 }
+
+
+
+public function bulkDelete(Request $request)
+{
+    $ids = $request->input('ids', []);
+
+    if (empty($ids)) {
+        return back()->with('error', 'Không có mục nào được chọn');
+    }
+
+    $this->voucherService->bulkDelete($ids);
+
+    return back()->with('success', 'Đã xóa mềm các mục đã chọn');
+}
+
+public function bulkRestore(Request $request)
+{
+
+    $this->voucherService->bulkRestoreVoucher($request->ids ?? []);
+    return redirect()->route('admin.voucher.listVoucher');
+}
 }

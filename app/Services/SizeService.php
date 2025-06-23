@@ -65,4 +65,14 @@ public function forceDelete($id)
     $size = Size::withTrashed()->findOrFail($id);
     return $size->forceDelete();
 }
+
+public function bulkDelete(array $ids)
+{
+    return Size::whereIn('id', $ids)->delete(); // soft delete
+}
+
+public function bulkRestoreSize(array $ids)
+{
+    return Size::onlyTrashed()->whereIn('id', $ids)->restore();
+}
 }

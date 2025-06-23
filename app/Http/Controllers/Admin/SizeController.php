@@ -118,4 +118,26 @@ public function forceDelete($id)
     $this->sizeService->forceDelete($id);
     return redirect()->route('admin.size.listSize');
 }
+
+
+
+public function bulkDelete(Request $request)
+{
+    $ids = $request->input('ids', []);
+
+    if (empty($ids)) {
+        return redirect()->route('admin.size.listSize');
+    }
+
+    $this->sizeService->bulkDelete($ids);
+
+    return redirect()->route('admin.size.listSize');
+}
+
+public function bulkRestoreSize(Request $request)
+{
+
+    $this->sizeService->bulkRestoreSize($request->ids ?? []);
+    return redirect()->route('admin.size.listSize');
+}
 }

@@ -104,4 +104,14 @@ public function forceDelete($id)
     return $voucher->forceDelete();
 }
 
+public function bulkDelete(array $ids)
+{
+    return Voucher::whereIn('id', $ids)->delete(); // soft delete
+}
+
+public function bulkRestoreVoucher(array $ids)
+{
+    return Voucher::onlyTrashed()->whereIn('id', $ids)->restore();
+}
+
 }

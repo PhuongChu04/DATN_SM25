@@ -5,7 +5,9 @@
 
                <!-- Start Container Fluid -->
                <div class="container-xxl">
-
+<form action="{{route('admin.size.bulkDeleteSize')}}">
+     @csrf
+     @method("DELETE")
                     <div class="row">
                          <div class="col-xl-12">
                               <div class="card">
@@ -39,8 +41,8 @@
                                                        <tr>
                                                             <th style="width: 20px;">
                                                                  <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                                      <label class="form-check-label" for="customCheck1"></label>
+                                                                      <input type="checkbox" class="form-check-input" id="checkAll">
+                                                                      <label class="form-check-label" for="checkAll"></label>
                                                                  </div>
                                                             </th>
                                                             <th>STT</th>
@@ -56,8 +58,8 @@
                                                        <tr>
                                                             <td>
                                                                  <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
-                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                      <input type="checkbox" name="ids[]" value="{{$size->id}}" class="form-check-input checkbox-item" >
+                                                                      <label class="form-check-label">&nbsp;</label>
                                                                  </div>
                                                             </td>
                                                             <td>
@@ -89,6 +91,7 @@
                                    <div class="card-footer border-top">
                                         <nav aria-label="Page navigation example">
                                              <ul class="pagination justify-content-end mb-0">
+                                                  <button type="submit" class="btn btn-primary me-4" onclick="return confirm('bạn có muốn xóa các mục đã chọn?')">Xóa các mục đã chọn</button>
                                                   <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
                                                   <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
                                                   <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
@@ -102,6 +105,7 @@
                     </div>
 
                </div>
+          </form>
                <!-- End Container Fluid -->
 
                <!-- ========== Footer Start ========== -->
@@ -115,6 +119,30 @@
                        </div>
                    </div>
                </footer>
+
+
+
+               <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                    const checkAll = document.getElementById('checkAll');
+                    const checkboxes = document.querySelectorAll('.checkbox-item');
+            
+                    // Khi bấm "Chọn tất cả"
+                    checkAll.addEventListener('change', function () {
+                        checkboxes.forEach(cb => {
+                            cb.checked = checkAll.checked;
+                        });
+                    });
+            
+                    // Nếu thay đổi checkbox con → kiểm tra lại checkbox tổng
+                    checkboxes.forEach(cb => {
+                        cb.addEventListener('change', function () {
+                            const allChecked = [...checkboxes].every(input => input.checked);
+                            checkAll.checked = allChecked;
+                        });
+                    });
+                });
+                </script>
                <!-- ========== Footer End ========== -->
 
 @endsection

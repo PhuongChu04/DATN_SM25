@@ -74,6 +74,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/restore/{id}', [SizeController::class, 'restore'])->name('restoreSize');
         Route::delete('size/force-delete/{id}', [SizeController::class, 'forceDelete'])->name('forceDeleteSize');
 
+        Route::get('/bulk-delete', [SizeController::class, 'bulkDelete'])->name('bulkDeleteSize');
+        Route::get('/bulk-restore', [SizeController::class, 'bulkRestoreSize'])->name('bulkRestoreSize');
+
     });
 
     Route::prefix('/voucher')->name('voucher.')->group(function () {
@@ -87,6 +90,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/trash', [VoucherController::class, 'trash'])->name('trashVoucher');
         Route::get('/restore/{id}', [VoucherController::class, 'restore'])->name('restoreVoucher');
         Route::delete('voucher/force-delete/{id}', [VoucherController::class, 'forceDelete'])->name('forceDeleteVoucher');
+
+        Route::get('/bulk-delete', [VoucherController::class, 'bulkDelete'])->name('bulkDeleteVoucher');
+        Route::get('/bulk-restore', [VoucherController::class, 'bulkRestore'])->name('bulkRestoreVoucher');
     });
 
 });
