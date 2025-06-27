@@ -58,7 +58,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/trash', [ColorController::class, 'trash'])->name('trashColor');
         Route::get('/restore/{id}', [ColorController::class, 'restore'])->name('restoreColor');
         Route::get('/bulk-restore', [ColorController::class, 'bulkRestore'])->name('bulkRestoreColor');
-        Route::delete('color/force-delete/{id}', [ColorController::class, 'forceDelete'])->name('forceDeleteColor');
+        Route::get('/force-delete/{id}', [ColorController::class, 'forceDelete'])->name('forceDeleteColor');
         
     });
 
@@ -72,7 +72,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/delete/{id}', [SizeController::class, 'destroy'])->name('deleteSize');
         Route::get('/trash', [SizeController::class, 'trash'])->name('trashSize');
         Route::get('/restore/{id}', [SizeController::class, 'restore'])->name('restoreSize');
-        Route::delete('size/force-delete/{id}', [SizeController::class, 'forceDelete'])->name('forceDeleteSize');
+        Route::get('/force-delete/{id}', [SizeController::class, 'forceDelete'])->name('forceDeleteSize');
 
         Route::get('/bulk-delete', [SizeController::class, 'bulkDelete'])->name('bulkDeleteSize');
         Route::get('/bulk-restore', [SizeController::class, 'bulkRestoreSize'])->name('bulkRestoreSize');
@@ -89,7 +89,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/delete/{id}', [VoucherController::class, 'destroy'])->name('deleteVoucher');
         Route::get('/trash', [VoucherController::class, 'trash'])->name('trashVoucher');
         Route::get('/restore/{id}', [VoucherController::class, 'restore'])->name('restoreVoucher');
-        Route::delete('voucher/force-delete/{id}', [VoucherController::class, 'forceDelete'])->name('forceDeleteVoucher');
+        Route::get('/force-delete/{id}', [VoucherController::class, 'forceDelete'])->name('forceDeleteVoucher');
 
         Route::get('/bulk-delete', [VoucherController::class, 'bulkDelete'])->name('bulkDeleteVoucher');
         Route::get('/bulk-restore', [VoucherController::class, 'bulkRestore'])->name('bulkRestoreVoucher');

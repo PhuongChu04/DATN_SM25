@@ -260,9 +260,9 @@
                             <li class="sub-nav-item">
                                 <a class="sub-nav-link" href="{{route('admin.size.listSize')}}">Size</a>
                             </li>
-                            <li class="sub-nav-item">
+                            {{-- <li class="sub-nav-item">
                                 <a class="sub-nav-link" href="attributes-add.html">Create</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>

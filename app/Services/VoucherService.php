@@ -38,6 +38,14 @@ class VoucherService
         return $voucher;
     }
 
+    public function softDeleteWithStatus($id)
+{
+    $voucher = Voucher::findOrFail($id);
+    $voucher->status = 'inactive';
+    $voucher->save();
+    return $voucher->delete();
+}
+
     public function getVoucherById($id)
     {
         $voucher = Voucher::find($id);
@@ -113,5 +121,7 @@ public function bulkRestoreVoucher(array $ids)
 {
     return Voucher::onlyTrashed()->whereIn('id', $ids)->restore();
 }
+
+
 
 }

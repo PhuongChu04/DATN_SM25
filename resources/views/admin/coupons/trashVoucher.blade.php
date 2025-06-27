@@ -4,7 +4,7 @@
 
                <!-- Start Container Fluid -->
                <div class="container-xxl">
-
+                    <form action="{{route('admin.voucher.bulkRestoreVoucher')}}">
                     <div class="row">
                          <div class="col-xl-12">
                               <div class="card">
@@ -34,6 +34,7 @@
                                              <table class="table align-middle mb-0 table-hover table-centered">
                                                   <thead class="bg-light-subtle">
                                                        <tr>
+                                                            <th>STT</th>
                                                             <th style="width: 20px;">
                                                                  <div class="form-check">
                                                                       <input type="checkbox" class="form-check-input" id="checkAll">
@@ -61,7 +62,7 @@
                                                             </td>
                                                             <td>
                                                                  <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <input type="checkbox" class="form-check-input checkbox-item" name="ids[]" value="{{$voucher->id}}" >
                                                                       <label class="form-check-label" for="customCheck2">&nbsp;</label>
                                                                  </div>
                                                             </td>
@@ -127,11 +128,11 @@
                                                                       <a href="{{route('admin.voucher.restoreVoucher', $voucher->id)}}" class="btn btn-sm btn-primary" onclick="return confirm('bạn có muốn khôi phục màu này không?')">
                                                                            Khôi Phục
                                                                       </a>
-                                                                      <form action="{{ route('admin.voucher.forceDeleteVoucher', $voucher->id) }}" method="POST" style="display:inline;">
+                                                                      {{-- <form action="{{ route('admin.voucher.forceDeleteVoucher', $voucher->id) }}" method="POST" style="display:inline;">
                                                                            @csrf
-                                                                           @method('DELETE')
-                                                                           <button type="submit" class="btn btn-sm btn-primary" onclick="return confirm('bạn có muốn xóa vĩnh viễn màu này?')">Xóa</button>
-                                                                      </form>
+                                                                           @method('DELETE') --}}
+                                                                           <a type="submit" href="{{ route('admin.voucher.forceDeleteVoucher', $voucher->id) }}"  class="btn btn-sm btn-primary" onclick="return confirm('bạn có muốn xóa vĩnh viễn màu này?')">Xóa</a>
+                                                                      {{-- </form> --}}
                                                                  </div>
                                                             </td>
                                                        </tr>
@@ -145,6 +146,7 @@
                                    <div class="card-footer border-top">
                                         <nav aria-label="Page navigation example">
                                              <ul class="pagination justify-content-end mb-0">
+                                                  <button type="submit" class="btn btn-primary me-4" onclick="return confirm('bạn có muốn xóa các mục đã chọn?')">Khôi Phục các mục đã chọn</button>
                                                   <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
                                                   <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
                                                   <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
@@ -156,12 +158,33 @@
                               </div>
                          </div>
                     </div>
-
+               </form>
                </div>
                <!-- End Container Fluid -->
 
 
                
+               <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                    const checkAll = document.getElementById('checkAll');
+                    const checkboxes = document.querySelectorAll('.checkbox-item');
+            
+                    // Khi bấm "Chọn tất cả"
+                    checkAll.addEventListener('change', function () {
+                        checkboxes.forEach(cb => {
+                            cb.checked = checkAll.checked;
+                        });
+                    });
+            
+                    // Nếu thay đổi checkbox con → kiểm tra lại checkbox tổng
+                    checkboxes.forEach(cb => {
+                        cb.addEventListener('change', function () {
+                            const allChecked = [...checkboxes].every(input => input.checked);
+                            checkAll.checked = allChecked;
+                        });
+                    });
+                });
+                </script>
 @endsection
 
         

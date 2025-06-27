@@ -71,11 +71,11 @@
                                                                       <a href="{{route('admin.size.restoreSize', $size->id)}}" class="btn btn-sm btn-primary" onclick="return confirm('bạn có muốn khôi phục Size này không?')">
                                                                            Khôi Phục
                                                                       </a>
-                                                                      <form action="{{ route('admin.size.forceDeleteSize', $size->id) }}" method="POST" style="display:inline;">
+                                                                      {{-- <form action="{{ route('admin.size.forceDeleteSize', $size->id) }}" method="POST" style="display:inline;">
                                                                            @csrf
-                                                                           @method('DELETE')
-                                                                           <button type="submit" class="btn btn-sm btn-primary" onclick="return confirm('bạn có muốn xóa vĩnh viễn size này?')">Xóa</button>
-                                                                      </form>
+                                                                           @method('DELETE') --}}
+                                                                           <a type="submit" href="{{ route('admin.size.forceDeleteSize', $size->id) }}" class="btn btn-sm btn-primary" onclick="return confirm('bạn có muốn xóa vĩnh viễn size này?')">Xóa</a>
+                                                                      {{-- </form> --}}
                                                                  </div>
                                                             </td>
                                                        </tr>

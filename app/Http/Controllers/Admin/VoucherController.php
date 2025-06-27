@@ -83,7 +83,9 @@ class VoucherController extends Controller
     }
     public function destroy(string $id)
     {
-        $voucher = $this->voucherService->deleteVoucher($id);
+        // $voucher = $this->voucherService->deleteVoucher($id);
+       $voucher= $this->voucherService->softDeleteWithStatus($id);
+
         if($voucher){
             return redirect()->route('admin.voucher.listVoucher')->with('success', 'Voucher Xóa Thành Công');
         }else{
@@ -127,6 +129,7 @@ public function bulkDelete(Request $request)
 public function bulkRestore(Request $request)
 {
 
+    // dd($request->all());
     $this->voucherService->bulkRestoreVoucher($request->ids ?? []);
     return redirect()->route('admin.voucher.listVoucher');
 }

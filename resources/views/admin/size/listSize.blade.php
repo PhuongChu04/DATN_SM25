@@ -69,9 +69,9 @@
                                                             <td>{{$size->updated_at}}</td>
                                                            
                                                             <td>
-                                                                 <div class="form-check form-switch">
+                                                                 {{-- <div class="form-check form-switch">
                                                                       <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked1" checked="">
-                                                                 </div>
+                                                                 </div> --}}
                                                             </td>
                                                             <td>
                                                                  <div class="d-flex gap-2">
