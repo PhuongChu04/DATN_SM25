@@ -42,10 +42,12 @@
                                         <th>ID</th>
                                         <th>Product Name & Size</th>
                                         <th>Description</th>
-                                        <th>Id_Brand</th>
-                                        {{-- <th>Quantity</th>
-                                        <th>Price</th> --}}
-                                        <th>Id_Category</th>
+
+                                        <th>Brand</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Category</th>
+
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -65,20 +67,29 @@
                                                     <div
                                                         class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
                                                         <img src="{{ asset('storage/' . $product->image_primary) }}"
-                                                            alt="" width="60">
+                                                            alt="" width="40">
                                                     </div>
                                                     <div>
                                                         <p class="text-dark fw-medium fs-15">{{ $product->name }}</p>
-                                                        <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M </p>
+                                                        {{-- <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>
+                                                            {{ $product->variants->pluck('size.name')->unique()->implode(', ') }}
+                                                        </p> --}}
+                                                        <p class="text-muted mb-0 mt-1 fs-13"><span>Color : </span>
+                                                            @foreach ($product->variants->pluck('color')->unique() as $color)
+                                                                <i class="bx bxs-circle fs-18"
+                                                                    style="color: {{ $color->code }}"></i>
+                                                            @endforeach
+                                                        </p>
                                                     </div>
                                                 </div>
-
                                             </td>
                                             <td>{{ $product->description }}</td>
-                                            <td>{{ $product->id_brand }}</td>
-                                            {{-- <td></td>
-                                            <td></td> --}}
-                                            <td>{{ $product->id_category }}</td>
+                                            <td>{{ $product->brand->name ?? '' }}</td>
+                                            <td>
+                                                {{ $product->variants->first()?->price ? number_format($product->variants->first()->price, 0, ',', '.') . ' VND' : '' }}
+                                            </td>
+                                            <td>{{ $product->variants->first()->quantity ?? '' }}</td>
+                                            <td>{{ $product->category->name ?? '' }}</td>
                                             <td>{{ $product->status }}</td>
                                             <td>
                                                 <div class="d-flex gap-2">

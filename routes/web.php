@@ -71,6 +71,8 @@ Route::prefix('listCategory')->name('listCategory.')->group(function () {
 Route::prefix('product')->name('product.')->group(function () {
     // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('home');
 
+
+
     Route::get('/list', [AdminProductController::class, 'list'])->name('listProduct');
 
     Route::get('/create', [AdminProductController::class, 'create'])->name('createProduct');
@@ -82,6 +84,7 @@ Route::prefix('product')->name('product.')->group(function () {
     Route::put('/update/{product}', [AdminProductController::class, 'update'])->name('updateProduct');
 
     Route::delete('/delete/{product}', [AdminProductController::class, 'destroy'])->name('destroyProduct');
+
 });
 
 

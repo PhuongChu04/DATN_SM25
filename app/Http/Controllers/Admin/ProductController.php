@@ -21,9 +21,10 @@ class ProductController extends Controller
     {
         $brands = Brand::all();
         $categories = Category::all();
-        // $colors = Color::all();
+        $colors = Color::all();
         // $sizes = Size::all();
-        return view('admin.product.create-product', compact('categories', 'brands'));
+        // return view('admin.product.create-product', compact('categories', 'brands', 'colors', 'sizes'));
+        return view('admin.product.create-product', compact('categories', 'brands', 'colors'));
     }
     public function store(Request $request)
     {
@@ -31,32 +32,57 @@ class ProductController extends Controller
             'name' => 'required',
             'description' => 'required',
             'id_brand' => 'required',
-            // 'variants.*.id-color' => 'required',
-            // 'variants.*.id_size' => 'required',
-            // 'variants.*.price' => 'required',
-            // 'variants.*.quantity' => 'required',
+            'colors' => 'required|array',
+            'colors.*' => 'exists:colors,id',
+            // 'sizes' => 'required|array',
+            // 'sizes.*' => 'exists:sizes,id',
+            'variants.*.price' => 'required',
+            'variants.*.quantity' => 'required',
             'id_category' => 'required',
             'image_primary' => 'required',
             'status' => 'required',
         ]);
         $path_image_primary = $request->file('image_primary')->store('images');
         $data['image_primary'] = $path_image_primary;
+        $product = Product::query()->create($data);
+        if ($request->has('sizes') && $request->has('colors')) {
+            foreach ($request->sizes as $sizeId) {
+                foreach ($request->colors as $colorId) {
+                    $product->variants()->create([
+                        'id_size' => $sizeId,
+                        'id_color' => $colorId,
+                        'price' => $request->input('variants.0.price'),
+                        'quantity' => $request->input('variants.0.quantity'),
+                    ]);
+                }
+            }
+        }
 
 
-        Product::query()->create($data);
         return redirect()->route('product.listProduct');
     }
     public function detail(Product $product)
     {
         $brands = Brand::all();
         $categories = Category::all();
-        return view('admin.product.detail-product', compact('product', 'categories', 'brands'));
+        // $sizes = Size::all();
+        $colors = Color::all();
+        $selectedSizes = $product->variants->pluck('id_size')->unique()->toArray();
+        $selectedColors = $product->variants->pluck('id_color')->unique()->toArray();
+        return view('admin.product.detail-product', compact('product', 'categories', 'brands','colors','selectedSizes', 'selectedColors'));
     }
     public function edit(Product $product)
     {
         $categories = Category::all();
         $brands = Brand::all();
-        return view('admin.product.edit-product', compact('product', 'brands', 'categories'));
+        // $sizes = Size::all();
+        $colors = Color::all();
+
+        // Lấy các id size và color có trong variants của product
+        $selectedSizes = $product->variants->pluck('id_size')->unique()->toArray();
+        $selectedColors = $product->variants->pluck('id_color')->unique()->toArray();
+
+        return view('admin.product.edit-product', compact('product', 'brands', 'categories',  'colors', 'selectedSizes', 'selectedColors'));
     }
     public function update(Request $request, Product $product)
     {
@@ -67,6 +93,13 @@ class ProductController extends Controller
             'id_brand' => 'sometimes|integer',
             'image_primary' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'sometimes|string|max:255',
+
+            'colors' => 'required|array',
+            'colors.*' => 'exists:colors,id',
+            'sizes' => 'required|array',
+            'sizes.*' => 'exists:sizes,id',
+            'variants.*.price' => 'required|numeric',
+            'variants.*.quantity' => 'required|integer',
         ]);
 
         $data['image_primary'] = $product->image_primary;
@@ -84,6 +117,25 @@ class ProductController extends Controller
 
 
         $product->update($data);
+        $product->variants()->delete();
+
+        // Tạo variants mới theo size + color
+        if ($request->has('sizes') && $request->has('colors')) {
+            // Xóa variants cũ
+            $product->variants()->delete();
+
+            // Tạo variants mới
+            foreach ($request->sizes as $sizeId) {
+                foreach ($request->colors as $colorId) {
+                    $product->variants()->create([
+                        'id_size' => $sizeId,
+                        'id_color' => $colorId,
+                        'price' => $request->input('variants.0.price', 0),
+                        'quantity' => $request->input('variants.0.quantity', 0),
+                    ]);
+                }
+            }
+        }
         return redirect()->route('admin.listProduct')->with('cap nhat thanh cong');
     }
     public function destroy(Product $product)

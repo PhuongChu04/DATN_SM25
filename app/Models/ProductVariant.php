@@ -33,4 +33,11 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(Size::class, 'id_size');
     }
+
+
+    // public function orderDetails()
+    // {
+    //     return $this->hasMany(OrderDetail::class, 'id_variant');
+    // }
+
 }
