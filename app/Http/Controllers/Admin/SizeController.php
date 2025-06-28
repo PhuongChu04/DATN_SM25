@@ -18,8 +18,10 @@ class SizeController extends Controller
     }
     public function list()
     {
+
         //
         $sizes = $this->sizeService->getAllSizes();
+        // return $sizes;
         return view('admin.size.listSize', compact('sizes'));
     }
 
