@@ -37,12 +37,16 @@ use Faker\Guesser\Name;
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
-    // Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
     Route::get('/list-product', [AdminProductController::class, 'list'])->name('listProduct');
-    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
+    // Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
+    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
+    Route::get('/order-details', [OrderController::class, 'details'])->name('order.details');
     Route::post('/order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+    Route::post('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::post('/orders/{id}/refund', [OrderController::class, 'refund'])->name('orders.refund');
+    Route::get('/orders/{id}/print', [OrderController::class, 'print'])->name('orders.print');
     Route::resource('order-details', \App\Http\Controllers\Admin\OrderDetailController::class)->only(['index', 'store', 'destroy']);
 
 
@@ -61,21 +65,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/create_role', [RoleController::class, 'postCreateRole'])->name('postCreateRole');
         Route::get('/attach-role', [RoleController::class, 'showAttachForm'])->name('attachRoleForm'); //form gán quyền
         Route::post('/attach-role', [RoleController::class, 'attachUserRole'])->name('attachUserRole');
-
-       
     });
 });
 
 
-Route::prefix('user')->name('user.')->group(function(){
-     Route::get('/create',[UserController::class, 'createUser'])->name('createUser');
-     Route::get('/update/{id}',[UserController::class, 'userDetail'])->name('userDetail');
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/create', [UserController::class, 'createUser'])->name('createUser');
+    Route::get('/update/{id}', [UserController::class, 'userDetail'])->name('userDetail');
 
-        Route::post('/register-user', [UserController::class, 'postRegister'])->name('postRegister');
-        Route::get('/account-detail/{id}', [UserController::class, 'accountDetail'])->name('accountDetail');
-        Route::post('/update-user/{id}', [UserController::class, 'updateAccountDetail'])->name('updateAccountDetail');
-        Route::get('/delete/{id}', [UserController::class, 'deleteUser'])->name('deleteUser');
-
+    Route::post('/register-user', [UserController::class, 'postRegister'])->name('postRegister');
+    Route::get('/account-detail/{id}', [UserController::class, 'accountDetail'])->name('accountDetail');
+    Route::post('/update-user/{id}', [UserController::class, 'updateAccountDetail'])->name('updateAccountDetail');
+    Route::get('/delete/{id}', [UserController::class, 'deleteUser'])->name('deleteUser');
 });
 
 //             ==================  CATEGORY =====================

@@ -185,17 +185,17 @@
                     <ul class="nav sub-navbar-nav">
 
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.order.index') }}">List</a>
+                            <a class="sub-nav-link" href="{{ route('admin.orders.index') }}">List</a>
                         </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.order-details.index') }}">Details</a>
-                        </li>
-                        <li class="sub-nav-item">
+                        {{-- <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="">Details</a>
+                        </li> --}}
+                        {{-- <li class="sub-nav-item">
                             <a class="sub-nav-link" href="order-cart.html">Cart</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="order-checkout.html">Check Out</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </li>
