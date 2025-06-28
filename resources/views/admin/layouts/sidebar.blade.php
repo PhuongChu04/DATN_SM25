@@ -223,28 +223,51 @@
                 </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarAttributes" data-bs-toggle="collapse" role="button"
-                    aria-expanded="false" aria-controls="sidebarAttributes">
-                    {{-- <span class="nav-icon">
-                        <iconify-icon icon="solar:confetti-minimalistic-bold-duotone"></iconify-icon>
-                    </span> --}}
-                    <span class="nav-text"> Attributes </span>
-                </a>
-                <div class="collapse" id="sidebarAttributes">
-                    <ul class="nav sub-navbar-nav">
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="attributes-list.html">List</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="attributes-edit.html">Edit</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="attributes-add.html">Create</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+             <li class="nav-item">
+                    <a class="nav-link menu-arrow" href="#sidebarAttributes" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarAttributes">
+                        <span class="nav-icon">
+                            <iconify-icon icon="solar:confetti-minimalistic-bold-duotone"></iconify-icon>
+                        </span>
+                        <span class="nav-text"> Attributes </span>
+                    </a>
+                    <div class="collapse" id="sidebarAttributes">
+                        <ul class="nav sub-navbar-nav">
+                            <li class="sub-nav-item">
+                                <a class="sub-nav-link" href="{{route('admin.color.listColor')   }}">Color</a>
+                            </li>
+                            <li class="sub-nav-item">
+                                <a class="sub-nav-link" href="{{route('admin.size.listSize')}}">Size</a>
+                            </li>
+                            {{-- <li class="sub-nav-item">
+                                <a class="sub-nav-link" href="attributes-add.html">Create</a>
+                            </li> --}}
+                        </ul>
+                    </div>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link menu-arrow" href="#sidebarCoupons" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarCoupons">
+                        <span class="nav-icon">
+                            <iconify-icon icon="solar:leaf-bold-duotone"></iconify-icon>
+                        </span>
+                        <span class="nav-text"> Coupons </span>
+                    </a>
+                    <div class="collapse" id="sidebarCoupons">
+                        <ul class="nav sub-navbar-nav">
+                            <li class="sub-nav-item">
+                                <a class="sub-nav-link" href="{{route('admin.voucher.listVoucher')}}">Danh Sách Voucher</a>
+                            </li>
+                            <li class="sub-nav-item">
+                                <a class="sub-nav-link" href="{{route('admin.voucher.addVoucher')}}">Thêm mã giảm giá</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+    
+    
 {{-- Invoices- hóa đơn --}}
             {{-- <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarInvoice" data-bs-toggle="collapse" role="button"
@@ -875,4 +898,6 @@
             </li> --}}
         </ul>
     </div>
-</div>
+
+
+  

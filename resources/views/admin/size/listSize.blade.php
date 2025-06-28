@@ -1,0 +1,148 @@
+@extends('admin.layouts.layout')
+
+@section('content')
+
+
+               <!-- Start Container Fluid -->
+               <div class="container-xxl">
+<form action="{{route('admin.size.bulkDeleteSize')}}">
+     @csrf
+     @method("DELETE")
+                    <div class="row">
+                         <div class="col-xl-12">
+                              <div class="card">
+                                   <div class="d-flex card-header justify-content-between align-items-center">
+                                        <div>
+                                             {{-- {{route('admin.color.add')}} --}}
+                                                  <a href="{{route('admin.size.addSize')}}" type="button" class="btn btn-secondary mb-3">Add Size</a>
+                                             <h4 class="card-title">All Size List</h4>
+                                        </div>
+                                        <div class="dropdown">
+                                             <a href="{{route('admin.size.trashSize')}}" class="btn btn-soft-danger btn-sm" aria-expanded="false">
+                                                  Đã Xóa
+                                             </a>
+                                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
+                                                  This Month
+                                             </a>
+                                             <div class="dropdown-menu dropdown-menu-end">
+                                                  <!-- item-->
+                                                  <a href="#!" class="dropdown-item">Download</a>
+                                                  <!-- item-->
+                                                  <a href="#!" class="dropdown-item">Export</a>
+                                                  <!-- item-->
+                                                  <a href="#!" class="dropdown-item">Import</a>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <div>
+                                        <div class="table-responsive">
+                                             <table class="table align-middle mb-0 table-hover table-centered">
+                                                  <thead class="bg-light-subtle">
+                                                       <tr>
+                                                            <th style="width: 20px;">
+                                                                 <div class="form-check">
+                                                                      <input type="checkbox" class="form-check-input" id="checkAll">
+                                                                      <label class="form-check-label" for="checkAll"></label>
+                                                                 </div>
+                                                            </th>
+                                                            <th>STT</th>
+                                                            <th>Name Size</th>
+                                                            <th>Created On</th>
+                                                            <th></th>
+                                                            <th>Action</th>
+                                                            
+                                                       </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                       @foreach($sizes as $size)
+                                                       <tr>
+                                                            <td>
+                                                                 <div class="form-check">
+                                                                      <input type="checkbox" name="ids[]" value="{{$size->id}}" class="form-check-input checkbox-item" >
+                                                                      <label class="form-check-label">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 {{ $loop->iteration }}
+                                                            </td>
+                                                            <td>{{$size->name}}</td>
+                                                            <td>{{$size->updated_at}}</td>
+                                                           
+                                                            <td>
+                                                                 {{-- <div class="form-check form-switch">
+                                                                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked1" checked="">
+                                                                 </div> --}}
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      {{-- <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a> --}}
+                                                                                <a href="{{route('admin.size.editSize', $size->id)}}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="{{route('admin.size.deleteSize', $size->id)}}" class="btn btn-soft-danger btn-sm" onclick="return confirm('delete?')"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
+                                                       </tr>
+                                                       @endforeach
+                                                       
+                                                  </tbody>
+                                             </table>
+                                        </div>
+                                        <!-- end table-responsive -->
+                                   </div>
+                                   <div class="card-footer border-top">
+                                        <nav aria-label="Page navigation example">
+                                             <ul class="pagination justify-content-end mb-0">
+                                                  <button type="submit" class="btn btn-primary me-4" onclick="return confirm('bạn có muốn xóa các mục đã chọn?')">Xóa các mục đã chọn</button>
+                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                                                  <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                                             </ul>
+                                        </nav>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+
+               </div>
+          </form>
+               <!-- End Container Fluid -->
+
+               <!-- ========== Footer Start ========== -->
+               <footer class="footer">
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-12 text-center">
+                               <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon> <a
+                                   href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
+                           </div>
+                       </div>
+                   </div>
+               </footer>
+
+
+
+               <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                    const checkAll = document.getElementById('checkAll');
+                    const checkboxes = document.querySelectorAll('.checkbox-item');
+            
+                    // Khi bấm "Chọn tất cả"
+                    checkAll.addEventListener('change', function () {
+                        checkboxes.forEach(cb => {
+                            cb.checked = checkAll.checked;
+                        });
+                    });
+            
+                    // Nếu thay đổi checkbox con → kiểm tra lại checkbox tổng
+                    checkboxes.forEach(cb => {
+                        cb.addEventListener('change', function () {
+                            const allChecked = [...checkboxes].every(input => input.checked);
+                            checkAll.checked = allChecked;
+                        });
+                    });
+                });
+                </script>
+               <!-- ========== Footer End ========== -->
+
+@endsection
