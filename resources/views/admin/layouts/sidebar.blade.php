@@ -49,14 +49,14 @@
                     {{-- <span class="nav-icon">
                         <iconify-icon icon="solar:t-shirt-bold-duotone"></iconify-icon>
                     </span> --}}
-                    <span class="nav-text"> Products </span>
+                    <span class="nav-text"> Sản Phẩm </span>
                 </a>
                 <div class="collapse" id="sidebarProducts">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="product-list.html">List</a>
+                            <a class="sub-nav-link" href="{{ route('admin.product.listProduct') }}">List</a>
                         </li>
-                        <li class="sub-nav-item">
+                        {{-- <li class="sub-nav-item">
                             <a class="sub-nav-link" href="product-grid.html">Grid</a>
                         </li>
                         <li class="sub-nav-item">
@@ -67,7 +67,7 @@
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="product-add.html">Create</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </li>
