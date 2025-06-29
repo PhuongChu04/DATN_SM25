@@ -17,7 +17,7 @@ class OrderFactory extends Factory
             'user_id' => user::inRandomOrder()->first()->id ?? User::factory(),
             'total_price' => $this->faker->randomFloat(2, 100000, 200000),
             'payment_status' => $this->faker->randomElement(['paid', 'unpaid', 'refund']),
-            'order_status' => $this->faker->randomElement(['draft', 'packaging', 'completed', 'canceled', 'delivering']),
+            'order_status' => $this->faker->randomElement(['confirming', 'pending', 'processing', 'shipping', 'delivered']),
         ];
     }
 }

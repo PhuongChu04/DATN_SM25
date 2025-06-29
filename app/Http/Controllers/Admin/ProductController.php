@@ -3,13 +3,146 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Services\ProductService;
+use App\Services\ProductVariantService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    protected $productService;
+    protected $productVariantService;
+
+    public function __construct(ProductService $productService, ProductVariantService $productVariantService)
+    {
+        $this->productService = $productService;
+        $this->productVariantService = $productVariantService;
+    }
+
+    
     public function list()
     {
-        return view('admin.product.list-product');
+        $products = $this->productService->getAllProducts();
+        return view('admin.product.list-product', compact('products'));
     }
+   
+    public function create()
+    {
+        $brands = Brand::all();
+        $categories = Category::all();
+        return view('admin.product.create-product', compact('brands', 'categories'));
+    }
+    public function postCreate(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:250|unique:products,name',
+            'description' => 'nullable|string',
+            'id_brand' => 'required|exists:brands,id',
+            'id_category' => 'required|exists:categories,id',
+            'image_primary' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+            'status' => 'in:active,inactive',
+        ]);
+
+        $product = $this->productService->createProduct($request->all());
+        if ($product) {
+            return redirect()->route('admin.product.listProduct')->with('success', 'Thêm sản phẩm thành công');
+        }
+        return redirect()->route('admin.product.create')->with('error', 'Thêm sản phẩm thất bại');
+    }
+    public function edit($id)
+    {
+        $product = $this->productService->getProductById($id);
+        $brands = Brand::all();
+        $categories = Category::all();
+        return view('admin.product.edit-product', compact('product', 'brands', 'categories'));
+    }
+
+    
+    public function postEdit(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:250|unique:products,name,' . $id,
+            'description' => 'nullable|string',
+            'id_brand' => 'required|exists:brands,id',
+            'id_category' => 'required|exists:categories,id',
+            'image_primary' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'status' => 'in:active,inactive',
+        ]);
+
+        $product = $this->productService->updateProduct($request->all(), $id);
+        if ($product) {
+            return redirect()->route('admin.product.listProduct')->with('success', 'Cập nhật sản phẩm thành công');
+        }
+        return redirect()->route('admin.product.edit')->with('error', 'Cập nhật sản phẩm thất bại');
+    }
+    public function detail($id)
+    {
+        $product = $this->productService->getProductById($id);
+        $brands = Brand::all();
+        $categories = Category::all();
+        return view('admin.product.detail-product', compact('product', 'brands', 'categories'));
+    }
+
+    public function trash()
+    {
+        $trashedProducts = $this->productService->getTrashedProducts();
+        return view('admin.product.trashProduct', compact('trashedProducts'));
+    }
+    public function restore($id)
+    {
+        if ($this->productService->restoreProduct($id)) {
+            return redirect()->route('admin.product.listProduct')->with('success', 'Khôi phục sản phẩm thành công');
+        }
+        return redirect()->route('admin.product.trash')->with('error', 'Khôi phục sản phẩm thất bại');
+    }
+
+
+
+    public function destroy($id)
+    {
+        if ($this->productService->deleteProduct($id)) {
+            return redirect()->route('admin.product.listProduct')->with('success', 'Xóa sản phẩm thành công');
+        }
+        return redirect()->route('admin.product.listProduct')->with('error', 'Xóa sản phẩm thất bại');
+    }
+    public function forceDelete($id)//vĩnh viễn
+    {
+        if ($this->productService->delete($id)) {
+            return redirect()->route('admin.product.trash')->with('success', 'Xóa vĩnh viễn sản phẩm thành công');
+        }
+        return redirect()->route('admin.product.trash')->with('error', 'Xóa vĩnh viễn sản phẩm thất bại');
+    }
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return redirect()->route('admin.product.trash')->with('error', 'Chưa chọn sản phẩm nào');
+        }
+        if ($this->productService->bulkDelete($ids)) {
+            return redirect()->route('admin.product.listProduct')->with('success', 'Xóa hàng loạt thành công');
+        }
+        return redirect()->route('admin.product.listProduct')->with('error', 'Xóa hàng loạt thất bại');
+    }
+
+   
+    public function bulkRestore(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return redirect()->route('admin.product.trash')->with('error', 'Chưa chọn sản phẩm nào');
+        }
+        if ($this->productService->bulkRestore($ids)) {
+            return redirect()->route('admin.product.listProduct')->with('success', 'Khôi phục hàng loạt thành công');
+        }
+        return redirect()->route('admin.product.trash')->with('error', 'Khôi phục hàng loạt thất bại');
+    }
+
+
+    //variant
+
+    
+    
 
 }

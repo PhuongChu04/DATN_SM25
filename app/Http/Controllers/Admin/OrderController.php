@@ -105,6 +105,7 @@ class OrderController extends Controller
 
         return view('admin.orders.invoice', compact('order'));
     }
+    
    public function refund($id)
 {
     $order = Order::findOrFail($id);
