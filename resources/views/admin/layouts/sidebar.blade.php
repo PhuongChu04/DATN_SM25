@@ -187,9 +187,9 @@
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{ route('admin.orders.index') }}">List</a>
                         </li>
-                        <li class="sub-nav-item">
+                        {{-- <li class="sub-nav-item">
                             <a class="sub-nav-link" href="">Details</a>
-                        </li>
+                        </li> --}}
                         {{-- <li class="sub-nav-item">
                             <a class="sub-nav-link" href="order-cart.html">Cart</a>
                         </li>
