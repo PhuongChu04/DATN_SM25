@@ -49,36 +49,46 @@ class OrderController extends Controller
         return view('admin.orders.edit', compact('order'));
     }
 
-    public function updateStatus(Request $request, $id)
-    {
-        $order = Order::findOrFail($id);
+   public function updateStatus(Request $request, $id)
+{
+    $order = Order::findOrFail($id);
 
-        // Không cho cập nhật nếu đã hoàn thành
-        if (in_array($order->order_status, [
-            OrderStatus::Delivered->value,
-            OrderStatus::Canceled->value,
-            OrderStatus::Returned->value,
-        ])) {
-            return back()->with('error', 'Đơn hàng đã kết thúc, không thể thay đổi tiếp.');
-        }
-
-        // Cho validate target trong tất cả statuses
-        $request->validate([
-            'order_status' => ['required', Rule::in(OrderStatus::values())],
-        ]);
-
-        $order->order_status = $request->order_status;
-        $order->save();
-
-        // Log
-        OrderStatusLog::create([
-            'order_id'   => $order->id,
-            'status'     => $order->order_status,
-            'changed_by' => Auth::id(),
-        ]);
-
-        return back()->with('success', 'Cập nhật trạng thái thành công.');
+    // Nếu đơn đã kết thúc, không cho thay đổi
+    if (in_array($order->order_status, [
+        OrderStatus::Delivered->value,
+        OrderStatus::Canceled->value,
+        OrderStatus::Returned->value,
+    ])) {
+        return back()->with('error', 'Đơn hàng đã kết thúc, không thể thay đổi tiếp.');
     }
+
+    // Validate trạng thái đầu vào
+    $request->validate([
+        'order_status' => ['required', Rule::in(OrderStatus::values())],
+    ]);
+
+    $newStatus = $request->order_status;
+
+    // Nếu trạng thái mới có cấp thấp hơn trạng thái hiện tại → chặn
+    if (
+        $this->statusLevel($newStatus) < $this->statusLevel($order->order_status)
+    ) {
+        return back()->with('error', 'Không thể chuyển trạng thái ngược lại sau khi đã tiến đến bước giao hàng.');
+    }
+
+    $order->order_status = $newStatus;
+    $order->save();
+
+    // Ghi log
+    OrderStatusLog::create([
+        'order_id'   => $order->id,
+        'status'     => $newStatus,
+        'changed_by' => Auth::id(),
+    ]);
+
+    return back()->with('success', 'Cập nhật trạng thái thành công.');
+}
+
     public function destroy(Order $order)
     {
         $order->delete();
@@ -95,27 +105,44 @@ class OrderController extends Controller
 
         return view('admin.orders.invoice', compact('order'));
     }
-    public function refund($id)
-    {
-        $order = Order::findOrFail($id);
+    
+   public function refund($id)
+{
+    $order = Order::findOrFail($id);
 
-        if ($order->payment_status !== 'paid') {
-            return back()->with('error', 'Không thể hoàn tiền đơn chưa thanh toán hoặc đã hoàn.');
-        }
-
-        $order->payment_status = 'refund';
-        $order->save();
-
-        // Ghi log dòng thời gian hoàn tiền
-        OrderStatusLog::create([
-            'order_id' => $order->id,
-            'status' => 'refund',
-            'note' => 'Hoàn tiền đơn hàng bởi admin',
-            'changed_by' => Auth::id(),
-        ]);
-
-        return back()->with('success', 'Đã hoàn tiền cho đơn hàng.');
+    // Điều kiện không cho hoàn tiền
+    if ($order->order_status === OrderStatus::Shipping->value) {
+        return back()->with('error', 'Không thể hoàn tiền khi đơn hàng đang giao.');
     }
+
+    if ($order->order_status === OrderStatus::Canceled->value) {
+        return back()->with('error', 'Đơn hàng đã bị hủy, không thể hoàn tiền.');
+    }
+
+    if ($order->payment_status !== 'paid') {
+        return back()->with('error', 'Đơn hàng chưa thanh toán, không thể hoàn tiền.');
+    }
+
+    // Điều kiện cho hoàn tiền
+    if (!in_array($order->order_status, [OrderStatus::Delivered->value, OrderStatus::Returned->value])) {
+        return back()->with('error', 'Chỉ có thể hoàn tiền đơn hàng đã giao hoặc trả hàng.');
+    }
+
+    // Cập nhật trạng thái hoàn tiền
+    $order->payment_status = 'refund';
+    $order->save();
+
+    // Ghi log
+    OrderStatusLog::create([
+        'order_id' => $order->id,
+        'status' => 'refund',
+        'note' => 'Hoàn tiền đơn hàng bởi admin',
+        'changed_by' => Auth::id(),
+    ]);
+
+    return back()->with('success', 'Đã hoàn tiền cho đơn hàng.');
+}
+
 
     /**
      * Ánh xạ trạng thái cũ sang tiến trình 5 bước mới
@@ -133,4 +160,21 @@ class OrderController extends Controller
             default => 'pending',
         };
     }
+    private function statusLevel($status): int
+{
+    // Chuẩn hóa: nếu là enum thì lấy ->value
+    $value = is_object($status) ? $status->value : $status;
+
+    return match ($value) {
+        OrderStatus::Confirming->value => 1,
+        OrderStatus::Pending->value    => 2,
+        OrderStatus::Processing->value => 3,
+        OrderStatus::Shipping->value   => 4,
+        OrderStatus::Delivered->value  => 5,
+        OrderStatus::Returned->value   => 6,
+        OrderStatus::Canceled->value   => 7,
+        default => 0,
+    };
+}
+
 }

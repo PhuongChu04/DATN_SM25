@@ -102,8 +102,8 @@
                                         <td>{{ $item->variant->size->name ?? '-' }}</td>
                                         <td>{{ $item->variant->color->name ?? '-' }}</td>
                                         <td>{{ $item->quantity }}</td>
-                                       <td>{{ number_format(floor($item->unit_price), 0, ',', '.') }}₫</td>
-<td>{{ number_format(floor($item->total), 0, ',', '.') }}₫</td>
+                                        <td>{{ number_format(floor($item->unit_price), 0, ',', '.') }}₫</td>
+                                        <td>{{ number_format(floor($item->total), 0, ',', '.') }}₫</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -124,7 +124,7 @@
 
 
                 @php
-                
+
                     // 1. Lấy subtotal từ chi tiết đơn
                     $subtotal = $order->orderDetails->sum(fn($d) => (int) $d->total);
                     // 2. Lấy các khoản khác (mặc định 0 nếu null)
@@ -142,13 +142,13 @@
                 <div class="card shadow-sm">
                     <div class="card-header fw-bold">Tóm tắt đơn</div>
                     <div class="card-body">
-                        <p><strong>Tổng: {{ number_format($subtotal, 0, ',', '.') }}₫  </p>
+                        <p><strong>Tổng: {{ number_format($subtotal, 0, ',', '.') }}₫ </p>
                         <p><strong>Giảm giá:</strong> {{ number_format($discount, 0, ',', '.') }}₫</p>
                         <p><strong>Phí vận chuyển:</strong> {{ number_format($shippingFee, 0, ',', '.') }}₫</p>
                         <p><strong>Thuế ({{ $order->tax_rate ?? 0 }}%):</strong>
                             {{ number_format($tax, 0, ',', '.') }}₫</p>
                         <hr>
-                        <p class="fs-5"><strong>Tổng cộng: {{ number_format($grandTotal, 0, ',', '.') }}₫  
+                        <p class="fs-5"><strong>Tổng cộng: {{ number_format($grandTotal, 0, ',', '.') }}₫
                         </p>
                     </div>
                 </div>
@@ -217,11 +217,29 @@
                         <div class="mb-3">
                             <label for="order_status" class="form-label">Trạng thái đơn hàng</label>
                             <select name="order_status" class="form-select" id="select-order-status">
+                                @php
+                                    $currentStatus = $order->order_status;
+                                    $disabledBackStatuses = ['draft', 'pending', 'processing'];
+                                    $lockedStatuses = ['shipping', 'delivered', 'returned', 'canceled'];
+                                @endphp
+
                                 @foreach (\App\Enums\OrderStatus::cases() as $case)
-                                    @if (in_array($case->value, ['confirming', 'pending', 'processing', 'shipping', 'delivered', 'canceled', 'returned']))
-                                        <option value="{{ $case->value }}">{{ ucfirst($case->value) }}</option>
+                                    @php
+                                        $value = $case->value;
+                                        // Nếu đã ở trạng thái cao (shipping+) thì ẩn các trạng thái quay lại
+                                        $shouldHide =
+                                            in_array($currentStatus, $lockedStatuses) &&
+                                            in_array($value, $disabledBackStatuses);
+                                    @endphp
+
+                                    @if (!$shouldHide)
+                                        <option value="{{ $value }}"
+                                            {{ $currentStatus === $value ? 'selected' : '' }}>
+                                            {{ ucfirst($value) }}
+                                        </option>
                                     @endif
                                 @endforeach
+
                             </select>
 
                         </div>
