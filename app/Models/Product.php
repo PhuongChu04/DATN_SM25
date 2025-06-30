@@ -21,7 +21,7 @@ class Product extends Model
         'status',
     ];
 
-  
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'id_category');
@@ -29,5 +29,9 @@ class Product extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'id_brand');
+    }
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class, 'id_product');
     }
 }

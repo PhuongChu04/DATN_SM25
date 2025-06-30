@@ -17,13 +17,17 @@ class ProductService
         return Product::with(['brand', 'category'])->paginate(10);
     }
 
-    
-    public function getProductById($id)//lấy sản phẩm theo id
+
+    // public function getProductById($id) //lấy sản phẩm theo id
+    // {
+    //     return Product::with(['brand', 'category'])->findOrFail($id);
+    // }
+    public function getProductById($id)
     {
-        return Product::with(['brand', 'category'])->findOrFail($id);
+        return Product::with(['brand', 'category', 'variants.color', 'variants.size'])
+            ->findOrFail($id);
     }
 
-    
     public function createProduct($data)
     {
         try {
@@ -58,8 +62,8 @@ class ProductService
         }
     }
 
-   
-    public function deleteProduct($id)//xóa mềm
+
+    public function deleteProduct($id) //xóa mềm
     {
         try {
             $product = Product::findOrFail($id);
@@ -71,13 +75,13 @@ class ProductService
         }
     }
 
-    
-    public function getTrashedProducts()//danh sách đã xóa
+
+    public function getTrashedProducts() //danh sách đã xóa
     {
         return Product::onlyTrashed()->with(['brand', 'category'])->get();
     }
 
-    public function restoreProduct($id)//khôi phục sản phẩm đã xóa 
+    public function restoreProduct($id) //khôi phục sản phẩm đã xóa 
     {
         try {
             $product = Product::onlyTrashed()->findOrFail($id);
@@ -89,8 +93,8 @@ class ProductService
         }
     }
 
-   
-    public function delete($id)//xóa vĩnh viễn
+
+    public function delete($id) //xóa vĩnh viễn
     {
         try {
             $product = Product::onlyTrashed()->findOrFail($id);
@@ -100,13 +104,13 @@ class ProductService
             $product->forceDelete();
             return true;
         } catch (\Exception $e) {
-        Log::error('Lỗi khi xóa vĩnh viễn sản phẩm: ' . $e->getMessage());
+            Log::error('Lỗi khi xóa vĩnh viễn sản phẩm: ' . $e->getMessage());
             return false;
         }
     }
 
-    
-    public function bulkDelete(array $ids)// xóa nhiều bản ghi
+
+    public function bulkDelete(array $ids) // xóa nhiều bản ghi
     {
         try {
             Product::whereIn('id', $ids)->delete();
@@ -117,8 +121,8 @@ class ProductService
         }
     }
 
-    
-    public function bulkRestore(array $ids)//khôi phục nhiều bản ghi
+
+    public function bulkRestore(array $ids) //khôi phục nhiều bản ghi
     {
         try {
             Product::onlyTrashed()->whereIn('id', $ids)->restore();

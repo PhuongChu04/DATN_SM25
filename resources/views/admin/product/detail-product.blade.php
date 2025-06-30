@@ -21,9 +21,10 @@
                                 <!-- File Upload -->
 
                                 <div class="fallback">
-                                    
-                                <img src="{{ asset('storage/' . $product->image_primary) }}" alt="{{ $product->name }}" width="100" class="mt-2">
-                                    
+
+                                    <img src="{{ asset('storage/' . $product->image_primary) }}" alt="{{ $product->name }}"
+                                        width="100" class="mt-2">
+
                                 </div>
 
                                 <div class="dz-message needsclick">
@@ -40,7 +41,7 @@
                             </div>
 
 
-                          
+
                         </div>
                         <div class="card">
                             <div class="card-header">
@@ -58,7 +59,7 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                      
+
                                     </div>
                                     <div class="col-lg-6">
                                         {{-- <div class="mb-3"> --}}
@@ -120,7 +121,7 @@
                                 </div>
                                 <div class="p-3 bg-light mb-3 rounded">
                                     <div class="row justify-content-end g-2">
-                                        
+
                                         <div class="col-lg-1">
                                             <a href="{{ route('admin.product.listProduct') }}"
                                                 class="btn btn-primary w-100">Cancel</a>
@@ -132,13 +133,47 @@
 
                             </div>
                         </div>
-
-
-                    </form>
-                  
-
-
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Biến thể sản phẩm</h4>
+                            </div>
+                            <div class="card-body">
+                                @forelse ($product->variants as $variant)
+                                    <div class="row border p-3 mb-2 rounded bg-light">
+                                        <div class="col-md-3">
+                                            <label class="form-label">Màu sắc</label>
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    style="width: 20px; height: 20px; border-radius: 50%; background-color: {{ $variant->color->code }}; margin-right: 10px;">
+                                                </div>
+                                                <span>{{ $variant->color->name ?? 'Không xác định' }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Kích cỡ</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $variant->size->name ?? 'Không xác định' }}" disabled>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Giá</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ number_format($variant->price, 0, ',', '.') }} đ" disabled>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Số lượng</label>
+                                            <input type="text" class="form-control" value="{{ $variant->quantity }}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="alert alert-warning">Sản phẩm này chưa có biến thể.</div>
+                                @endforelse
+                            </div>
+                        </div>
                 </div>
+
+                </form>
+
             </div>
         </div>
     </div>
