@@ -132,4 +132,15 @@ class ProductService
             return false;
         }
     }
+
+
+    public function getProductsByCategory($categoryId)
+    {
+        return Product::with(['variants.color', 'variants.size'])
+            ->where('id_category', $categoryId)
+            ->where('status', 'active')
+            ->whereHas('variants', function ($query) {
+                $query->where('price', '>', 0);
+            });
+    }
 }

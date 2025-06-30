@@ -119,17 +119,7 @@
                                     </div>
 
                                 </div>
-                                {{-- <div class="p-3 bg-light mb-3 rounded">
-                                    <div class="row justify-content-end g-2">
-                                        <div class="col-lg-1">
-                                            <button type="submit" class="btn btn-primary w-100">Lưu</button>
-                                        </div>
-                                        <div class="col-lg-1">
-                                            <a href="{{ route('admin.product.listProduct') }}"
-                                                class="btn btn-primary w-100">Cancel</a>
-                                        </div>
-                                    </div>
-                                </div> --}}
+                               
 
 
 
@@ -184,6 +174,9 @@
                                                     name="variants[{{ $index }}][quantity]"
                                                     value="{{ old('variants.' . $index . '.quantity', $variant->quantity) }}">
                                             </div>
+                                            <div>
+                                                <a href="">xóa</a>
+                                            </div>
                                         </div>
                                         
                                     @empty
@@ -194,9 +187,9 @@
                                 
                             </div>
                             <div class="p-3 bg-light mb-3 rounded">
-                                <div class="row justify-content-end g-2">
+                                <div class="row justify-content-end g-3">
                                     <div class="col-lg-1">
-                                        <button type="button" class="btn btn-success mt-3" id="add-variant-btn">+ Thêm biến thể</button>
+                                        <button type="button" class="btn btn-success w-100" id="add-variant-btn">+ Thêm biến thể</button>
 
 
 

@@ -20,7 +20,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\ShippingRateController;
-
+use App\Http\Controllers\Client\HomeContrller;
 // =================================CLIENT=================================
 
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -72,19 +72,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/bulk-delete', [AdminProductController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('/bulk-restore', [AdminProductController::class, 'bulkRestore'])->name('bulkRestore');
     });
-    Route::prefix('product_variant')->name('product_variant.')->group(function () {
-        Route::get('/list', [ProductVariantController::class, 'index'])->name('index');
-        Route::get('/add', [ProductVariantController::class, 'create'])->name('create');
-        Route::post('/store', [ProductVariantController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [ProductVariantController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [ProductVariantController::class, 'update'])->name('update');
-        Route::get('/delete/{id}', [ProductVariantController::class, 'destroy'])->name('destroy');
-        Route::get('/trash', [ProductVariantController::class, 'trash'])->name('trash');
-        Route::get('/restore/{id}', [ProductVariantController::class, 'restore'])->name('restore');
-        Route::get('/force-delete/{id}', [ProductVariantController::class, 'forceDelete'])->name('forceDelete');
-        Route::post('/bulk-delete', [ProductVariantController::class, 'bulkDelete'])->name('bulkDelete');
-        Route::post('/bulk-restore', [ProductVariantController::class, 'bulkRestore'])->name('bulkRestore');
-    });
+    
 
 
     Route::prefix('/auth')->name('auth.')->group(function () {
@@ -210,9 +198,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //client
 Route::prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient');
+ 
+
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
+
+   
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
