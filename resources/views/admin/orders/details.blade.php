@@ -226,6 +226,8 @@
                                 @foreach (\App\Enums\OrderStatus::cases() as $case)
                                     @php
                                         $value = $case->value;
+                                         if ($value === 'canceled') continue;
+
                                         // Nếu đã ở trạng thái cao (shipping+) thì ẩn các trạng thái quay lại
                                         $shouldHide =
                                             in_array($currentStatus, $lockedStatuses) &&
