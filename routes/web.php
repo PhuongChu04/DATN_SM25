@@ -174,13 +174,18 @@ Route::prefix('listCategory')->name('listCategory.')->group(function () {
     Route::delete('/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
     Route::get('/search', [AdminCategoryController::class, 'search'])->name('searchCategory');
 });
-
+     //brand
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
+
     Route::get('/brands/create', [BrandController::class, 'create'])->name('brands.create');
     Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
+
     Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
+
+    Route::get('/brands/{id}/edit', [BrandController::class, 'edit'])->name('brands.edit');
+    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

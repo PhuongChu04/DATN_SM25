@@ -29,12 +29,32 @@ class BrandController extends Controller
 
         return redirect()->route('admin.brands.index')->with('success', 'Brand added successfully!');
     }
+    public function edit($id)
+    {
+        $brand = Brand::findOrFail($id);
+        return view('admin.brands.edit', compact('brand'));
+    }
+    public function update(Request $request, $id)
+    {
+        $brand = Brand::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:brands,name,' . $id,
+        ]);
+        $brand->update([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('admin.brands.index')
+            ->with('success', 'Cập nhật thương hiệu thành công.');
+    }
+
 
     public function destroy($id)
     {
         $brand = Brand::findOrFail($id);
         $brand->delete();
 
-        return redirect()->route('admin.brands.index')->with('success', 'Brand deleted successfully!');
+        return redirect()->route('admin.brands.index')->with('success', 'Xóa thương hiệu thành công');
     }
 }
