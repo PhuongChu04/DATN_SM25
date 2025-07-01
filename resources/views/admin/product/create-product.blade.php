@@ -116,8 +116,81 @@
                                     </div>
 
                                 </div>
-                                <div class="p-3 bg-light mb-3 rounded">
-                                    <div class="row justify-content-end g-2">
+
+                                {{--  --}}
+                                {{-- <h5>Biến thể sản phẩm</h5>
+                                <div id="variant-list">
+                                    <div class="row mb-2 variant-item">
+                                        <div class="col-md-3">
+                                            <label>Màu sắc</label>
+                                            <select name="variants[0][id_color]" class="form-control">
+                                                @foreach ($colors as $color)
+                                                    <option value="{{ $color->id }}">{{ $color->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Kích cỡ</label>
+                                            <select name="variants[0][id_size]" class="form-control">
+                                                @foreach ($sizes as $size)
+                                                    <option value="{{ $size->id }}">{{ $size->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Giá</label>
+                                            <input type="number" name="variants[0][price]" class="form-control">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Số lượng</label>
+                                            <input type="number" name="variants[0][quantity]" class="form-control">
+                                        </div>
+                                    </div>
+                                </div> --}}
+
+                                <h5 class="mt-4">Biến thể sản phẩm</h5>
+                                <div id="variant-list">
+                                    <div class="row variant-item mb-2">
+                                        <div class="col-md-3">
+                                            <label for="">Màu sắc</label>
+                                            <select name="variants[0][id_color]" class="form-control">
+                                                @foreach ($colors as $color)
+                                                    <option value="{{ $color->id }}">{{ $color->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="">Kích cỡ</label>
+                                            <select name="variants[0][id_size]" class="form-control">
+                                                @foreach ($sizes as $size)
+                                                    <option value="{{ $size->id }}">{{ $size->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="">Giá</label>
+                                            <input type="number" name="variants[0][price]" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="">Số lượng</label>
+                                            <input type="number" name="variants[0][quantity]" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="col-md-2 d-flex align-items-end">
+                                            <button type="button" class="btn btn-danger remove-variant">Xóa</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {{--  --}}
+                                <div class="p-4 bg-light mb-4 rounded">
+                                    <div class="row justify-content-end g-3">
+                                        <div class="col-lg-1">
+                                            <button type="button" class="btn btn-success w-100" id="add-variant">+ Thêm
+                                                biến thể</button>
+
+                                        </div>
                                         <div class="col-lg-1">
                                             <button type="submit" class="btn btn-primary w-100">Lưu</button>
                                         </div>
@@ -125,18 +198,66 @@
                                             <a href="{{ route('admin.product.listProduct') }}"
                                                 class="btn btn-primary w-100">Cancel</a>
                                         </div>
+
                                     </div>
                                 </div>
 
 
 
                             </div>
-                         </div>
-                    
+                        </div>
+
 
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script>
+            let variantIndex = 1;
+
+            document.getElementById('add-variant').addEventListener('click', function() {
+                const html = `
+        <div class="row variant-item mb-2">
+            <div class="col-md-3">
+                <label for="">Màu sắc</label>
+                <select name="variants[${variantIndex}][id_color]" class="form-control">
+                    @foreach ($colors as $color)
+                        <option value="{{ $color->id }}">{{ $color->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="">Kích cỡ</label>
+                <select name="variants[${variantIndex}][id_size]" class="form-control">
+                    @foreach ($sizes as $size)
+                        <option value="{{ $size->id }}">{{ $size->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="">Giá</label>
+                <input type="number" name="variants[${variantIndex}][price]" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <label for="">Số lượng</label>
+                <input type="number" name="variants[${variantIndex}][quantity]" class="form-control" required>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-danger remove-variant">Xóa</button>
+            </div>
+        </div>`;
+                document.getElementById('variant-list').insertAdjacentHTML('beforeend', html);
+                variantIndex++;
+            });
+
+            // Xóa dòng biến thể
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.classList.contains('remove-variant')) {
+                    e.target.closest('.variant-item').remove();
+                }
+            });
+        </script>
+    @endpush
 @endsection

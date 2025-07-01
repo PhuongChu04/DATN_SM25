@@ -56,9 +56,8 @@
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{ route('admin.product.listProduct') }}">List</a>
                         </li>
-                        {{-- <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="product-grid.html">Grid</a>
-                        </li>
+                        {{--  --}}
+                        {{-- 
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="product-details.html">Details</a>
                         </li>

@@ -59,7 +59,9 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
             // Tự động lưu vào storage/app/category và trả về path
             // dd($request->file('image'));
-            $data['image'] = Storage::put('public/category', $request->file('image'));
+            // $data['image'] = Storage::put('public/category', $request->file('image'));
+            $data['image'] = str_replace('public/', '', Storage::put('public/category', $request->file('image')));
+
         }
         $data['id_parent'] = $request->input('id_parent');
 
@@ -121,7 +123,9 @@ class CategoryController extends Controller
         $newImagePath = null; // Biến để lưu đường dẫn ảnh mới nếu có
 
         if ($request->hasFile('image')) { // Luôn dùng hasFile để kiểm tra file được upload
-            $newImagePath = Storage::put('public/category', $request->file('image')); // Lưu ảnh mới
+            // $newImagePath = Storage::put('public/category', $request->file('image')); // Lưu ảnh mới
+            $newImagePath = $request->file('image')->store('category', 'public');
+
             $data["image"] = $newImagePath; // Cập nhật đường dẫn ảnh MỚI vào mảng $data
         }
         $data['id_parent'] = $request->input('id_parent');
