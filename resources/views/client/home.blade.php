@@ -214,18 +214,18 @@
                     }'>
                         <div class="swiper-wrapper">
                             <!-- item 1 -->
-                            
+
                             @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
                                         <div>
                                             <a href="#" class="image img-style d-block">
-                                            <img src="{{ asset('storage/' . $category->image) }}"
-                                                alt="{{ $category->name }}">
-                                        </a>
+                                                <img src="{{ asset('storage/' . $category->image) }}"
+                                                    alt="{{ $category->name }}">
+                                            </a>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="cls-content text-center">
                                             <span class="link text-md fw-medium">{{ $category->name }}</span>
                                         </div>
@@ -373,6 +373,10 @@
                     "1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
                     }
                 }'>
+                    <button class="add-to-cart" data-id="1" data-name="Giày Nike Air" data-price="1200000"
+                        data-image="/images/nike.jpg" data-size="42">
+                        Thêm vào giỏ
+                    </button>
                     <div class="swiper-wrapper wow fadeInUp">
                         <!-- item 1 -->
                         <div class="swiper-slide">

@@ -3,8 +3,7 @@
         <div class="container">
             <div class="row wrapper-header align-items-center">
                 <div class="col-md-4 col-3 d-xl-none">
-                    <a href="#mobileMenu" class="mobile-menu" data-bs-toggle="offcanvas"
-                        aria-controls="mobileMenu">
+                    <a href="#mobileMenu" class="mobile-menu" data-bs-toggle="offcanvas" aria-controls="mobileMenu">
                         <i class="icon icon-categories1"></i>
                     </a>
                 </div>
@@ -20,11 +19,15 @@
                         </div>
                         <div class="tf-currencies">
                             <select class="image-select center style-default type-currencies">
-                                <option selected data-thumbnail="{{ asset('client/images/country/us.png') }}">United States (USD $)
+                                <option selected data-thumbnail="{{ asset('client/images/country/us.png') }}">United
+                                    States (USD $)
                                 </option>
-                                <option data-thumbnail="{{ asset('client/images/country/fr.png') }}">France (EUR €)</option>
-                                <option data-thumbnail="{{ asset('client/images/country/ger.png') }}">Germany (EUR €)</option>
-                                <option data-thumbnail="{{ asset('client/images/country/vn.png') }}">Vietnam (VND ₫)</option>
+                                <option data-thumbnail="{{ asset('client/images/country/fr.png') }}">France (EUR €)
+                                </option>
+                                <option data-thumbnail="{{ asset('client/images/country/ger.png') }}">Germany (EUR €)
+                                </option>
+                                <option data-thumbnail="{{ asset('client/images/country/vn.png') }}">Vietnam (VND ₫)
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -42,7 +45,7 @@
                             </a>
                         </li>
                         <li class="nav-account">
-                            <a href="{{ route('client.account') }}"  class="nav-icon-item">
+                            <a href="{{ route('client.account') }}" class="nav-icon-item">
                                 <i class="icon icon-user"></i>
                             </a>
                         </li>
@@ -53,11 +56,15 @@
                             </a>
                         </li>
                         <li class="nav-cart">
-                            <a href="#shoppingCart" data-bs-toggle="offcanvas" class="nav-icon-item">
-                                <i class="icon icon-cart"></i>
-                                <span class="count-box">0</span>
+                            <a href="#shoppingCart" data-bs-toggle="offcanvas" class="nav-icon-item position-relative">
+                                <i class="icon icon-cart fs-4"></i>
+                                <span
+                                    class="count-box position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    0
+                                </span>
                             </a>
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -111,23 +118,29 @@
                                 </div>
                                 <div class="demo-item">
                                     <a href="home-electronic.html" class="demo-image">
-                                        <img class="lazyload" data-src="{{ asset('client/images/demo/electronic.jpg') }}"
-                                            src="{{ asset('client/images/demo/electronic.jpg') }}" alt="home-electronic">
+                                        <img class="lazyload"
+                                            data-src="{{ asset('client/images/demo/electronic.jpg') }}"
+                                            src="{{ asset('client/images/demo/electronic.jpg') }}"
+                                            alt="home-electronic">
                                     </a>
                                     </a>
                                     <a href="home-electronic.html" class="demo-name link">Electronic</a>
                                 </div>
                                 <div class="demo-item">
                                     <a href="home-furniture.html" class="demo-image">
-                                        <img class="lazyload" data-src="{{ asset('client/images/demo/furniture.jpg') }}"
-                                            src="{{ asset('client/images/demo/furniture.jpg') }}" alt="home-furniture">
+                                        <img class="lazyload"
+                                            data-src="{{ asset('client/images/demo/furniture.jpg') }}"
+                                            src="{{ asset('client/images/demo/furniture.jpg') }}"
+                                            alt="home-furniture">
                                     </a>
                                     <a href="home-furniture.html" class="demo-name link">Furniture</a>
                                 </div>
                                 <div class="demo-item">
                                     <a href="home-fashion-women.html" class="demo-image">
-                                        <img class="lazyload" data-src="{{ asset('client/images/demo/women-fashion.jpg') }}"
-                                            src="{{ asset('client/images/demo/women-fashion.jpg') }}" alt="home-women-fashion">
+                                        <img class="lazyload"
+                                            data-src="{{ asset('client/images/demo/women-fashion.jpg') }}"
+                                            src="{{ asset('client/images/demo/women-fashion.jpg') }}"
+                                            alt="home-women-fashion">
                                         <div class="demo-label">
                                             <span>New</span>
                                             <span class="demo-hot">Hot</span>
@@ -138,44 +151,51 @@
                                 </div>
                                 <div class="demo-item">
                                     <a href="home-skincare.html" class="demo-image">
-                                        <img class="lazyload" data-src="{{ asset('client/images/demo/comestic.jpg') }}"
+                                        <img class="lazyload"
+                                            data-src="{{ asset('client/images/demo/comestic.jpg') }}"
                                             src="{{ asset('client/images/demo/comestic.jpg') }}" alt="home-comestic">
                                     </a>
                                     <a href="home-skincare.html" class="demo-name link">Skincare</a>
                                 </div>
                                 <div class="demo-item">
                                     <a href="home-bicycle.html" class="demo-image">
-                                        <img class="lazyload" data-src="{{ asset('client/images/demo/bicycle.jpg') }}"
+                                        <img class="lazyload"
+                                            data-src="{{ asset('client/images/demo/bicycle.jpg') }}"
                                             src="{{ asset('client/images/demo/bicycle.jpg') }}" alt="home-bicycle">
                                     </a>
                                     <a href="home-bicycle.html" class="demo-name link">Bicycle</a>
                                 </div>
                                 <div class="demo-item">
                                     <a href="home-phonecase.html" class="demo-image">
-                                        <img class="lazyload" data-src="{{ asset('client/images/demo/phonecase.jpg') }}"
-                                            src="{{ asset('client/images/demo/phonecase.jpg') }}" alt="home-phonecase">
+                                        <img class="lazyload"
+                                            data-src="{{ asset('client/images/demo/phonecase.jpg') }}"
+                                            src="{{ asset('client/images/demo/phonecase.jpg') }}"
+                                            alt="home-phonecase">
                                     </a>
                                     <a href="home-phonecase.html" class="demo-name link">Phone Case</a>
                                 </div>
                                 <div class="demo-item">
                                     <a href="home-pet-accessories.html" class="demo-image">
-                                        <img class="lazyload" data-src="{{ asset('client/images/demo/pet-accessories.jpg') }}"
-                                            src="{{ asset('client/images/demo/pet-accessories.jpg') }}" alt="home-pet">
+                                        <img class="lazyload"
+                                            data-src="{{ asset('client/images/demo/pet-accessories.jpg') }}"
+                                            src="{{ asset('client/images/demo/pet-accessories.jpg') }}"
+                                            alt="home-pet">
                                     </a>
                                     <a href="home-pet-accessories.html" class="demo-name link">Pet
                                         Accessories</a>
                                 </div>
                                 <div class="demo-item">
                                     <a href="home-sportwear.html" class="demo-image">
-                                        <img class="lazyload" data-src="{{ asset('client/images/demo/sportwear.jpg') }}"
-                                            src="{{ asset('client/images/demo/sportwear.jpg') }}" alt="home-sportwear">
+                                        <img class="lazyload"
+                                            data-src="{{ asset('client/images/demo/sportwear.jpg') }}"
+                                            src="{{ asset('client/images/demo/sportwear.jpg') }}"
+                                            alt="home-sportwear">
                                     </a>
                                     <a href="home-sportwear.html" class="demo-name link">Sportwear</a>
                                 </div>
                             </div>
                             <div class="view-all-demo text-center">
-                                <a href="#modalDemo" data-bs-toggle="modal"
-                                    class="tf-btn btn-primary animate-btn">
+                                <a href="#modalDemo" data-bs-toggle="modal" class="tf-btn btn-primary animate-btn">
                                     Explore all demos (22+)
                                     <i class="icon icon-arr-right"></i>
                                 </a>
@@ -199,12 +219,12 @@
                                                 class="menu-link-text link">Horizontal Filter</a></li>
                                         <li><a href="shop-default.html" class="menu-link-text link">Filter
                                                 Drawer</a></li>
-                                        <li><a href="shop-collection-list.html"
-                                                class="menu-link-text link">Collection List</a></li>
+                                        <li><a href="shop-collection-list.html" class="menu-link-text link">Collection
+                                                List</a></li>
                                         <li><a href="shop-sub-collection.html" class="menu-link-text link">Sub
                                                 Collection 1</a></li>
-                                        <li><a href="shop-sub-collection-02.html"
-                                                class="menu-link-text link">Sub Collection 2</a></li>
+                                        <li><a href="shop-sub-collection-02.html" class="menu-link-text link">Sub
+                                                Collection 2</a></li>
                                         <li><a href="shop-grid-3-columns.html" class="menu-link-text link">Grid
                                                 3 Columns </a></li>
                                         <li><a href="shop-default.html" class="menu-link-text link">Grid 4
@@ -218,13 +238,12 @@
                                     <ul class="menu-list">
                                         <li><a href="shop-default.html" class="menu-link-text link">Pagination
                                                 Links</a></li>
-                                        <li><a href="shop-load-more-button.html"
-                                                class="menu-link-text link">Load More Button</a></li>
-                                        <li><a href="shop-infinity-scroll.html"
-                                                class="menu-link-text link">Infinity Scroll <span
-                                                    class="demo-label">Hot</span></a></li>
-                                        <li><a href="shop-filter-sidebar.html"
-                                                class="menu-link-text link">Filter Sidebar</a></li>
+                                        <li><a href="shop-load-more-button.html" class="menu-link-text link">Load More
+                                                Button</a></li>
+                                        <li><a href="shop-infinity-scroll.html" class="menu-link-text link">Infinity
+                                                Scroll <span class="demo-label">Hot</span></a></li>
+                                        <li><a href="shop-filter-sidebar.html" class="menu-link-text link">Filter
+                                                Sidebar</a></li>
                                         <li><a href="shop-filter-hidden.html" class="menu-link-text link">Filter
                                                 Hidden</a></li>
                                     </ul>
@@ -244,7 +263,8 @@
                                 </div>
                             </div>
                             <div class="wrapper-sub-collection">
-                                <div dir="ltr" class="swiper tf-swiper hover-sw-nav wow fadeInUp" data-swiper='{
+                                <div dir="ltr" class="swiper tf-swiper hover-sw-nav wow fadeInUp"
+                                    data-swiper='{
                                         "slidesPerView": 2,
                                         "spaceBetween": 24,
                                         "speed": 800,
@@ -330,11 +350,9 @@
                                     <div
                                         class="d-flex d-xl-none sw-dot-default sw-pagination-cls-header justify-content-center">
                                     </div>
-                                    <div
-                                        class="d-none d-xl-flex swiper-button-next nav-swiper nav-next-cls-header">
+                                    <div class="d-none d-xl-flex swiper-button-next nav-swiper nav-next-cls-header">
                                     </div>
-                                    <div
-                                        class="d-none d-xl-flex swiper-button-prev nav-swiper nav-prev-cls-header">
+                                    <div class="d-none d-xl-flex swiper-button-prev nav-swiper nav-prev-cls-header">
                                     </div>
                                 </div>
                             </div>
@@ -366,13 +384,13 @@
                                 <div class="tab-content">
                                     <div class="tab-pane active show" id="productLayouts" role="tabpanel">
                                         <ul class="menu-list">
-                                            <li><a href="product-detail.html"
-                                                    class="menu-link-text link">Product Single</a></li>
+                                            <li><a href="product-detail.html" class="menu-link-text link">Product
+                                                    Single</a></li>
                                             <li><a href="product-right-thumbnail.html"
                                                     class="menu-link-text link">Product Right Thumbnail</a>
                                             </li>
-                                            <li><a href="product-detail.html"
-                                                    class="menu-link-text link">Product Left Thumbnail</a>
+                                            <li><a href="product-detail.html" class="menu-link-text link">Product Left
+                                                    Thumbnail</a>
                                             </li>
                                             <li><a href="product-bottom-thumbnail.html"
                                                     class="menu-link-text link">Product Bottom Thumbnail</a>
@@ -381,10 +399,10 @@
                                         <ul class="menu-list">
                                             <li><a href="product-grid.html" class="menu-link-text link">Product
                                                     Grid</a></li>
-                                            <li><a href="product-grid-02.html"
-                                                    class="menu-link-text link">Product Grid 2</a></li>
-                                            <li><a href="product-stacked.html"
-                                                    class="menu-link-text link">Product Stacked</a></li>
+                                            <li><a href="product-grid-02.html" class="menu-link-text link">Product
+                                                    Grid 2</a></li>
+                                            <li><a href="product-stacked.html" class="menu-link-text link">Product
+                                                    Stacked</a></li>
                                             <li><a href="product-drawer-sidebar.html"
                                                     class="menu-link-text link">Product Drawer Sidebar</a>
                                             </li>
@@ -392,15 +410,14 @@
                                     </div>
                                     <div class="tab-pane" id="productDetails" role="tabpanel">
                                         <ul class="menu-list">
-                                            <li><a href="product-inner-zoom.html"
-                                                    class="menu-link-text link">Product Inner Zoom</a></li>
+                                            <li><a href="product-inner-zoom.html" class="menu-link-text link">Product
+                                                    Inner Zoom</a></li>
                                             <li><a href="product-inner-circle-zoom.html"
                                                     class="menu-link-text link">Product Inner Circle
                                                     Zoom</a>
                                             </li>
-                                            <li><a href="product-no-zoom.html"
-                                                    class="menu-link-text link">Product No Zoom <span
-                                                        class="demo-label">Hot</span></a></li>
+                                            <li><a href="product-no-zoom.html" class="menu-link-text link">Product No
+                                                    Zoom <span class="demo-label">Hot</span></a></li>
                                             <li><a href="product-external-zoom.html"
                                                     class="menu-link-text link">Product External Zoom</a>
                                             </li>
@@ -413,8 +430,7 @@
                                                     3D/AR</a></li>
                                             <li><a href="product-group.html" class="menu-link-text link">Product
                                                     Group</a></li>
-                                            <li><a href="product-affiliate.html"
-                                                    class="menu-link-text link">Product
+                                            <li><a href="product-affiliate.html" class="menu-link-text link">Product
                                                     Affiliate</a></li>
                                             <li><a href="product-out-of-stock.html"
                                                     class="menu-link-text link">Product
@@ -440,8 +456,8 @@
                                             <li><a href="product-swatch-dropdown-color.html"
                                                     class="menu-link-text link">Swatch Dropdown Color</a>
                                             </li>
-                                            <li><a href="product-swatch-image.html"
-                                                    class="menu-link-text link">Swatch Image</a></li>
+                                            <li><a href="product-swatch-image.html" class="menu-link-text link">Swatch
+                                                    Image</a></li>
                                             <li><a href="product-swatch-image-square.html"
                                                     class="menu-link-text link">Swatch Image rectangle</a>
                                             </li>
@@ -469,7 +485,8 @@
                                 </div>
                             </div>
                             <div class="wrapper-sub-product">
-                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over" data-swiper='{
+                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over"
+                                    data-swiper='{
                                         "slidesPerView": 2,
                                         "spaceBetween": 24,
                                         "speed": 800,
@@ -653,8 +670,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div
-                                        class="sw-dot-default sw-pagination-product-header justify-content-center">
+                                    <div class="sw-dot-default sw-pagination-product-header justify-content-center">
                                     </div>
                                 </div>
                             </div>
@@ -729,7 +745,8 @@
                                 <ul class="list-recent-blog">
                                     <li class="item">
                                         <a href="blog-single.html" class="img-box">
-                                            <img src="{{ asset('client/images/blog/recent-1.jpg') }}" alt="img-recent-blog">
+                                            <img src="{{ asset('client/images/blog/recent-1.jpg') }}"
+                                                alt="img-recent-blog">
                                         </a>
                                         <div class="content">
                                             <a href="blog-single.html" class="fw-medium text-sm link title">The
@@ -740,7 +757,8 @@
                                     </li>
                                     <li class="item">
                                         <a href="blog-single.html" class="img-box">
-                                            <img src="{{ asset('client/images/blog/recent-2.jpg') }}" alt="img-recent-blog">
+                                            <img src="{{ asset('client/images/blog/recent-2.jpg') }}"
+                                                alt="img-recent-blog">
                                         </a>
                                         <div class="content">
                                             <a href="blog-single.html" class="fw-medium text-sm link title">10
@@ -751,7 +769,8 @@
                                     </li>
                                     <li class="item">
                                         <a href="blog-single.html" class="img-box">
-                                            <img src="{{ asset('client/images/blog/recent-3.jpg') }}" alt="img-recent-blog">
+                                            <img src="{{ asset('client/images/blog/recent-3.jpg') }}"
+                                                alt="img-recent-blog">
                                         </a>
                                         <div class="content">
                                             <a href="blog-single.html" class="fw-medium text-sm link title">How
