@@ -41,9 +41,15 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function listProducts()
     {
-        //
+
+        $products = Product::
+            latest('id')
+            ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
+            ->paginate(20);
+        // dd($products);
+        return view('client.shop', compact('products'));
     }
 
     /**
