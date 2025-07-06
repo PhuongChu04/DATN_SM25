@@ -133,7 +133,7 @@
         <!-- /Header -->
 
 
-        @yield('conten')
+        @yield('content')
        
         <!-- Footer -->
        @include('client.layout.footer')

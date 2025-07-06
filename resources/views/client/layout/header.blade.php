@@ -42,7 +42,7 @@
                             </a>
                         </li>
                         <li class="nav-account">
-                            <a href="#login" data-bs-toggle="offcanvas" class="nav-icon-item">
+                            <a href="{{ route('client.account') }}"  class="nav-icon-item">
                                 <i class="icon icon-user"></i>
                             </a>
                         </li>

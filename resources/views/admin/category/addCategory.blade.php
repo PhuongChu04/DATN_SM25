@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-xxl">
         <div class="">
-            <form action="{{ route('admin.listCategory.storeCategory') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('listCategory.storeCategory') }}" method="POST" enctype="multipart/form-data"
                 id="categoryForm">
                 @csrf
                 <div class="card">
@@ -72,7 +72,7 @@
                             <button type="submit" class="btn btn-outline-secondary w-100">Thêm</button>
                         </div>
                         <div class="col-lg-2">
-                            <a href="{{ route('admin.listCategory.list') }}" class="btn btn-primary w-100">Hủy</a>
+                            <a href="{{ route('listCategory.list') }}" class="btn btn-primary w-100">Hủy</a>
                         </div>
                     </div>
                 </div>
