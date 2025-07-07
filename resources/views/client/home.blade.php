@@ -232,103 +232,6 @@
                                     </div>
                                 </div>
                             @endforeach
-                            <!-- item 2 -->
-                            {{-- <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/earphone.png"
-                                        data-src="images/cls-categories/electronic/earphone.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html"
-                                        class="link text-md fw-medium">Earphones</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/cable.png"
-                                        data-src="images/cls-categories/electronic/cable.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html" class="link text-md fw-medium">Cables</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/smart-watch.png"
-                                        data-src="images/cls-categories/electronic/smart-watch.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html" class="link text-md fw-medium">Smart
-                                        Watches</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 5 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/charge.png"
-                                        data-src="images/cls-categories/electronic/charge.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html"
-                                        class="link text-md fw-medium">Chargers</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 6 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/screen-protector.png"
-                                        data-src="images/cls-categories/electronic/screen-protector.png"
-                                        alt="cls" class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html" class="link text-md fw-medium">Screen
-                                        Protectors</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 7 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/headphone.png"
-                                        data-src="images/cls-categories/electronic/headphone.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html"
-                                        class="link text-md fw-medium">Headphones</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 8 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/keyboard.png"
-                                        data-src="images/cls-categories/electronic/keyboard.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html"
-                                        class="link text-md fw-medium">Keyboards</a>
-                                </div>
-                            </div>
-                        </div> --}}
 
 
                         </div>
@@ -374,17 +277,15 @@
                     }
                 }'>
                     <div class="swiper-wrapper wow fadeInUp">
-                        <!-- item 1 -->
-                        <div class="swiper-slide">
+                        
+                        @foreach ($products as $product)
+                            <div class="swiper-slide">
                             <div class="card-product style-center">
                                 <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/airpod-pro-black.jpg"
-                                            src="images/products/electronic/airpod-pro-black.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/airpod-pro-pink.jpg"
-                                            src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product">
+                                    <a href="" class="product-img">
+                                        <img class="img-product lazyload" src="{{ asset('storage/' . $product->image_primary) }}" alt="image-product">
+                                        {{-- <img class="img-hover lazyload"
+                                            src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product"> --}}
                                     </a>
                                     <div class="on-sale-wrap flex-column type-2">
                                         <span class="on-sale-item">20% Off</span>
@@ -422,311 +323,29 @@
                                     </ul>
                                 </div>
                                 <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Apple
-                                        AirPods Pro 2 Wireless <br class="d-none d-xl-block"> Earbuds</a>
+                                    <a href="product-detail.html" class="name-product link fw-medium text-md">{{$product->name}}</a>
                                     <p class="price-wrap fw-medium">
-                                        <span class="price-new">$170.00</span>
-                                        <span class="price-old old-line">$190.00</span>
+                                        <span class="price-new">{{ number_format($product->variants->first()->price, 2) }}</span>
+                                        {{-- <span class="price-old old-line">$190.00</span> --}}
                                     </p>
                                     <ul class="list-color-product justify-content-center">
+                                         @foreach ($product->variants as $variant)
                                         <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
+                                            {{-- <span class="tooltip">Black</span> --}}
+                                            <span class="swatch-value" style="background-color: {{ $variant->color->code }}"></span>
                                             <img class=" lazyload"
                                                 data-src="images/products/electronic/airpod-pro-black.jpg"
                                                 src="images/products/electronic/airpod-pro-black.jpg" alt="image-product">
                                         </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Red</span>
-                                            <span class="swatch-value bg-red-2"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/airpod-pro-red.jpg"
-                                                src="images/products/electronic/airpod-pro-red.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Pink</span>
-                                            <span class="swatch-value bg-light-pink-10"></span>
-                                            <img class="lazyload"
-                                                data-src="images/products/electronic/airpod-pro-pink.jpg"
-                                                src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product">
-                                        </li>
+                                        @endforeach
+                                        
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <!-- item 2 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/earbuds2-black.jpg"
-                                            src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/earbuds2-black.jpg"
-                                            src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="on-sale-wrap"><span class="on-sale-item">20% Off</span></div>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Fit
-                                        Pro True Wireless Bluetooth Earbuds</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$155.00</span>
-                                        <span class=" price-old old-line">$170.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/earbuds2-black.jpg"
-                                                src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">White</span>
-                                            <span class="swatch-value bg-white"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/earbuds2-white.jpg"
-                                                src="images/products/electronic/earbuds2-white.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Pink</span>
-                                            <span class="swatch-value bg-light-pink-10"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/earbuds2-pink.jpg"
-                                                src="images/products/electronic/earbuds2-pink.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload" data-src="images/products/electronic/ss-s21.jpg"
-                                            src="images/products/electronic/ss-s21.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/ss-s21-grey.jpg"
-                                            src="images/products/electronic/ss-s21-grey.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Galaxy
-                                        S21 5G 128GB G991U <br class="d-none d-xl-block"> Unlocked Smartphone</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$399.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class=" lazyload" data-src="images/products/electronic/ss-s21.jpg"
-                                                src="images/products/electronic/ss-s21.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Grey</span>
-                                            <span class="swatch-value bg-light-grey"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/ss-s21-grey.jpg"
-                                                src="images/products/electronic/ss-s21-grey.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Orange</span>
-                                            <span class="swatch-value bg-light-orange"></span>
-                                            <img class=" lazyload" data-src="images/products/electronic/ss-s21-pink.jpg"
-                                                src="images/products/electronic/ss-s21-pink.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/ipad-pro11-mini.jpg"
-                                            src="images/products/electronic/ipad-pro11-mini.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/ipad-pro11-mini.jpg"
-                                            src="images/products/electronic/ipad-pro11-mini.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#shoppingCart" data-bs-toggle="offcanvas"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Add to Cart</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Apple
-                                        iPad Pro 11-inch Wi-Fi (2025, 4th generation)</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$499.00</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 5 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/ss-smart-watch.jpg"
-                                            src="images/products/electronic/ss-smart-watch.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/ss-smart-watch-white.jpg"
-                                            src="images/products/electronic/ss-smart-watch-white.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Samsung
-                                        Galaxy 5 LTE Smart <br class="d-none d-xl-block"> Watch</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$170.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Grey</span>
-                                            <span class="swatch-value bg-grey-6"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/ss-smart-watch.jpg"
-                                                src="images/products/electronic/ss-smart-watch.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">White</span>
-                                            <span class="swatch-value bg-white"></span>
-                                            <img class="lazyload"
-                                                data-src="images/products/electronic/ss-smart-watch-white.jpg"
-                                                src="images/products/electronic/ss-smart-watch-white.jpg"
-                                                alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark-5"></span>
-                                            <img class="lazyload"
-                                                data-src="images/products/electronic/ss-smart-watch-gray.jpg"
-                                                src="images/products/electronic/ss-smart-watch-gray.jpg"
-                                                alt="image-product">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                    </div>
+                    <div class="d-flex d-xl-none sw-dot-default sw-pagination-top-pick justify-content-center">
                     </div>
                     <div class="d-flex d-xl-none sw-dot-default sw-pagination-top-pick justify-content-center">
                     </div>

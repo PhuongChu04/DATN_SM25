@@ -34,4 +34,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class, 'id_product');
     }
+    public function searchProducts($keyword)
+    {
+        return Product::where('name', 'like', '%' . $keyword . '%')
+                      ->orWhere('description', 'like', '%' . $keyword . '%')
+                      ->get();
+    }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Client\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\OrderController;
@@ -71,6 +72,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/force-delete/{id}', [AdminProductController::class, 'forceDelete'])->name('forceDelete');
         Route::post('/bulk-delete', [AdminProductController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('/bulk-restore', [AdminProductController::class, 'bulkRestore'])->name('bulkRestore');
+        // phần search
+        Route::get('/search', [AdminProductController::class, 'search'])->name('search');
     });
     
 
@@ -162,7 +165,7 @@ Route::prefix('listCategory')->name('listCategory.')->group(function () {
     Route::delete('/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
     Route::get('/search', [AdminCategoryController::class, 'search'])->name('searchCategory');
 });
-     //brand
+//brand
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
