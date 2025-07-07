@@ -88,10 +88,7 @@
                                         class="btn btn-sm btn-outline-primary me-1" title="Xem chi tiết">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    <button onclick="showEditModal({{ $order->id }})"
-                                        class="btn btn-sm btn-outline-warning me-1" title="Edit">
-                                        <i class="bi bi-pencil-fill"></i>
-                                    </button>
+                                  
                                     <button onclick="showDeleteModal({{ $order->id }})"
                                         class="btn btn-sm btn-outline-danger" title="Delete">
                                         <i class="bi bi-trash-fill"></i>
