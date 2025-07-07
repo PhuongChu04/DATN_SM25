@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\Product;
 use App\Models\Size;
 use App\Services\ProductService;
 use App\Services\ProductVariantService;
@@ -22,14 +23,12 @@ class ProductController extends Controller
         $this->productService = $productService;
         $this->productVariantService = $productVariantService;
     }
-
-
     public function list()
     {
         $products = $this->productService->getAllProducts();
+
         return view('admin.product.list-product', compact('products'));
     }
-
     public function create()
     {
         $brands = Brand::all();
@@ -54,9 +53,7 @@ class ProductController extends Controller
             'variants.*.price' => 'required|numeric|min:0',
             'variants.*.quantity' => 'required|integer|min:0',
         ]);
-
         $product = $this->productService->createProduct($request->all());
-
         if ($product) {
             // Tạo biến thể
             foreach ($request->variants as $variant) {
@@ -78,45 +75,37 @@ class ProductController extends Controller
         $sizes = Size::all();
         return view('admin.product.edit-product', compact('product', 'brands', 'categories', 'colors', 'sizes'));
     }
-
-
-  
     public function postEdit(Request $request, $id)
-{
-    $request->validate([
-        'name' => 'required|string|max:250|unique:products,name,' . $id,
-        'description' => 'nullable|string',
-        'id_brand' => 'required|exists:brands,id',
-        'id_category' => 'required|exists:categories,id',
-        'image_primary' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-        'status' => 'in:active,inactive',
-    ]);
-
-    $product = $this->productService->updateProduct($request->all(), $id);
-    if ($product) {
-        // Cập nhật biến thể cũ
-        if ($request->has('variants')) {
-            foreach ($request->variants as $variantData) {
-                if (!empty($variantData['id'])) {
-                    $this->productVariantService->updateProductVariant($variantData, $variantData['id']);
+    {
+        $request->validate([
+            'name' => 'required|string|max:250|unique:products,name,' . $id,
+            'description' => 'nullable|string',
+            'id_brand' => 'required|exists:brands,id',
+            'id_category' => 'required|exists:categories,id',
+            'image_primary' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'status' => 'in:active,inactive',
+        ]);
+        $product = $this->productService->updateProduct($request->all(), $id);
+        if ($product) {
+            // Cập nhật biến thể cũ
+            if ($request->has('variants')) {
+                foreach ($request->variants as $variantData) {
+                    if (!empty($variantData['id'])) {
+                        $this->productVariantService->updateProductVariant($variantData, $variantData['id']);
+                    }
                 }
             }
-        }
-
-        // Thêm mới biến thể mới
-        if ($request->has('variants_new')) {
-            foreach ($request->variants_new as $variantNew) {
-                $variantNew['id_product'] = $id;
-                $this->productVariantService->createProductVariant($variantNew);
+            // Thêm mới biến thể mới
+            if ($request->has('variants_new')) {
+                foreach ($request->variants_new as $variantNew) {
+                    $variantNew['id_product'] = $id;
+                    $this->productVariantService->createProductVariant($variantNew);
+                }
             }
+            return redirect()->route('admin.product.listProduct')->with('success', 'Cập nhật sản phẩm thành công');
         }
-
-        return redirect()->route('admin.product.listProduct')->with('success', 'Cập nhật sản phẩm thành công');
+        return redirect()->route('admin.product.edit')->with('error', 'Cập nhật sản phẩm thất bại');
     }
-
-    return redirect()->route('admin.product.edit')->with('error', 'Cập nhật sản phẩm thất bại');
-}
-
     public function detail($id)
     {
         $product = $this->productService->getProductById($id);
@@ -178,11 +167,17 @@ class ProductController extends Controller
         }
         return redirect()->route('admin.product.trash')->with('error', 'Khôi phục hàng loạt thất bại');
     }
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('search');
 
-
-    //variant
-
-
-
-
+        $products = Product::when(!empty($searchTerm), function ($query) use ($searchTerm) {
+            return $query->where('name', 'like', '%' . $searchTerm . '%');
+        })->paginate(10);
+        $search = $searchTerm;
+        if ($request->ajax()) {
+            return view('admin.product.components.product-table', compact('products'))->render();
+        }
+        return view('admin.product.list-product', compact('products', 'search'));
+    }
 }

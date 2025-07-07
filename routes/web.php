@@ -14,6 +14,7 @@ use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Client\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\OrderController;
@@ -71,6 +72,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/force-delete/{id}', [AdminProductController::class, 'forceDelete'])->name('forceDelete');
         Route::post('/bulk-delete', [AdminProductController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('/bulk-restore', [AdminProductController::class, 'bulkRestore'])->name('bulkRestore');
+        // phần search
+        Route::get('/search', [AdminProductController::class, 'search'])->name('search');
     });
     Route::prefix('product_variant')->name('product_variant.')->group(function () {
         Route::get('/list', [ProductVariantController::class, 'index'])->name('index');
@@ -174,7 +177,7 @@ Route::prefix('listCategory')->name('listCategory.')->group(function () {
     Route::delete('/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
     Route::get('/search', [AdminCategoryController::class, 'search'])->name('searchCategory');
 });
-     //brand
+//brand
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
@@ -213,6 +216,8 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
+    Route::get('/view-all', [ProductController::class, 'viewAll'])->name('viewAll');
+
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
