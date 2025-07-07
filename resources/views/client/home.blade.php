@@ -377,6 +377,47 @@
                         data-image="/images/nike.jpg" data-size="42">
                         Thêm vào giỏ
                     </button>
+                    <div class="col mb-5">
+    <div class="card h-100 product-card"
+        data-product-id="123"
+        data-product-name="Giày Nike Air Force 1"
+        data-product-price="2500000"
+        data-product-image="/images/nike-af1.jpg">
+        
+        <!-- Hình ảnh sản phẩm -->
+        <img class="card-img-top" src="/images/nike-af1.jpg" alt="Giày Nike Air Force 1" />
+        
+        <!-- Chi tiết sản phẩm -->
+        <div class="card-body p-4">
+            <div class="text-center">
+                <h5 class="fw-bolder">Giày Nike Air Force 1</h5>
+                2.500.000₫
+            </div>
+        </div>
+        
+        <!-- Nút hành động -->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center">
+                <!-- NÚT QUAN TRỌNG -->
+                <button class="btn btn-outline-dark mt-auto add-to-cart-btn">Thêm vào giỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="product-card" 
+     data-product-id="1" 
+     data-product-name="Giày Nike Air Force 1" 
+     data-product-price="2500000" 
+     data-product-image="/images/giay_nike.jpg">  <!-- Thay bằng đường dẫn ảnh thật của bạn -->
+
+    <!-- Các thành phần hiển thị khác của sản phẩm (tên, giá...) -->
+    <h3 class="product-title">Giày Nike Air Force 1</h3>
+    <p class="product-price">2.500.000₫</p>
+    
+    <!-- NÚT THÊM VÀO GIỎ PHẢI CÓ CLASS NÀY -->
+    <button class="add-to-cart-btn">Thêm vào giỏ</button>
+
+</div>
                     <div class="swiper-wrapper wow fadeInUp">
                         <!-- item 1 -->
                         <div class="swiper-slide">

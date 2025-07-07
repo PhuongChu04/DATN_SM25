@@ -9,6 +9,7 @@ use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
@@ -43,6 +44,7 @@ use Faker\Guesser\Name;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
+    
 
     // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
     // Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
@@ -198,6 +200,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //client
 Route::prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient');
+    Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
  
 
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');

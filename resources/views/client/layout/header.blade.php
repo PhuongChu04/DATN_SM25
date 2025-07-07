@@ -57,7 +57,8 @@
                         </li>
                         <li class="nav-cart">
                             <a href="#shoppingCart" data-bs-toggle="offcanvas" class="nav-icon-item position-relative">
-                                <i class="icon icon-cart fs-4"></i>
+                                <i class="icon icon-cart fs-4 bi bi-cart-fill"></i>
+                                <!-- Tôi thêm class bi-cart-fill để có icon -->
                                 <span
                                     class="count-box position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     0
