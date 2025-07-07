@@ -171,9 +171,16 @@ class ProductController extends Controller
     {
         $searchTerm = $request->input('search');
 
-        $products = Product::when(!empty($searchTerm), function ($query) use ($searchTerm) {
-            return $query->where('name', 'like', '%' . $searchTerm . '%');
-        })->paginate(10);
+        $products = Product::with(['brand', 'category'])
+            ->when(!empty($searchTerm), function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhereHas('brand', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', '%' . $searchTerm . '%');
+                    })
+                    ->orWhereHas('category', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', '%' . $searchTerm . '%');
+                    });
+            })->paginate(10);
         $search = $searchTerm;
         if ($request->ajax()) {
             return view('admin.product.components.product-table', compact('products'))->render();
