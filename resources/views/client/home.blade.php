@@ -219,10 +219,6 @@
                     }'>
                         <div class="swiper-wrapper">
                             <!-- item 1 -->
-<<<<<<< HEAD
-
-=======
->>>>>>> 17daf26973bb774e34b26b79fb0c7c9762bbe5cf
                             @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
@@ -284,51 +280,6 @@
                     "1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
                     }
                 }'>
-                    <button class="add-to-cart" data-id="1" data-name="Giày Nike Air" data-price="1200000"
-                        data-image="/images/nike.jpg" data-size="42">
-                        Thêm vào giỏ
-                    </button>
-                    <div class="col mb-5">
-    <div class="card h-100 product-card"
-        data-product-id="123"
-        data-product-name="Giày Nike Air Force 1"
-        data-product-price="2500000"
-        data-product-image="/images/nike-af1.jpg">
-        
-        <!-- Hình ảnh sản phẩm -->
-        <img class="card-img-top" src="/images/nike-af1.jpg" alt="Giày Nike Air Force 1" />
-        
-        <!-- Chi tiết sản phẩm -->
-        <div class="card-body p-4">
-            <div class="text-center">
-                <h5 class="fw-bolder">Giày Nike Air Force 1</h5>
-                2.500.000₫
-            </div>
-        </div>
-        
-        <!-- Nút hành động -->
-        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-            <div class="text-center">
-                <!-- NÚT QUAN TRỌNG -->
-                <button class="btn btn-outline-dark mt-auto add-to-cart-btn">Thêm vào giỏ</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="product-card" 
-     data-product-id="1" 
-     data-product-name="Giày Nike Air Force 1" 
-     data-product-price="2500000" 
-     data-product-image="/images/giay_nike.jpg">  <!-- Thay bằng đường dẫn ảnh thật của bạn -->
-
-    <!-- Các thành phần hiển thị khác của sản phẩm (tên, giá...) -->
-    <h3 class="product-title">Giày Nike Air Force 1</h3>
-    <p class="product-price">2.500.000₫</p>
-    
-    <!-- NÚT THÊM VÀO GIỎ PHẢI CÓ CLASS NÀY -->
-    <button class="add-to-cart-btn">Thêm vào giỏ</button>
-
-</div>
                     <div class="swiper-wrapper wow fadeInUp">
                         <!-- Sản phẩm bán chạy -->
                         @foreach ($products as $item)
@@ -343,6 +294,25 @@
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
                                         </a>
+                                        <!-- Add to Cart Button on Hover -->
+                                        <div
+                                            class="add-to-cart-hover position-absolute top-80 start-50 translate-middle d-none">
+                                            {{-- Bọc nút bấm trong một form --}}
+                                            <form action="{{ route('client.cart.add') }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                {{-- Gửi ID của sản phẩm đi một cách ẩn --}}
+                                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+
+                                                {{-- Thêm các input ẩn khác nếu cần, ví dụ số lượng mặc định là 1 --}}
+                                                <input type="hidden" name="quantity" value="1">
+
+                                                {{-- Nút này bây giờ sẽ submit form --}}
+                                                <button type="submit" class="btn btn-dark btn-sm px-4 py-2">
+                                                    ADD TO CART
+                                                </button>
+                                            </form>
+                                        </div>
                                         <div class="on-sale-wrap flex-column type-2">
                                             <span class="on-sale-item">20% Off</span>
                                             <span class="on-sale-item trending">Trending</span>
@@ -1216,8 +1186,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric1.jpg"
-                                            data-src="images/blog/blog-eletric1.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric1.jpg" data-src="images/blog/blog-eletric1.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Electric</span>
@@ -1249,8 +1219,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric2.jpg"
-                                            data-src="images/blog/blog-eletric2.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric2.jpg" data-src="images/blog/blog-eletric2.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Trends</span>
@@ -1281,8 +1251,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric3.jpg"
-                                            data-src="images/blog/blog-eletric3.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric3.jpg" data-src="images/blog/blog-eletric3.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Innovation</span>
@@ -1313,8 +1283,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric1.jpg"
-                                            data-src="images/blog/blog-eletric1.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric1.jpg" data-src="images/blog/blog-eletric1.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Electric</span>
@@ -1350,7 +1320,7 @@
         </div>
     </section>
     <!-- /Latest Tip -->
-            {{-- </div>
+    {{-- </div>
             <div class="d-flex d-xl-none sw-dot-default sw-pagination-brand justify-content-center"></div>
         </div>
     </div> --}}
@@ -1424,3 +1394,19 @@
     </div>
     <!-- /Icon box -->
 @endsection
+
+<style>
+    .card-product-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-product-wrapper:hover .add-to-cart-hover {
+        display: block !important;
+        z-index: 10;
+    }
+
+    .top-80 {
+        top: 90% !important;
+    }
+</style>

@@ -74,7 +74,6 @@
             <nav class="box-navigation text-center">
                 <ul class="box-nav-menu">
                     <li class="menu-item">
-<<<<<<< HEAD
                         <a href="#" class="item-link">Home<i class="icon icon-arr-down"></i></a>
                         <div class="sub-menu mega-menu mega-home">
                             <div class="box-search">
@@ -674,21 +673,11 @@
                                 </div>
                             </div>
                         </div>
-=======
-                        <a href="{{route('client.home')}}" class="item-link">Home</a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="{{route('client.listProducts')}}" class="item-link">Shop</a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#" class="item-link">Products</a>
->>>>>>> 17daf26973bb774e34b26b79fb0c7c9762bbe5cf
                     </li>
                     <li class="menu-item position-relative">
                         <a href="#" class="item-link">Pages</a>
                     </li>
                     <li class="menu-item position-relative">
-<<<<<<< HEAD
                         <a href="#" class="item-link">Blog<i class="icon icon-arr-down"></i></a>
                         <div class="sub-menu sub-menu-style-3">
                             <ul class="menu-list mt-0">
@@ -748,9 +737,6 @@
                                 </ul>
                             </div>
                         </div>
-=======
-                        <a href="#" class="item-link">Blog</a>
->>>>>>> 17daf26973bb774e34b26b79fb0c7c9762bbe5cf
 
                     </li>
                     <li class="menu-item"><a

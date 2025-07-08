@@ -55,4 +55,23 @@ class CheckoutController extends Controller
         // Sau khi xử lý xong, chuyển hướng đến trang cảm ơn
         return redirect()->route('thankyou.page')->with('success', 'Đặt hàng thành công!');
     }
+    public function add(Request $request, $id)
+{
+    $product = Product::findOrFail($id);
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        $cart[$id]['quantity'] += 1;
+    } else {
+        $cart[$id] = [
+            'name' => $product->name,
+            'price' => $product->firstVariant->price,
+            'image' => $product->image_primary,
+            'quantity' => 1
+        ];
+    }
+
+    session()->put('cart', $cart);
+    return response()->json(['success' => true, 'cart' => $cart]);
+}
 }
