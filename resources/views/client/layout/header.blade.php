@@ -11,6 +11,7 @@
                     <div class="header-language">
                         <div class="tf-languages">
                             <select class="image-select center style-default type-languages">
+                                <option>Tiếng Việt</option>
                                 <option>English</option>
                                 <option>العربية</option>
                                 <option>简体中文</option>
@@ -19,15 +20,11 @@
                         </div>
                         <div class="tf-currencies">
                             <select class="image-select center style-default type-currencies">
-                                <option selected data-thumbnail="{{ asset('client/images/country/us.png') }}">United
-                                    States (USD $)
+                                <option selected data-thumbnail="{{ asset('client/images/country/vn.png') }}">Việt Nam (VNĐ ₫)
                                 </option>
-                                <option data-thumbnail="{{ asset('client/images/country/fr.png') }}">France (EUR €)
-                                </option>
-                                <option data-thumbnail="{{ asset('client/images/country/ger.png') }}">Germany (EUR €)
-                                </option>
-                                <option data-thumbnail="{{ asset('client/images/country/vn.png') }}">Vietnam (VND ₫)
-                                </option>
+                                <option data-thumbnail="{{ asset('client/images/country/fr.png') }}">United States (USD $)</option>
+                                <option data-thumbnail="{{ asset('client/images/country/fr.png') }}">France (EUR €)</option>
+                                <option data-thumbnail="{{ asset('client/images/country/ger.png') }}">Germany (EUR €)</option>
                             </select>
                         </div>
                     </div>
@@ -77,6 +74,7 @@
             <nav class="box-navigation text-center">
                 <ul class="box-nav-menu">
                     <li class="menu-item">
+<<<<<<< HEAD
                         <a href="#" class="item-link">Home<i class="icon icon-arr-down"></i></a>
                         <div class="sub-menu mega-menu mega-home">
                             <div class="box-search">
@@ -676,54 +674,21 @@
                                 </div>
                             </div>
                         </div>
+=======
+                        <a href="{{route('client.home')}}" class="item-link">Home</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{route('client.listProducts')}}" class="item-link">Shop</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="item-link">Products</a>
+>>>>>>> 17daf26973bb774e34b26b79fb0c7c9762bbe5cf
                     </li>
                     <li class="menu-item position-relative">
-                        <a href="#" class="item-link">Pages<i class="icon icon-arr-down"></i></a>
-                        <div class="sub-menu sub-menu-style-2">
-                            <ul class="menu-list">
-                                <li><a href="about-us.html" class="menu-link-text link">About</a></li>
-                                <li><a href="contact-us.html" class="menu-link-text link">Contact</a></li>
-                                <li><a href="store-location.html" class="menu-link-text link">Store
-                                        location</a></li>
-                                <li><a href="account-page.html" class="menu-link-text link">My account</a>
-                                </li>
-                                <li><a href="faq.html" class="menu-link-text link">FAQ</a></li>
-                                <li><a href="view-cart.html" class="menu-link-text link">View cart</a></li>
-                                <li><a href="404.html" class="menu-link-text link">404</a></li>
-                                <li><a href="coming-soon.html" class="menu-link-text link">Coming Soon!</a>
-                                </li>
-                            </ul>
-                            <ul class="menu-list">
-                                <li><a href="index.html" class="menu-link-text link">Newsletter Popup 1</a></li>
-                                <li><a href="newsletter-popup-02.html" class="menu-link-text link">Newsletter
-                                        Popup 2</a></li>
-                                <li><a href="newsletter-popup-03.html" class="menu-link-text link">Newsletter
-                                        Popup 3</a></li>
-                                <li><a href="cart-empty.html" class="menu-link-text link">Cart drawer empty</a>
-                                </li>
-                                <li><a href="cart-drawer-v2.html" class="menu-link-text link">Cart drawer
-                                        v2</a></li>
-                                <li><a href="before-you-leave.html" class="menu-link-text link">Before you
-                                        leave</a></li>
-                                <li><a href="cookies.html" class="menu-link-text link">Cookies</a></li>
-                                <li><a href="home-fashion-02.html" class="menu-link-text link">Sub navtab
-                                        products</a></li>
-                            </ul>
-                            <div class="banner hover-img">
-                                <a href="blog-single.html" class="img-style">
-                                    <img src="{{ asset('client/images/blog/banner-header.jpg') }}" alt="banner">
-                                </a>
-                                <div class="content">
-                                    <div class="title">
-                                        Unveiling the latest gear
-                                    </div>
-                                    <a href="blog-single.html" class="box-icon animate-btn"><i
-                                            class="icon icon-arrow-top-left"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="#" class="item-link">Pages</a>
                     </li>
                     <li class="menu-item position-relative">
+<<<<<<< HEAD
                         <a href="#" class="item-link">Blog<i class="icon icon-arr-down"></i></a>
                         <div class="sub-menu sub-menu-style-3">
                             <ul class="menu-list mt-0">
@@ -783,6 +748,9 @@
                                 </ul>
                             </div>
                         </div>
+=======
+                        <a href="#" class="item-link">Blog</a>
+>>>>>>> 17daf26973bb774e34b26b79fb0c7c9762bbe5cf
 
                     </li>
                     <li class="menu-item"><a

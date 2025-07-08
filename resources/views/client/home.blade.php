@@ -9,8 +9,8 @@
                 <div class="swiper-slide">
                     <div class="slider-wrap bg-type-4">
                         <div class="image">
-                            <img src="images/slider/electronic/slider-electronic-1.png"
-                                data-src="images/slider/electronic/slider-electronic-1.png" alt="slider" class="lazyload">
+                            <img src="images/slider/electronic/giày.jpng" data-src="images/slider/electronic/giày.jpg"
+                                alt="slider" class="lazyload">
                         </div>
                         <div class="box-content">
                             <div class="container">
@@ -19,15 +19,16 @@
                                         <div class="content-slider">
                                             <div class="box-title-slider">
                                                 <p class="sub text-md fw-medium fade-item fade-item-1 text-dark-3">
-                                                    APPLE WATCHES COLLECTION
+                                                    Giày thể thao
                                                 </p>
                                                 <h2 class="heading fw-medium fade-item fade-item-2 text-dark-3">
-                                                    Sale up to <br> 15% Off
+                                                    Giảm tới <br> 15%
                                                 </h2>
                                             </div>
                                             <div class="box-btn-slider fade-item fade-item-3">
-                                                <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
-                                                    Shop Now
+                                                <a href="{{ route('client.listProducts') }}"
+                                                    class="tf-btn btn-dark2 animate-btn">
+                                                    Mua ngay
                                                     <i class="icon icon-arr-right"></i>
                                                 </a>
                                             </div>
@@ -41,8 +42,8 @@
                 <div class="swiper-slide reverse-slide">
                     <div class="slider-wrap bg-type-5">
                         <div class="image">
-                            <img src="images/slider/electronic/slider-electronic-2.png"
-                                data-src="images/slider/electronic/slider-electronic-2.png" alt="slider" class="lazyload">
+                            <img src="images/slider/electronic/giày 1.jpg" data-src="images/slider/electronic/giày 1.jpg"
+                                alt="slider" class="lazyload">
                         </div>
                         <div class="box-content">
                             <div class="container">
@@ -51,16 +52,17 @@
                                         <div class="content-slider">
                                             <div class="box-title-slider">
                                                 <p class="sub text-md fw-medium fade-item fade-item-1 text-dark-3">
-                                                    APPLE MAGSAFE CHARGER
+                                                    Giày adidas
                                                 </p>
                                                 <h2 class="heading fw-medium fade-item fade-item-2 text-dark-3">
-                                                    Next-Level <br> Tech
+                                                    Thương hiệu <br> đẳng cấp
                                                 </h2>
 
                                             </div>
                                             <div class="box-btn-slider fade-item fade-item-3">
-                                                <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
-                                                    Shop Now
+                                                <a href="{{ route('client.listProducts') }}"
+                                                    class="tf-btn btn-dark2 animate-btn">
+                                                    Mua ngay
                                                     <i class="icon icon-arr-right"></i>
                                                 </a>
                                             </div>
@@ -74,8 +76,8 @@
                 <div class="swiper-slide">
                     <div class="slider-wrap bg-type-6 type-image-right">
                         <div class="image">
-                            <img src="images/slider/electronic/slider-electronic-3.png"
-                                data-src="images/slider/electronic/slider-electronic-3.png" alt="slider" class="lazyload">
+                            <img src="images/slider/electronic/giày 2.jpg" data-src="images/slider/electronic/giày 2.jpg"
+                                alt="slider" class="lazyload">
                         </div>
                         <div class="box-content">
                             <div class="container">
@@ -84,16 +86,17 @@
                                         <div class="content-slider">
                                             <div class="box-title-slider">
                                                 <p class="sub text-md fw-medium fade-item fade-item-1 text-dark-3">
-                                                    ON-EAR HEADPHONES
+                                                    Giày Chất – Cuộc Sống Chất
                                                 </p>
                                                 <h2 class="heading fw-medium fade-item fade-item-2 text-dark-3">
-                                                    Power Up <br> Your Life
+                                                    Tiếp thêm năng lượng <br> Cho bước chạy của bạn
                                                 </h2>
 
                                             </div>
                                             <div class="box-btn-slider fade-item fade-item-3">
-                                                <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
-                                                    Shop Now
+                                                <a href="{{ route('client.listProducts') }}"
+                                                    class="tf-btn btn-dark2 animate-btn">
+                                                    Mua ngay
                                                     <i class="icon icon-arr-right"></i>
                                                 </a>
                                             </div>
@@ -117,68 +120,70 @@
     <div class="marquee-sale bg-light-green-2">
         <div class="marquee-wrapper">
             <div class="initial-child-container">
+                <!-- 1 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
+                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">New Arrival</p>
+                    <p class="display-xs fw-medium">Hàng Mới Về</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 2 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
+                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">New Arrival</p>
+                    <p class="display-xs fw-medium">Hàng Mới Về</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 3 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
+                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">New Arrival</p>
+                    <p class="display-xs fw-medium">Hàng Mới Về</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 4 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
+                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">New Arrival</p>
+                    <p class="display-xs fw-medium">Hàng Mới Về</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 5 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
+                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">New Arrival</p>
+                    <p class="display-xs fw-medium">Hàng Mới Về</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 6 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
+                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">New Arrival</p>
+                    <p class="display-xs fw-medium">Hàng Mới Về</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 7 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
+                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">New Arrival</p>
+                    <p class="display-xs fw-medium">Hàng Mới Về</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
+
             </div>
         </div>
     </div>
@@ -214,7 +219,10 @@
                     }'>
                         <div class="swiper-wrapper">
                             <!-- item 1 -->
+<<<<<<< HEAD
 
+=======
+>>>>>>> 17daf26973bb774e34b26b79fb0c7c9762bbe5cf
                             @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
@@ -232,103 +240,6 @@
                                     </div>
                                 </div>
                             @endforeach
-                            <!-- item 2 -->
-                            {{-- <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/earphone.png"
-                                        data-src="images/cls-categories/electronic/earphone.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html"
-                                        class="link text-md fw-medium">Earphones</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/cable.png"
-                                        data-src="images/cls-categories/electronic/cable.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html" class="link text-md fw-medium">Cables</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/smart-watch.png"
-                                        data-src="images/cls-categories/electronic/smart-watch.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html" class="link text-md fw-medium">Smart
-                                        Watches</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 5 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/charge.png"
-                                        data-src="images/cls-categories/electronic/charge.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html"
-                                        class="link text-md fw-medium">Chargers</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 6 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/screen-protector.png"
-                                        data-src="images/cls-categories/electronic/screen-protector.png"
-                                        alt="cls" class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html" class="link text-md fw-medium">Screen
-                                        Protectors</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 7 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/headphone.png"
-                                        data-src="images/cls-categories/electronic/headphone.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html"
-                                        class="link text-md fw-medium">Headphones</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 8 -->
-                        <div class="swiper-slide">
-                            <div class="wg-cls style-square hover-img">
-                                <a href="shop-sub-collection.html" class="image img-style d-block">
-                                    <img src="images/cls-categories/electronic/keyboard.png"
-                                        data-src="images/cls-categories/electronic/keyboard.png" alt="cls"
-                                        class="lazyload">
-                                </a>
-                                <div class="cls-content text-center">
-                                    <a href="shop-sub-collection.html"
-                                        class="link text-md fw-medium">Keyboards</a>
-                                </div>
-                            </div>
-                        </div> --}}
 
 
                         </div>
@@ -347,9 +258,9 @@
         <div class="container">
             <div class="flat-title style-between align-items-end wow fadeInUp">
                 <div class="box-title">
-                    <h4 class="title">Top Picks You’ll Love</h4>
-                    <p class="desc text-main text-md">Explore our most popular pieces that customers can't get
-                        enough of</p>
+                    <h4 class="title">Top sản phẩm mới nhất</h4>
+                    <p class="desc text-main text-md">Khám phá những sản phẩm phổ biến nhất của chúng tôi mà khách hàng
+                        không thể có đủ</p>
                 </div>
                 <a href="shop-default.html" class="btn-underline">View all</a>
             </div>
@@ -419,359 +330,77 @@
 
 </div>
                     <div class="swiper-wrapper wow fadeInUp">
-                        <!-- item 1 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/airpod-pro-black.jpg"
-                                            src="images/products/electronic/airpod-pro-black.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/airpod-pro-pink.jpg"
-                                            src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product">
-                                    </a>
-                                    <div class="on-sale-wrap flex-column type-2">
-                                        <span class="on-sale-item">20% Off</span>
-                                        <span class="on-sale-item trending">Trending</span>
+                        <!-- Sản phẩm bán chạy -->
+                        @foreach ($products as $item)
+                            <div class="swiper-slide">
+                                <div class="card-product style-center">
+                                    <div class="card-product-wrapper">
+                                        <a href="product-detail.html" class="product-img">
+                                            <img class="img-product lazyload"
+                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                            <img class="img-hover lazyload"
+                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                        </a>
+                                        <div class="on-sale-wrap flex-column type-2">
+                                            <span class="on-sale-item">20% Off</span>
+                                            <span class="on-sale-item trending">Trending</span>
+                                        </div>
+                                        <ul class="list-product-btn">
+                                            <li>
+                                                <a href="#quickAdd" data-bs-toggle="modal"
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                    <span class="icon icon-cart2"></span>
+                                                    <span class="tooltip">Quick Add</span>
+                                                </a>
+                                            </li>
+                                            <li class="wishlist">
+                                                <a href="javascript:void(0);"
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                    <span class="icon icon-heart2"></span>
+                                                    <span class="tooltip">Add to Wishlist</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#quickView" data-bs-toggle="modal"
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon quickview">
+                                                    <span class="icon icon-view"></span>
+                                                    <span class="tooltip">Quick View</span>
+                                                </a>
+                                            </li>
+                                            <li class="compare">
+                                                <a href="#compare" data-bs-toggle="modal"
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                    <span class="icon icon-compare"></span>
+                                                    <span class="tooltip">Add to Compare</span>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Apple
-                                        AirPods Pro 2 Wireless <br class="d-none d-xl-block"> Earbuds</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$170.00</span>
-                                        <span class="price-old old-line">$190.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/airpod-pro-black.jpg"
-                                                src="images/products/electronic/airpod-pro-black.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Red</span>
-                                            <span class="swatch-value bg-red-2"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/airpod-pro-red.jpg"
-                                                src="images/products/electronic/airpod-pro-red.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Pink</span>
-                                            <span class="swatch-value bg-light-pink-10"></span>
-                                            <img class="lazyload"
-                                                data-src="images/products/electronic/airpod-pro-pink.jpg"
-                                                src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
+                                    <div class="card-product-info text-center">
+                                        <a href="product-detail.html"
+                                            class="name-product link fw-medium text-md">{{ $item->name }} </a>
+                                        <p class="price-wrap fw-medium">
+                                            <span class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}₫</span>
+                                            <span class="price-old old-line">190.00₫</span>
+                                        </p>
+                                        <ul class="list-color-product justify-content-center">
+                                            @foreach ($item->colors as $value)
+                                                <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                    <span class="tooltip">{{ $value->name }}</span>
+                                                    <span class="swatch-value"
+                                                        style="background-color: {{ $value->code }}"></span>
+
+                                                </li>
+                                            @endforeach
+
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- item 2 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/earbuds2-black.jpg"
-                                            src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/earbuds2-black.jpg"
-                                            src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="on-sale-wrap"><span class="on-sale-item">20% Off</span></div>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Fit
-                                        Pro True Wireless Bluetooth Earbuds</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$155.00</span>
-                                        <span class=" price-old old-line">$170.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/earbuds2-black.jpg"
-                                                src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">White</span>
-                                            <span class="swatch-value bg-white"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/earbuds2-white.jpg"
-                                                src="images/products/electronic/earbuds2-white.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Pink</span>
-                                            <span class="swatch-value bg-light-pink-10"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/earbuds2-pink.jpg"
-                                                src="images/products/electronic/earbuds2-pink.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload" data-src="images/products/electronic/ss-s21.jpg"
-                                            src="images/products/electronic/ss-s21.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/ss-s21-grey.jpg"
-                                            src="images/products/electronic/ss-s21-grey.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Galaxy
-                                        S21 5G 128GB G991U <br class="d-none d-xl-block"> Unlocked Smartphone</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$399.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class=" lazyload" data-src="images/products/electronic/ss-s21.jpg"
-                                                src="images/products/electronic/ss-s21.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Grey</span>
-                                            <span class="swatch-value bg-light-grey"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/ss-s21-grey.jpg"
-                                                src="images/products/electronic/ss-s21-grey.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Orange</span>
-                                            <span class="swatch-value bg-light-orange"></span>
-                                            <img class=" lazyload" data-src="images/products/electronic/ss-s21-pink.jpg"
-                                                src="images/products/electronic/ss-s21-pink.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/ipad-pro11-mini.jpg"
-                                            src="images/products/electronic/ipad-pro11-mini.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/ipad-pro11-mini.jpg"
-                                            src="images/products/electronic/ipad-pro11-mini.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#shoppingCart" data-bs-toggle="offcanvas"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Add to Cart</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Apple
-                                        iPad Pro 11-inch Wi-Fi (2025, 4th generation)</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$499.00</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 5 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/ss-smart-watch.jpg"
-                                            src="images/products/electronic/ss-smart-watch.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/ss-smart-watch-white.jpg"
-                                            src="images/products/electronic/ss-smart-watch-white.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Samsung
-                                        Galaxy 5 LTE Smart <br class="d-none d-xl-block"> Watch</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$170.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Grey</span>
-                                            <span class="swatch-value bg-grey-6"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/ss-smart-watch.jpg"
-                                                src="images/products/electronic/ss-smart-watch.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">White</span>
-                                            <span class="swatch-value bg-white"></span>
-                                            <img class="lazyload"
-                                                data-src="images/products/electronic/ss-smart-watch-white.jpg"
-                                                src="images/products/electronic/ss-smart-watch-white.jpg"
-                                                alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark-5"></span>
-                                            <img class="lazyload"
-                                                data-src="images/products/electronic/ss-smart-watch-gray.jpg"
-                                                src="images/products/electronic/ss-smart-watch-gray.jpg"
-                                                alt="image-product">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                     <div class="d-flex d-xl-none sw-dot-default sw-pagination-top-pick justify-content-center">
                     </div>
@@ -787,20 +416,20 @@
         <div class="container">
             <div class="banner-content tf-grid-layout tf-col-2 hover-overlay-2">
                 <div class="image">
-                    <img src="images/banner/phone.png" alt="images/banner/phone.png" class="lazyload">
+                    <img src="images/banner/Giày 4.png" alt="images/banner/Giày 4.png" class="lazyload">
                 </div>
                 <div class="box-content">
                     <div class="box-title-banner wow fadeInUp">
                         <p class="title display-md fw-medium">
-                            Unmatched Performance
+                            Thoải Mái Từng Bước Chân
                         </p>
                         <p class="sub text-md text-main">
-                            Upgrade your devices with cutting-edge technology.
+                            Đổi giày mới đi chơi – chất mà không chát.
                         </p>
                     </div>
                     <div class="box-btn-banner wow fadeInUp">
-                        <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
-                            Shop Now
+                        <a href="{{ route('client.listProducts') }}" class="tf-btn btn-dark2 animate-btn">
+                            Mua ngay
                             <i class="icon icon-arr-right"></i>
                         </a>
                     </div>
@@ -1284,7 +913,7 @@
     </section>
     <!-- /Hot Deal -->
     <!-- Testimonial -->
-    <section class="flat-spacing-2 pb-0">
+    {{-- <section class="flat-spacing-2 pb-0">
         <div class="container">
             <div class="flat-title text-start wow fadeInUp">
                 <h4 class="title">Happy Customers</h4>
@@ -1489,8 +1118,9 @@
                 <span class="sw-dot-default sw-pagination-tes justify-content-center"></span>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /Testimonial -->
+
     <!-- Brand -->
     <div class="flat-spacing-2">
         <div class="container">
@@ -1720,6 +1350,11 @@
         </div>
     </section>
     <!-- /Latest Tip -->
+            {{-- </div>
+            <div class="d-flex d-xl-none sw-dot-default sw-pagination-brand justify-content-center"></div>
+        </div>
+    </div> --}}
+    <!-- /Brand -->
     <!-- Icon box -->
     <div class="flat-spacing-18">
         <div class="container">
@@ -1756,7 +1391,7 @@
                                     <i class="icon icon-gift"></i>
                                 </div>
                                 <div class="content">
-                                    <div class="title text-uppercase">Gift Package</div>
+                                    <div class="title text-uppercase">Tặng quà</div>
                                 </div>
                             </div>
                         </div>
@@ -1766,7 +1401,7 @@
                                     <i class="icon icon-return"></i>
                                 </div>
                                 <div class="content">
-                                    <div class="title text-uppercase">EASY RETURNS</div>
+                                    <div class="title text-uppercase">Hoàn trả dễ dàng</div>
                                 </div>
                             </div>
                         </div>
@@ -1776,7 +1411,7 @@
                                     <i class="icon icon-support"></i>
                                 </div>
                                 <div class="content">
-                                    <div class="title text-uppercase">ONE YEAR WARRANTY</div>
+                                    <div class="title text-uppercase">Bảo hành 1 năm</div>
                                 </div>
                             </div>
                         </div>

@@ -60,68 +60,69 @@
                         <div class="topbar-center marquee-wrapper">
                             <div class="initial-child-container">
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <!-- 2 -->
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <!-- 3 -->
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <!-- 4 -->
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <!-- 5 -->
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
+
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                             </div>
                         </div>

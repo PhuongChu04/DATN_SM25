@@ -22,6 +22,10 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(Product::class, 'id_product');
     }
+    public function productAlbum()
+    {
+        return $this->belongsTo(Product::class, 'id_product');
+    }
 
     public function color()
     {
