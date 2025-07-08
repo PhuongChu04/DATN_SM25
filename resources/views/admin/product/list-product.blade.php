@@ -8,24 +8,25 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center gap-1">
                         <h4 class="card-title flex-grow-1">Danh sách sản phẩm</h4>
-                        <form method="GET" action="{{ route('admin.product.search') }}" class="d-flex"
-                            style="max-width: 300px;">
-                            <input type="text" name="search" class="form-control form-control-sm me-2"
-                                value="{{ old('search', $search ?? '') }}" placeholder="🔍 Tìm sản phẩm...">
-                            <button type="submit" class="btn btn-sm btn-outline-primary">Tìm</button>
-                        </form>
+
                         <a href="{{ route('admin.product.create') }}" class="btn btn-sm btn-primary">
                             Thêm mới sản phẩm
                         </a>
+
                         <a href="{{ route('admin.product.trash') }}" class="btn btn-soft-danger btn-sm">Đã Xóa</a>
+
+
                         <div class="dropdown">
                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 This Month
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
                                 <a href="#!" class="dropdown-item">Download</a>
+                                <!-- item-->
                                 <a href="#!" class="dropdown-item">Export</a>
+                                <!-- item-->
                                 <a href="#!" class="dropdown-item">Import</a>
                             </div>
                         </div>

@@ -7,7 +7,9 @@
 
 
 <!-- Mirrored from vineta-html.vercel.app/home-electronic.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 26 Apr 2025 19:31:38 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
 <head>
     <meta charset="utf-8">
     <title>Vineta - Multipurpose eCommerce</title>
@@ -39,7 +41,7 @@
     <!-- /RTL  -->
 
     <!-- Scroll Top -->
-   @include('client.layout.srcoll')
+    @include('client.layout.srcoll')
 
     <!-- preload  tải trước-->
     <div class="preload preload-container">
@@ -58,68 +60,69 @@
                         <div class="topbar-center marquee-wrapper">
                             <div class="initial-child-container">
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <!-- 2 -->
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <!-- 3 -->
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <!-- 4 -->
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <!-- 5 -->
                                 <div class="marquee-child-item">
-                                    <p>Return extended to 60 days</p>
+                                    <p>Gia hạn đổi trả lên đến 60 ngày</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Life-time Guarantes</p>
+                                    <p>Bảo hành trọn đời</p>
                                 </div>
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                                 <div class="marquee-child-item">
-                                    <p>Limited-Time Offer</p>
+                                    <p>Ưu đãi có thời hạn</p>
                                 </div>
+
                                 <div class="marquee-child-item"><span class="dot"></span></div>
                             </div>
                         </div>
@@ -129,20 +132,20 @@
         </div>
         <!-- /Top Bar -->
         <!-- Header -->
-       @include('client.layout.header')
+        @include('client.layout.header')
         <!-- /Header -->
 
 
         @yield('content')
        
         <!-- Footer -->
-       @include('client.layout.footer')
+        @include('client.layout.footer')
         <!-- /Footer -->
 
 
     </div>
 
-   
+
 
     <!-- Javascript -->
     <script src="{{ asset('client/js/bootstrap.min.js') }}"></script>
@@ -160,4 +163,5 @@
 
 
 <!-- Mirrored from vineta-html.vercel.app/home-electronic.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 26 Apr 2025 19:33:06 GMT -->
+
 </html>

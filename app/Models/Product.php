@@ -40,4 +40,32 @@ class Product extends Model
                       ->orWhere('description', 'like', '%' . $keyword . '%')
                       ->get();
     }
+
+    public function colors()
+    {
+        return $this->hasManyThrough(
+            Color::class,
+            ProductVariant::class,
+            'id_product', // Foreign key on product_variants
+            'id',         // Local key on colors
+            'id',         // Local key on products
+            'id_color'    // Foreign key on product_variants
+        )->distinct(); // để tránh trùng lặp màu
+    }
+
+    public function sizes()
+    {
+        return $this->hasManyThrough(
+            Size::class,
+            ProductVariant::class,
+            'id_product',
+            'id',
+            'id',
+            'id_size'
+        )->distinct();
+    }
+    public function firstVariant()
+{
+    return $this->hasOne(ProductVariant::class, 'id_product')->orderBy('price');
+}
 }
