@@ -200,8 +200,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 //client
 Route::prefix('client')->name('client.')->group(function () {
-    Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient');
- 
+    // Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient'); 
+
+    Route::get('/dashboard', [ClientProductController::class, 'index'])->name('home');
+    Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
 
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
