@@ -66,4 +66,8 @@ class Product extends Model
             'id_size'
         )->distinct();
     }
+    public function albums()
+{
+    return $this->hasMany(ProductAlbum::class, 'id_product');
+}
 }

@@ -26,8 +26,7 @@ class ProductController extends Controller
     //==================Hiển thị trang chủ==================
     public function index()
     {
-        $products = Product::
-            latest('id')
+        $products = Product::latest('id')
             ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
             ->paginate(10);
         $categories = $this->categoryService->getAllCategories();
@@ -40,12 +39,42 @@ class ProductController extends Controller
     public function listProducts()
     {
 
-        $products = Product::
-            with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
+        $products = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
             ->paginate(20);
         // dd($products);
         return view('client.products.shop', compact('products'));
     }
+
+    //==================Hiển thị product detail==================
+    public function detailProduct($id)
+    {
+
+        $product = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant', 'albums'])
+            ->findOrFail($id);
+
+        $similarProducts = Product::where(function ($query) use ($product) {
+            $query->where('id_category', $product->id_category)
+                ->orWhere('id_brand', $product->id_brand);
+        })
+            ->where('id', '!=', $product->id)
+            ->with('firstVariant','colors')
+            ->inRandomOrder()
+            ->take(10)
+            ->get();
+
+        return view('client.products.detailProduct', compact('product', 'similarProducts'));
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     // Hiển thị tất cả sản phẩm
@@ -61,6 +90,4 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         return view('client.productDetail', compact('product'));
     }
-
-    
 }

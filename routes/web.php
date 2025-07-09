@@ -202,8 +202,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('client')->name('client.')->group(function () {
     // Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient'); 
 
+
+    //==================TRANG CHỦ==================
     Route::get('/dashboard', [ClientProductController::class, 'index'])->name('home');
+
+    //==================TRANG DANH SÁCH==================
     Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
+
+    //==================TRANG CHI TIẾT==================
+    Route::get('/dashboard/{id}/detailProduct', [ClientProductController::class, 'detailProduct'])->name('detailProduct');
 
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data

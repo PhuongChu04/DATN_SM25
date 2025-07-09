@@ -464,7 +464,7 @@
                         <div class="card-product grid card-product-size" data-availability="In stock"
                             data-brand="Vineta">
                             <div class="card-product-wrapper">
-                                <a href="product-detail.html" class="product-img">
+                                <a href="{{route('client.detailProduct', $item->id)}}" class="product-img">
                                     <img class="img-product lazyload"
                                         data-src="{{ asset('storage/' . $item->image_primary) }}"
                                         src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
