@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset('client/css/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('client/css/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('client/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/drift-basic.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/photoswipe.css') }}">
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="{{ asset('client/images/logo/favicon.png') }}">
@@ -137,6 +139,7 @@
 
 
         @yield('content')
+<<<<<<< HEAD
         <div class="offcanvas offcanvas-end" tabindex="-1" id="shoppingCart" aria-labelledby="shoppingCartLabel">
             <div class="offcanvas-header border-bottom">
                 <h5 class="offcanvas-title" id="shoppingCartLabel">🛒 Giỏ hàng của bạn</h5>
@@ -162,6 +165,8 @@
         </div>
 
 
+=======
+>>>>>>> d52d8a38903b88c7a2b44f9d48df685fdbedf09f
 
         <!-- Footer -->
         @include('client.layout.footer')
@@ -185,6 +190,13 @@
 
     <script src="{{ asset('client/js/main.js') }}"></script>
 
+<<<<<<< HEAD
+=======
+    <script src="{{ asset('client/js/drift.min.js')}}"></script>
+    <script src="{{ asset('client/js/photoswipe-lightbox.umd.min.js')}}"></script>
+    <script src="{{ asset('client/js/photoswipe.umd.min.js')}}"></script>
+    <script src="{{ asset('client/js/zoom.js')}}"></script>
+>>>>>>> d52d8a38903b88c7a2b44f9d48df685fdbedf09f
 </body>
 
 
@@ -192,6 +204,7 @@
 <!-- Mirrored from vineta-html.vercel.app/home-electronic.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 26 Apr 2025 19:33:06 GMT -->
 
 </html>
+<<<<<<< HEAD
 <script>
     // Giỏ hàng từ localStorage
     document.addEventListener('DOMContentLoaded', function() {
@@ -476,3 +489,5 @@
     }
 
 </script>
+=======
+>>>>>>> d52d8a38903b88c7a2b44f9d48df685fdbedf09f
