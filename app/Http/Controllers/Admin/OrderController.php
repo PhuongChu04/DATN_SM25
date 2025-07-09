@@ -65,6 +65,7 @@ class OrderController extends Controller
     // Validate trạng thái đầu vào
     $request->validate([
         'order_status' => ['required', Rule::in(OrderStatus::values())],
+        'note' => 'nullable|string|max:1000',
     ]);
 
     $newStatus = $request->order_status;
@@ -73,7 +74,7 @@ class OrderController extends Controller
     if (
         $this->statusLevel($newStatus) < $this->statusLevel($order->order_status)
     ) {
-        return back()->with('error', 'Không thể chuyển trạng thái ngược lại sau khi đã tiến đến bước giao hàng.');
+        return back()->with('error', 'Không thể chuyển trạng thái ngược lại sau khi đã tiến đến bước tiếp.');
     }
 
     $order->order_status = $newStatus;
@@ -83,6 +84,7 @@ class OrderController extends Controller
     OrderStatusLog::create([
         'order_id'   => $order->id,
         'status'     => $newStatus,
+        'note' => $request->note,
         'changed_by' => Auth::id(),
     ]);
 

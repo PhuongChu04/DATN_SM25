@@ -50,4 +50,16 @@ enum OrderStatus: string
     {
         return array_map(fn(self $case) => $case->value, self::cases());
     }
+    public function label(): string
+    {
+        return match ($this) {
+            self::Confirming => 'Chờ xác nhận',
+            self::Pending    => 'Đã xác nhận',
+            self::Processing => 'Đang xử lý',
+            self::Shipping   => 'Đang vận chuyển',
+            self::Delivered  => 'Đã giao hàng',
+            self::Returned   => 'Đã trả hàng',
+            self::Canceled   => 'Đã hủy',
+        };
+    }
 }

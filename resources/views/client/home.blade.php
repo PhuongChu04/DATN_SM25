@@ -224,12 +224,12 @@
                                     <div class="wg-cls style-square hover-img">
                                         <div>
                                             <a href="#" class="image img-style d-block">
-                                            <img src="{{ asset('storage/' . $category->image) }}"
-                                                alt="{{ $category->name }}">
-                                        </a>
+                                                <img src="{{ asset('storage/' . $category->image) }}"
+                                                    alt="{{ $category->name }}">
+                                            </a>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="cls-content text-center">
                                             <span class="link text-md fw-medium">{{ $category->name }}</span>
                                         </div>
@@ -294,6 +294,25 @@
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
                                         </a>
+                                        <!-- Add to Cart Button on Hover -->
+                                        <div
+                                            class="add-to-cart-hover position-absolute top-80 start-50 translate-middle d-none">
+                                            {{-- Bọc nút bấm trong một form --}}
+                                            <form action="{{ route('client.cart.add') }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                {{-- Gửi ID của sản phẩm đi một cách ẩn --}}
+                                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+
+                                                {{-- Thêm các input ẩn khác nếu cần, ví dụ số lượng mặc định là 1 --}}
+                                                <input type="hidden" name="quantity" value="1">
+
+                                                {{-- Nút này bây giờ sẽ submit form --}}
+                                                <button type="submit" class="btn btn-dark btn-sm px-4 py-2">
+                                                    ADD TO CART
+                                                </button>
+                                            </form>
+                                        </div>
                                         <div class="on-sale-wrap flex-column type-2">
                                             <span class="on-sale-item">20% Off</span>
                                             <span class="on-sale-item trending">Trending</span>
@@ -1167,8 +1186,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric1.jpg"
-                                            data-src="images/blog/blog-eletric1.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric1.jpg" data-src="images/blog/blog-eletric1.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Electric</span>
@@ -1200,8 +1219,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric2.jpg"
-                                            data-src="images/blog/blog-eletric2.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric2.jpg" data-src="images/blog/blog-eletric2.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Trends</span>
@@ -1232,8 +1251,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric3.jpg"
-                                            data-src="images/blog/blog-eletric3.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric3.jpg" data-src="images/blog/blog-eletric3.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Innovation</span>
@@ -1264,8 +1283,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric1.jpg"
-                                            data-src="images/blog/blog-eletric1.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric1.jpg" data-src="images/blog/blog-eletric1.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Electric</span>
@@ -1301,7 +1320,7 @@
         </div>
     </section>
     <!-- /Latest Tip -->
-            {{-- </div>
+    {{-- </div>
             <div class="d-flex d-xl-none sw-dot-default sw-pagination-brand justify-content-center"></div>
         </div>
     </div> --}}
@@ -1375,3 +1394,19 @@
     </div>
     <!-- /Icon box -->
 @endsection
+
+<style>
+    .card-product-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-product-wrapper:hover .add-to-cart-hover {
+        display: block !important;
+        z-index: 10;
+    }
+
+    .top-80 {
+        top: 90% !important;
+    }
+</style>

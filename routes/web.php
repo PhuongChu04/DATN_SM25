@@ -9,6 +9,8 @@ use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
@@ -45,6 +47,7 @@ use Faker\Guesser\Name;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
+    
 
     // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
     // Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
@@ -204,11 +207,23 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient');
     Route::get('/dashboard', [ClientProductController::class, 'index'])->name('home');
     Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
+    
  
 
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
+    Route::post('/cart/add/{id}', [CheckoutController::class, 'add']);
+     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+
+    // Route để hiển thị trang giỏ hàng
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    
+    // Route để cập nhật số lượng
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+
+    // Route để xóa sản phẩm
+    Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
