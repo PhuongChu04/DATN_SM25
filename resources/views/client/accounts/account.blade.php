@@ -28,8 +28,8 @@
                                     Wishlist</a>
                             </li>
                             <li>
-                                <a href="account-addresses.html"
-                                    class="text-sm link fw-medium my-account-nav-item">Addresses</a>
+                                <a href="{{ route('client.addresses.index') }}"
+                                class="text-sm link fw-medium my-account-nav-item">Addresses</a>
                             </li>
                             <li>
                                 <a href="{{ route('client.accountDetail') }}"

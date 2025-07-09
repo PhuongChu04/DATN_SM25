@@ -30,7 +30,6 @@
                             $totalItem = $details['price'] * $details['quantity'];
                             $subtotal += $totalItem;
                         @endphp
-                        {{-- Mỗi sản phẩm là một hàng --}}
                         <div class="row align-items-center border-bottom py-3 g-3">
                             {{-- Cột sản phẩm --}}
                             <div class="col-12 col-md-5">
@@ -39,40 +38,80 @@
                                     <div class="ms-3">
                                         <a href="#" class="text-dark text-decoration-none fw-bold">{{ $details['name'] }}</a>
                                         <div class="d-flex gap-2 mt-2">
-                                            <div class="dropdown"><button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Blue</button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#">Black</a></li></ul></div>
-                                            <div class="dropdown"><button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">XL</button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#">L</a></li></ul></div>
+                                            {{-- COLOR --}}
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle color-btn" type="button" data-bs-toggle="dropdown">
+                                                    {{ $details['color'] ?? 'Choose Color' }}
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    @foreach(['Blue', 'Black', 'Red'] as $color)
+                                                        <li>
+                                                            <a class="dropdown-item color-option" href="#" data-value="{{ $color }}">{{ $color }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                                <input type="hidden" name="colors[{{ $id }}]" value="{{ $details['color'] ?? '' }}" class="color-input">
+                                            </div>
+
+                                            {{-- SIZE --}}
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle size-btn" type="button" data-bs-toggle="dropdown">
+                                                    {{ $details['size'] ?? 'Choose Size' }}
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    @foreach(['S', 'M', 'L', 'XL'] as $size)
+                                                        <li>
+                                                            <a class="dropdown-item size-option" href="#" data-value="{{ $size }}">{{ $size }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                                <input type="hidden" name="sizes[{{ $id }}]" value="{{ $details['size'] ?? '' }}" class="size-input">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             {{-- Cột giá --}}
-                            <div class="col-6 col-md-2 text-md-center"><span class="d-md-none">Price: </span><span class="fw-medium">${{ number_format($details['price'], 2) }}</span></div>
+                            <div class="col-6 col-md-2 text-md-center">
+                                <span class="d-md-none">Price: </span>
+                                <span class="fw-medium">${{ number_format($details['price'], 2) }}</span>
+                            </div>
+
                             {{-- Cột số lượng --}}
                             <div class="col-6 col-md-3">
                                 <div class="input-group justify-content-center" style="max-width: 130px; margin-left: auto; margin-right: auto;">
                                     <button class="btn btn-outline-secondary btn-decrease" type="button">-</button>
-                                    <input type="text" class="form-control text-center quantity-product" name="quantities[{{ $id }}]" value="{{ $details['quantity'] }}" readonly>
+                                    <input type="number" min="1" class="form-control text-center quantity-product" name="quantities[{{ $id }}]" value="{{ $details['quantity'] }}">
                                     <button class="btn btn-outline-secondary btn-increase" type="button">+</button>
                                 </div>
                             </div>
+
                             {{-- Cột tổng tiền và nút xóa --}}
                             <div class="col-12 col-md-2 text-end">
                                 <div class="d-flex justify-content-end align-items-center">
-                                    <span class="fw-medium me-3">${{ number_format($totalItem, 2) }}</span>
-                                    <a href="{{ route('client.cart.remove', $id) }}" class="text-danger" onclick="return confirm('Are you sure?')" title="Remove item"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg></a>
+                                    <span class="fw-medium me-3 item-total-price" data-price="{{ $details['price'] }}">${{ number_format($totalItem, 2) }}</span>
+                                    <a href="{{ route('client.cart.remove', $id) }}" class="text-danger" onclick="return confirm('Are you sure?')" title="Remove item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+
                     {{-- Nút Update Cart --}}
                     <div class="d-flex justify-content-end mt-4">
                         <button type="submit" class="btn btn-dark">Update Cart</button>
                     </div>
-                </form>
-            @else
-                <div class="alert alert-info">Your cart is empty.</div>
-            @endif
-        </div>
+                    </form>
+                        @else
+                            <div class="alert alert-info">Your cart is empty.</div>
+                        @endif
+                    </div>
+
 
         {{-- Sidebar Order Summary bên phải (GIỮ NGUYÊN) --}}
         <div class="col-lg-4">
@@ -80,7 +119,9 @@
                 <div class="card-body p-4">
                     <h4 class="card-title mb-4">Order Summary</h4>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">Subtotal<span>-${{ number_format($subtotal ?? 0, 2) }}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                            Subtotal<span id="subtotal-value">-${{ number_format($subtotal ?? 0, 2) }}</span>
+                        </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">Discounts<span>-$0.00</span></li>
                         <li class="list-group-item px-0 bg-transparent">
                             <p class="mb-2">Shipping</p>
@@ -204,29 +245,95 @@
         border: 1px solid #dee2e6;
         cursor: pointer;
     }
+    /* Xoá mũi tên nhỏ trong input type=number */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
 </style>
 @endsection
 
 @push('scripts')
 {{-- Script cho nút +/- (GIỮ NGUYÊN) --}}
+@push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.input-group').forEach(function(group) {
-            const decreaseBtn = group.querySelector('.btn-decrease');
-            const increaseBtn = group.querySelector('.btn-increase');
-            const quantityInput = group.querySelector('.quantity-product');
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.input-group').forEach(function (group) {
+        const btnMinus = group.querySelector('.btn-decrease');
+        const btnPlus = group.querySelector('.btn-increase');
+        const input = group.querySelector('.quantity-product');
+        const itemTotalEl = group.closest('.row').querySelector('.item-total-price');
 
-            decreaseBtn.addEventListener('click', function() {
-                let currentValue = parseInt(quantityInput.value, 10);
-                if (currentValue > 1) {
-                    quantityInput.value = currentValue - 1;
-                }
-            });
+        const updateTotal = () => {
+            const quantity = parseInt(input.value) || 1;
+            const price = parseFloat(itemTotalEl.dataset.price);
+            const total = quantity * price;
+            itemTotalEl.textContent = '$' + total.toFixed(2);
+            updateSubtotal();
+        };
 
-            increaseBtn.addEventListener('click', function() {
-                let currentValue = parseInt(quantityInput.value, 10);
-                quantityInput.value = currentValue + 1;
-            });
+        btnMinus?.addEventListener('click', function () {
+            let value = parseInt(input.value) || 1;
+            if (value > 1) {
+                input.value = value - 1;
+                updateTotal();
+            }
+        });
+
+        btnPlus?.addEventListener('click', function () {
+            let value = parseInt(input.value) || 1;
+            input.value = value + 1;
+            updateTotal();
+        });
+    });
+
+    function updateSubtotal() {
+        let subtotal = 0;
+        document.querySelectorAll('.item-total-price').forEach(function (el) {
+            const total = parseFloat(el.textContent.replace('$', '')) || 0;
+            subtotal += total;
+        });
+        const subtotalEl = document.getElementById('subtotal-value');
+        if (subtotalEl) {
+            subtotalEl.textContent = '-$' + subtotal.toFixed(2);
+        }
+
+        // Nếu em muốn cập nhật luôn tổng ở dưới cùng:
+        const grandTotalEl = document.querySelector('li.border-top strong:last-child');
+        if (grandTotalEl) {
+            grandTotalEl.textContent = '$' + subtotal.toFixed(2);
+        }
+    }
+    });
+    // Chọn màu
+    document.querySelectorAll('.color-option').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+            e.preventDefault();
+            const value = this.dataset.value;
+            const dropdown = this.closest('.dropdown');
+            const btn = dropdown.querySelector('.color-btn');
+            const input = dropdown.querySelector('.color-input');
+            btn.textContent = value;
+            input.value = value;
+        });
+    });
+
+    // Chọn size
+    document.querySelectorAll('.size-option').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+            e.preventDefault();
+            const value = this.dataset.value;
+            const dropdown = this.closest('.dropdown');
+            const btn = dropdown.querySelector('.size-btn');
+            const input = dropdown.querySelector('.size-input');
+            btn.textContent = value;
+            input.value = value;
         });
     });
 </script>
