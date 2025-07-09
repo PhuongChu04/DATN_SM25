@@ -294,36 +294,28 @@
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
                                         </a>
-                                        <!-- Add to Cart Button on Hover -->
-                                        <div
-                                            class="add-to-cart-hover position-absolute top-80 start-50 translate-middle d-none">
-                                            {{-- Bọc nút bấm trong một form --}}
-                                            <form action="{{ route('client.cart.add') }}" method="POST"
-                                                style="display: inline;">
-                                                @csrf
-                                                {{-- Gửi ID của sản phẩm đi một cách ẩn --}}
-                                                <input type="hidden" name="product_id" value="{{ $item->id }}">
-
-                                                {{-- Thêm các input ẩn khác nếu cần, ví dụ số lượng mặc định là 1 --}}
-                                                <input type="hidden" name="quantity" value="1">
-
-                                                {{-- Nút này bây giờ sẽ submit form --}}
-                                                <button type="submit" class="btn btn-dark btn-sm px-4 py-2">
-                                                    ADD TO CART
-                                                </button>
-                                            </form>
-                                        </div>
+                                       
+                                        
                                         <div class="on-sale-wrap flex-column type-2">
                                             <span class="on-sale-item">20% Off</span>
                                             <span class="on-sale-item trending">Trending</span>
                                         </div>
                                         <ul class="list-product-btn">
                                             <li>
-                                                <a href="#quickAdd" data-bs-toggle="modal"
+                                                <a href="javascript:void(0);"
+                                                    onclick="document.getElementById('quick-add-{{ $item->id }}').submit();"
                                                     class="bg-surface hover-tooltip tooltip-left box-icon">
                                                     <span class="icon icon-cart2"></span>
                                                     <span class="tooltip">Quick Add</span>
                                                 </a>
+
+                                                <form id="quick-add-{{ $item->id }}"
+                                                    action="{{ route('client.cart.add') }}" method="POST"
+                                                    class="d-none">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                                    <input type="hidden" name="quantity" value="1">
+                                                </form>
                                             </li>
                                             <li class="wishlist">
                                                 <a href="javascript:void(0);"
@@ -1395,7 +1387,7 @@
     <!-- /Icon box -->
 @endsection
 
-<style>
+{{-- <style>
     .card-product-wrapper {
         position: relative;
         overflow: hidden;
@@ -1409,4 +1401,4 @@
     .top-80 {
         top: 90% !important;
     }
-</style>
+</style> --}}
