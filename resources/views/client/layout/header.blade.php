@@ -73,7 +73,7 @@
                         <a href="{{route('client.home')}}" class="item-link">Home</a>
                     </li>
                     <li class="menu-item">
-                        <a href="{{route('client.listProducts')}}" class="item-link">Shop</a>
+                        <a href="" class="item-link">Shop</a>
                     </li>
                     <li class="menu-item">
                         <a href="#" class="item-link">Products</a>

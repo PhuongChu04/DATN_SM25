@@ -9,8 +9,8 @@
                 <div class="swiper-slide">
                     <div class="slider-wrap bg-type-4">
                         <div class="image">
-                            <img src="images/slider/electronic/giày.jpng" data-src="images/slider/electronic/giày.jpg"
-                                alt="slider" class="lazyload">
+                            <img src="images/slider/electronic/slider-electronic-1.png"
+                                data-src="images/slider/electronic/slider-electronic-1.png" alt="slider" class="lazyload">
                         </div>
                         <div class="box-content">
                             <div class="container">
@@ -19,16 +19,15 @@
                                         <div class="content-slider">
                                             <div class="box-title-slider">
                                                 <p class="sub text-md fw-medium fade-item fade-item-1 text-dark-3">
-                                                    Giày thể thao
+                                                    APPLE WATCHES COLLECTION
                                                 </p>
                                                 <h2 class="heading fw-medium fade-item fade-item-2 text-dark-3">
-                                                    Giảm tới <br> 15%
+                                                    Sale up to <br> 15% Off
                                                 </h2>
                                             </div>
                                             <div class="box-btn-slider fade-item fade-item-3">
-                                                <a href="{{ route('client.listProducts') }}"
-                                                    class="tf-btn btn-dark2 animate-btn">
-                                                    Mua ngay
+                                                <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
+                                                    Shop Now
                                                     <i class="icon icon-arr-right"></i>
                                                 </a>
                                             </div>
@@ -39,11 +38,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide reverse-slide">
+                {{-- <div class="swiper-slide reverse-slide">
                     <div class="slider-wrap bg-type-5">
                         <div class="image">
-                            <img src="images/slider/electronic/giày 1.jpg" data-src="images/slider/electronic/giày 1.jpg"
-                                alt="slider" class="lazyload">
+                            <img src="images/slider/electronic/slider-electronic-2.png"
+                                data-src="images/slider/electronic/slider-electronic-2.png" alt="slider" class="lazyload">
                         </div>
                         <div class="box-content">
                             <div class="container">
@@ -52,17 +51,16 @@
                                         <div class="content-slider">
                                             <div class="box-title-slider">
                                                 <p class="sub text-md fw-medium fade-item fade-item-1 text-dark-3">
-                                                    Giày adidas
+                                                    APPLE MAGSAFE CHARGER
                                                 </p>
                                                 <h2 class="heading fw-medium fade-item fade-item-2 text-dark-3">
-                                                    Thương hiệu <br> đẳng cấp
+                                                    Next-Level <br> Tech
                                                 </h2>
 
                                             </div>
                                             <div class="box-btn-slider fade-item fade-item-3">
-                                                <a href="{{ route('client.listProducts') }}"
-                                                    class="tf-btn btn-dark2 animate-btn">
-                                                    Mua ngay
+                                                <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
+                                                    Shop Now
                                                     <i class="icon icon-arr-right"></i>
                                                 </a>
                                             </div>
@@ -76,8 +74,8 @@
                 <div class="swiper-slide">
                     <div class="slider-wrap bg-type-6 type-image-right">
                         <div class="image">
-                            <img src="images/slider/electronic/giày 2.jpg" data-src="images/slider/electronic/giày 2.jpg"
-                                alt="slider" class="lazyload">
+                            <img src="images/slider/electronic/slider-electronic-3.png"
+                                data-src="images/slider/electronic/slider-electronic-3.png" alt="slider" class="lazyload">
                         </div>
                         <div class="box-content">
                             <div class="container">
@@ -86,17 +84,16 @@
                                         <div class="content-slider">
                                             <div class="box-title-slider">
                                                 <p class="sub text-md fw-medium fade-item fade-item-1 text-dark-3">
-                                                    Giày Chất – Cuộc Sống Chất
+                                                    ON-EAR HEADPHONES
                                                 </p>
                                                 <h2 class="heading fw-medium fade-item fade-item-2 text-dark-3">
-                                                    Tiếp thêm năng lượng <br> Cho bước chạy của bạn
+                                                    Power Up <br> Your Life
                                                 </h2>
 
                                             </div>
                                             <div class="box-btn-slider fade-item fade-item-3">
-                                                <a href="{{ route('client.listProducts') }}"
-                                                    class="tf-btn btn-dark2 animate-btn">
-                                                    Mua ngay
+                                                <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
+                                                    Shop Now
                                                     <i class="icon icon-arr-right"></i>
                                                 </a>
                                             </div>
@@ -106,7 +103,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="wrap-pagination">
                 <div class="container">
@@ -120,70 +117,68 @@
     <div class="marquee-sale bg-light-green-2">
         <div class="marquee-wrapper">
             <div class="initial-child-container">
-                <!-- 1 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
+                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Hàng Mới Về</p>
+                    <p class="display-xs fw-medium">New Arrival</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 2 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
+                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Hàng Mới Về</p>
+                    <p class="display-xs fw-medium">New Arrival</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 3 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
+                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Hàng Mới Về</p>
+                    <p class="display-xs fw-medium">New Arrival</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 4 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
+                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Hàng Mới Về</p>
+                    <p class="display-xs fw-medium">New Arrival</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 5 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
+                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Hàng Mới Về</p>
+                    <p class="display-xs fw-medium">New Arrival</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 6 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
+                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Hàng Mới Về</p>
+                    <p class="display-xs fw-medium">New Arrival</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <!-- 7 -->
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Giảm 50% cho một số sản phẩm</p>
+                    <p class="display-xs fw-medium">50% Off On Selected Items</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
                 <div class="marquee-child-item">
-                    <p class="display-xs fw-medium">Hàng Mới Về</p>
+                    <p class="display-xs fw-medium">New Arrival</p>
                 </div>
                 <div class="marquee-child-item"><i class="icon-flash-star"></i></div>
-
             </div>
         </div>
     </div>
@@ -219,17 +214,18 @@
                     }'>
                         <div class="swiper-wrapper">
                             <!-- item 1 -->
+
                             @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
                                         <div>
                                             <a href="#" class="image img-style d-block">
-                                            <img src="{{ asset('storage/' . $category->image) }}"
-                                                alt="{{ $category->name }}">
-                                        </a>
+                                                <img src="{{ asset('storage/' . $category->image) }}"
+                                                    alt="{{ $category->name }}">
+                                            </a>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="cls-content text-center">
                                             <span class="link text-md fw-medium">{{ $category->name }}</span>
                                         </div>
@@ -254,11 +250,11 @@
         <div class="container">
             <div class="flat-title style-between align-items-end wow fadeInUp">
                 <div class="box-title">
-                    <h4 class="title">Top sản phẩm mới nhất</h4>
-                    <p class="desc text-main text-md">Khám phá những sản phẩm phổ biến nhất của chúng tôi mà khách hàng
-                        không thể có đủ</p>
+                    <h4 class="title">Top Picks You’ll Love</h4>
+                    <p class="desc text-main text-md">Explore our most popular pieces that customers can't get
+                        enough of</p>
                 </div>
-                <a href="shop-default.html" class="btn-underline">View all</a>
+                <a href="{{ route('client.shop') }}" class="btn-underline">View all</a>
             </div>
             <div class="fl-control-sw">
                 <div dir="ltr" class="sw-height swiper tf-swiper"
@@ -281,18 +277,17 @@
                     }
                 }'>
                     <div class="swiper-wrapper wow fadeInUp">
-                        <!-- Sản phẩm bán chạy -->
-                        @foreach ($products as $item)
+
+                        @foreach ($products as $product)
                             <div class="swiper-slide">
                                 <div class="card-product style-center">
                                     <div class="card-product-wrapper">
-                                        <a href="product-detail.html" class="product-img">
+                                        <a href="" class="product-img">
                                             <img class="img-product lazyload"
-                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
-                                                src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                                src="{{ asset('storage/' . $product->image_primary) }}"
+                                                alt="image-product">
                                             <img class="img-hover lazyload"
-                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
-                                                src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                            src="{{ asset('storage/' . $product->image_primary) }}" alt="image-product">
                                         </a>
                                         <div class="on-sale-wrap flex-column type-2">
                                             <span class="on-sale-item">20% Off</span>
@@ -331,18 +326,22 @@
                                     </div>
                                     <div class="card-product-info text-center">
                                         <a href="product-detail.html"
-                                            class="name-product link fw-medium text-md">{{ $item->name }} </a>
+                                            class="name-product link fw-medium text-md">{{ $product->name }}</a>
                                         <p class="price-wrap fw-medium">
-                                            <span class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}₫</span>
-                                            <span class="price-old old-line">190.00₫</span>
+                                            <span
+                                                class="price-new">{{ number_format($product->variants->first()->price, 2) }}</span>
+                                            {{-- <span class="price-old old-line">$190.00</span> --}}
                                         </p>
                                         <ul class="list-color-product justify-content-center">
-                                            @foreach ($item->colors as $value)
+                                            @foreach ($product->variants as $variant)
                                                 <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                                    <span class="tooltip">{{ $value->name }}</span>
+                                                    {{-- <span class="tooltip">Black</span> --}}
                                                     <span class="swatch-value"
-                                                        style="background-color: {{ $value->code }}"></span>
-
+                                                        style="background-color: {{ $variant->color->code }}"></span>
+                                                    <img class=" lazyload"
+                                                        data-src="images/products/electronic/airpod-pro-black.jpg"
+                                                        src="images/products/electronic/airpod-pro-black.jpg"
+                                                        alt="image-product">
                                                 </li>
                                             @endforeach
 
@@ -351,7 +350,8 @@
                                 </div>
                             </div>
                         @endforeach
-
+                    </div>
+                    <div class="d-flex d-xl-none sw-dot-default sw-pagination-top-pick justify-content-center">
                     </div>
                     <div class="d-flex d-xl-none sw-dot-default sw-pagination-top-pick justify-content-center">
                     </div>
@@ -367,20 +367,20 @@
         <div class="container">
             <div class="banner-content tf-grid-layout tf-col-2 hover-overlay-2">
                 <div class="image">
-                    <img src="images/banner/Giày 4.png" alt="images/banner/Giày 4.png" class="lazyload">
+                    <img src="images/banner/phone.png" alt="images/banner/phone.png" class="lazyload">
                 </div>
                 <div class="box-content">
                     <div class="box-title-banner wow fadeInUp">
                         <p class="title display-md fw-medium">
-                            Thoải Mái Từng Bước Chân
+                            Unmatched Performance
                         </p>
                         <p class="sub text-md text-main">
-                            Đổi giày mới đi chơi – chất mà không chát.
+                            Upgrade your devices with cutting-edge technology.
                         </p>
                     </div>
                     <div class="box-btn-banner wow fadeInUp">
-                        <a href="{{ route('client.listProducts') }}" class="tf-btn btn-dark2 animate-btn">
-                            Mua ngay
+                        <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
+                            Shop Now
                             <i class="icon icon-arr-right"></i>
                         </a>
                     </div>
@@ -864,7 +864,7 @@
     </section>
     <!-- /Hot Deal -->
     <!-- Testimonial -->
-    {{-- <section class="flat-spacing-2 pb-0">
+    <section class="flat-spacing-2 pb-0">
         <div class="container">
             <div class="flat-title text-start wow fadeInUp">
                 <h4 class="title">Happy Customers</h4>
@@ -1069,9 +1069,8 @@
                 <span class="sw-dot-default sw-pagination-tes justify-content-center"></span>
             </div>
         </div>
-    </section> --}}
+    </section>
     <!-- /Testimonial -->
-
     <!-- Brand -->
     <div class="flat-spacing-2">
         <div class="container">
@@ -1167,8 +1166,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric1.jpg"
-                                            data-src="images/blog/blog-eletric1.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric1.jpg" data-src="images/blog/blog-eletric1.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Electric</span>
@@ -1200,8 +1199,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric2.jpg"
-                                            data-src="images/blog/blog-eletric2.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric2.jpg" data-src="images/blog/blog-eletric2.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Trends</span>
@@ -1232,8 +1231,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric3.jpg"
-                                            data-src="images/blog/blog-eletric3.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric3.jpg" data-src="images/blog/blog-eletric3.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Innovation</span>
@@ -1264,8 +1263,8 @@
                             <div class="blog-item-v2">
                                 <div class="entry-image hover-img">
                                     <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric1.jpg"
-                                            data-src="images/blog/blog-eletric1.jpg" alt="image">
+                                        <img src="images/blog/blog-eletric1.jpg" data-src="images/blog/blog-eletric1.jpg"
+                                            alt="image">
                                     </a>
                                     <div class="entry-tag">
                                         <span class="tag">Electric</span>
@@ -1301,11 +1300,6 @@
         </div>
     </section>
     <!-- /Latest Tip -->
-            {{-- </div>
-            <div class="d-flex d-xl-none sw-dot-default sw-pagination-brand justify-content-center"></div>
-        </div>
-    </div> --}}
-    <!-- /Brand -->
     <!-- Icon box -->
     <div class="flat-spacing-18">
         <div class="container">
@@ -1342,7 +1336,7 @@
                                     <i class="icon icon-gift"></i>
                                 </div>
                                 <div class="content">
-                                    <div class="title text-uppercase">Tặng quà</div>
+                                    <div class="title text-uppercase">Gift Package</div>
                                 </div>
                             </div>
                         </div>
@@ -1352,7 +1346,7 @@
                                     <i class="icon icon-return"></i>
                                 </div>
                                 <div class="content">
-                                    <div class="title text-uppercase">Hoàn trả dễ dàng</div>
+                                    <div class="title text-uppercase">EASY RETURNS</div>
                                 </div>
                             </div>
                         </div>
@@ -1362,7 +1356,7 @@
                                     <i class="icon icon-support"></i>
                                 </div>
                                 <div class="content">
-                                    <div class="title text-uppercase">Bảo hành 1 năm</div>
+                                    <div class="title text-uppercase">ONE YEAR WARRANTY</div>
                                 </div>
                             </div>
                         </div>
@@ -1374,4 +1368,150 @@
         </div>
     </div>
     <!-- /Icon box -->
+    <!-- search -->
+    <div class="modal fade popup-search" id="search">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="header">
+                    <button class="icon-close icon-close-popup" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="looking-for-wrap">
+                                <div class="heading">Bạn đang tìm kiếm gì?</div>
+                                <form class="form-search" action="{{ route('client.shop.search') }}" method="GET">
+                                    <fieldset class="text">
+                                        <input type="text" placeholder="Search" class="" name="search"
+                                            tabindex="0" value="{{ request('search') }}" aria-required="true"
+                                            required="">
+                                    </fieldset>
+                                    <button type="submit">
+                                        <i class="icon icon-search"></i>
+                                    </button>
+                                </form>
+                                <div class="popular-searches justify-content-md-center">
+                                    <div class="text fw-medium">Popular searches:</div>
+                                    <ul>
+                                        <li><a class="link" href="#">Featured</a></li>
+                                        <li><a class="link" href="#">Trendy</a></li>
+                                        <li><a class="link" href="#">New</a></li>
+                                        <li><a class="link" href="#">Sale</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="featured-product">
+                                <div class="text-xl-2 fw-medium featured-product-heading">Featured product</div>
+                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over"
+                                    data-swiper='{
+                                        "slidesPerView": 2,
+                                        "spaceBetween": 12,
+                                        "speed": 800,
+                                        "observer": true,
+                                        "observeParents": true,
+                                        "slidesPerGroup": 2,
+                                        "pagination": { "el": ".sw-pagination-search", "clickable": true },
+                                        "breakpoints": {
+                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },
+                                        "1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+                                        }
+                                    }'>
+                                    <div class="swiper-wrapper">
+                                        @foreach ($products as $item)
+                                            <div class="swiper-slide">
+                                                <div class="card-product style-3 card-product-size">
+                                                    <div class="card-product-wrapper">
+                                                        <a href="product-detail.html" class="product-img">
+                                                            <img class="img-product lazyload"
+                                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                alt="image-product">
+                                                            <img class="img-hover lazyload"
+                                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                alt="image-product">
+                                                        </a>
+                                                        <ul class="list-product-btn">
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="box-icon hover-tooltip wishlist">
+                                                                    <span class="icon icon-heart2"></span>
+                                                                    <span class="tooltip">Add to Wishlist</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="btn-quickview box-icon hover-tooltip quickview">
+                                                                    <span class="icon icon-view"></span>
+                                                                    <span class="tooltip">Quick View</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="box-icon hover-tooltip compare btn-compare">
+                                                                    <span class="icon icon-compare"></span>
+                                                                    <span class="tooltip">Add to Compare</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="product-btn-main">
+                                                            <a href="#shoppingCart" data-bs-toggle="offcanvas"
+                                                                class="btn-main-product">
+                                                                <span class="icon icon-cart2"></span>
+                                                                <span class="text-md fw-medium">
+                                                                    Add to Cart
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                        <ul class="size-box">
+                                                            @foreach ($item->sizes as $value)
+                                                                <li class="size-item text-xs text-white">
+                                                                    {{ $value->name }}</li>
+                                                            @endforeach
+
+                                                        </ul>
+                                                    </div>
+                                                    <div class="card-product-info">
+                                                        <a href="product-detail.html"
+                                                            class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                                        <p class="price-wrap fw-medium">
+                                                            <span
+                                                                class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
+                                                            {{-- <span class="price-old">$100.00</span> --}}
+                                                        </p>
+                                                        <ul class="list-color-product">
+                                                            @foreach ($item->colors as $value)
+                                                                <li
+                                                                    class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                                    <span
+                                                                        class="tooltip color-filter">{{ $value->name }}</span>
+                                                                    <span class="swatch-value"
+                                                                        style="background-color: {{ $value->code }}"></span>
+                                                                    {{-- <img class="lazyload"
+                                                                data-src="images/products/fashion/product-27.jpg"
+                                                                src="images/products/fashion/product-27.jpg"
+                                                                alt="image-product"> --}}
+                                                                </li>
+                                                            @endforeach
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div
+                                        class="d-flex d-xl-none sw-dot-default sw-pagination-search justify-content-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /search -->
 @endsection

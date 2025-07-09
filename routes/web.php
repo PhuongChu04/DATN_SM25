@@ -75,7 +75,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // phần search
         Route::get('/search', [AdminProductController::class, 'search'])->name('search');
     });
-    
+
 
 
     Route::prefix('/auth')->name('auth.')->group(function () {
@@ -203,13 +203,12 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient');
     Route::get('/dashboard', [ClientProductController::class, 'index'])->name('home');
     Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
- 
-
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
-
-   
+    Route::get('/shop', [ClientProductController::class, 'listProducts'])->name('shop');
+    Route::get('/shop/search', [ClientProductController::class, 'searchClient'])->name('shop.search');
+    
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
