@@ -27,8 +27,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::latest('id')
-            ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
-            ->paginate(10);
+    ->whereHas('variants') // chỉ lấy sản phẩm có ít nhất 1 biến thể
+    ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
+    ->paginate(10);
         $categories = $this->categoryService->getAllCategories();
 
         // dd($products);
