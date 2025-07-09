@@ -24,27 +24,21 @@ class ClientController extends Controller
         $this->productVariantService = $productVariantService;
     }
 
-    
+
     public function homeClient()
     {
-         $categories = $this->categoryService->getAllCategories();
+        $categories = $this->categoryService->getAllCategories();
         //  dd($categories);
         $products = Product::with('variants')
-    ->whereHas('variants')
-    ->latest()
-    ->take(10)
-    ->get();
-        return view('client.home',compact('categories', 'products'));
+            ->whereHas('variants')
+            ->latest()
+            ->take(10)
+            ->get();
+        return view('client.home', compact('categories', 'products'));
     }
     public function account()
     {
         $user = Sentinel::getUser(); // Lấy thông tin người dùng đã đăng nhập
         return view('client.accounts.account', compact('user'));
     }
-
-  
-
-   
 }
-
-

@@ -6,7 +6,7 @@
             <div class="box-title text-center">
                 <h4 class="title">Shop</h4>
                 <div class="breadcrumb-list">
-                    <a class="breadcrumb-item" href="{{ route('client.home') }}">Home</a>
+                    <a class="breadcrumb-item" href="{{ route('client.homeClient') }}">Home</a>
                     <div class="breadcrumb-item dot"><span></span></div>
                     <a class="breadcrumb-item" href="{{ route('client.listProducts') }}">Shop</a>
                 </div>

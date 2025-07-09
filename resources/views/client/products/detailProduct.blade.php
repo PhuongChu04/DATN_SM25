@@ -6,7 +6,7 @@
         <div class="container">
             <div class="breadcrumb-wrap">
                 <div class="breadcrumb-list">
-                    <a class="breadcrumb-item" href="{{ route('client.home') }}">Home</a>
+                    <a class="breadcrumb-item" href="{{ route('client.homeClient') }}">Home</a>
                     <div class="breadcrumb-item dot"><span></span></div>
                     <div class="breadcrumb-item current">Chi tiết sản phẩm: {{ $product['name'] }}</div>
                 </div>

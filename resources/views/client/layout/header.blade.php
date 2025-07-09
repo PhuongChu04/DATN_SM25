@@ -37,7 +37,7 @@
                 <div class="col-xl-5 col-md-4 col-3">
                     <ul class="nav-icon d-flex justify-content-end align-items-center">
                         <li class="nav-search">
-                            <a href="#search" data-bs-toggle="modal" class="nav-icon-item">
+                            <a href="{{route('client.shop.search')}}" data-bs-toggle="modal" class="nav-icon-item">
                                 <i class="icon icon-search"></i>
                             </a>
                         </li>
@@ -74,7 +74,7 @@
             <nav class="box-navigation text-center">
                 <ul class="box-nav-menu">
                     <li class="menu-item">
-                        <a href="{{route('client.home')}}" class="item-link">Home</a>
+                        <a href="{{route('client.homeClient')}}" class="item-link">Home</a>
                     </li>
                     <li class="menu-item">
                         <a href="{{route('client.listProducts')}}" class="item-link">Shop</a>

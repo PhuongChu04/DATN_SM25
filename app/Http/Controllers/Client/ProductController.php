@@ -40,8 +40,10 @@ class ProductController extends Controller
     public function listProducts()
     {
 
-        $products = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
-            ->paginate(20);
+         $products = Product::latest('id')
+    ->whereHas('variants') // chỉ lấy sản phẩm có ít nhất 1 biến thể
+    ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
+    ->paginate(10);
         // dd($products);
         return view('client.products.shop', compact('products'));
     }
@@ -104,5 +106,24 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function searchClient(Request $request)
+    {
+        $searchTerm = $request->input('search');
+        $products = Product::with(['brand', 'category'])
+            ->when(!empty($searchTerm), function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhereHas('brand', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', '%' . $searchTerm . '%');
+                    })
+                    ->orWhereHas('category', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', '%' . $searchTerm . '%');
+                    });
+            })->paginate(10);
+        $search = $searchTerm;
+        if ($request->ajax()) {
+            return view('client.components.product-list', compact('products'))->render();
+        }
+        return view('client.shop', compact('products', 'search'));
     }
 }

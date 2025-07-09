@@ -219,6 +219,7 @@
                     }'>
                         <div class="swiper-wrapper">
                             <!-- item 1 -->
+
                             @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
@@ -236,8 +237,6 @@
                                     </div>
                                 </div>
                             @endforeach
-
-
                         </div>
                         <div class="d-flex d-xl-none sw-dot-default sw-pagination-categories justify-content-center">
                         </div>
@@ -286,7 +285,7 @@
                             <div class="swiper-slide">
                                 <div class="card-product style-center">
                                     <div class="card-product-wrapper">
-                                        <a href="product-detail.html" class="product-img">
+                                        <a href="{{route('client.detailProduct', $item->id)}}" class="product-img">
                                             <img class="img-product lazyload"
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
@@ -294,31 +293,20 @@
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
                                         </a>
-                                       
-                                        
                                         <div class="on-sale-wrap flex-column type-2">
                                             <span class="on-sale-item">20% Off</span>
                                             <span class="on-sale-item trending">Trending</span>
                                         </div>
                                         <ul class="list-product-btn">
                                             <li>
-                                                <a href="javascript:void(0);"
-                                                    onclick="document.getElementById('quick-add-{{ $item->id }}').submit();"
+                                                <a href="#quickAdd" data-bs-toggle="modal"
                                                     class="bg-surface hover-tooltip tooltip-left box-icon">
                                                     <span class="icon icon-cart2"></span>
                                                     <span class="tooltip">Quick Add</span>
                                                 </a>
-
-                                                <form id="quick-add-{{ $item->id }}"
-                                                    action="{{ route('client.cart.add') }}" method="POST"
-                                                    class="d-none">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="{{ $item->id }}">
-                                                    <input type="hidden" name="quantity" value="1">
-                                                </form>
                                             </li>
                                             <li class="wishlist">
-                                                <a href="javascript:void(0);"
+                                                <a href="#"
                                                     class="bg-surface hover-tooltip tooltip-left box-icon">
                                                     <span class="icon icon-heart2"></span>
                                                     <span class="tooltip">Add to Wishlist</span>
@@ -874,214 +862,6 @@
         </div>
     </section>
     <!-- /Hot Deal -->
-    <!-- Testimonial -->
-    {{-- <section class="flat-spacing-2 pb-0">
-        <div class="container">
-            <div class="flat-title text-start wow fadeInUp">
-                <h4 class="title">Happy Customers</h4>
-            </div>
-            <div dir="ltr" class="swiper tf-swiper"
-                data-swiper='{
-                "slidesPerView": 1,
-                "spaceBetween": 12,
-                "speed": 800,
-                "observer": true,
-                "observeParents": true,
-                "slidesPerGroup": 1,
-                "pagination": { "el": ".sw-pagination-tes", "clickable": true },
-                "breakpoints": {
-                "768": { "slidesPerView": 2, "spaceBetween": 24, "slidesPerGroup": 2 },
-                "1200": { "slidesPerView": 3, "spaceBetween": 24, "slidesPerGroup": 3}
-                }
-            }'>
-                <div class="swiper-wrapper">
-                    <!-- item 1 -->
-                    <div class="swiper-slide">
-                        <div class="wg-testimonial wow fadeInLeft">
-                            <div class="content">
-                                <div class="content-top">
-                                    <div class="box-author">
-                                        <p class="name-author text-sm fw-medium">Emily T.</p>
-                                        <div class="box-verified text-main">
-                                            <i class="icon-verifi"></i>
-                                            <p class="text-xs fst-italic">
-                                                Verified Buyer
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="list-star-default">
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                    </div>
-                                    <p class="text-review text-sm text-main">
-                                        The quality of the electronics exceeded my expectations. Every device feels
-                                        premium, and the performance is outstanding. I'm absolutely impressed.
-                                    </p>
-                                </div>
-                                <span class="br-line d-block"></span>
-                                <div class="box-avt">
-                                    <div class="avatar">
-                                        <img src="images/testimonial/author/author-electric1.jpg" alt="author">
-                                    </div>
-                                    <div class="box-price">
-                                        <p class="name-item text-xs">
-                                            <a href="product-detail.html" class="text-line-clamp-2">Item purchased:
-                                                <span class="fw-medium text-sm link">Instax Mini 12 Camera</span>
-                                            </a>
-                                        </p>
-                                        <p class="price text-md fw-medium">
-                                            $130.00
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- item 2 -->
-                    <div class="swiper-slide">
-                        <div class="wg-testimonial wow fadeInLeft" data-wow-delay="0.1s">
-                            <div class="content">
-                                <div class="content-top">
-                                    <div class="box-author">
-                                        <p class="name-author text-sm fw-medium">Jessica M.</p>
-                                        <div class="box-verified text-main">
-                                            <i class="icon-verifi"></i>
-                                            <p class="text-xs fst-italic">
-                                                Verified Buyer
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="list-star-default">
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                    </div>
-                                    <p class="text-review text-sm text-main">
-                                        I love the gadget I purchased! The build quality is excellent, and the
-                                        performance is top-notch. I’ve gotten so many compliments on it. Will
-                                        definitely shop here again!
-                                    </p>
-                                </div>
-                                <span class="br-line d-block"></span>
-                                <div class="box-avt">
-                                    <div class="avatar">
-                                        <img src="images/testimonial/author/author-electric2.jpg" alt="author">
-                                    </div>
-                                    <div class="box-price">
-                                        <p class="name-item text-xs">
-                                            <a href="product-detail.html" class="text-line-clamp-2">Item purchased:
-                                                <span class="fw-medium text-sm link">Wi-Fi Video Doorbell</span>
-                                            </a>
-                                        </p>
-                                        <p class="price text-md fw-medium">
-                                            $150.00
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- item 3 -->
-                    <div class="swiper-slide">
-                        <div class="wg-testimonial wow fadeInLeft" data-wow-delay="0.2s">
-                            <div class="content">
-                                <div class="content-top">
-                                    <div class="box-author">
-                                        <p class="name-author text-sm fw-medium">Lisa P.</p>
-                                        <div class="box-verified text-main">
-                                            <i class="icon-verifi"></i>
-                                            <p class="text-xs fst-italic">
-                                                Verified Buyer
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="list-star-default">
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                    </div>
-                                    <p class="text-review text-sm text-main">
-                                        I was pleasantly surprised by how fast my order arrived. The customer
-                                        service team was helpful and responsive. Great shopping experience!
-                                    </p>
-                                </div>
-                                <span class="br-line d-block"></span>
-                                <div class="box-avt">
-                                    <div class="avatar">
-                                        <img src="images/testimonial/author/author-electric3.jpg" alt="author">
-                                    </div>
-                                    <div class="box-price">
-                                        <p class="name-item text-xs">
-                                            <a href="product-detail.html" class="text-line-clamp-2">Item purchased:
-                                                <span class="fw-medium text-sm link">Amazfit Bip 5 Smart Watch
-                                                    46mm</span> </a>
-                                        </p>
-                                        <p class="price text-md fw-medium">
-                                            $120.00
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- item 4 -->
-                    <div class="swiper-slide">
-                        <div class="wg-testimonial wow fadeInLeft">
-                            <div class="content">
-                                <div class="content-top">
-                                    <div class="box-author">
-                                        <p class="name-author text-sm fw-medium">Vineta P.</p>
-                                        <div class="box-verified text-main">
-                                            <i class="icon-verifi"></i>
-                                            <p class="text-xs fst-italic">
-                                                Verified Buyer
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="list-star-default">
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                        <i class="icon-star"></i>
-                                    </div>
-                                    <p class="text-review text-sm text-main">
-                                        The quality of the electronics exceeded my expectations. Every device feels
-                                        premium, and the performance is outstanding. I'm absolutely impressed.
-                                    </p>
-                                </div>
-                                <span class="br-line d-block"></span>
-                                <div class="box-avt">
-                                    <div class="avatar">
-                                        <img src="images/testimonial/author/author-electric1.jpg" alt="author">
-                                    </div>
-                                    <div class="box-price">
-                                        <p class="name-item text-xs">
-                                            <a href="product-detail.html" class="text-line-clamp-2">Item purchased:
-                                                <span class="fw-medium text-sm link">Instax Mini 12 Camera</span>
-                                            </a>
-                                        </p>
-                                        <p class="price text-md fw-medium">
-                                            $130.00
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <span class="sw-dot-default sw-pagination-tes justify-content-center"></span>
-            </div>
-        </div>
-    </section> --}}
-    <!-- /Testimonial -->
 
     <!-- Brand -->
     <div class="flat-spacing-2">
@@ -1143,179 +923,6 @@
             <div class="d-flex d-xl-none sw-dot-default sw-pagination-brand justify-content-center"></div>
         </div>
     </div>
-    <!-- /Brand -->
-    <!-- Latest Tip -->
-    <section>
-        <div class="container">
-            <div class="flat-title wow fadeInUp">
-                <h4 class="title">Latest Tips & Trends</h4>
-                <p class="desc text-main text-md">Discover expert advice, style inspiration, and product updates on
-                    our blog.</p>
-            </div>
-            <div class="fl-control-sw wrap-pos-nav wow fadeInUp">
-                <div dir="ltr" class="swiper tf-swiper"
-                    data-swiper='{
-                    "slidesPerView": 1,
-                    "spaceBetween": 12,
-                    "speed": 800,
-                    "observer": true,
-                    "observeParents": true,
-                    "slidesPerGroup": 1,
-                    "navigation": {
-                        "clickable": true,
-                        "nextEl": ".nav-next-new",
-                        "prevEl": ".nav-prev-new"
-                    },
-                    "pagination": { "el": ".sw-pagination-new", "clickable": true },
-                    "breakpoints": {
-                    "577": { "slidesPerView": 2, "spaceBetween": 12, "slidesPerGroup": 2 },
-                    "1200": { "slidesPerView": 3, "spaceBetween": 24, "slidesPerGroup": 4}
-                    }
-                }'>
-                    <div class="swiper-wrapper">
-                        <!-- item 1 -->
-                        <div class="swiper-slide">
-                            <div class="blog-item-v2">
-                                <div class="entry-image hover-img">
-                                    <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric1.jpg" data-src="images/blog/blog-eletric1.jpg"
-                                            alt="image">
-                                    </a>
-                                    <div class="entry-tag">
-                                        <span class="tag">Electric</span>
-                                        <span class="tag">Gadgets</span>
-                                    </div>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="info-box">
-                                        <ul class="meta-list">
-                                            <li class="item">by Jack</li>
-                                            <li class="item">Jan 15, 2025</li>
-                                            <li class="item">04 Comments</li>
-                                        </ul>
-                                        <a href="blog-single.html"
-                                            class="title fw-medium link text-xl text-line-clamp-2">Tech Trends 2025:
-                                            Must-Have Gadgets & Innovations</a>
-                                        <p class="desc text-main text-sm text-line-clamp-2">
-                                            Technology is more than convenience. It’s about enhancing everyday life
-                                            with smart, seamless solutions.
-                                        </p>
-                                    </div>
-                                    <a href="blog-single.html" class="btn-readmore link">Read more <i
-                                            class="icon icon-arr-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 2 -->
-                        <div class="swiper-slide">
-                            <div class="blog-item-v2">
-                                <div class="entry-image hover-img">
-                                    <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric2.jpg" data-src="images/blog/blog-eletric2.jpg"
-                                            alt="image">
-                                    </a>
-                                    <div class="entry-tag">
-                                        <span class="tag">Trends</span>
-                                    </div>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="info-box">
-                                        <ul class="meta-list">
-                                            <li class="item">by Alex</li>
-                                            <li class="item">Jan 19, 2025</li>
-                                            <li class="item">03 Comments</li>
-                                        </ul>
-                                        <a href="blog-single.html"
-                                            class="title fw-medium link text-xl text-line-clamp-2">Cutting-Edge
-                                            Tech: Top Electronics to Watch This Year</a>
-                                        <p class="desc text-main text-sm text-line-clamp-2">
-                                            Electric design goes beyond function. It’s about powering your world
-                                            with style, simplicity, and innovation.
-                                        </p>
-                                    </div>
-                                    <a href="blog-single.html" class="btn-readmore link">Read more <i
-                                            class="icon icon-arr-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="swiper-slide">
-                            <div class="blog-item-v2">
-                                <div class="entry-image hover-img">
-                                    <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric3.jpg" data-src="images/blog/blog-eletric3.jpg"
-                                            alt="image">
-                                    </a>
-                                    <div class="entry-tag">
-                                        <span class="tag">Innovation</span>
-                                    </div>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="info-box">
-                                        <ul class="meta-list">
-                                            <li class="item">by Henry</li>
-                                            <li class="item">May 7, 2025</li>
-                                            <li class="item">02 Comments</li>
-                                        </ul>
-                                        <a href="blog-single.html"
-                                            class="title fw-medium link text-xl text-line-clamp-2">Next-Gen Gadgets:
-                                            The Hottest Tech Trends of the Year</a>
-                                        <p class="desc text-main text-sm text-line-clamp-2">
-                                            Modern living starts with smart energy. From daily comfort to lasting
-                                            impact, electric solutions lead the way
-                                        </p>
-                                    </div>
-                                    <a href="blog-single.html" class="btn-readmore link">Read more <i
-                                            class="icon icon-arr-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="swiper-slide">
-                            <div class="blog-item-v2">
-                                <div class="entry-image hover-img">
-                                    <a href="blog-single.html" class="img-style">
-                                        <img src="images/blog/blog-eletric1.jpg" data-src="images/blog/blog-eletric1.jpg"
-                                            alt="image">
-                                    </a>
-                                    <div class="entry-tag">
-                                        <span class="tag">Electric</span>
-                                        <span class="tag">Gadgets</span>
-                                    </div>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="info-box">
-                                        <ul class="meta-list">
-                                            <li class="item">by Jack</li>
-                                            <li class="item">Jan 15, 2025</li>
-                                            <li class="item">04 Comments</li>
-                                        </ul>
-                                        <a href="blog-single.html"
-                                            class="title fw-medium link text-xl text-line-clamp-2">Tech Trends 2025:
-                                            Must-Have Gadgets & Innovations</a>
-                                        <p class="desc text-main text-sm text-line-clamp-2">
-                                            Technology is more than convenience. It’s about enhancing everyday life
-                                            with smart, seamless solutions.
-                                        </p>
-                                    </div>
-                                    <a href="blog-single.html" class="btn-readmore link">Read more <i
-                                            class="icon icon-arr-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex d-xl-none sw-dot-default sw-pagination-new justify-content-center"></div>
-                </div>
-                <div class="d-none d-xl-flex swiper-button-next nav-swiper nav-next-new"></div>
-                <div class="d-none d-xl-flex swiper-button-prev nav-swiper nav-prev-new"></div>
-            </div>
-        </div>
-    </section>
-    <!-- /Latest Tip -->
-    {{-- </div>
-            <div class="d-flex d-xl-none sw-dot-default sw-pagination-brand justify-content-center"></div>
-        </div>
-    </div> --}}
     <!-- /Brand -->
     <!-- Icon box -->
     <div class="flat-spacing-18">
@@ -1386,19 +993,3 @@
     </div>
     <!-- /Icon box -->
 @endsection
-
-{{-- <style>
-    .card-product-wrapper {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .card-product-wrapper:hover .add-to-cart-hover {
-        display: block !important;
-        z-index: 10;
-    }
-
-    .top-80 {
-        top: 90% !important;
-    }
-</style> --}}
