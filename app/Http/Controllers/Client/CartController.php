@@ -82,17 +82,20 @@ class CartController extends Controller
      */
     public function update(Request $request)
     {
-        if($request->quantities) {
-            $cart = session()->get('cart');
-            foreach($request->quantities as $id => $quantity) {
-                if(isset($cart[$id])) {
-                    // Đảm bảo số lượng là một số nguyên dương
-                    $cart[$id]['quantity'] = max(1, (int)$quantity);
-                }
+        $cart = session()->get('cart', []);
+        $quantities = $request->input('quantities', []);
+        $colors = $request->input('colors', []);
+        $sizes = $request->input('sizes', []);
+
+        foreach ($quantities as $id => $qty) {
+            if (isset($cart[$id])) {
+                $cart[$id]['quantity'] = max(1, (int)$qty);
+                $cart[$id]['color'] = $colors[$id] ?? $cart[$id]['color'];
+                $cart[$id]['size'] = $sizes[$id] ?? $cart[$id]['size'];
             }
-            session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Cart updated successfully!');
         }
-        return redirect()->back()->with('error', 'No quantities to update.');
+
+        session()->put('cart', $cart);
+        return back();
     }
 }

@@ -12,10 +12,10 @@ class OrderDetailSeeder extends Seeder
     {
         $orders = DB::table('orders')->pluck('id'); // Lấy danh sách id đơn hàng
         $variantOptions = [
-            ['id_variant' => 6, 'size' => '42', 'color' => 'Trắng', 'price' => 220.57],
-            ['id_variant' => 7, 'size' => '43', 'color' => 'Đen', 'price' => 220.57],
-            ['id_variant' => 8, 'size' => '41', 'color' => 'Đỏ', 'price' => 300.00],
-            ['id_variant' => 9, 'size' => '40', 'color' => 'Xám', 'price' => 724.79],
+            ['id_variant' => 1, 'size' => '42', 'color' => 'Trắng', 'price' => 220.57],
+            ['id_variant' => 2, 'size' => '43', 'color' => 'Đen', 'price' => 220.57],
+            ['id_variant' => 3, 'size' => '41', 'color' => 'Đỏ', 'price' => 300.00],
+            ['id_variant' => 4, 'size' => '40', 'color' => 'Xám', 'price' => 724.79],
         ];
 
         $now = Carbon::now();

@@ -184,6 +184,7 @@
     <script src="{{ asset('client/js/multiple-modal.js') }}"></script>
 
     <script src="{{ asset('client/js/main.js') }}"></script>
+    @stack('scripts')
 
 </body>
 

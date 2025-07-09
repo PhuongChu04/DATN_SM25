@@ -41,7 +41,8 @@ class ProductVariantSeeder extends Seeder
                 'id_size' => '42',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ]
+            ],
+            
             
         ]);
     }

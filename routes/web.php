@@ -225,6 +225,14 @@ Route::prefix('client')->name('client.')->group(function () {
     // Route để xóa sản phẩm
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
+
+    Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
+    Route::get('/addresses/create', [AddressController::class, 'create'])->name('addresses.create');
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
+    Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
@@ -235,13 +243,4 @@ Route::prefix('/auth')->name('auth.')->group(function () {
 });
 
 
-Route::prefix('client')->name('client.')->group(function () {
-    Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
-    Route::get('/addresses/create', [AddressController::class, 'create'])->name('addresses.create');
-    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
-    Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
-    Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
-    Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
-    Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
-});
 
