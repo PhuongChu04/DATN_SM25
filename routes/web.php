@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\ShippingRateController;
 use App\Http\Controllers\Client\HomeContrller;
+use App\Http\Controllers\Client\AddressController;
 // =================================CLIENT=================================
 
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -209,7 +210,6 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
 
-   
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
@@ -218,3 +218,15 @@ Route::prefix('/auth')->name('auth.')->group(function () {
     Route::post('/register', [AuthController::class, 'postRegister'])->name('postRegisterClient');
     Route::get('/logout', [AuthController::class, 'logoutClient'])->middleware('checkLogin')->name('logoutClient');
 });
+
+
+Route::prefix('client')->name('client.')->group(function () {
+    Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
+    Route::get('/addresses/create', [AddressController::class, 'create'])->name('addresses.create');
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
+    Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
+});
+
