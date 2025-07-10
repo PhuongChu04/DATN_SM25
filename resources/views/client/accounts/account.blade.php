@@ -20,7 +20,7 @@
                                     class="text-sm link fw-medium my-account-nav-item active">Dashboard</a>
                             </li>
                             <li>
-                                <a href="account-orders.html" class="text-sm link fw-medium my-account-nav-item">My
+                                <a href="{{route('client.showOder')}}" class="text-sm link fw-medium my-account-nav-item">My
                                     Orders</a>
                             </li>
                             <li>

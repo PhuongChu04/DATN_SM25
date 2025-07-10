@@ -14,6 +14,7 @@ use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Client\OderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\OrderController;
@@ -203,6 +204,10 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
+
+
+    Route::get('/order', [OderController::class, 'index'])->middleware('checkLogin')->name('showOder'); // show data
+    Route::get('/order-detail/{id}', [OderController::class, 'showDetail'])->name('OderDetail'); // show data
 
    
 });
