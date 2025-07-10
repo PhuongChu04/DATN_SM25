@@ -250,6 +250,9 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
     Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
     Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
+    // Route để chọn địa chỉ giao hàng
+    Route::post('/select-address', [AddressController::class, 'selectAddress'])->name('address.select');
+
 
 });
 Route::prefix('/auth')->name('auth.')->group(function () {

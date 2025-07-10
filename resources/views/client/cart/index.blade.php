@@ -100,6 +100,16 @@
                                 </div>
                             </div>
                         </div>
+                        @if (session('selected_address'))
+                            <div class="alert alert-info">
+                                <h5>Địa chỉ giao hàng:</h5>
+                                <p><strong>{{ session('selected_address.full_name') }}</strong></p>
+                                <p>{{ session('selected_address.phone') }}</p>
+                                <p>{{ session('selected_address.address') }}</p>
+                            </div>
+                        @endif
+
+
                     @endforeach
 
                     {{-- Nút Update Cart --}}
