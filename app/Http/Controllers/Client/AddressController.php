@@ -92,5 +92,18 @@ class AddressController extends Controller
 
         return redirect()->route('client.addresses.index');
     }
+
+    public function selectAddress(Request $request)
+    {
+        $address = Address::findOrFail($request->address_id);
+
+        session(['selected_address' => [
+            'full_name' => $address->recipient_name,
+            'phone' => $address->phone_number,
+            'address' => $address->detailed_address . ', ' . $address->ward . ', ' . $address->district . ', ' . $address->province,
+        ]]);
+
+        return redirect()->route('client.cart.index')->with('success', 'Đã chọn địa chỉ giao hàng!');
+    }
 }
 

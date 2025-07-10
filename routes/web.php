@@ -240,6 +240,19 @@ Route::prefix('client')->name('client.')->group(function () {
     // tìm kiếm sản phẩm 
     Route::get('/shop/search', [ClientProductController::class, 'searchClient'])->name('shop.search');
     
+
+
+    Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
+    Route::get('/addresses/create', [AddressController::class, 'create'])->name('addresses.create');
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
+    Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
+    // Route để chọn địa chỉ giao hàng
+    Route::post('/select-address', [AddressController::class, 'selectAddress'])->name('address.select');
+
+
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
@@ -250,13 +263,4 @@ Route::prefix('/auth')->name('auth.')->group(function () {
 });
 
 
-Route::prefix('client')->name('client.')->group(function () {
-    Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
-    Route::get('/addresses/create', [AddressController::class, 'create'])->name('addresses.create');
-    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
-    Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
-    Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
-    Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
-    Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
-});
 

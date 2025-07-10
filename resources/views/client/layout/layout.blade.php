@@ -186,6 +186,7 @@
     <script src="{{ asset('client/js/multiple-modal.js') }}"></script>
 
     <script src="{{ asset('client/js/main.js') }}"></script>
+    @stack('scripts')
 
     <script src="{{ asset('client/js/drift.min.js')}}"></script>
     <script src="{{ asset('client/js/photoswipe-lightbox.umd.min.js')}}"></script>
