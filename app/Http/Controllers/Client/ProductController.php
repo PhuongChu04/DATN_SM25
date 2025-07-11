@@ -36,6 +36,25 @@ class ProductController extends Controller
         return view('client.products.home', compact('products', 'categories'));
     }
 
+    public function getVariant(Request $request)
+    {
+        $productId = $request->query('product_id');
+        $colorId = $request->query('color_id');
+        $sizeId = $request->query('size_id');
+
+        $variant = ProductVariant::where('product_id', $productId)
+                                ->where('color_id', $colorId)
+                                ->where('size_id', $sizeId)
+                                ->first();
+
+        if ($variant) {
+            return response()->json(['variant_id' => $variant->id]);
+        }
+
+        return response()->json(['variant_id' => null], 404);
+    }
+    
+
     //==================Hiển thị shop - danh sách sản phẩm==================
     public function listProducts()
     {

@@ -281,7 +281,7 @@
                 }'>
                     <div class="swiper-wrapper wow fadeInUp">
                         <!-- Sản phẩm bán chạy -->
-                        @foreach ($products as $item)
+                        {{-- @foreach ($products as $item)
                             <div class="swiper-slide">
                                 <div class="card-product style-center">
                                     <div class="card-product-wrapper">
@@ -357,7 +357,98 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforeach --}}
+                        @foreach ($products as $item)
+    <div class="swiper-slide">
+        <div class="card-product style-center">
+            <div class="card-product-wrapper">
+                <a href="{{ route('client.detailProduct', $item->id) }}" class="product-img">
+                    <img class="img-product lazyload"
+                         data-src="{{ asset('storage/' . $item->image_primary) }}"
+                         src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                    <img class="img-hover lazyload"
+                         data-src="{{ asset('storage/' . $item->image_primary) }}"
+                         src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                </a>
+                <div class="on-sale-wrap flex-column type-2">
+                    <span class="on-sale-item">20% Off</span>
+                    <span class="on-sale-item trending">Trending</span>
+                </div>
+                <ul class="list-product-btn">
+                    {{-- <li>
+                        <form id="quick-add-{{ $item->id }}" action="{{ route('client.cart.add') }}" method="POST" onsubmit="return validateForm('quick-add-{{ $item->id }}')">
+                            @csrf
+                            <select name="id_variant" required class="form-control mb-2" style="width: 200px;">
+                                <option value="" disabled selected>Chọn biến thể</option>
+                                @forelse ($item->variants as $variant)
+                                    <option value="{{ $variant->id }}">
+                                        {{ $variant->color->name ?? 'N/A' }} - {{ $variant->size->name ?? 'N/A' }}
+                                        ({{ number_format($variant->price, 0, ',', '.') }} ₫)
+                                    </option>
+                                @empty
+                                    <option value="" disabled>Không có biến thể</option>
+                                @endforelse
+                            </select>
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="bg-surface hover-tooltip tooltip-left box-icon">
+                                <span class="icon icon-cart2"></span>
+                                <span class="tooltip">Quick Add</span>
+                            </button>
+                        </form>
+                    </li> --}}
+                    <li class="wishlist">
+                        <a href="#" class="bg-surface hover-tooltip tooltip-left box-icon">
+                            <span class="icon icon-heart2"></span>
+                            <span class="tooltip">Add to Wishlist</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#quickView" data-bs-toggle="modal"
+                           class="bg-surface hover-tooltip tooltip-left box-icon quickview">
+                            <span class="icon icon-view"></span>
+                            <span class="tooltip">Quick View</span>
+                        </a>
+                    </li>
+                    <li class="compare">
+                        <a href="#compare" data-bs-toggle="modal"
+                           class="bg-surface hover-tooltip tooltip-left box-icon">
+                            <span class="icon icon-compare"></span>
+                            <span class="tooltip">Add to Compare</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-product-info text-center">
+                <a href="{{ route('client.detailProduct', $item->id) }}"
+                   class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                <p class="price-wrap fw-medium">
+                    <span class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }} ₫</span>
+                    <span class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }} ₫</span>
+                </p>
+                <ul class="list-color-product justify-content-center">
+                    @foreach ($item->colors as $value)
+                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                            <span class="tooltip">{{ $value->name }}</span>
+                            <span class="swatch-value" style="background-color: {{ $value->code }}"></span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+<script>
+    function validateForm(formId) {
+        var form = document.getElementById(formId);
+        var select = form.querySelector('select[name="id_variant"]');
+        if (!select.value) {
+            alert('Vui lòng chọn biến thể sản phẩm!');
+            return false;
+        }
+        return true;
+    }
+</script>
 
                     </div>
                     <div class="d-flex d-xl-none sw-dot-default sw-pagination-top-pick justify-content-center">
@@ -397,7 +488,7 @@
     </div>
     <!-- /Banner Collection-->
     <!-- Hot Deal -->
-    <section class="bg-surface flat-spacing-8">
+    {{-- <section class="bg-surface flat-spacing-8">
         <div class="container">
             <div class="flat-title mb_1 style-between wow fadeInUp">
                 <div class="box-title">
@@ -868,9 +959,9 @@
                 <div class="swiper-button-prev d-none d-xl-flex nav-swiper nav-prev-deal"></div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /Hot Deal -->
-   <!-- search -->
+    <!-- search -->
     <div class="modal fade popup-search" id="search">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
@@ -884,8 +975,9 @@
                                 <div class="heading">Bạn đang tìm kiếm gì?</div>
                                 <form class="form-search" action="{{ route('client.shop.search') }}" method="GET">
                                     <fieldset class="text">
-                                        <input type="text" placeholder="Search" class="" name="search" tabindex="0"
-                                            value="{{ request('search') }}" aria-required="true" required="">
+                                        <input type="text" placeholder="Search" class="" name="search"
+                                            tabindex="0" value="{{ request('search') }}" aria-required="true"
+                                            required="">
                                     </fieldset>
                                     <button type="submit">
                                         <i class="icon icon-search"></i>
@@ -905,7 +997,8 @@
                         <div class="col-lg-12">
                             <div class="featured-product">
                                 <div class="text-xl-2 fw-medium featured-product-heading">Featured product</div>
-                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over" data-swiper='{
+                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over"
+                                    data-swiper='{
                                         "slidesPerView": 2,
                                         "spaceBetween": 12,
                                         "speed": 800,
@@ -921,81 +1014,85 @@
                                     <div class="swiper-wrapper">
                                         @foreach ($products as $item)
                                             <div class="swiper-slide">
-                                            <div class="card-product style-3 card-product-size">
-                                                <div class="card-product-wrapper">
-                                                    <a href="product-detail.html" class="product-img">
-                                                        <img class="img-product lazyload"
-                                                            data-src="{{asset('storage/'.$item->image_primary)}}"
-                                                            src="{{asset('storage/'.$item->image_primary)}}"
-                                                            alt="image-product">
-                                                        <img class="img-hover lazyload"
-                                                            data-src="{{asset('storage/'.$item->image_primary)}}"
-                                                            src="{{asset('storage/'.$item->image_primary)}}"
-                                                            alt="image-product">
-                                                    </a>
-                                                    <ul class="list-product-btn">
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-                                                                class="box-icon hover-tooltip wishlist">
-                                                                <span class="icon icon-heart2"></span>
-                                                                <span class="tooltip">Add to Wishlist</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-                                                                class="btn-quickview box-icon hover-tooltip quickview">
-                                                                <span class="icon icon-view"></span>
-                                                                <span class="tooltip">Quick View</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-class="box-icon hover-tooltip compare btn-compare">
-                                                                <span class="icon icon-compare"></span>
-                                                                <span class="tooltip">Add to Compare</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="product-btn-main">
-                                                        <a href="#shoppingCart" data-bs-toggle="offcanvas"
-                                                            class="btn-main-product">
-                                                            <span class="icon icon-cart2"></span>
-                                                            <span class="text-md fw-medium">
-                                                                Add to Cart
-                                                            </span>
+                                                <div class="card-product style-3 card-product-size">
+                                                    <div class="card-product-wrapper">
+                                                        <a href="product-detail.html" class="product-img">
+                                                            <img class="img-product lazyload"
+                                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                alt="image-product">
+                                                            <img class="img-hover lazyload"
+                                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                alt="image-product">
                                                         </a>
+                                                        <ul class="list-product-btn">
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="box-icon hover-tooltip wishlist">
+                                                                    <span class="icon icon-heart2"></span>
+                                                                    <span class="tooltip">Add to Wishlist</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="btn-quickview box-icon hover-tooltip quickview">
+                                                                    <span class="icon icon-view"></span>
+                                                                    <span class="tooltip">Quick View</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="box-icon hover-tooltip compare btn-compare">
+                                                                    <span class="icon icon-compare"></span>
+                                                                    <span class="tooltip">Add to Compare</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="product-btn-main">
+                                                            <a href="#shoppingCart" data-bs-toggle="offcanvas"
+                                                                class="btn-main-product">
+                                                                <span class="icon icon-cart2"></span>
+                                                                <span class="text-md fw-medium">
+                                                                    Add to Cart
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                        <ul class="size-box">
+                                                            @foreach ($item->sizes as $value)
+                                                                <li class="size-item text-xs text-white">
+                                                                    {{ $value->name }}</li>
+                                                            @endforeach
+
+                                                        </ul>
                                                     </div>
-                                                    <ul class="size-box">
-                                                        @foreach ($item->sizes as $value)
-                                                            <li class="size-item text-xs text-white">{{$value->name}}</li>
-                                                        @endforeach
-                                                        
-                                                    </ul>
-                                                </div>
-                                                <div class="card-product-info">
-                                                    <a href="product-detail.html"
-                                                        class="name-product link fw-medium text-md">{{$item->name}}</a>
-                                                    <p class="price-wrap fw-medium">
-                                                        <span class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
-                                                        {{-- <span class="price-old">$100.00</span> --}}
-                                                    </p>
-                                                    <ul class="list-color-product">
-                                                        @foreach ($item->colors as $value)
-                                                            <li
-                                                            class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                                            <span class="tooltip color-filter">{{$value->name}}</span>
-                                                            <span class="swatch-value" style="background-color: {{$value->code}}"></span>
-{{-- <img class="lazyload"
+                                                    <div class="card-product-info">
+                                                        <a href="product-detail.html"
+                                                            class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                                        <p class="price-wrap fw-medium">
+                                                            <span
+                                                                class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
+                                                            {{-- <span class="price-old">$100.00</span> --}}
+                                                        </p>
+                                                        <ul class="list-color-product">
+                                                            @foreach ($item->colors as $value)
+                                                                <li
+                                                                    class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                                    <span
+                                                                        class="tooltip color-filter">{{ $value->name }}</span>
+                                                                    <span class="swatch-value"
+                                                                        style="background-color: {{ $value->code }}"></span>
+                                                                    {{-- <img class="lazyload"
                                                                 data-src="images/products/fashion/product-27.jpg"
                                                                 src="images/products/fashion/product-27.jpg"
                                                                 alt="image-product"> --}}
-                                                        </li>
-                                                        @endforeach
-                                                        
-                                                    </ul>
+                                                                </li>
+                                                            @endforeach
+
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         @endforeach
                                     </div>
                                     <div

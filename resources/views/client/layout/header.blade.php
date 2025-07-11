@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-xl-2 col-md-4 col-6 text-center">
                     <a href="home-electronic.html" class="logo-header">
-                        <img src="{{ asset('client/images/logo/INFINITY.png') }}" alt="logo" class="logo" heigh="">
+                        <img src="{{ asset('client/images/logo/IFN.jpg') }}" alt="logo" class="logo" heigh="">
                     </a>
                 </div>
                 <div class="col-xl-5 col-md-4 col-3">

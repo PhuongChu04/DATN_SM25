@@ -113,18 +113,34 @@
                                 </div>
 
                                 <!-- FORM THÊM GIỎ HÀNG -->
+                                <!-- Thêm thông báo lỗi/thành công -->
+                                <!-- Thêm thông báo lỗi/thành công -->
+                                @if (session('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+                                @if (session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+
                                 <form id="form-add-to-cart" action="{{ route('client.cart.add') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="quantity" id="input-quantity" value="1">
+                                    <input type="hidden" name="id_color" id="input-color" value="">
+                                    <input type="hidden" name="id_size" id="input-size" value="">
 
                                     <div class="tf-product-variant">
                                         <div class="variant-picker-item variant-color">
                                             <div class="variant-picker-label">Colors:</div>
                                             <div class="variant-picker-values">
                                                 @foreach ($product->colors as $item)
-                                                    <div class="hover-tooltip tooltip-bot color-btn active"
-                                                        data-color="{{ $item->name }}">
+                                                    <div class="hover-tooltip tooltip-bot color-btn {{ $loop->first ? 'active' : '' }}"
+                                                        data-color="{{ $item->name }}"
+                                                        data-color-id="{{ $item->id }}">
                                                         <span class="check-color"
                                                             style="background-color: {{ $item->code }}"></span>
                                                         <span class="tooltip">{{ $item->name }}</span>
@@ -134,13 +150,14 @@
                                         </div>
                                         <div class="variant-picker-item variant-size">
                                             <div class="variant-picker-label">
-                                                <div>Size:<span
+                                                <div>Size: <span
                                                         class="variant-picker-label-value value-currentSize"></span></div>
                                             </div>
                                             <div class="variant-picker-values">
                                                 @foreach ($product->sizes as $item)
-                                                    <span class="size-btn active"
-                                                        data-size="{{ $item->name }}">{{ $item->name }}</span>
+                                                    <span class="size-btn {{ $loop->first ? 'active' : '' }}"
+                                                        data-size="{{ $item->name }}"
+                                                        data-size-id="{{ $item->id }}">{{ $item->name }}</span>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -155,14 +172,13 @@
                                                 <button type="button" class="btn-quantity btn-increase">+</button>
                                             </div>
 
-                                            <button type="submit" class="tf-btn animate-btn btn-add-to-cart"
-                                                data-bs-toggle="offcanvas" data-bs-target="#shoppingCart">
+                                            <button type="submit" class="tf-btn animate-btn btn-add-to-cart">
                                                 Thêm giỏ hàng
                                             </button>
                                         </div>
 
-                                        <a href="javascript:void(0);" class="tf-btn btn-primary w-100 animate-btn">Mua ngay</a>
-
+                                        <a href="javascript:void(0);" class="tf-btn btn-primary w-100 animate-btn">Mua
+                                            ngay</a>
                                     </div>
                                 </form>
 
@@ -503,11 +519,52 @@
     <!-- /Recently Viewed -->
 @endsection
 <script>
+document.addEventListener('DOMContentLoaded', function () {
     const qtyInput = document.getElementById('quantity-product');
     const inputQty = document.getElementById('input-quantity');
+    const inputColor = document.getElementById('input-color');
+    const inputSize = document.getElementById('input-size');
     const btnIncrease = document.querySelector('.btn-increase');
     const btnDecrease = document.querySelector('.btn-decrease');
+    const colorButtons = document.querySelectorAll('.color-btn');
+    const sizeButtons = document.querySelectorAll('.size-btn');
+    const variantPickerLabel = document.querySelector('.value-currentSize');
 
+    // Lấy giá trị mặc định
+    let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId || '';
+    let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId || '';
+
+    // Cập nhật input-color và input-size
+    // function updateVariantInputs() {
+    //     inputColor.value = selectedColorId;
+    //     inputSize.value = selectedSizeId;
+    //     if (!selectedColorId || !selectedSizeId) {
+    //         alert('Vui lòng chọn màu và kích thước.');
+    //     }
+    // }
+
+    // Xử lý chọn màu
+    colorButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            colorButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            selectedColorId = button.dataset.colorId;
+            updateVariantInputs();
+        });
+    });
+
+    // Xử lý chọn kích thước
+    sizeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            selectedSizeId = button.dataset.sizeId;
+            variantPickerLabel.textContent = button.dataset.size;
+            updateVariantInputs();
+        });
+    });
+
+    // Xử lý số lượng
     btnIncrease.addEventListener('click', () => {
         qtyInput.value = parseInt(qtyInput.value) + 1;
         inputQty.value = qtyInput.value;
@@ -523,4 +580,8 @@
     qtyInput.addEventListener('input', () => {
         inputQty.value = qtyInput.value;
     });
+
+    // Gọi lần đầu để thiết lập giá trị mặc định
+    updateVariantInputs();
+});
 </script>
