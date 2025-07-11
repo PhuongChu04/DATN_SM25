@@ -1,0 +1,71 @@
+@extends('client.layout.layout')
+
+@section('content')
+    <div class="flat-spacing-13">
+        <div class="container-7">
+            <div class="btn-sidebar-mb d-lg-none">
+                <button data-bs-toggle="offcanvas" data-bs-target="#mbAccount">
+                    <i class="icon icon-sidebar"></i>
+                </button>
+            </div>
+
+            <div class="main-content-account">
+                <div class="sidebar-account-wrap sidebar-content-wrap sticky-top d-lg-block d-none">
+                    <ul class="my-account-nav">
+                        <li><a href="account-page.html" class="text-sm link fw-medium my-account-nav-item">Dashboard</a></li>
+                        <li><a href="account-orders.html" class="text-sm link fw-medium my-account-nav-item">My Orders</a></li>
+                        <li><a href="wish-list.html" class="text-sm link fw-medium my-account-nav-item">My Wishlist</a></li>
+                        <li><a href="{{ route('client.addresses.index') }}" class="text-sm link fw-medium my-account-nav-item active">Addresses</a></li>
+                        <li><a href="{{ route('client.accountDetail') }}" class="text-sm link fw-medium my-account-nav-item">Account Details</a></li>
+                        <li><a href="{{ route('auth.logoutClient') }}" class="text-sm link fw-medium my-account-nav-item" onclick="return confirm('Bạn có muốn đăng xuất không?')">Log Out</a></li>
+                    </ul>
+                </div>
+
+                <div class="my-acount-content account-dashboard">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4>My Addresses</h4>
+                        <a href="{{ route('client.addresses.create') }}" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add New
+                        </a>
+                    </div>
+
+                    @foreach ($addresses as $address)
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">
+                                    {{ $address->recipient_name }} - {{ $address->phone_number }}
+                                </h5>
+                                <p class="card-text">
+                                    {{ $address->detailed_address }}, {{ $address->ward }}, {{ $address->district }}, {{ $address->province }}
+                                </p>
+                                <span class="badge bg-primary">{{ $address->address_type }}</span>
+                                @if ($address->is_default)
+                                    <span class="badge bg-danger">Default</span>
+                                @else
+                                    <form action="{{ route('client.addresses.set-default', $address->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">Set Default</button>
+                                    </form>
+                                @endif
+
+                                <div class="mt-3">
+                                    <a href="{{ route('client.addresses.edit', $address->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('client.addresses.destroy', $address->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this address?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    @if ($addresses->isEmpty())
+                        <div class="alert alert-info">You don't have any saved addresses yet.</div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

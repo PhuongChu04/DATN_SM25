@@ -9,7 +9,7 @@ use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\BrandController;
-use App\Http\Controllers\CheckoutController;
+//use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
@@ -25,6 +25,15 @@ use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\ShippingRateController;
 use App\Http\Controllers\Client\HomeContrller;
 use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Client\AddressController;
+use Illuminate\Support\Facades\File;
+use App\Http\Controllers\Client\CheckoutController;
+
+Route::get('/test-address', function () {
+    $json = File::get(base_path('packages/vudovn/dvhcvn/json/data.json'));
+    $data = json_decode($json, true);
+    return response()->json($data);
+});
 // =================================CLIENT=================================
 
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -239,6 +248,16 @@ Route::prefix('client')->name('client.')->group(function () {
 
     // tìm kiếm sản phẩm
     Route::get('/shop/search', [ClientProductController::class, 'searchClient'])->name('shop.search');
+    Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
+    Route::get('/addresses/create', [AddressController::class, 'create'])->name('addresses.create');
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
+    Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
+    // Route để chọn địa chỉ giao hàng
+    Route::post('/select-address', [AddressController::class, 'selectAddress'])->name('address.select');
+
 
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
@@ -259,6 +278,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
     });
 });
+
+
+
+Route::group(['middleware' => 'sentinel.auth'], function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+});
+
+
+//checkout
+Route::get('/checkout', [CheckoutController::class, 'showForm'])->name('checkout.form');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
 
 

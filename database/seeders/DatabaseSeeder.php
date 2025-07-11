@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+
       $this->call([
                 UserSeeder::class,
                 BrandSeeder::class,
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
                 OrderDetailSeeder::class,
                 ReviewSeeder::class,
             ]);
+
 
 
     }

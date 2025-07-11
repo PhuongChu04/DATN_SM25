@@ -257,7 +257,8 @@
                     <p class="desc text-main text-md">Khám phá những sản phẩm phổ biến nhất của chúng tôi mà khách hàng
                         không thể có đủ</p>
                 </div>
-                <a href="shop-default.html" class="btn-underline">View all</a>
+
+                <a href="{{ route('client.listProducts') }}" class="btn-underline">View all</a>
             </div>
             <div class="fl-control-sw">
                 <div dir="ltr" class="sw-height swiper tf-swiper"
@@ -285,7 +286,8 @@
                             <div class="swiper-slide">
                                 <div class="card-product style-center">
                                     <div class="card-product-wrapper">
-                                        <a href="{{route('client.detailProduct', $item->id)}}" class="product-img">
+
+                                        <a href="{{ route('client.detailProduct', $item->id) }}" class="product-img">
                                             <img class="img-product lazyload"
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
@@ -299,15 +301,25 @@
                                         </div>
                                         <ul class="list-product-btn">
                                             <li>
-                                                <a href="#quickAdd" data-bs-toggle="modal"
+
+                                                <a href="javascript:void(0);"
+                                                    onclick="document.getElementById('quick-add-{{ $item->id }}').submit();"
                                                     class="bg-surface hover-tooltip tooltip-left box-icon">
                                                     <span class="icon icon-cart2"></span>
                                                     <span class="tooltip">Quick Add</span>
                                                 </a>
+
+
+                                                <form id="quick-add-{{ $item->id }}"
+                                                    action="{{ route('client.cart.add') }}" method="POST"
+                                                    class="d-none">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                                    <input type="hidden" name="quantity" value="1">
+                                                </form>
                                             </li>
                                             <li class="wishlist">
-                                                <a href="#"
-                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                <a href="#" class="bg-surface hover-tooltip tooltip-left box-icon">
                                                     <span class="icon icon-heart2"></span>
                                                     <span class="tooltip">Add to Wishlist</span>
                                                 </a>
@@ -863,6 +875,148 @@
     </section>
     <!-- /Hot Deal -->
 
+   <!-- search -->
+    <div class="modal fade popup-search" id="search">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="header">
+                    <button class="icon-close icon-close-popup" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="looking-for-wrap">
+                                <div class="heading">Bạn đang tìm kiếm gì?</div>
+                                <form class="form-search" action="{{ route('client.shop.search') }}" method="GET">
+                                    <fieldset class="text">
+                                        <input type="text" placeholder="Search" class="" name="search" tabindex="0"
+                                            value="{{ request('search') }}" aria-required="true" required="">
+                                    </fieldset>
+                                    <button type="submit">
+                                        <i class="icon icon-search"></i>
+                                    </button>
+                                </form>
+                                <div class="popular-searches justify-content-md-center">
+                                    <div class="text fw-medium">Popular searches:</div>
+                                    <ul>
+                                        <li><a class="link" href="#">Featured</a></li>
+                                        <li><a class="link" href="#">Trendy</a></li>
+                                        <li><a class="link" href="#">New</a></li>
+                                        <li><a class="link" href="#">Sale</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="featured-product">
+                                <div class="text-xl-2 fw-medium featured-product-heading">Featured product</div>
+                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over" data-swiper='{
+                                        "slidesPerView": 2,
+                                        "spaceBetween": 12,
+                                        "speed": 800,
+                                        "observer": true,
+                                        "observeParents": true,
+                                        "slidesPerGroup": 2,
+                                        "pagination": { "el": ".sw-pagination-search", "clickable": true },
+                                        "breakpoints": {
+                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },
+"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+                                        }
+                                    }'>
+                                    <div class="swiper-wrapper">
+                                        @foreach ($products as $item)
+                                            <div class="swiper-slide">
+                                            <div class="card-product style-3 card-product-size">
+                                                <div class="card-product-wrapper">
+                                                    <a href="product-detail.html" class="product-img">
+                                                        <img class="img-product lazyload"
+                                                            data-src="{{asset('storage/'.$item->image_primary)}}"
+                                                            src="{{asset('storage/'.$item->image_primary)}}"
+                                                            alt="image-product">
+                                                        <img class="img-hover lazyload"
+                                                            data-src="{{asset('storage/'.$item->image_primary)}}"
+                                                            src="{{asset('storage/'.$item->image_primary)}}"
+                                                            alt="image-product">
+                                                    </a>
+                                                    <ul class="list-product-btn">
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                class="box-icon hover-tooltip wishlist">
+                                                                <span class="icon icon-heart2"></span>
+                                                                <span class="tooltip">Add to Wishlist</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                class="btn-quickview box-icon hover-tooltip quickview">
+                                                                <span class="icon icon-view"></span>
+                                                                <span class="tooltip">Quick View</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+class="box-icon hover-tooltip compare btn-compare">
+                                                                <span class="icon icon-compare"></span>
+                                                                <span class="tooltip">Add to Compare</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="product-btn-main">
+                                                        <a href="#shoppingCart" data-bs-toggle="offcanvas"
+                                                            class="btn-main-product">
+                                                            <span class="icon icon-cart2"></span>
+                                                            <span class="text-md fw-medium">
+                                                                Add to Cart
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    <ul class="size-box">
+                                                        @foreach ($item->sizes as $value)
+                                                            <li class="size-item text-xs text-white">{{$value->name}}</li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </div>
+                                                <div class="card-product-info">
+                                                    <a href="product-detail.html"
+                                                        class="name-product link fw-medium text-md">{{$item->name}}</a>
+                                                    <p class="price-wrap fw-medium">
+                                                        <span class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
+                                                        {{-- <span class="price-old">$100.00</span> --}}
+                                                    </p>
+                                                    <ul class="list-color-product">
+                                                        @foreach ($item->colors as $value)
+                                                            <li
+                                                            class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                            <span class="tooltip color-filter">{{$value->name}}</span>
+                                                            <span class="swatch-value" style="background-color: {{$value->code}}"></span>
+{{-- <img class="lazyload"
+                                                                data-src="images/products/fashion/product-27.jpg"
+                                                                src="images/products/fashion/product-27.jpg"
+                                                                alt="image-product"> --}}
+                                                        </li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                    <div
+                                        class="d-flex d-xl-none sw-dot-default sw-pagination-search justify-content-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /search -->
+
+
     <!-- Brand -->
     <div class="flat-spacing-2">
         <div class="container">
@@ -933,12 +1087,12 @@
                 "slidesPerView": 1,
                 "spaceBetween": 12,
                 "speed": 800,
-                "preventInteractionOnTransition": false, 
+                "preventInteractionOnTransition": false,
                 "touchStartPreventDefault": false,
                 "slidesPerGroup": 1,
                 "pagination": { "el": ".sw-pagination-iconbox", "clickable": true },
                 "breakpoints": {
-                    "575": { "slidesPerView": 2, "spaceBetween": 12}, 
+                    "575": { "slidesPerView": 2, "spaceBetween": 12},
                     "768": { "slidesPerView": 3, "spaceBetween": 24},
                     "1200": { "slidesPerView": "auto", "spaceBetween": 59}
                 }

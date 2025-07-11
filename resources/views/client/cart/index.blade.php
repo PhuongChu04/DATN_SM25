@@ -35,7 +35,7 @@
                             {{-- Cột sản phẩm --}}
                             <div class="col-12 col-md-5">
                                 <div class="d-flex align-items-center">
-                                    <a href="#"><img src="{{ asset('storage/' . $details['image']) }}" alt="{{ $details['name'] }}" style="width: 90px; height: 110px; object-fit: cover;" class="rounded"></a>
+                                    <a href="#"><img src="{{ asset('storage/' . $details['image']) }}"  style="width: 90px; height: 110px; object-fit: cover;" class="rounded"></a>
                                     <div class="ms-3">
                                         <a href="#" class="text-dark text-decoration-none fw-bold">{{ $details['name'] }}</a>
                                         <div class="d-flex gap-2 mt-2">
@@ -91,7 +91,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent border-top pt-3"><strong class="h5">Total</strong><strong class="h5">${{ number_format($subtotal ?? 0, 2) }}</strong></li>
                     </ul>
                     <div class="form-check my-4"><input class="form-check-input" type="checkbox" value="" id="terms"><label class="form-check-label" for="terms">I agree with the <a href="#">Terms And Conditions</a></label></div>
-                    <a href="#" class="btn btn-dark btn-lg w-100 mb-2">Process To Checkout</a>
+                    <a href="{{ route('checkout.form') }}" class="btn btn-dark btn-lg w-100 mt-4">Thanh toán</a>
                     <a href="/" class="btn btn-outline-dark w-100">Or continue shopping</a>
                 </div>
             </div>

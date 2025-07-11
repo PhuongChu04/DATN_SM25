@@ -21,7 +21,7 @@ class CheckoutController extends Controller
         // 3. Xử lý logic thanh toán
         // **QUAN TRỌNG:** KHÔNG BAO GIỜ tin tưởng vào giá tiền (`price`) gửi từ client.
         // Luôn lấy lại giá từ database dựa trên `id` để đảm bảo an toàn.
-        
+
         $totalAmount = 0;
         $order_details = [];
 
@@ -29,7 +29,7 @@ class CheckoutController extends Controller
             $product = Product::find($item['id']);
             if ($product) {
                 // Lấy giá từ database, không phải từ request
-                $real_price = $product->price; 
+                $real_price = $product->price;
                 $totalAmount += $real_price * $item['quantity'];
 
                 // Thêm vào chi tiết đơn hàng để lưu sau này
@@ -40,7 +40,7 @@ class CheckoutController extends Controller
                 ];
             }
         }
-        
+
         // DÙNG dd() ĐỂ KIỂM TRA DỮ LIỆU NHẬN ĐƯỢC
         // dd($cartItems, $order_details, $totalAmount);
 
@@ -51,7 +51,7 @@ class CheckoutController extends Controller
         // - Trừ số lượng tồn kho của sản phẩm.
         // - Gửi email xác nhận đơn hàng cho khách.
         // - Xóa giỏ hàng ở client bằng cách xóa localStorage sau khi thanh toán thành công.
-        
+
         // Sau khi xử lý xong, chuyển hướng đến trang cảm ơn
         return redirect()->route('thankyou.page')->with('success', 'Đặt hàng thành công!');
     }

@@ -6,7 +6,8 @@
             <div class="box-title text-center">
                 <h4 class="title">Shop</h4>
                 <div class="breadcrumb-list">
-                    <a class="breadcrumb-item" href="{{ route('client.home') }}">Home</a>
+
+                    <a class="breadcrumb-item" href="{{ route('client.homeClient') }}">Home</a>
                     <div class="breadcrumb-item dot"><span></span></div>
                     <a class="breadcrumb-item" href="{{ route('client.listProducts') }}">Shop</a>
                 </div>
@@ -533,7 +534,8 @@
             <div class="pagination-item">{{ $products->links() }}</div>
         </div>
     </section>
-    <!-- search -->
+
+   <!-- search -->
     <div class="modal fade popup-search" id="search">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
@@ -578,7 +580,9 @@
                                         "pagination": { "el": ".sw-pagination-search", "clickable": true },
                                         "breakpoints": {
                                         "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },
-                                        "1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+
+"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+
                                         }
                                     }'>
                                     <div class="swiper-wrapper">
@@ -613,7 +617,9 @@
                                                         </li>
                                                         <li>
                                                             <a href="javascript:void(0);"
-                                                                class="box-icon hover-tooltip compare btn-compare">
+
+class="box-icon hover-tooltip compare btn-compare">
+
                                                                 <span class="icon icon-compare"></span>
                                                                 <span class="tooltip">Add to Compare</span>
                                                             </a>
@@ -632,7 +638,7 @@
                                                         @foreach ($item->sizes as $value)
                                                             <li class="size-item text-xs text-white">{{$value->name}}</li>
                                                         @endforeach
-                                                        
+
                                                     </ul>
                                                 </div>
                                                 <div class="card-product-info">
@@ -648,13 +654,15 @@
                                                             class="list-color-item color-swatch hover-tooltip tooltip-bot active">
                                                             <span class="tooltip color-filter">{{$value->name}}</span>
                                                             <span class="swatch-value" style="background-color: {{$value->code}}"></span>
-                                                            {{-- <img class="lazyload"
+
+{{-- <img class="lazyload"
+
                                                                 data-src="images/products/fashion/product-27.jpg"
                                                                 src="images/products/fashion/product-27.jpg"
                                                                 alt="image-product"> --}}
                                                         </li>
                                                         @endforeach
-                                                        
+
                                                     </ul>
                                                 </div>
                                             </div>
@@ -1417,6 +1425,6 @@
         </div>
     </div>
     <!-- /Filter Shop -->
-    
-    
+
+
 @endsection

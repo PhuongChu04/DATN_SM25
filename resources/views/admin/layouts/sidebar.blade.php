@@ -57,7 +57,9 @@
                             <a class="sub-nav-link" href="{{ route('admin.product.listProduct') }}">List</a>
                         </li>
                         {{--  --}}
+
                         {{--
+
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="product-details.html">Details</a>
                         </li>
@@ -261,6 +263,7 @@
                         </ul>
                     </div>
                 </li>
+
                  <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarShippingRate" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarShippingRate">
@@ -363,9 +366,11 @@
             </li>
 
 
+
         </ul>
     </div>
     </div>
+
 
 
 

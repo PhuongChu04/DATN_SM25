@@ -71,6 +71,6 @@ class Kernel extends HttpKernel
         'checkAdmin' => CheckSentinelMiddleware::class,
         'checkUser' => CheckUserRole::class,
         'checkLogin' => SentinelAuth::class,
-        
+
     ];
 }

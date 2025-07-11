@@ -21,7 +21,7 @@ class CartController extends Controller
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity');
         $product = Product::findOrFail($productId);
-        
+
         // Lấy giỏ hàng từ session, nếu chưa có thì tạo mảng rỗng
         $cart = session()->get('cart', []);
 
@@ -35,10 +35,11 @@ class CartController extends Controller
                 "name" => $product->name,
                 "quantity" => $quantity,
                 "price" => $product->firstVariant->price ?? 0, // Lấy giá từ variant
-                "image" => $product->image_primary
+                'image' =>  $product->image_primary,
+
             ];
         }
-        
+
         // Lưu lại giỏ hàng vào session
         session()->put('cart', $cart);
 
@@ -55,7 +56,7 @@ class CartController extends Controller
 
         // Lấy một vài sản phẩm ngẫu nhiên làm "Sản phẩm liên quan"
         $relatedProducts = Product::inRandomOrder()->limit(4)->get();
-        
+
         return view('client.cart.index', compact('cart', 'relatedProducts'));
     }
 
