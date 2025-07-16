@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\ProductVariantService;
-use App\Models\ProductVariant;
+use App\Models\Wishlist;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class ProductController extends Controller
 {
@@ -57,12 +58,57 @@ class ProductController extends Controller
                 ->orWhere('id_brand', $product->id_brand);
         })
             ->where('id', '!=', $product->id)
-            ->with('firstVariant','colors')
+            ->with('firstVariant', 'colors')
             ->inRandomOrder()
             ->take(10)
             ->get();
 
         return view('client.products.detailProduct', compact('product', 'similarProducts'));
+    }
+
+    //================== CÁC PHƯƠNG THỨC WISHLIST ==================
+    public function toggleWishlist(Request $request, Product $product)
+    {
+        if (!$user = Sentinel::getUser()) {
+            return response()->json(['error' => 'Unauthenticated', 'message' => 'Bạn cần đăng nhập để thực hiện chức năng này.'], 401);
+        }
+
+        $wishlistItem = Wishlist::where('id_user', $user->id)
+            ->where('id_product', $product->id)
+            ->first();
+
+        if ($wishlistItem) {
+            $wishlistItem->delete();
+            $status = 'removed';
+        } else {
+            Wishlist::create([
+                'id_user' => $user->id,
+                'id_product' => $product->id,
+            ]);
+            $status = 'added';
+        }
+
+        $count = Wishlist::where('id_user', $user->id)->count();
+
+
+        return response()->json([
+            'status' => $status,
+            'count' => $count,
+        ]);
+    }
+
+    public function wishlistProduct()
+    {
+        if (!$user = Sentinel::getUser()) {
+            return redirect()->route('auth.loginClient')->with('error', 'Bạn cần đăng nhập để xem danh sách yêu thích.');
+        }
+
+        $wishlistItems = Wishlist::where('id_user', $user->id)
+            ->with(['product.firstVariant', 'product.brand', 'product.colors'])
+            ->latest()
+            ->get();
+
+        return view('client.products.wishlistProduct', compact('wishlistItems'));
     }
 
 

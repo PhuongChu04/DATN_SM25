@@ -108,8 +108,9 @@
                                     </div>
                                     <div class="product-price">
                                         <div class="display-sm price-new">
-                                            {{ $product->firstVariant['price'] }}₫</div>
-                                        <div class="display-sm price-old">{{ $product->firstVariant['price'] }}₫</div>
+                                            {{ $product->firstVariant['price'] ?? 'N/A' }}₫</div>
+                                        <div class="display-sm price-old">{{ $product->firstVariant['price'] ?? 'N/A' }}₫
+                                        </div>
                                         {{-- <span class="badge-sale">20% Off</span> --}}
                                     </div>
                                     {{-- <div class="product-stock">
@@ -184,10 +185,21 @@
                                     <a href="checkout.html" class="tf-btn btn-primary w-100 animate-btn">Mua ngay</a>
                                 </div>
                                 <div class="tf-product-extra-link">
-                                    <a href="javascript:void(0);" class="product-extra-icon link btn-add-wishlist">
-                                        <i class="icon add icon-heart"></i><span class="add">Thêm vào yêu thích</span>
-                                        <i class="icon added icon-trash"></i><span class="added">Remove from
-                                            wishlist</span>
+                                    @php
+                                        $currentUser = Sentinel::getUser();
+                                        if ($currentUser) {
+                                            $isWishlisted = $currentUser->hasInWishlist($product->id);
+                                        }
+                                    @endphp
+                                    <a href="javascript:void(0);"
+                                        class="product-extra-icon link btn-add-wishlist {{ $isWishlisted ? 'is-wishlisted' : '' }}"
+                                        data-product-id="{{ $product->id }}">
+
+                                        <i class="icon add icon-heart"></i>
+                                        <span class="add">Thêm vào yêu thích</span>
+
+                                        <i class="icon added icon-trash"></i>
+                                        <span class="added">Xóa khỏi yêu thích</span>
                                     </a>
                                     <a href="#compare" data-bs-toggle="modal" class="product-extra-icon link">
                                         <i class="icon icon-compare2"></i>Compare
@@ -555,8 +567,9 @@
                                         <ul class="list-color-product">
                                             @foreach ($item->colors as $value)
                                                 <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                                    <span class="tooltip color-filter">{{$value->name}}</span>
-                                                    <span class="swatch-value" style="background-color: {{$value->code}}"></span>
+                                                    <span class="tooltip color-filter">{{ $value->name }}</span>
+                                                    <span class="swatch-value"
+                                                        style="background-color: {{ $value->code }}"></span>
                                                     {{-- <img class=" lazyload" data-src="images/products/fashion/product-30.jpg"
                                                     src="images/products/fashion/product-30.jpg" alt="image-product"> --}}
                                                 </li>
@@ -575,4 +588,53 @@
         </div>
     </section>
     <!-- /Recently Viewed -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ... (code Toastr và các script khác) ...
+
+            document.body.addEventListener('click', function(event) {
+                // Tìm nút wishlist vừa được click
+                const wishlistButton = event.target.closest('.btn-add-wishlist');
+
+                // Nếu không phải nút wishlist thì bỏ qua
+                if (!wishlistButton) {
+                    return;
+                }
+
+                const productId = wishlistButton.dataset.productId;
+
+                // Gửi yêu cầu lên server (vẫn dùng endpoint cũ)
+                fetch(`/client/wishlist/toggle/${productId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            // Dựa vào phản hồi từ server để cập nhật giao diện
+                            if (data.status === 'added') {
+                                // Thêm class is-wishlisted để CSS hiển thị icon thùng rác
+                                wishlistButton.classList.add('is-wishlisted');
+                                toastr.success('Đã thêm vào danh sách yêu thích!');
+
+                            } else if (data.status === 'removed') {
+                                // Xóa class is-wishlisted để CSS hiển thị icon trái tim
+                                wishlistButton.classList.remove('is-wishlisted');
+                                toastr.info('Đã xóa khỏi danh sách yêu thích.');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi Wishlist:', error);
+                        toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
+                    });
+            });
+        });
+    </script>
 @endsection

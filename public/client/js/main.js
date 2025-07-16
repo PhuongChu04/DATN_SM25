@@ -771,8 +771,8 @@
       if (productCount === 0) {
         $wishlistInner.append(`
           <div class="tf-wishlist-empty text-center">
-            <p class="text-md text-noti">No product were added to the wishlist.</p>
-            <a href="index.html" class="tf-btn animate-btn btn-back-shop">Back to Shopping</a>
+            <p class="text-md text-noti">Không có sản phẩm nào trong yêu thích</p>
+            <a href="/client/dashboard" class="tf-btn animate-btn btn-back-shop">Back to Shopping</a>
           </div>
         `);
       } else {

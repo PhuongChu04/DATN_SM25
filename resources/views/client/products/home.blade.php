@@ -285,7 +285,7 @@
                             <div class="swiper-slide">
                                 <div class="card-product style-center">
                                     <div class="card-product-wrapper">
-                                        <a href="{{route('client.detailProduct', $item->id)}}" class="product-img">
+                                        <a href="{{ route('client.detailProduct', $item->id) }}" class="product-img">
                                             <img class="img-product lazyload"
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
@@ -305,11 +305,18 @@
                                                     <span class="tooltip">Quick Add</span>
                                                 </a>
                                             </li>
+                                            @php
+                                                $currentUser = auth()->user();
+                                                $isWishlisted = @$currentUser?->hasInWishlist($item->id);
+                                            @endphp
+
                                             <li class="wishlist">
                                                 <a href="#"
-                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon add-to-wishlist-btn {{ $isWishlisted ? 'active' : '' }}"
+                                                    data-product-id="{{ $item->id }}">
                                                     <span class="icon icon-heart2"></span>
-                                                    <span class="tooltip">Add to Wishlist</span>
+                                                    <span
+                                                        class="tooltip">{{ $isWishlisted ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích' }}</span>
                                                 </a>
                                             </li>
                                             <li>
@@ -992,4 +999,71 @@
         </div>
     </div>
     <!-- /Icon box -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cấu hình chung cho Toastr (tùy chọn)
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right", // Vị trí hiển thị
+                "timeOut": "3000", // Thời gian hiển thị (3 giây)
+            };
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            document.body.addEventListener('click', function(event) {
+                const button = event.target.closest('.add-to-wishlist-btn');
+                if (!button) return;
+
+                event.preventDefault();
+                const productId = button.dataset.productId;
+
+                fetch(`/client/wishlist/toggle/${productId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        }
+                    })
+                    .then(response => {
+                        if (response.status === 401) {
+                            toastr.error('Bạn cần đăng nhập để thực hiện chức năng này.');
+                            return null;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data) {
+                            // Cập nhật giao diện nút (thêm/xóa class active)
+                            if (data.status === 'added') {
+                                button.classList.add('active');
+                                button.querySelector('.tooltip').textContent = 'Xóa khỏi yêu thích';
+
+                                // HIỂN THỊ THÔNG BÁO THÀNH CÔNG
+                                toastr.success('Đã thêm sản phẩm vào danh sách yêu thích!');
+
+                            } else if (data.status === 'removed') {
+                                button.classList.remove('active');
+                                button.querySelector('.tooltip').textContent = 'Thêm vào yêu thích';
+
+                                // HIỂN THỊ THÔNG BÁO XÓA
+                                toastr.info('Đã xóa sản phẩm khỏi danh sách yêu thích.');
+                            }
+
+                            // Cập nhật số lượng trên header (nếu có)
+                            const countBox = document.querySelector('.nav-wishlist .count-box');
+                            if (countBox) {
+                                countBox.textContent = data.count;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi cập nhật wishlist:', error);
+                        toastr.error('Đã có lỗi xảy ra, vui lòng thử lại.');
+                    });
+            });
+        });
+    </script>
 @endsection

@@ -212,6 +212,12 @@ Route::prefix('client')->name('client.')->group(function () {
     //==================TRANG CHI TIẾT==================
     Route::get('/dashboard/{id}/detailProduct', [ClientProductController::class, 'detailProduct'])->name('detailProduct');
 
+    // Trang Yêu Thích
+    Route::prefix('/wishlist')->name('wishlist.')->group(function () {
+        Route::get('/', [ProductController::class, 'wishlistProduct'])->name('wishlist');
+        Route::post('/toggle/{product}', [ClientProductController::class, 'toggleWishlist'])->name('toggle');
+    });
+
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');

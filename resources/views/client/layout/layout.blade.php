@@ -18,7 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description"
         content="Themesflat Vineta - A modern and versatile eCommerce template designed for various online stores, including fashion, furniture, electronics, and more. SEO-friendly, fast-loading, and highly customizable.">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- font -->
     <link rel="stylesheet" href="{{ asset('client/fonts/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('client/fonts/font-icons.css') }}">
@@ -33,6 +33,64 @@
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="{{ asset('client/images/logo/favicon.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('client/images/logo/favicon.png') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <style>
+        .add-to-wishlist-btn.active .icon-heart2 {
+            color: red;
+            font-weight: 900;
+        }
+
+        .add-to-wishlist-btn.active {
+            background-color: #ffe0e0 !important;
+        }
+
+        .card-product.style-wishlist {
+            position: relative;
+        }
+
+        .remove-from-wishlist-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .remove-from-wishlist-btn .icon-close {
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .remove-from-wishlist-btn:hover {
+            background-color: #ff0000;
+            transform: scale(1.1);
+        }
+
+        .btn-add-wishlist .add {
+            display: inline-block;
+        }
+
+        .btn-add-wishlist .added {
+            display: none;
+        }
+
+        .btn-add-wishlist.is-wishlisted .add {
+            display: none;
+        }
+
+        .btn-add-wishlist.is-wishlisted .added {
+            display: inline-block;
+        }
+    </style>
 
 </head>
 
@@ -162,10 +220,12 @@
 
     <script src="{{ asset('client/js/main.js') }}"></script>
 
-    <script src="{{ asset('client/js/drift.min.js')}}"></script>
-    <script src="{{ asset('client/js/photoswipe-lightbox.umd.min.js')}}"></script>
-    <script src="{{ asset('client/js/photoswipe.umd.min.js')}}"></script>
-    <script src="{{ asset('client/js/zoom.js')}}"></script>
+    <script src="{{ asset('client/js/drift.min.js') }}"></script>
+    <script src="{{ asset('client/js/photoswipe-lightbox.umd.min.js') }}"></script>
+    <script src="{{ asset('client/js/photoswipe.umd.min.js') }}"></script>
+    <script src="{{ asset('client/js/zoom.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
 
 

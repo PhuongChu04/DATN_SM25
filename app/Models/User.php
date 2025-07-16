@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends EloquentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,11 +17,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        
         'email',
         'password',
-        'first_name',
         'last_name',
+        'first_name',
+        'permissions',
     ];
 
     /**
@@ -32,16 +31,16 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * @param int $productId
+     * @return bool
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function hasInWishlist($productId): bool
+    {
+        return Wishlist::where('id_user', $this->id)
+                       ->where('id_product', $productId)
+                       ->exists();
+    }
 }
