@@ -134,7 +134,7 @@ class CartController extends Controller
                 'variant_id' => $variant->id,
                 'quantity' => $quantity
             ]);
-            return redirect()->route('client.cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
+            return redirect()->route('client.homeClient')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
         } catch (\Exception $e) {
             Log::error('Lỗi khi thêm giỏ hàng:', [
                 'error' => $e->getMessage(),

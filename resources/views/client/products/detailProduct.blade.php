@@ -531,17 +531,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const variantPickerLabel = document.querySelector('.value-currentSize');
 
     // Lấy giá trị mặc định
-    let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId || '';
-    let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId || '';
+    // let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId || '';
+    // let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId || '';
 
-    // Cập nhật input-color và input-size
-    // function updateVariantInputs() {
-    //     inputColor.value = selectedColorId;
-    //     inputSize.value = selectedSizeId;
-    //     if (!selectedColorId || !selectedSizeId) {
-    //         alert('Vui lòng chọn màu và kích thước.');
-    //     }
-    // }
+    
 
     // Xử lý chọn màu
     colorButtons.forEach(button => {
@@ -576,7 +569,16 @@ document.addEventListener('DOMContentLoaded', function () {
             inputQty.value = qtyInput.value;
         }
     });
+    // Cập nhật input-color và input-size
+    function updateVariantInputs() {
+    if (!selectedColorId || !selectedSizeId) {
+        alert('Vui lòng chọn màu và kích thước.');
+        return; // dừng hàm lại nếu chưa đủ điều kiện
+    }
 
+    inputColor.value = selectedColorId;
+    inputSize.value = selectedSizeId;
+}
     qtyInput.addEventListener('input', () => {
         inputQty.value = qtyInput.value;
     });
