@@ -36,7 +36,7 @@
             <div class="row-footer">
                 <div class="footer-col-block s1">
                     <div class="footer-heading footer-heading-mobile text-xl fw-medium">
-                        Business Contact
+                        Thông tin liên hệ
                     </div>
                     <div class="tf-collapse-content">
                         <div class="footer-contact">
@@ -54,8 +54,8 @@
                                         </svg>
                                     </span>
                                     <a target="_blank"
-                                        href="https://www.google.com/maps?q=123Yarranst,Punchbowl,NSW2196,Australia">
-                                        123 Yarran st, Punchbowl, NSW 2196, Australia
+                                        href="https://maps.app.goo.gl/bzUiS9rdoVduS7vs7">
+                                         Tòa nhà FPT Polytechnic., Cổng số 2, 13 P. Trịnh Văn Bô, Xuân Phương, Nam Từ Liêm, Hà Nội, Việt Nam
                                     </a>
                                 </li>
                                 <li class="item">
@@ -67,7 +67,7 @@
                                                 fill="#0D0D0D" />
                                         </svg>
                                     </span>
-                                    <a href="tel:18888383022">(64) 8342 1245</a>
+                                    <a href="tel:18888383022">(+84) 123456789</a>
                                 </li>
                                 <li class="item">
                                     <span class="box-icon">
@@ -78,28 +78,20 @@
                                                 fill="#0D0D0D" />
                                         </svg>
                                     </span>
-                                    <a href="mailto:support@example.com">support@example.com</a>
+                                    <a href="mailto:support@example.com">a@gmail.com</a>
                                 </li>
                             </ul>
-                            <a href="https://www.google.com/maps?q=15Yarranst,Punchbowl,NSW,Australia"
-                                class="tf-btn btn-line-dark fw-normal">
-                                <span class="text-sm text-transform-none">
-                                    Get direction
-                                </span>
-                                <i class="icon-arrow-top-left fs-8"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="footer-inner-wrap footer-col-block s2">
                     <div class="footer-heading footer-heading-mobile text-xl fw-medium">
-                        Subscribe Newsletter
+                        Đăng ký nhận tin
                     </div>
                     <div class="tf-collapse-content">
                         <div class="footer-newsletter">
                             <p>
-                                We invite you to register to read the latest news, offers and events about
-                                our company. We promise not spam your inbox.
+                               Chúng tôi mời bạn đăng ký để đọc những tin tức, ưu đãi và sự kiện mới nhất về công ty của chúng tôi. Chúng tôi hứa sẽ không làm phiền hộp thư của bạn.
                             </p>
                             <form action="#" class="form-newsletter" method="post" accept-charset="utf-8"
                                 data-mailchimp="true">
@@ -133,42 +125,36 @@
                 </div>
                 <div class="footer-inner-wrap s3">
                     <div class="footer-col-block inner-col">
-                        <div class="footer-heading footer-heading-mobile text-xl fw-medium">About Us</div>
+                        <div class="footer-heading footer-heading-mobile text-xl fw-medium">Về chúng tôi</div>
                         <div class="tf-collapse-content">
                             <ul class="footer-menu-list">
                                 <li>
-                                    <a href="about-us.html">About Us</a>
+                                    <a href="about-us.html">Về chúng tôi</a>
                                 </li>
                                 <li>
-                                    <a href="contact-us.html">Contact Us</a>
+                                    <a href="contact-us.html">Liên hệ với chúng tôi</a>
                                 </li>
                                 <li>
-                                    <a href="store-location.html">Our Store</a>
-                                </li>
-                                <li>
-                                    <a href="about-us.html">Our Story</a>
+                                    <a href="store-location.html">Cửa hàng của chúng tôi</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="footer-col-block inner-col">
-                        <div class="footer-heading footer-heading-mobile text-xl fw-medium">Resource</div>
+                        <div class="footer-heading footer-heading-mobile text-xl fw-medium">Tài nguyên</div>
                         <div class="tf-collapse-content">
                             <ul class="footer-menu-list">
                                 <li>
-                                    <a href="privacy-policy.html">Privacy Policies</a>
+                                    <a href="privacy-policy.html">Chính sách bảo mật</a>
                                 </li>
                                 <li>
-                                    <a href="term-and-condition.html">Terms & Conditions</a>
+                                    <a href="term-and-condition.html">Điều khoản & Điều kiện</a>
                                 </li>
                                 <li>
-                                    <a href="return-and-refund.html">Returns & Refunds</a>
+                                    <a href="return-and-refund.html">Trả lại & Hoàn tiền</a>
                                 </li>
                                 <li>
-                                    <a href="faq.html">FAQ’s</a>
-                                </li>
-                                <li>
-                                    <a href="shipping.html">Shipping</a>
+                                    <a href="faq.html">Câu hỏi thường gặp</a>
                                 </li>
                             </ul>
                         </div>
@@ -180,8 +166,7 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="footer-bottom-wrap">
-                <p class="text-dark">Copyright © 2025 by <span class="fw-medium">Vineta.</span> All Rights
-                    Reserved.</p>
+                <p class="text-dark">Copyright © 2025 by <span class="fw-medium">Vineta.</span> Website giày.</p>
                 <ul class="tf-payment">
                     <li class="item"><img src="{{ asset('client/images/payment/EximBank.png') }}" alt="payment"></li>
                     <li class="item"><img src="{{ asset('client/images/payment/ApplePay.png') }}" alt="payment"></li>

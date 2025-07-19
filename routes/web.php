@@ -9,12 +9,15 @@ use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Client\OderController;
+use App\Http\Controllers\Client\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\OrderController;
@@ -22,6 +25,7 @@ use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\ShippingRateController;
 use App\Http\Controllers\Client\HomeContrller;
+use App\Http\Controllers\Client\AddressController;
 // =================================CLIENT=================================
 
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -44,6 +48,7 @@ use Faker\Guesser\Name;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
+    
 
     // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
     // Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
@@ -72,8 +77,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/force-delete/{id}', [AdminProductController::class, 'forceDelete'])->name('forceDelete');
         Route::post('/bulk-delete', [AdminProductController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('/bulk-restore', [AdminProductController::class, 'bulkRestore'])->name('bulkRestore');
+        // phần search
+        Route::get('/search', [AdminProductController::class, 'search'])->name('search');
     });
-    
+
 
 
     Route::prefix('/auth')->name('auth.')->group(function () {
@@ -163,7 +170,7 @@ Route::prefix('listCategory')->name('listCategory.')->group(function () {
     Route::delete('/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
     Route::get('/search', [AdminCategoryController::class, 'search'])->name('searchCategory');
 });
-     //brand
+//brand
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
@@ -198,18 +205,57 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 //client
 Route::prefix('client')->name('client.')->group(function () {
-    Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient');
- 
+    Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient'); 
+
+
+    //==================TRANG CHỦ==================
+    // Route::get('/dashboard', [ClientProductController::class, 'index'])->name('home');
+    Route::get('/get-variant', [ClientProductController::class, 'getVariant'])->name('client.getVariant');
+
+    //==================TRANG DANH SÁCH==================
+    Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
+
+    //==================TRANG CHI TIẾT==================
+    Route::get('/dashboard/{id}/detailProduct', [ClientProductController::class, 'detailProduct'])->name('detailProduct');
 
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
+    Route::group(['middleware' => 'checkLogin'], function () {
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
+
+});
 
 
     Route::get('/order', [OderController::class, 'index'])->middleware('checkLogin')->name('showOder'); // show data
     Route::get('/order-detail/{id}', [OderController::class, 'showDetail'])->name('OderDetail'); // show data
 
    
+    // Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
+    // Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
+    // Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
+
+
+    // tìm kiếm sản phẩm 
+    Route::get('/shop/search', [ClientProductController::class, 'searchClient'])->name('shop.search');
+    
+
+
+    Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
+    Route::get('/addresses/create', [AddressController::class, 'create'])->name('addresses.create');
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
+    Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
+    // Route để chọn địa chỉ giao hàng
+    Route::post('/select-address', [AddressController::class, 'selectAddress'])->name('address.select');
+
+
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
@@ -218,3 +264,6 @@ Route::prefix('/auth')->name('auth.')->group(function () {
     Route::post('/register', [AuthController::class, 'postRegister'])->name('postRegisterClient');
     Route::get('/logout', [AuthController::class, 'logoutClient'])->middleware('checkLogin')->name('logoutClient');
 });
+
+
+

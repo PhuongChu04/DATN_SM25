@@ -81,33 +81,52 @@
         <div class="row">
             {{-- Sản phẩm --}}
             <div class="col-md-8">
-                <div class="card shadow-sm">
-                    <div class="card-header fw-bold">Sản phẩm trong đơn</div>
-                    <div class="card-body p-0">
-                        <table class="table table-bordered mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Sản phẩm</th>
-                                    <th>Kích cỡ</th>
-                                    <th>Màu</th>
-                                    <th>SL</th>
-                                    <th>Giá</th>
-                                    <th>Tổng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($order->orderDetails as $item)
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header">
+                        <h5 class="card-title">Sản phẩm trong đơn</h5>
+                    </div>
+                    <div class="card-body">
+                        @foreach ($order->orderDetails as $item)
+                            <table class="table align-middle mb-0 table-hover table-centered">
+                                <thead class="bg-light-subtle border-bottom">
                                     <tr>
-                                        <td>{{ $item->variant->product->name ?? '-' }}</td>
-                                        <td>{{ $item->variant->size->name ?? '-' }}</td>
-                                        <td>{{ $item->variant->color->name ?? '-' }}</td>
+                                        <th>Product Name & Size</th>
+                                        <th>Status</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Tổng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div
+                                                    class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                    <img src="{{ asset('storage/' . $item->variant->product->image_primary) }}"
+                                                        alt="" class="avatar-md">
+                                                </div>
+                                                <div>
+                                                    <a href="#!"
+                                                        class="text-dark fw-medium fs-15">{{ $item->variant->product->name }}</a>
+                                                    <p class="text-muted mb-0 mt-1 fs-13"><span>Size :
+                                                        </span>{{ $item->variant->size->name }}</p>
+                                                </div>
+                                            </div>
+
+                                        </td>
+
+                                        <td>
+                                            <span
+                                                class="badge bg-success-subtle text-success  px-2 py-1 fs-13">{{ $item->order->order_status }}</span>
+                                        </td>
                                         <td>{{ $item->quantity }}</td>
                                         <td>{{ number_format(floor($item->unit_price), 0, ',', '.') }}₫</td>
                                         <td>{{ number_format(floor($item->total), 0, ',', '.') }}₫</td>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -145,9 +164,6 @@
                         <p><strong>Tổng: {{ number_format($subtotal, 0, ',', '.') }}₫ </p>
                         <p><strong>Giảm giá:</strong> {{ number_format($discount, 0, ',', '.') }}₫</p>
                         <p><strong>Phí vận chuyển:</strong> {{ number_format($shippingFee, 0, ',', '.') }}₫</p>
-                        <p><strong>Thuế ({{ $order->tax_rate ?? 0 }}%):</strong>
-                            {{ number_format($tax, 0, ',', '.') }}₫</p>
-                        <hr>
                         <p class="fs-5"><strong>Tổng cộng: {{ number_format($grandTotal, 0, ',', '.') }}₫
                         </p>
                     </div>
@@ -160,44 +176,21 @@
             <div class="card-header fw-semibold">Dòng thời gian đơn hàng</div>
             <div class="card-body">
                 <ul class="timeline">
-                    <li><strong>{{ $order->created_at->format('d/m/Y H:i') }}</strong>: Đơn hàng đã được tạo</li>
-                    @if (in_array($order->order_status, ['pending', 'processing', 'shipping', 'delivered']))
-                        <li><strong>{{ $order->created_at->addMinutes(5)->format('d/m/Y H:i') }}</strong>: Đơn hàng đã được
-                            xác nhận</li>
-                    @endif
-                    @if (in_array($order->order_status, ['processing', 'shipping', 'delivered']))
-                        <li><strong>{{ $order->created_at->addMinutes(15)->format('d/m/Y H:i') }}</strong>: Đang đóng gói
-                            sản phẩm</li>
-                    @endif
-                    @if (in_array($order->order_status, ['shipping', 'delivered']))
-                        <li><strong>{{ $order->created_at->addMinutes(30)->format('d/m/Y H:i') }}</strong>: Đang vận chuyển
+                    @foreach ($order->statusLogs()->orderBy('created_at')->get() as $log)
+                        <li class="mb-1">
+                            <div>
+                                <strong>{{ $log->created_at->format('d/m/Y H:i') }}</strong>:
+                                {{ \App\Enums\OrderStatus::from($log->status)->label() }}
+                            </div>
+                            @if ($log->note)
+                                <div class="ms-3 text-muted small fst-italic  ps-2">
+                                    “{{ $log->note }}”
+                                </div>
+                            @endif
                         </li>
-                    @endif
-                    @if ($order->order_status === 'delivered')
-                        <li><strong>{{ $order->created_at->addHours(1)->format('d/m/Y H:i') }}</strong>: Giao hàng thành
-                            công</li>
-                    @endif
-                    {{-- Đã hủy --}}
-                    @if ($order->order_status === 'canceled')
-                        <li>
-                            <strong>{{ $order->updated_at->format('d/m/Y H:i') }}</strong>:
-                            Đơn hàng đã bị hủy
-                        </li>
-                    @endif
-                    {{-- Hoàn tiền --}}
-                    @if ($order->payment_status === 'refund')
-                        <li>
-                            <strong>{{ $order->updated_at->format('d/m/Y H:i') }}</strong>:
-                            Đã hoàn tiền đơn hàng
-                        </li>
-                    @endif
-                    {{-- Đã trả hàng --}}
-                    @if ($order->order_status === 'returned')
-                        <li>
-                            <strong>{{ $order->updated_at->format('d/m/Y H:i') }}</strong>:
-                            Đơn hàng đã được trả hàng
-                        </li>
-                    @endif
+                    @endforeach
+
+
                 </ul>
             </div>
         </div>
@@ -226,6 +219,10 @@
                                 @foreach (\App\Enums\OrderStatus::cases() as $case)
                                     @php
                                         $value = $case->value;
+                                        if ($value === 'canceled') {
+                                            continue;
+                                        }
+
                                         // Nếu đã ở trạng thái cao (shipping+) thì ẩn các trạng thái quay lại
                                         $shouldHide =
                                             in_array($currentStatus, $lockedStatuses) &&
@@ -242,6 +239,10 @@
 
                             </select>
 
+                        </div>
+                        <div class="mb-3">
+                            <label for="note" class="form-label">Ghi chú</label>
+                            <textarea name="note" id="note" class="form-control" rows="3" placeholder="Nhập ghi chú (nếu có)..."></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

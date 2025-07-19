@@ -28,8 +28,8 @@
                                     Wishlist</a>
                             </li>
                             <li>
-                                <a href="account-addresses.html"
-                                    class="text-sm link fw-medium my-account-nav-item">Addresses</a>
+                                <a href="{{ route('client.addresses.index') }}"
+                                class="text-sm link fw-medium my-account-nav-item">Addresses</a>
                             </li>
                             <li>
                                 <a href="{{ route('client.accountDetail') }}"
@@ -65,12 +65,13 @@
                         <div class="content-account">
                             <ul class="box-check-list flex-sm-nowrap">
                                 <li>
-                                    <a href="account-orders.html" class="box-check text-center">
+                                    <a href="{{route('client.showOder')}}" class="box-check text-center">
                                         <div class="icon">
                                             <i class="icon-order"></i>
                                             <span class="count-number text-sm text-white fw-medium">1</span>
                                         </div>
                                         <div class="text">
+                                            
                                             <div class=" link name-type text-xl fw-medium">Orders</div>
                                             <p class="sub-type text-sm">Check the history of all your orders
                                             </p>
