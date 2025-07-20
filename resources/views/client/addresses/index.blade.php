@@ -59,6 +59,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card mb-3">
+                        <div class="card-body">
+                            <p><strong>Họ tên:</strong> {{ $address->full_name }}</p>
+                            <p><strong>SĐT:</strong> {{ $address->phone }}</p>
+                            <p><strong>Địa chỉ:</strong> {{ $address->address }}</p>
+
+                            <form action="{{ route('client.address.select') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="address_id" value="{{ $address->id }}">
+                                <button type="submit" class="btn btn-sm btn-primary">Chọn địa chỉ này</button>
+                            </form>
+                            </div>
+                        </div>
                     @endforeach
 
                     @if ($addresses->isEmpty())

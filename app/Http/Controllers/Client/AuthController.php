@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\CartDetail;
+use App\Models\ProductVariant;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Exception;
@@ -42,6 +45,33 @@ class AuthController extends Controller
             ])->withInput();
         }
     }
+    public function syncSessionCart($user)
+{
+    $sessionCart = session()->get('cart', []);
+    if (!empty($sessionCart)) {
+        $cart = Cart::firstOrCreate(['id_user' => $user->id]);
+        foreach ($sessionCart as $variantId => $item) {
+            $cartDetail = CartDetail::where('id_cart', $cart->id)
+                                   ->where('id_variant', $variantId)
+                                   ->first();
+            $variant = ProductVariant::find($variantId);
+            if ($variant && $variant->stock >= $item['quantity']) {
+                if ($cartDetail) {
+                    $cartDetail->quantity += $item['quantity'];
+                    $cartDetail->save();
+                } else {
+                    CartDetail::create([
+                        'id_cart' => $cart->id,
+                        'id_variant' => $variantId,
+                        'quantity' => $item['quantity'],
+                    ]);
+                }
+            }
+        }
+        // Xóa session sau khi đồng bộ
+        session()->forget('cart');
+    }
+}
     public function postRegister(Request $req)
     {
         try {

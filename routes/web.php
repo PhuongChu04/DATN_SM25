@@ -218,6 +218,7 @@ Route::prefix('client')->name('client.')->group(function () {
 
     //==================TRANG CHỦ==================
     // Route::get('/dashboard', [ClientProductController::class, 'index'])->name('home');
+    Route::get('/get-variant', [ClientProductController::class, 'getVariant'])->name('client.getVariant');
 
     //==================TRANG DANH SÁCH==================
     Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
@@ -228,17 +229,15 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
-    Route::post('/cart/add/{id}', [CheckoutController::class, 'add']);
-     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-
-    // Route để hiển thị trang giỏ hàng
+    Route::group(['middleware' => 'checkLogin'], function () {
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
-    // Route để cập nhật số lượng
-    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-
-    // Route để xóa sản phẩm
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
+
+});
 
 
     // Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
@@ -278,6 +277,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
     });
 });
+
 
 
 

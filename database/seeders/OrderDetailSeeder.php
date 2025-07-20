@@ -14,13 +14,12 @@ class OrderDetailSeeder extends Seeder
     {
         $orders = DB::table('orders')->pluck('id'); // Lấy danh sách id đơn hàng
 
-        $variants = ProductVariant::with(['size', 'color'])->get(); // Lấy variant có quan hệ size, color
-
-        if ($variants->isEmpty()) {
-            $this->command->warn('Không có product variants để tạo order details.');
-            return;
-        }
-
+        $variantOptions = [
+            ['id_variant' => 1, 'size' => '42', 'color' => 'Trắng', 'price' => 220.57],
+            ['id_variant' => 2, 'size' => '43', 'color' => 'Đen', 'price' => 220.57],
+            ['id_variant' => 3, 'size' => '41', 'color' => 'Đỏ', 'price' => 300.00],
+            ['id_variant' => 4, 'size' => '40', 'color' => 'Xám', 'price' => 724.79],
+        ];
 
         $now = Carbon::now();
 
@@ -31,8 +30,7 @@ class OrderDetailSeeder extends Seeder
             $numItems = rand(1, 3);
 
             for ($i = 0; $i < $numItems; $i++) {
-
-                $variant = $variants->random();
+               $variant = collect($variantOptions)->random();
                 $quantity = rand(1, 2);
                 $unitPrice = $variant->price ?? 100;
 

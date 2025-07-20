@@ -44,25 +44,37 @@
                             <h4 class="fw-bold mb-4 text-center">TÓM TẮT ĐƠN HÀNG</h4>
 
                             @php $total = 0; @endphp
-                            @foreach ($cart as $item)
-                                @php
-                                    $lineTotal = $item['price'] * $item['quantity'];
-                                    $total += $lineTotal;
-                                @endphp
-                                <div class="d-flex mb-3">
-                                    <img src="{{ asset('storage/' . $item['image']) }}"
-                                        style="width: 60px; height: 60px; object-fit: cover;"
-                                        class="rounded me-3 border">
-                                    <div class="flex-grow-1">
-                                        <div class="fw-bold">{{ $item['name'] }}</div>
-                                        <div class="small text-muted">Giày: 42</div>
-                                        <div class="small">x{{ $item['quantity'] }}</div>
-                                    </div>
-                                    <div class="fw-bold text-danger text-end">
-                                        {{ number_format($lineTotal, 0) }}VNĐ
-                                    </div>
+                           @foreach ($cartItems as $item)
+                            @php
+                                // Lấy tên, hình ảnh, giá và số lượng của sản phẩm
+                                $name = is_array($item) ? $item['name'] : $item->variant->product->name;
+                                $image = is_array($item) ? $item['image'] : $item->variant->product->image_primary;
+                                $price = is_array($item) ? $item['price'] : $item->variant->price;
+                                $quantity = is_array($item) ? $item['quantity'] : $item->quantity;
+                                $lineTotal = $price * $quantity;
+                                $total += $lineTotal;
+
+                                // Lấy màu sắc và kích thước của sản phẩm
+                                $color = is_array($item) ? $item['color'] : $item->variant->color->name;
+                                $size = is_array($item) ? $item['size'] : $item->variant->size->name;
+                            @endphp
+
+                            <div class="d-flex mb-3">
+                                <img src="{{ asset('storage/' . $image) }}"
+                                    style="width: 60px; height: 60px; object-fit: cover;"
+                                    class="rounded me-3 border">
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold">{{ $name }}</div>
+                                    <div class="small text-muted">Color: {{ $color }}</div> <!-- Hiển thị màu -->
+                                    <div class="small text-muted">Size: {{ $size }}</div> <!-- Hiển thị size -->
+                                    <div class="small">x{{ $quantity }}</div>
                                 </div>
-                            @endforeach
+                                <div class="fw-bold text-danger text-end">
+                                    {{ number_format($lineTotal, 0) }} VNĐ
+                                </div>
+                            </div>
+                        @endforeach
+
 
                             <hr>
 

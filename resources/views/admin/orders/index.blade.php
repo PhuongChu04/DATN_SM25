@@ -18,16 +18,16 @@
     @endif
 
     <div class="container py-4">
-        <h3 class="fs-4 fw-semibold mb-4">Order Overview</h3>
+        <h3 class="fs-4 fw-semibold mb-4">Tổng quan đơn hàng</h3>
 
-        {{-- Cards Overview --}}
+        {{-- Thống kê đơn hàng --}}
         <div class="row g-4 mb-5">
             @php
                 $statuses = [
-                    ['count' => $orderCancel, 'label' => 'Order Cancel', 'icon' => 'cart-x', 'color' => 'danger'],
-                    ['count' => $orderDelivering, 'label' => 'Order Delivering', 'icon' => 'truck', 'color' => 'info'],
-                    ['count' => $pendingPayment, 'label' => 'Pending Payment', 'icon' => 'clock', 'color' => 'warning'],
-                    ['count' => $orderDelivered, 'label' => 'Delivered', 'icon' => 'box-seam', 'color' => 'success'],
+                    ['count' => $orderCancel, 'label' => 'Đã hủy', 'icon' => 'cart-x', 'color' => 'danger'],
+                    ['count' => $orderDelivering, 'label' => 'Đang giao', 'icon' => 'truck', 'color' => 'info'],
+                    ['count' => $pendingPayment, 'label' => 'Chờ thanh toán', 'icon' => 'clock', 'color' => 'warning'],
+                    ['count' => $orderDelivered, 'label' => 'Đã giao', 'icon' => 'box-seam', 'color' => 'success'],
                 ];
             @endphp
             @foreach ($statuses as $item)
@@ -46,26 +46,26 @@
             @endforeach
         </div>
 
-        {{-- Orders Table --}}
+        {{-- Bảng đơn hàng --}}
         <div class="card border-0 shadow-sm rounded-4">
             <div class="table-responsive p-3">
                 <table class="table table-hover table-striped align-middle text-nowrap rounded">
                     <thead class="table-light text-uppercase text-center small">
                         <tr>
-                            <th>Order ID</th>
-                            <th>Created at</th>
-                            <th>Customer</th>
-                            <th>Total</th>
-                            <th>Payment Status</th>
-                            <th>Order Status</th>
-                            <th>Action</th>
+                            <th>Mã đơn</th>
+                            <th>Ngày tạo</th>
+                            <th>Khách hàng</th>
+                            <th>Tổng tiền</th>
+                            <th>TT thanh toán</th>
+                            <th>Trạng thái đơn</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($orders as $order)
                             <tr class="text-center">
                                 <td>#{{ $order->order_code }}</td>
-                                <td>{{ $order->created_at->format('M d, Y') }}</td>
+                                <td>{{ $order->created_at->format('d/m/Y') }}</td>
                                 <td class="text-danger fw-semibold">{{ $order->user->email }}</td>
                                 <td class="fw-medium">{{ number_format($order->total_price, 0, ',', '.') }}₫</td>
 
@@ -79,21 +79,21 @@
                                         };
                                     @endphp
                                     <span class="badge rounded-pill px-3 py-2 {{ $badgeClass }}">
-                                        {{ ucfirst($order->payment_status) }}
+                                        {{ ucfirst($order->payment_status) == 'Paid' ? 'Đã thanh toán' : 'Chưa thanh toán' }}
                                     </span>
                                 </td>
-                                <td>{{ ucfirst($order->order_status) }}</td>
+                                <td>{{ ucfirst($order->order_status) == 'Pending' ? 'Chờ xử lý' : ucfirst($order->order_status) }}</td>
                                 <td>
                                     <a href="{{ route('admin.orders.show', $order->id) }}"
                                         class="btn btn-sm btn-outline-primary me-1" title="Xem chi tiết">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
                                     <button onclick="showEditModal({{ $order->id }})"
-                                        class="btn btn-sm btn-outline-warning me-1" title="Edit">
+                                        class="btn btn-sm btn-outline-warning me-1" title="Chỉnh sửa">
                                         <i class="bi bi-pencil-fill"></i>
                                     </button>
                                     <button onclick="showDeleteModal({{ $order->id }})"
-                                        class="btn btn-sm btn-outline-danger" title="Delete">
+                                        class="btn btn-sm btn-outline-danger" title="Xóa">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </td>
@@ -104,22 +104,22 @@
             </div>
         </div>
 
-        {{-- Modal: View Order --}}
+        {{-- Modal: Xem đơn hàng --}}
         <div class="modal fade" id="modalViewOrder" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Order Details</h5>
+                        <h5 class="modal-title">Chi tiết đơn hàng</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body" id="orderDetailContent">
-                        <div class="text-center py-3">Loading...</div>
+                        <div class="text-center py-3">Đang tải dữ liệu...</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Modal: Edit Order --}}
+        {{-- Modal: Cập nhật đơn hàng --}}
         <div class="modal fade" id="modalEditOrder" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <form id="formEditOrder" method="POST">
@@ -127,27 +127,27 @@
                     @method('POST')
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Update Order Status</h5>
+                            <h5 class="modal-title">Cập nhật trạng thái đơn hàng</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <select name="order_status" class="form-select" required>
-                                <option value="draft">Draft</option>
-                                <option value="completed">Completed</option>
-                                <option value="delivering">Delivering</option>
-                                <option value="canceled">Canceled</option>
+                                <option value="draft">Nháp</option>
+                                <option value="completed">Hoàn thành</option>
+                                <option value="delivering">Đang giao</option>
+                                <option value="canceled">Đã hủy</option>
                             </select>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
 
-        {{-- Modal: Delete Order --}}
+        {{-- Modal: Xóa đơn hàng --}}
         <div class="modal fade" id="modalDeleteOrder" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <form id="formDeleteOrder" method="POST">
@@ -155,15 +155,15 @@
                     @method('DELETE')
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-danger">Delete Order</h5>
+                            <h5 class="modal-title text-danger">Xóa đơn hàng</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Are you sure you want to delete this order?</p>
+                            <p>Bạn có chắc chắn muốn xóa đơn hàng này không?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Xóa</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         </div>
                     </div>
                 </form>

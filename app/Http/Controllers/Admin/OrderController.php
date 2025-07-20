@@ -34,11 +34,11 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->load([
-            'user',
-            'orderDetails.variant.product',
-            'orderDetails.variant.size',
-            'orderDetails.variant.color',
-        ]);
+                'user',
+                'details.variant.product',
+                'details.variant.size',
+                'details.variant.color',
+            ]);
         $progressStatus = $this->mapStatusToProgress($order->order_status);
 
         return view('admin.orders.details', compact('order', 'progressStatus'));
@@ -107,7 +107,7 @@ class OrderController extends Controller
 
         return view('admin.orders.invoice', compact('order'));
     }
-    
+
    public function refund($id)
 {
     $order = Order::findOrFail($id);
