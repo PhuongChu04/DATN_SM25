@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
@@ -29,10 +30,18 @@ class ProductController extends Controller
         $products = Product::latest('id')
             ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
             ->paginate(10);
+
         $categories = $this->categoryService->getAllCategories();
 
-        // dd($products);
-        return view('client.products.home', compact('products', 'categories'));
+        $categoriesWithProducts = Category::with(['products' => function ($query) {
+            $query->with(['firstVariant', 'colors'])
+                ->latest()
+                ->take(8);
+        }])
+            ->whereHas('products')
+            ->get();
+
+        return view('client.products.home', compact('products', 'categories', 'categoriesWithProducts'));
     }
 
     //==================Hiển thị shop - danh sách sản phẩm==================
@@ -57,7 +66,7 @@ class ProductController extends Controller
                 ->orWhere('id_brand', $product->id_brand);
         })
             ->where('id', '!=', $product->id)
-            ->with('firstVariant','colors')
+            ->with('firstVariant', 'colors')
             ->inRandomOrder()
             ->take(10)
             ->get();
