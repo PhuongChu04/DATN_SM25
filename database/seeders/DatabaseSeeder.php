@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
                 ColorSeeder::class,
                 SizesSeeder::class,
                 ProductVariantSeeder::class,
-                OrderSeeder::class,
-                OrderDetailSeeder::class,
+                // OrderSeeder::class,
+                // OrderDetailSeeder::class,
                 ReviewSeeder::class,
             ]);
 
