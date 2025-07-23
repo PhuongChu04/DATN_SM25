@@ -71,6 +71,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/force-delete/{id}', [AdminProductController::class, 'forceDelete'])->name('forceDelete');
         Route::post('/bulk-delete', [AdminProductController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('/bulk-restore', [AdminProductController::class, 'bulkRestore'])->name('bulkRestore');
+        // phần search
+        Route::get('/search', [AdminProductController::class, 'search'])->name('search');
     });
     
 
@@ -197,9 +199,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 //client
 Route::prefix('client')->name('client.')->group(function () {
+    // Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient'); 
+
+
+    //==================TRANG CHỦ==================
     Route::get('/dashboard', [ClientProductController::class, 'index'])->name('home');
+
+    //==================TRANG DANH SÁCH==================
     Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
- 
+
+    //==================TRANG CHI TIẾT==================
+    Route::get('/dashboard/{id}/detailProduct', [ClientProductController::class, 'detailProduct'])->name('detailProduct');
 
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
@@ -207,8 +217,6 @@ Route::prefix('client')->name('client.')->group(function () {
 
    
 });
-
-
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
     Route::get('/registerclient', [AuthController::class, 'register'])->name('registerClient');

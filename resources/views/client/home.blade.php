@@ -219,7 +219,6 @@
                     }'>
                         <div class="swiper-wrapper">
                             <!-- item 1 -->
-
                             @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
@@ -862,7 +861,6 @@
         </div>
     </section>
     <!-- /Hot Deal -->
-
     <!-- Brand -->
     <div class="flat-spacing-2">
         <div class="container">
@@ -918,6 +916,7 @@
                             <img src="images/brand/forever.png" alt="brand">
                         </div>
                     </div>
+                    <div class="d-flex d-xl-none sw-dot-default sw-pagination-new justify-content-center"></div>
                 </div>
             </div>
             <div class="d-flex d-xl-none sw-dot-default sw-pagination-brand justify-content-center"></div>

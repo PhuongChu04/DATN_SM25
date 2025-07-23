@@ -34,7 +34,6 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class, 'id_product');
     }
-
     public function colors()
     {
         return $this->hasManyThrough(
@@ -46,7 +45,10 @@ class Product extends Model
             'id_color'    // Foreign key on product_variants
         )->distinct(); // để tránh trùng lặp màu
     }
-
+    public function firstVariant()
+    {
+        return $this->hasOne(ProductVariant::class, 'id_product')->orderBy('price');
+    }
     public function sizes()
     {
         return $this->hasManyThrough(
@@ -58,8 +60,8 @@ class Product extends Model
             'id_size'
         )->distinct();
     }
-    public function firstVariant()
+    public function albums()
 {
-    return $this->hasOne(ProductVariant::class, 'id_product')->orderBy('price');
+    return $this->hasMany(ProductAlbum::class, 'id_product');
 }
 }

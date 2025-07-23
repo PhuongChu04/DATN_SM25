@@ -48,7 +48,7 @@
                             </a>
                         </li>
                         <li class="nav-wishlist">
-                            <a href="wish-list.html" class="nav-icon-item">
+                            <a href="#" class="nav-icon-item">
                                 <i class="icon icon-heart"></i>
                                 <span class="count-box">0</span>
                             </a>

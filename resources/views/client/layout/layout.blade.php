@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset('client/css/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('client/css/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('client/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/drift-basic.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/photoswipe.css') }}">
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="{{ asset('client/images/logo/favicon.png') }}">
@@ -159,6 +161,11 @@
     <script src="{{ asset('client/js/multiple-modal.js') }}"></script>
 
     <script src="{{ asset('client/js/main.js') }}"></script>
+
+    <script src="{{ asset('client/js/drift.min.js')}}"></script>
+    <script src="{{ asset('client/js/photoswipe-lightbox.umd.min.js')}}"></script>
+    <script src="{{ asset('client/js/photoswipe.umd.min.js')}}"></script>
+    <script src="{{ asset('client/js/zoom.js')}}"></script>
 </body>
 
 
