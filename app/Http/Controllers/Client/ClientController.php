@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Client;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\ProductVariantService;
-use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 
@@ -30,11 +30,20 @@ class ClientController extends Controller
         $categories = $this->categoryService->getAllCategories();
         //  dd($categories);
         $products = Product::with('variants')
-            ->whereHas('variants')
-            ->latest()
-            ->take(10)
+    ->whereHas('variants')
+    ->latest()
+    ->take(10)
+    ->get();
+
+    
+        $categoriesWithProducts = Category::with(['products' => function ($query) {
+            $query->with(['firstVariant', 'colors'])
+                ->latest()
+                ->take(8);
+        }])
+            ->whereHas('products')
             ->get();
-        return view('client.home', compact('categories', 'products'));
+        return view('client.home',compact('categories', 'products' ,'categoriesWithProducts'));
     }
     public function account()
     {
