@@ -290,7 +290,14 @@ Route::group(['middleware' => 'sentinel.auth'], function () {
 //checkout
 Route::get('/checkout', [CheckoutController::class, 'showForm'])->name('checkout.form');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::post('/checkout/store-address', [CheckoutController::class, 'storeAddress'])->name('checkout.storeAddress');
 
+// vnpay
+// Route xử lý thanh toán VNPay
+Route::post('checkout/vnpay/payment', [CheckoutController::class, 'payment'])->name('vnpay.payment');
+
+// Route nhận phản hồi từ VNPay (callback)
+Route::get('checkout/vnpay/callback', [CheckoutController::class, 'paymentReturn'])->name('checkout.vnpay.callback');
 
 
 

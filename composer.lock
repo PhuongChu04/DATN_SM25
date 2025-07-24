@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ebfda809a14a1ead8efde89378ec963",
+    "content-hash": "a96514e01c38f25dd86696693317578e",
     "packages": [
         {
             "name": "brick/math",
@@ -137,16 +137,16 @@
         },
         {
             "name": "cartalyst/sentinel",
-            "version": "v7.0.0",
+            "version": "v7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cartalyst/sentinel.git",
-                "reference": "38259762880bcd1d1e2b3a00380a6f6970b4d8f5"
+                "reference": "a4221b5976f0a87ea814406f049b44df87c56d4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cartalyst/sentinel/zipball/38259762880bcd1d1e2b3a00380a6f6970b4d8f5",
-                "reference": "38259762880bcd1d1e2b3a00380a6f6970b4d8f5",
+                "url": "https://api.github.com/repos/cartalyst/sentinel/zipball/a4221b5976f0a87ea814406f049b44df87c56d4b",
+                "reference": "a4221b5976f0a87ea814406f049b44df87c56d4b",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             ],
             "support": {
                 "issues": "https://github.com/cartalyst/sentinel/issues",
-                "source": "https://github.com/cartalyst/sentinel/tree/v7.0.0"
+                "source": "https://github.com/cartalyst/sentinel/tree/v7.0.2"
             },
-            "time": "2023-02-23T10:10:57+00:00"
+            "time": "2023-08-10T19:54:17+00:00"
         },
         {
             "name": "cartalyst/support",

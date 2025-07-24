@@ -33,6 +33,7 @@
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="{{ asset('client/images/logo/favicon.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('client/images/logo/favicon.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
