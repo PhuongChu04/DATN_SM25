@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Client\AddressController;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Client\CheckoutController;
+use App\Http\Controllers\Client\OrderClientController;
 
 Route::get('/test-address', function () {
     $json = File::get(base_path('packages/vudovn/dvhcvn/json/data.json'));
@@ -293,11 +294,13 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::post('/checkout/store-address', [CheckoutController::class, 'storeAddress'])->name('checkout.storeAddress');
 
 // vnpay
-// Route xử lý thanh toán VNPay
 Route::post('checkout/vnpay/payment', [CheckoutController::class, 'payment'])->name('vnpay.payment');
-
-// Route nhận phản hồi từ VNPay (callback)
 Route::get('checkout/vnpay/callback', [CheckoutController::class, 'paymentReturn'])->name('checkout.vnpay.callback');
 
-
+//order client
+Route::middleware('checkLogin')->group(function () {
+    Route::get('client/orders', [OrderClientController::class, 'index'])->name('client.orders.index');
+    Route::get('client/orders/{order}', [OrderClientController::class, 'show'])->name('client.orders.show');
+    Route::post('client/orders/{order}/cancel', [OrderClientController::class, 'cancel'])->name('client.orders.cancel');
+});
 
