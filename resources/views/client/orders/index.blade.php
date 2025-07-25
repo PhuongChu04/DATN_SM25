@@ -1,6 +1,7 @@
 @extends('client.layout.layout')
 
 @section('content')
+
     <div class="flat-spacing-13">
         <div class="container-7">
             <div class="btn-sidebar-mb d-lg-none">
@@ -26,6 +27,34 @@
                         <h4>Danh Sách Đơn Hàng</h4>
                     </div>
 
+                    <!-- Form tìm kiếm -->
+                    <form method="GET" action="{{ route('client.orders.index') }}" class="search-form">
+                        <!-- Tìm kiếm theo mã đơn hàng -->
+                        <input type="text" name="order_code" class="form-control search-input" placeholder="Mã đơn hàng" value="{{ request('order_code') }}">
+
+                        <!-- Tìm kiếm theo trạng thái đơn hàng -->
+                        <select name="order_status" class="form-control search-select">
+                            <option value="">Trạng thái</option>
+                            <option value="pending" {{ request('order_status') == 'pending' ? 'selected' : '' }}>Đang chờ</option>
+                            <option value="processing" {{ request('order_status') == 'processing' ? 'selected' : '' }}>Đang xử lý</option>
+                            <option value="completed" {{ request('order_status') == 'completed' ? 'selected' : '' }}>Hoàn thành</option>
+                            <option value="cancelled" {{ request('order_status') == 'cancelled' ? 'selected' : '' }}>Đã huỷ</option>
+                            <option value="waiting_for_cancellation" {{ request('order_status') == 'waiting_for_cancellation' ? 'selected' : '' }}>Chờ xác nhận huỷ</option>
+                        </select>
+
+                        <!-- Tìm kiếm theo tên sản phẩm -->
+                        <input type="text" name="product_name" class="form-control search-input" placeholder="Tên sản phẩm" value="{{ request('product_name') }}">
+
+                        <!-- Tìm kiếm theo phương thức thanh toán -->
+                        <select name="payment_method" class="form-control search-select">
+                            <option value="">Phương thức thanh toán</option>
+                            <option value="vnpay" {{ request('payment_method') == 'vnpay' ? 'selected' : '' }}>VNPay</option>
+                            <option value="cod" {{ request('payment_method') == 'cod' ? 'selected' : '' }}>Thanh toán khi nhận hàng (COD)</option>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary search-btn">Tìm kiếm</button>
+                    </form>
+
                     @foreach ($orders as $order)
                         <div class="card mb-3 shadow-sm">
                             <div class="card-body">
@@ -48,6 +77,8 @@
                                             Đã huỷ
                                         @elseif ($order->order_status == 'completed')
                                             Đã hoàn thành
+                                        @elseif ($order->order_status == 'waiting_for_cancellation')
+                                            Chờ xác nhận huỷ
                                         @else
                                             Chưa xác định
                                         @endif
@@ -62,6 +93,15 @@
                                         </div>
                                         <div class="col-9">
                                             <p><strong>{{ $detail->product_name }}</strong></p>
+                                            <p>Phương thức thanh toán:
+                                                @if ($order->payment_method == 'vnpay')
+                                                    VNPay
+                                                @elseif ($order->payment_method == 'cod')
+                                                    Thanh toán khi nhận hàng (COD)
+                                                @else
+                                                    Không xác định
+                                                @endif
+                                            </p>
                                             <p>Phân loại: {{ $detail->variant ? $detail->variant->size->name : 'Không có' }} / {{ $detail->variant ? $detail->variant->color->name : 'Không có' }}</p>
                                             <p>Số lượng: {{ $detail->quantity }}</p>
                                             <p>Đơn giá: {{ number_format($detail->unit_price, 0, ',', '.') }} VND</p>
@@ -95,4 +135,43 @@
             </div>
         </div>
     </div>
+
+    <style>
+        /* Thanh tìm kiếm */
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .search-input, .search-select, .search-btn {
+            width: 100%;  /* Đảm bảo tất cả các phần tử có chiều rộng đầy đủ */
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;  /* Khoảng cách giữa các phần tử */
+        }
+
+        .search-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .search-input, .search-select {
+            flex: 1;  /* Đảm bảo các input và select chiếm cùng một không gian */
+        }
+
+        .search-btn {
+            flex: none;
+            width: auto;  /* Điều chỉnh lại kích cỡ của button */
+        }
+    </style>
+
 @endsection

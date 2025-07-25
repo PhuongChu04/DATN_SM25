@@ -145,7 +145,7 @@ class CheckoutController extends Controller
             if ($request->payment_method === 'vnpay') {
                 // Tạo đơn hàng với trạng thái 'unpaid' trước, sau đó xử lý thanh toán VNPay
                  $order->update([
-                    'payment_status' => 'unpaid',
+                    'payment_status' => 'failed',
                     'order_status' => 'pending',
                 ]);
                 // Xóa giỏ hàng DB

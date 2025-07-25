@@ -63,7 +63,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
     Route::resource('orders', OrderController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
     Route::get('/order-details', [OrderController::class, 'details'])->name('order.details');
-    Route::post('/order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
     Route::post('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::post('/orders/{id}/refund', [OrderController::class, 'refund'])->name('orders.refund');
     Route::get('/orders/{id}/print', [OrderController::class, 'print'])->name('orders.print');
@@ -302,5 +301,9 @@ Route::middleware('checkLogin')->group(function () {
     Route::get('client/orders', [OrderClientController::class, 'index'])->name('client.orders.index');
     Route::get('client/orders/{order}', [OrderClientController::class, 'show'])->name('client.orders.show');
     Route::post('client/orders/{order}/cancel', [OrderClientController::class, 'cancel'])->name('client.orders.cancel');
+    Route::get('client/orders/{order}/cancel-confirm', [OrderClientController::class, 'cancelConfirm'])->name('client.orders.cancelConfirm');
+    Route::post('client/orders/{order}/cancel-finalize', [OrderClientController::class, 'cancelFinalize'])->name('client.orders.cancelFinalize');
+    Route::post('client/orders/{order}/cancel-action', [OrderClientController::class, 'cancelAction'])->name('client.orders.cancelAction');
+
 });
 
