@@ -20,7 +20,7 @@
                                     class="text-sm link fw-medium my-account-nav-item active">Dashboard</a>
                             </li>
                             <li>
-                                <a href="account-orders.html" class="text-sm link fw-medium my-account-nav-item">My
+                                <a href="{{ route('client.orders.index')}}" class="text-sm link fw-medium my-account-nav-item">My
                                     Orders</a>
                             </li>
                             <li>
@@ -28,6 +28,7 @@
                                     Wishlist</a>
                             </li>
                             <li>
+
                                 <a href="{{ route('client.addresses.index') }}"
                                 class="text-sm link fw-medium my-account-nav-item">Addresses</a>
                             </li>
@@ -45,7 +46,7 @@
                         <div class="box-account-title">
                             <p class="hello-name display-sm fw-medium">
                                 Hello  {{ $user->first_name ?? '' }}
-                                
+
                                 <span>(not <span class="name"> {{ $user->first_name ?? '' }}</span>?</span>
                                 <a href="{{ route('auth.logoutClient') }}" class="text-decoration-underline link" onclick="return(confirm('Bạn có muốn đăng xuất không'))">Log Out</a>
                                 <span>)</span>

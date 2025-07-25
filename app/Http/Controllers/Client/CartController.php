@@ -20,6 +20,7 @@ class CartController extends Controller
     {
         Log::info('Bắt đầu thêm giỏ hàng:', $request->all());
 
+
         try {
             // Validate dữ liệu
             $request->validate([
@@ -142,6 +143,7 @@ class CartController extends Controller
             ]);
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi thêm vào giỏ hàng. Vui lòng thử lại.');
         }
+
     }
 
     /**
@@ -158,7 +160,9 @@ class CartController extends Controller
         $cartItems = $cart ? $cart->details : collect([]);
         $relatedProducts = Product::inRandomOrder()->limit(4)->get();
 
+
         return view('client.cart.index', compact('cartItems', 'relatedProducts'));
+
     }
 
     /**

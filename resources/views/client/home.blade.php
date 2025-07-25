@@ -1240,6 +1240,7 @@
 
     </div>
 
+
     <!-- Brand -->
     <div class="flat-spacing-2">
         <div class="container">

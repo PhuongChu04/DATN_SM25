@@ -534,7 +534,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId || '';
     // let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId || '';
 
-    
+
 
     // Xử lý chọn màu
     colorButtons.forEach(button => {

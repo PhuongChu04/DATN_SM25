@@ -532,6 +532,7 @@
 
             <div class="pagination-item">{{ $products->links() }}</div>
         </div>
+
         <!-- search -->
     <div class="modal fade popup-search" id="search">
         <div class="modal-dialog modal-fullscreen">
@@ -631,7 +632,7 @@ class="box-icon hover-tooltip compare btn-compare">
                                                         @foreach ($item->sizes as $value)
                                                             <li class="size-item text-xs text-white">{{$value->name}}</li>
                                                         @endforeach
-                                                        
+
                                                     </ul>
                                                 </div>
                                                 <div class="card-product-info">
@@ -653,7 +654,7 @@ class="box-icon hover-tooltip compare btn-compare">
                                                                 alt="image-product"> --}}
                                                         </li>
                                                         @endforeach
-                                                        
+
                                                     </ul>
                                                 </div>
                                             </div>
@@ -672,6 +673,7 @@ class="box-icon hover-tooltip compare btn-compare">
         </div>
     </div>
     <!-- /search -->
+
 
     </section>
 @endsection
