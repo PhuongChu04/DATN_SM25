@@ -1,6 +1,112 @@
 @extends('client.layout.layout')
 
 @section('content')
+<style>
+    /* Style cho widget-accordion */
+.widget-accordion {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style cho tiêu đề của mỗi accordion */
+.accordion-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+}
+
+.accordion-title:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style cho nội dung của accordion */
+.accordion-body {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 0 0 8px 8px;
+    color: #555;
+}
+
+/* Style cho review-item */
+.review-item {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 15px;
+}
+
+/* Style cho user-info */
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.user-info .user-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.user-info .rating {
+    font-size: 14px;
+    color: #f39c12;
+}
+
+/* Style cho comment */
+.comment {
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* Style cho admin-reply */
+.admin-reply {
+    padding: 10px 15px;
+    background-color: #f1f1f1;
+    border-left: 4px solid #2980b9;
+    font-size: 14px;
+}
+
+.admin-reply strong {
+    font-weight: bold;
+    color: #2980b9;
+}
+
+/* Style cho các icon */
+.icon {
+    font-size: 16px;
+    margin-left: 10px;
+    transition: transform 0.3s;
+}
+
+.icon:hover {
+    transform: rotate(180deg);
+}
+
+.icon-arrow-down {
+    font-size: 18px;
+    color: #999;
+}
+
+/* CSS cho responsive */
+@media screen and (max-width: 768px) {
+    .accordion-body {
+        padding: 15px;
+    }
+
+    .review-item {
+        padding: 10px;
+    }
+}
+
+</style>
     <!-- Breadcrumb -->
     <div class="breadcrumb-sec">
         <div class="container">
@@ -104,11 +210,15 @@
                                             <i class="icon icon-star"></i>
                                             <i class="icon icon-star"></i>
                                         </div>
-                                        <span class="count-review">(5 reviews)</span>
+
                                     </div>
                                     <div class="product-price">
-                                        <div class="display-sm price-new">{{ $product->firstVariant['price'] }}₫</div>
-                                        <div class="display-sm price-old">{{ $product->firstVariant['price'] }}₫</div>
+                                            <p class="display-sm price-new">
+                                                <!-- Hiển thị dải giá thay thế cho giá cũ và mới -->
+                                                <span class="price-new" style="color: #ff4d4d;">
+                                                    {{ $priceRange }}
+                                                </span>
+                                            </p>
                                     </div>
                                 </div>
 
@@ -188,15 +298,7 @@
                                         <i class="icon added icon-trash"></i><span class="added">Xoá khỏi yêu
                                             thích</span>
                                     </a>
-                                    <a href="#compare" data-bs-toggle="modal" class="product-extra-icon link">
-                                        <i class="icon icon-compare2"></i>Compare
-                                    </a>
-                                    <a href="#askQuestion" data-bs-toggle="modal" class="product-extra-icon link">
-                                        <i class="icon icon-ask"></i>Ask a question
-                                    </a>
-                                    <a href="#shareSocial" data-bs-toggle="modal" class="product-extra-icon link">
-                                        <i class="icon icon-share"></i>Share
-                                    </a>
+
                                 </div>
 
                                 <div class="tf-product-trust-seal text-center">
@@ -231,8 +333,7 @@
                                     </div>
                                     <div class="product-delivery">
                                         <div class="icon icon-shipping3"></div>
-                                        <p class="text-md">Miễn phí vận chuyển <span class="fw-medium">cho tất cả đơn trên
-                                                100.000₫</span></p>
+                                        <p class="text-md"> Vận chuyển toàn quốc <span class="fw-medium">trên khắp đất nước</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -249,162 +350,124 @@
     <!-- /Product Main -->
     <!-- Product Description -->
     <section class="flat-spacing pt-0">
-        <div class="container">
-            <div class="widget-accordion wd-product-descriptions">
-                <div class="accordion-title collapsed" data-bs-target="#description" data-bs-toggle="collapse"
-                    aria-expanded="true" aria-controls="description" role="button">
-                    <span>Mô tả</span>
-                    <span class="icon icon-arrow-down"></span>
-                </div>
-                <div id="description" class="collapse">
-                    <div class="accordion-body widget-desc">
-                        <div class="item">
-                            {{-- <p class="fw-medium title">Composition</p>
-                            <ul>
-                                <li>Viscose 55%, Linen 45%</li>
-                                <li>We exclude the weight of minor components</li>
-                            </ul> --}}
-                        </div>
-                        {{-- <p class="item">Additional material information</p> --}}
-                        <div class="item">
-                            {{-- <p class="title">The total weight of this product contains:</p>
-                            <ul>
-                                <li>55% LivaEco™ viscose</li>
-                                <li>Viscose 55%</li>
-                            </ul> --}}
-                        </div>
+    <div class="container">
+        <!-- Mô tả -->
+        <div class="widget-accordion wd-product-descriptions">
+            <div class="accordion-title" data-bs-target="#description" data-bs-toggle="collapse"
+                aria-expanded="true" aria-controls="description" role="button">
+                <span>Mô tả</span>
+                <span class="icon icon-arrow-down"></span>
+            </div>
+            <div id="description" class="collapse show">
+                <div class="accordion-body widget-desc">
+                    <div class="item">
                         <ul class="item">
                             <li>{{ $product['description'] }}</li>
                         </ul>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="widget-accordion wd-product-descriptions">
-                <div class="accordion-title collapsed" data-bs-target="#returnPolicies" data-bs-toggle="collapse"
-                    aria-expanded="true" aria-controls="returnPolicies" role="button">
-                    <span>Chính sách hoàn trả</span>
-                    <span class="icon icon-arrow-down"></span>
-                </div>
-                <div id="returnPolicies" class="collapse">
-                    <div class="accordion-body">
-                        <ul class="list-policies">
-                            <li>
-                                <svg viewBox="0 0 40 40" width="35px" height="35px" color="#222">
-                                    <path fill="currentColor"
-                                        d="M8.7 30.7h22.7c.3 0 .6-.2.7-.6l4-25.3c-.1-.4-.3-.7-.7-.8s-.7.2-.8.6L34 8.9l-3-1.1c-2.4-.9-5.1-.5-7.2 1-2.3 1.6-5.3 1.6-7.6 0-2.1-1.5-4.8-1.9-7.2-1L6 8.9l-.7-4.3c0-.4-.4-.7-.7-.6-.4.1-.6.4-.6.8l4 25.3c.1.3.3.6.7.6zm.8-21.6c2-.7 4.2-.4 6 .8 1.4 1 3 1.5 4.6 1.5s3.2-.5 4.6-1.5c1.7-1.2 4-1.6 6-.8l3.3 1.2-3 19.1H9.2l-3-19.1 3.3-1.2zM32 32H8c-.4 0-.7.3-.7.7s.3.7.7.7h24c.4 0 .7-.3.7-.7s-.3-.7-.7-.7zm0 2.7H8c-.4 0-.7.3-.7.7s.3.6.7.6h24c.4 0 .7-.3.7-.7s-.3-.6-.7-.6zm-17.9-8.9c-1 0-1.8-.3-2.4-.6l.1-2.1c.6.4 1.4.6 2 .6.8 0 1.2-.4 1.2-1.3s-.4-1.3-1.3-1.3h-1.3l.2-1.9h1.1c.6 0 1-.3 1-1.3 0-.8-.4-1.2-1.1-1.2s-1.2.2-1.9.4l-.2-1.9c.7-.4 1.5-.6 2.3-.6 2 0 3 1.3 3 2.9 0 1.2-.4 1.9-1.1 2.3 1 .4 1.3 1.4 1.3 2.5.3 1.8-.6 3.5-2.9 3.5zm4-5.5c0-3.9 1.2-5.5 3.2-5.5s3.2 1.6 3.2 5.5-1.2 5.5-3.2 5.5-3.2-1.6-3.2-5.5zm4.1 0c0-2-.1-3.5-.9-3.5s-1 1.5-1 3.5.1 3.5 1 3.5c.8 0 .9-1.5.9-3.5zm4.5-1.4c-.9 0-1.5-.8-1.5-2.1s.6-2.1 1.5-2.1 1.5.8 1.5 2.1-.5 2.1-1.5 2.1zm0-.8c.4 0 .7-.5.7-1.2s-.2-1.2-.7-1.2-.7.5-.7 1.2.3 1.2.7 1.2z">
-                                    </path>
-                                </svg>
-                            </li>
-                            <li>
-                                <svg viewBox="0 0 40 40" width="35px" height="35px" color="#222">
-                                    <path fill="currentColor"
-                                        d="M36.7 31.1l-2.8-1.3-4.7-9.1 7.5-3.5c.4-.2.6-.6.4-1s-.6-.5-1-.4l-7.5 3.5-7.8-15c-.3-.5-1.1-.5-1.4 0l-7.8 15L4 15.9c-.4-.2-.8 0-1 .4s0 .8.4 1l7.5 3.5-4.7 9.1-2.8 1.3c-.4.2-.6.6-.4 1 .1.3.4.4.7.4.1 0 .2 0 .3-.1l1-.4-1.5 2.8c-.1.2-.1.5 0 .8.1.2.4.3.7.3h31.7c.3 0 .5-.1.7-.4.1-.2.1-.5 0-.8L35.1 32l1 .4c.1 0 .2.1.3.1.3 0 .6-.2.7-.4.1-.3 0-.8-.4-1zm-5.1-2.3l-9.8-4.6 6-2.8 3.8 7.4zM20 6.4L27.1 20 20 23.3 12.9 20 20 6.4zm-7.8 15l6 2.8-9.8 4.6 3.8-7.4zm22.4 13.1H5.4L7.2 31 20 25l12.8 6 1.8 3.5z">
-                                    </path>
-                                </svg>
-                            </li>
-                            <li>
-                                <svg viewBox="0 0 40 40" width="35px" height="35px" color="#222">
-                                    <path fill="currentColor"
-                                        d="M5.9 5.9v28.2h28.2V5.9H5.9zM19.1 20l-8.3 8.3c-2-2.2-3.2-5.1-3.2-8.3s1.2-6.1 3.2-8.3l8.3 8.3zm-7.4-9.3c2.2-2 5.1-3.2 8.3-3.2s6.1 1.2 8.3 3.2L20 19.1l-8.3-8.4zM20 20.9l8.3 8.3c-2.2 2-5.1 3.2-8.3 3.2s-6.1-1.2-8.3-3.2l8.3-8.3zm.9-.9l8.3-8.3c2 2.2 3.2 5.1 3.2 8.3s-1.2 6.1-3.2 8.3L20.9 20zm8.4-10.2c-1.2-1.1-2.6-2-4.1-2.6h6.6l-2.5 2.6zm-18.6 0L8.2 7.2h6.6c-1.5.6-2.9 1.5-4.1 2.6zm-.9.9c-1.1 1.2-2 2.6-2.6 4.1V8.2l2.6 2.5zM7.2 25.2c.6 1.5 1.5 2.9 2.6 4.1l-2.6 2.6v-6.7zm3.5 5c1.2 1.1 2.6 2 4.1 2.6H8.2l2.5-2.6zm18.6 0l2.6 2.6h-6.6c1.4-.6 2.8-1.5 4-2.6zm.9-.9c1.1-1.2 2-2.6 2.6-4.1v6.6l-2.6-2.5zm2.6-14.5c-.6-1.5-1.5-2.9-2.6-4.1l2.6-2.6v6.7z">
-                                    </path>
-                                </svg>
-                            </li>
-                            <li>
-                                <svg viewBox="0 0 40 40" width="35px" height="35px" color="#222">
-                                    <path fill="currentColor"
-                                        d="M35.1 33.6L33.2 6.2c0-.4-.3-.7-.7-.7H13.9c-.4 0-.7.3-.7.7s.3.7.7.7h18l.7 10.5H20.8c-8.8.2-15.9 7.5-15.9 16.4 0 .4.3.7.7.7h28.9c.2 0 .4-.1.5-.2s.2-.3.2-.5v-.2h-.1zm-28.8-.5C6.7 25.3 13 19 20.8 18.9h11.9l1 14.2H6.3zm11.2-6.8c0 1.2-1 2.1-2.1 2.1s-2.1-1-2.1-2.1 1-2.1 2.1-2.1 2.1 1 2.1 2.1zm6.3 0c0 1.2-1 2.1-2.1 2.1-1.2 0-2.1-1-2.1-2.1s1-2.1 2.1-2.1 2.1 1 2.1 2.1z">
-                                    </path>
-                                </svg>
-                            </li>
-                            <li>
-                                <svg viewBox="0 0 40 40" width="35px" height="35px" color="#222">
-                                    <path fill="currentColor"
-                                        d="M20 33.8c7.6 0 13.8-6.2 13.8-13.8S27.6 6.2 20 6.2 6.2 12.4 6.2 20 12.4 33.8 20 33.8zm0-26.3c6.9 0 12.5 5.6 12.5 12.5S26.9 32.5 20 32.5 7.5 26.9 7.5 20 13.1 7.5 20 7.5zm-.4 15h.5c1.8 0 3-1.1 3-3.7 0-2.2-1.1-3.6-3.1-3.6h-2.6v10.6h2.2v-3.3zm0-5.2h.4c.6 0 .9.5.9 1.7 0 1.1-.3 1.7-.9 1.7h-.4v-3.4z">
-                                    </path>
-                                </svg>
-                            </li>
-                            <li>
-                                <svg viewBox="0 0 40 40" width="35px" height="35px" color="#222">
-                                    <path fill="currentColor"
-                                        d="M30.2 29.3c2.2-2.5 3.6-5.7 3.6-9.3s-1.4-6.8-3.6-9.3l3.6-3.6c.3-.3.3-.7 0-.9-.3-.3-.7-.3-.9 0l-3.6 3.6c-2.5-2.2-5.7-3.6-9.3-3.6s-6.8 1.4-9.3 3.6L7.1 6.2c-.3-.3-.7-.3-.9 0-.3.3-.3.7 0 .9l3.6 3.6c-2.2 2.5-3.6 5.7-3.6 9.3s1.4 6.8 3.6 9.3l-3.6 3.6c-.3.3-.3.7 0 .9.1.1.3.2.5.2s.3-.1.5-.2l3.6-3.6c2.5 2.2 5.7 3.6 9.3 3.6s6.8-1.4 9.3-3.6l3.6 3.6c.1.1.3.2.5.2s.3-.1.5-.2c.3-.3.3-.7 0-.9l-3.8-3.6z">
-                                    </path>
-                                </svg>
-                            </li>
-                            <li>
-                                <svg viewBox="0 0 40 40" width="35px" height="35px" color="#222">
-                                    <path fill="currentColor"
-                                        d="M34.1 34.1H5.9V5.9h28.2v28.2zM7.2 32.8h25.6V7.2H7.2v25.6zm13.5-18.3a.68.68 0 0 0-.7-.7.68.68 0 0 0-.7.7v10.9a.68.68 0 0 0 .7.7.68.68 0 0 0 .7-.7V14.5z">
-                                    </path>
-                                </svg>
-                            </li>
-                        </ul>
-                        <p class="text-center text-paragraph">LT01: 70% wool, 15% polyester, 10% polyamide, 5%
-                            acrylic 900 Grms/mt</p>
-                    </div>
-                </div>
+
+
+        <!-- Thông tin thêm -->
+        <div class="widget-accordion wd-product-descriptions">
+            <div class="accordion-title" data-bs-target="#addInformation" data-bs-toggle="collapse"
+                aria-expanded="true" aria-controls="addInformation" role="button">
+                <span>Thông tin thêm</span>
+                <span class="icon icon-arrow-down"></span>
             </div>
-            <div class="widget-accordion wd-product-descriptions">
-                <div class="accordion-title collapsed" data-bs-target="#addInformation" data-bs-toggle="collapse"
-                    aria-expanded="true" aria-controls="addInformation" role="button">
-                    <span>Thông tin thêm</span>
-                    <span class="icon icon-arrow-down"></span>
-                </div>
-                <div id="addInformation" class="collapse">
-                    <div class="accordion-body">
-                        <table class="tb-info-product text-md">
-                            <tbody>
-                                <tr class="tb-attr-item">
-                                    <th class="tb-attr-label">Material</th>
-                                    <td class="tb-attr-value">
-                                        <p>100% Cotton</p>
-                                    </td>
-                                </tr>
-                                <tr class="tb-attr-item">
-                                    <th class="tb-attr-label">Color</th>
-                                    <td class="tb-attr-value">
-                                        <div class="d-flex">
-                                            @foreach ($product->colors as $item)
-                                                <p> {{ $item->name }} |</p>
-                                            @endforeach
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="tb-attr-item">
-                                    <th class="tb-attr-label">Brand</th>
-                                    <td class="tb-attr-value">
-                                        <p>Vineta</p>
-                                    </td>
-                                </tr>
-                                <tr class="tb-attr-item">
-                                    <th class="tb-attr-label">Size</th>
-                                    <td class="tb-attr-value">
-                                        <div class="d-flex">
-                                            @foreach ($product->sizes as $item)
-                                                <p> {{ $item->name }} |</p>
-                                            @endforeach
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="widget-accordion wd-product-descriptions">
-                <div class="accordion-title collapsed" data-bs-target="#reviews" data-bs-toggle="collapse"
-                    aria-expanded="true" aria-controls="reviews" role="button">
-                    <span>Reviews</span>
-                    <span class="icon icon-arrow-down"></span>
-                </div>
-                <div id="reviews" class="collapse">
-                    <div class="accordion-body wd-form-review">
-                        123
-                    </div>
+            <div id="addInformation" class="collapse show">
+                <div class="accordion-body">
+                    <table class="tb-info-product text-md">
+                        <tbody>
+                            <tr class="tb-attr-item">
+                                <th class="tb-attr-label">Material</th>
+                                <td class="tb-attr-value">
+                                    <p>100% Cotton</p>
+                                </td>
+                            </tr>
+                            <tr class="tb-attr-item">
+                                <th class="tb-attr-label">Color</th>
+                                <td class="tb-attr-value">
+                                    <div class="d-flex">
+                                        @foreach ($product->colors as $item)
+                                            <p> {{ $item->name }} |</p>
+                                        @endforeach
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="tb-attr-item">
+                                <th class="tb-attr-label">Brand</th>
+                                <td class="tb-attr-value">
+                                    <p>Vineta</p>
+                                </td>
+                            </tr>
+                            <tr class="tb-attr-item">
+                                <th class="tb-attr-label">Size</th>
+                                <td class="tb-attr-value">
+                                    <div class="d-flex">
+                                        @foreach ($product->sizes as $item)
+                                            <p> {{ $item->name }} |</p>
+                                        @endforeach
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </section>
+
+        <!-- Reviews -->
+<div class="widget-accordion wd-product-descriptions">
+    <div class="accordion-title" data-bs-target="#reviews" data-bs-toggle="collapse"
+        aria-expanded="true" aria-controls="reviews" role="button">
+        <span>Reviews</span>
+        <span class="icon icon-arrow-down"></span>
+    </div>
+    <div id="reviews" class="collapse show">
+        <div class="accordion-body wd-form-review">
+            @if($reviews->isEmpty())
+                <p>Chưa có đánh giá cho sản phẩm này.</p>
+            @else
+                @foreach ($reviews as $review)
+    <div class="review-item">
+        <!-- Thêm phần tiêu đề trước tên người dùng và sao đánh giá -->
+        <div class="user-info">
+            <span class="user-name">Người dùng:{{ $review->user_name }}</span>
+            <span class="rating">
+                {{ str_repeat('★', $review->rating) }}
+                {{ str_repeat('☆', 5 - $review->rating) }}
+            </span>
+        </div>
+
+        <!-- Thêm tiêu đề cho phần bình luận -->
+        <div class="comment-section">
+            <span class="label">Bình luận:</span>
+            <p class="comment">{{ $review->comment }}</p>
+        </div>
+
+        <!-- Phản hồi từ quản trị viên nếu có -->
+        @if ($review->admin_reply)
+            <div class="admin-reply">
+                <strong>Phản hồi từ quản trị viên:</strong>
+                <p>{{ $review->admin_reply }}</p>
+            </div>
+        @endif
+    </div>
+@endforeach
+
+            @endif
+        </div>
+    </div>
+</div>
+
+
+    </div>
+</section>
+
     <!-- /Product Description -->
 
     <!-- Recently Viewed -->
@@ -518,6 +581,7 @@
     </section>
     <!-- /Recently Viewed -->
 @endsection
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const qtyInput = document.getElementById('quantity-product');

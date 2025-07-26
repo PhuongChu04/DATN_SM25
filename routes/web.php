@@ -237,6 +237,9 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
     Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
+    
+
+
 
 });
 

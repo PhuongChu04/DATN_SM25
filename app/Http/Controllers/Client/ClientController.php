@@ -25,17 +25,32 @@ class ClientController extends Controller
     }
 
 
-    public function homeClient()
-    {
-        $categories = $this->categoryService->getAllCategories();
-        //  dd($categories);
-        $products = Product::with('variants')
-            ->whereHas('variants')
-            ->latest()
-            ->take(10)
-            ->get();
-        return view('client.home', compact('categories', 'products'));
+   public function homeClient()
+{
+    $categories = $this->categoryService->getAllCategories(); // Lấy tất cả danh mục sản phẩm
+
+    // Lấy 10 sản phẩm mới nhất có biến thể
+    $products = Product::with('variants') // Eager load variants
+        ->whereHas('variants') // Lọc các sản phẩm có biến thể
+        ->latest()
+        ->take(10)
+        ->get();
+
+    // Tính toán dải giá cho tất cả các biến thể của sản phẩm
+    foreach ($products as $product) {
+        $variants = $product->variants; // Lấy tất cả các biến thể của sản phẩm
+        $minPrice = $variants->min('price'); // Lấy giá thấp nhất
+        $maxPrice = $variants->max('price'); // Lấy giá cao nhất
+
+        // Gán dải giá vào thuộc tính dải giá của sản phẩm
+        $product->priceRange = number_format($minPrice, 0, ',', '.') . ' - ' . number_format($maxPrice, 0, ',', '.');
     }
+
+    // Trả về view trang chủ với danh mục và sản phẩm
+    return view('client.home', compact('categories', 'products'));
+}
+
+
     public function account()
     {
         $user = Sentinel::getUser(); // Lấy thông tin người dùng đã đăng nhập

@@ -403,21 +403,25 @@
                 </ul>
             </div>
             <div class="card-product-info text-center">
-                <a href="{{ route('client.detailProduct', $item->id) }}"
-                   class="name-product link fw-medium text-md">{{ $item->name }}</a>
-                <p class="price-wrap fw-medium">
-                    <span class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }} ₫</span>
-                    <span class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }} ₫</span>
-                </p>
-                <ul class="list-color-product justify-content-center">
-                    @foreach ($item->colors as $value)
-                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                            <span class="tooltip">{{ $value->name }}</span>
-                            <span class="swatch-value" style="background-color: {{ $value->code }}"></span>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+    <a href="{{ route('client.detailProduct', $item->id) }}"
+       class="name-product link fw-medium text-md">{{ $item->name }}</a>
+    <p class="price-wrap fw-medium">
+        <!-- Hiển thị dải giá thay thế cho giá cũ và mới -->
+        <span class="price-new" style="color: #ff4d4d;">
+            {{ $item->priceRange }} VNĐ
+        </span>
+    </p>
+    <ul class="list-color-product justify-content-center">
+        @foreach ($item->colors as $value)
+            <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                <span class="tooltip">{{ $value->name }}</span>
+                <span class="swatch-value" style="background-color: {{ $value->code }}"></span>
+            </li>
+        @endforeach
+    </ul>
+</div>
+
+
         </div>
     </div>
 @endforeach
