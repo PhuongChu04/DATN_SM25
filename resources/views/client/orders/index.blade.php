@@ -29,10 +29,7 @@
 
                     <!-- Form tìm kiếm -->
                     <form method="GET" action="{{ route('client.orders.index') }}" class="search-form">
-                        <!-- Tìm kiếm theo mã đơn hàng -->
                         <input type="text" name="order_code" class="form-control search-input" placeholder="Mã đơn hàng" value="{{ request('order_code') }}">
-
-                        <!-- Tìm kiếm theo trạng thái đơn hàng -->
                         <select name="order_status" class="form-control search-select">
                             <option value="">Trạng thái</option>
                             <option value="pending" {{ request('order_status') == 'pending' ? 'selected' : '' }}>Đang chờ</option>
@@ -41,17 +38,12 @@
                             <option value="cancelled" {{ request('order_status') == 'cancelled' ? 'selected' : '' }}>Đã huỷ</option>
                             <option value="waiting_for_cancellation" {{ request('order_status') == 'waiting_for_cancellation' ? 'selected' : '' }}>Chờ xác nhận huỷ</option>
                         </select>
-
-                        <!-- Tìm kiếm theo tên sản phẩm -->
                         <input type="text" name="product_name" class="form-control search-input" placeholder="Tên sản phẩm" value="{{ request('product_name') }}">
-
-                        <!-- Tìm kiếm theo phương thức thanh toán -->
                         <select name="payment_method" class="form-control search-select">
                             <option value="">Phương thức thanh toán</option>
                             <option value="vnpay" {{ request('payment_method') == 'vnpay' ? 'selected' : '' }}>VNPay</option>
                             <option value="cod" {{ request('payment_method') == 'cod' ? 'selected' : '' }}>Thanh toán khi nhận hàng (COD)</option>
                         </select>
-
                         <button type="submit" class="btn btn-primary search-btn">Tìm kiếm</button>
                     </form>
 
@@ -61,21 +53,25 @@
                                 <!-- Đoạn tiêu đề đơn hàng -->
                                 <div class="mt-2">
                                     <strong>Trạng thái:</strong>
-                                    <span class="
-                                        @if ($order->order_status == 'pending') text-warning
-                                        @elseif ($order->order_status == 'processing') text-primary
-                                        @elseif ($order->order_status == 'cancelled') text-danger
-                                        @elseif ($order->order_status == 'completed') text-success
-                                        @else text-muted
+                                    <span class="badge
+                                        @if ($order->order_status == 'pending') bg-warning
+                                        @elseif ($order->order_status == 'processing') bg-info
+                                        @elseif ($order->order_status == 'shipped') bg-primary
+                                        @elseif ($order->order_status == 'cancelled') bg-danger
+                                        @elseif ($order->order_status == 'delivered') bg-success
+                                        @elseif ($order->order_status == 'waiting_for_cancellation') bg-secondary
+                                        @else bg-muted
                                         @endif
                                     ">
                                         @if ($order->order_status == 'pending')
                                             Đang chờ
                                         @elseif ($order->order_status == 'processing')
                                             Đang xử lý
+                                        @elseif ($order->order_status == 'shipped')
+                                            Đang giao hàng
                                         @elseif ($order->order_status == 'cancelled')
                                             Đã huỷ
-                                        @elseif ($order->order_status == 'completed')
+                                        @elseif ($order->order_status == 'delivered')
                                             Đã hoàn thành
                                         @elseif ($order->order_status == 'waiting_for_cancellation')
                                             Chờ xác nhận huỷ
@@ -85,30 +81,82 @@
                                     </span>
                                 </div>
 
+                                <!-- Hiển thị trạng thái thanh toán -->
+                                <div class="mt-2">
+                                    <strong>Trạng thái thanh toán:</strong>
+                                    <span class="badge
+                                        @if ($order->payment_status == 'unpaid') bg-danger
+                                        @elseif ($order->payment_status == 'paid') bg-success
+                                        @elseif ($order->payment_status == 'failed') bg-primary
+                                        @else bg-muted
+                                        @endif
+                                    ">
+                                        @if ($order->payment_status == 'unpaid')
+                                            Chưa thanh toán
+                                        @elseif ($order->payment_status == 'paid')
+                                            Đã thanh toán
+                                        @elseif ($order->payment_status == 'failed')
+                                            Thanh toán thất bại
+                                        @else
+                                            Không xác định
+                                        @endif
+                                    </span>
+                                </div>
+
+                                <!-- Mã đơn hàng -->
+                                <div class="mt-2">
+                                    <strong>Mã đơn hàng:</strong>
+                                    <span class="badge bg-light text-dark ms-2">#{{ $order->order_code }}</span>
+                                </div>
+
                                 <!-- Hiển thị các sản phẩm trong đơn hàng -->
-                                @foreach ($order->details as $detail)
-                                    <div class="row mt-3">
-                                        <div class="col-3">
-                                            <img src="{{ asset('storage/'.$detail->product->image_primary) }}" alt="{{ $detail->product_name }}" class="img-fluid" style="max-width: 80px; height: auto;">
-                                        </div>
-                                        <div class="col-9">
-                                            <p><strong>{{ $detail->product_name }}</strong></p>
-                                            <p>Phương thức thanh toán:
-                                                @if ($order->payment_method == 'vnpay')
-                                                    VNPay
-                                                @elseif ($order->payment_method == 'cod')
-                                                    Thanh toán khi nhận hàng (COD)
-                                                @else
-                                                    Không xác định
-                                                @endif
-                                            </p>
-                                            <p>Phân loại: {{ $detail->variant ? $detail->variant->size->name : 'Không có' }} / {{ $detail->variant ? $detail->variant->color->name : 'Không có' }}</p>
-                                            <p>Số lượng: {{ $detail->quantity }}</p>
-                                            <p>Đơn giá: {{ number_format($detail->unit_price, 0, ',', '.') }} VND</p>
-                                            <p><strong>Tổng: {{ number_format($detail->total, 0, ',', '.') }} VND</strong></p>
-                                        </div>
-                                    </div>
-                                @endforeach
+                          @foreach ($order->details as $detail)
+    <div class="row mt-3">
+        <div class="col-3">
+            <img src="{{ asset('storage/'.$detail->product->image_primary) }}" alt="{{ $detail->product_name }}" class="img-fluid" style="max-width: 100px; height: auto;">
+        </div>
+        <div class="col-9">
+            <div class="product-info p-3 border rounded">
+                <p><strong>{{ $detail->product_name }}</strong></p>
+                <p>Phương thức thanh toán:
+                    @if ($order->payment_method == 'vnpay')
+                        VNPay
+                    @elseif ($order->payment_method == 'cod')
+                        Thanh toán khi nhận hàng (COD)
+                    @else
+                        Không xác định
+                    @endif
+                </p>
+                <p>Phân loại: {{ $detail->variant ? $detail->variant->size->name : 'Không có' }} / {{ $detail->variant ? $detail->variant->color->name : 'Không có' }}</p>
+                <p>Số lượng: {{ $detail->quantity }}</p>
+                <p>Đơn giá: {{ number_format($detail->unit_price, 0, ',', '.') }} VND</p>
+                <p><strong>Tổng: {{ number_format($detail->total, 0, ',', '.') }} VND</strong></p>
+
+                <!-- Kiểm tra nếu đơn hàng đã giao (status = 'delivered') -->
+                @if ($order->order_status == 'delivered')
+                    @php
+                        // Kiểm tra xem người dùng đã đánh giá sản phẩm chưa trong đúng đơn hàng này
+                        $review = \App\Models\Review::where('user_id', Sentinel::getUser()->id) // Lấy user_id từ Sentinel
+                            ->where('product_id', $detail->product->id) // Kiểm tra product_id
+                            ->where('order_id', $order->id) // Kiểm tra order_id để đảm bảo đánh giá thuộc đúng đơn hàng
+                            ->first(); // Lấy đánh giá đầu tiên
+                    @endphp
+
+                    @if ($review)
+                        <!-- Nếu đã có đánh giá, hiển thị nút sửa -->
+                        <a href="{{ route('client.reviews.create', ['orderId' => $order->id, 'productId' => $detail->product->id]) }}" class="btn btn-warning btn-sm">Sửa đánh giá</a>
+                    @else
+                        <!-- Nếu chưa có đánh giá, hiển thị nút đánh giá -->
+                        <a href="{{ url('reviews/create/' . $order->id . '/' . $detail->product->id) }}" class="btn btn-warning btn-sm">Đánh giá</a>
+                    @endif
+                @endif
+            </div>
+        </div>
+    </div>
+@endforeach
+
+
+
 
                                 <div class="mt-3">
                                     <a href="{{ route('client.orders.show', $order->id) }}" class="btn btn-info btn-sm">Xem chi tiết</a>
@@ -171,6 +219,14 @@
         .search-btn {
             flex: none;
             width: auto;  /* Điều chỉnh lại kích cỡ của button */
+        }
+
+        /* Styling cho phần thông tin sản phẩm */
+        .product-info {
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 16px;
         }
     </style>
 

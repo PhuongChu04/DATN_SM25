@@ -40,26 +40,23 @@
                             <div class="form-group">
                                 <label for="reason">Chọn lý do huỷ:</label>
                                 <select name="cancel_reason" id="reason" class="form-control">
-                                    <option value="update_address">Cập nhật địa chỉ/số điện thoại nhận hàng</option>
-                                    <option value="change_discount">Thêm/Thay đổi mã giảm giá</option>
-                                    <option value="change_product">Thay đổi sản phẩm (kích thước, màu sắc, số lượng)</option>
-                                    <option value="payment_issue">Thủ tục thanh toán rắc rối</option>
-                                    <option value="better_option">Tìm thấy chỗ mua khác tốt hơn</option>
-                                    <option value="no_need">Không có nhu cầu mua nữa</option>
-                                    <option value="other">Lý do khác</option>
+                                    <option value="Cập nhật địa chỉ/số điện thoại nhận hàng">Cập nhật địa chỉ/số điện thoại nhận hàng</option>
+                                    <option value="Thêm/Thay đổi mã giảm giá">Thêm/Thay đổi mã giảm giá</option>
+                                    <option value="Thay đổi sản phẩm (kích thước, màu sắc, số lượng)">Thay đổi sản phẩm (kích thước, màu sắc, số lượng)</option>
+                                    <option value="Thủ tục thanh toán rắc rối">Thủ tục thanh toán rắc rối</option>
+                                    <option value="Tìm thấy chỗ mua khác tốt hơn">Tìm thấy chỗ mua khác tốt hơn</option>
+                                    <option value="Không có nhu cầu mua nữa">Không có nhu cầu mua nữa</option>
+                                    <option value="Lý do khác">Lý do khác</option>
                                 </select>
                             </div>
 
-                            <!-- Các nút hiển thị trên cùng một dòng -->
-                            <div class="buttons-container">
-                                <button type="submit" class="btn btn-danger btn-sm">Xác nhận huỷ đơn</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Xác nhận huỷ đơn</button>
+                        </form>
 
-                                <!-- Form Huỷ thao tác -->
-                                <form action="{{ route('client.orders.cancelAction', $order->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-secondary btn-sm">Huỷ thao tác</button>
-                                </form>
-                            </div>
+                        <!-- Form Huỷ thao tác -->
+                        <form action="{{ route('client.orders.cancelAction', $order->id) }}" method="POST" class="d-inline mt-3">
+                            @csrf
+                            <button type="submit" class="btn btn-secondary btn-sm">Huỷ thao tác</button>
                         </form>
                     </div>
                 </div>
@@ -67,4 +64,3 @@
         </div>
     </div>
 @endsection
-

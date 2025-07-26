@@ -20,22 +20,40 @@ class OrderClientController extends Controller
     /**
      * Hiển thị danh sách đơn hàng của người dùng
      */
-    public function index()
-    {
-        $user = $this->getUser();  // Lấy người dùng đã đăng nhập
+   public function index(Request $request)
+{
+    $user = $this->getUser();  // Lấy người dùng đã đăng nhập
 
-        // Kiểm tra người dùng đã đăng nhập chưa
-        if (!$user) {
-            return redirect()->route('auth.loginClient')->with('message', 'Vui lòng đăng nhập để xem đơn hàng.');
-        }
-
-        // Lấy danh sách đơn hàng của người dùng và sắp xếp theo thời gian tạo (sớm nhất lên đầu), sau đó phân trang
-        $orders = Order::where('user_id', $user->id)
-                       ->orderBy('created_at', 'desc')  // Thay 'desc' thành 'asc' để hiển thị đơn hàng từ sớm nhất
-                       ->paginate(10);  // Phân trang với 10 đơn hàng mỗi trang
-
-        return view('client.orders.index', compact('orders')); // Trả về view với danh sách đơn hàng đã sắp xếp và phân trang
+    // Kiểm tra người dùng đã đăng nhập chưa
+    if (!$user) {
+        return redirect()->route('auth.loginClient')->with('message', 'Vui lòng đăng nhập để xem đơn hàng.');
     }
+
+    // Tạo query cơ bản để lấy đơn hàng của người dùng
+    $query = Order::where('user_id', $user->id);
+
+    // Tìm kiếm theo mã đơn hàng (order_code)
+    if ($request->has('order_code') && !empty($request->order_code)) {
+        $query->where('order_code', 'like', '%' . $request->order_code . '%');
+    }
+
+    // Tìm kiếm theo trạng thái đơn hàng (order_status)
+    if ($request->has('order_status') && !empty($request->order_status)) {
+        $query->where('order_status', $request->order_status);
+    }
+
+    // Tìm kiếm theo trạng thái thanh toán (payment_status)
+    if ($request->has('payment_status') && !empty($request->payment_status)) {
+        $query->where('payment_status', $request->payment_status);
+    }
+
+    // Lấy danh sách đơn hàng của người dùng và sắp xếp theo thời gian tạo (sớm nhất lên đầu), sau đó phân trang
+    $orders = $query->orderBy('created_at', 'desc')  // Thay 'desc' thành 'asc' để hiển thị đơn hàng từ sớm nhất
+                    ->paginate(10);  // Phân trang với 10 đơn hàng mỗi trang
+
+    return view('client.orders.index', compact('orders')); // Trả về view với danh sách đơn hàng đã sắp xếp và phân trang
+}
+
 
     /**
      * Hiển thị chi tiết đơn hàng của người dùng
@@ -117,34 +135,18 @@ class OrderClientController extends Controller
     $order->cancel_reason = $request->input('cancel_reason');  // Lưu lý do huỷ
 
     // Cập nhật trạng thái đơn hàng thành 'waiting_for_cancellation'
-    $order->order_status = 'waiting_for_cancellation';
+    $order->order_status = 'cancelled';
     $order->save(); // Lưu lại thay đổi
 
     // Quay lại trang danh sách đơn hàng với thông báo thành công
-    return redirect()->route('client.orders.index')->with('success', 'Đơn hàng đã được chuyển sang trạng thái chờ huỷ.');
+    return redirect()->route('client.orders.index')->with('success', 'Đơn hàng đã được chuyển sang trạng thái huỷ.');
 }
 
-    /**
-     * Huỷ thao tác và quay lại trạng thái cũ
-     */
-    public function cancelAction($id)
-    {
-        $user = $this->getUser();  // Lấy người dùng đã đăng nhập
 
-        // Kiểm tra người dùng đã đăng nhập chưa
-        if (!$user) {
-            return redirect()->route('auth.loginClient')->with('message', 'Vui lòng đăng nhập để huỷ thao tác.');
-        }
+  public function cancelAction($id)
+{
+    return redirect()->route('client.orders.index')->with('success', 'Đã huỷ thao tác, trạng thái đơn hàng không thay đổi.');
+}
 
-        // Tìm đơn hàng và kiểm tra quyền sở hữu của người dùng
-        $order = Order::where('id', $id)->where('user_id', $user->id)->first();
 
-        if (!$order) {
-            return redirect()->route('client.orders.index')->with('error', 'Đơn hàng không tồn tại hoặc không thuộc quyền sở hữu của bạn.');
-        }
-
-        // Trường hợp người dùng chỉ hủy thao tác mà không thay đổi trạng thái
-        // Không thay đổi trạng thái đơn hàng, chỉ quay lại danh sách đơn hàng
-        return redirect()->route('client.orders.index');
-    }
 }

@@ -132,13 +132,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="collapse" id="sidebarOrders">
-                    <ul class="nav sub-navbar-nav">
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="">Yêu cầu huỷ đơn</a>
-                        </li>
-                    </ul>
-                </div>
+                
             </li>
 
 

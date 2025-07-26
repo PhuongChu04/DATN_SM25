@@ -58,6 +58,8 @@
                     <option value="">-- Trạng thái thanh toán --</option>
                     <option value="paid" {{ request('payment_status') == 'paid' ? 'selected' : '' }}>Đã thanh toán</option>
                     <option value="unpaid" {{ request('payment_status') == 'unpaid' ? 'selected' : '' }}>Chưa thanh toán</option>
+                    <option value="failed" {{ request('payment_status') == 'failed' ? 'selected' : '' }}>Thanh toán lỗi</option>
+
                 </select>
             </div>
             <div class="col-md-2">
@@ -65,8 +67,10 @@
                     <option value="">-- Trạng thái đơn hàng --</option>
                     <option value="pending" {{ request('order_status') == 'pending' ? 'selected' : '' }}>Đang chờ</option>
                     <option value="processing" {{ request('order_status') == 'processing' ? 'selected' : '' }}>Đang xử lý</option>
+                    <option value="shipped" {{ request('order_status') == 'shipped' ? 'selected' : '' }}>Đã vận chuyển</option>
                     <option value="delivered" {{ request('order_status') == 'delivered' ? 'selected' : '' }}>Đã giao</option>
                     <option value="cancelled" {{ request('order_status') == 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
+                    <option value="waiting_for_cancellation" {{ request('order_status') == 'waiting_for_cancellation' ? 'selected' : '' }}>Xin huỷ đơn hàng</option>
                 </select>
             </div>
             <div class="col-md-2">
@@ -106,7 +110,11 @@
                                         };
                                     @endphp
                                     <span class="badge rounded-pill px-3 py-2 {{ $badgeClass }}">
-                                        {{ ucfirst($order->payment_status) == 'Paid' ? 'Đã thanh toán' : 'Chưa thanh toán' }}
+                                     {{
+                                        ucfirst($order->payment_status) == 'Paid' ? 'Đã thanh toán' :
+                                        (ucfirst($order->payment_status) == 'Unpaid' ? 'Chưa thanh toán' : 'Thanh toán thất bại')
+                                    }}
+
                                     </span>
                                 </td>
 
@@ -119,6 +127,8 @@
                                             'Shipped' => ['label' => 'Đã vận chuyển', 'color' => 'bg-primary'],
                                             'Delivered' => ['label' => 'Đã giao', 'color' => 'bg-success'],
                                             'Cancelled' => ['label' => 'Đã huỷ', 'color' => 'bg-danger'],
+                                            'Waiting_for_cancellation' => ['label' => 'Xin huỷ đơn hàng', 'color' => 'bg-dark'],
+
                                         ];
                                     @endphp
 
@@ -184,11 +194,11 @@
                 </div>
                 <div class="modal-body">
                     <select name="order_status" class="form-select" required>
-                        <option value="pending">Đang chờ</option>
-                        <option value="processing">Đang xử lý</option>
-                        <option value="shipped">Đã vận chuyển</option>
-                        <option value="delivered">Đã giao</option>
-                        <option value="cancelled">Đã huỷ</option>
+                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Đang chờ</option>
+                        <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Đang xử lý</option>
+                        <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Đã vận chuyển</option>
+                        <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Đã giao</option>
+                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Đã huỷ</option>
                     </select>
                 </div>
                 <div class="modal-footer">

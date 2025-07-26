@@ -10,6 +10,7 @@ use App\Models\OrderStatusLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -54,8 +55,8 @@ class OrderController extends Controller
                         ->paginate(10);
 
         // Tính toán các thống kê đơn hàng
-        $orderCancel     = Order::where('order_status', OrderStatus::Canceled->value)->count();
-        $orderDelivering = Order::where('order_status', OrderStatus::Shipping->value)->count();
+        $orderCancel     = Order::where('order_status', OrderStatus::Cancelled->value)->count();
+        $orderDelivering = Order::where('order_status', OrderStatus::Shipped->value)->count();
         $pendingPayment  = Order::where('payment_status', 'unpaid')->count();
         $orderDelivered  = Order::where('order_status', OrderStatus::Delivered->value)->count();
 
@@ -76,9 +77,7 @@ class OrderController extends Controller
                 'details.variant.size',
                 'details.variant.color',
             ]);
-        $progressStatus = $this->mapStatusToProgress($order->order_status);
-
-        return view('admin.orders.details', compact('order', 'progressStatus'));
+        return view('admin.orders.details', compact('order'));
     }
 
     public function edit(Order $order)
@@ -86,31 +85,46 @@ class OrderController extends Controller
         return view('admin.orders.edit', compact('order'));
     }
 
-    public function updateStatus(Request $request, $id)
+ public function updateStatus(Request $request, $id)
 {
     // Lấy đơn hàng
     $order = Order::findOrFail($id);
 
-    // Nếu đơn đã kết thúc, không cho thay đổi
-    if (in_array($order->order_status, [
-        OrderStatus::Delivered->value,
-        OrderStatus::Canceled->value,
-        OrderStatus::Returned->value,
-    ])) {
-        return back()->with('error', 'Đơn hàng đã kết thúc, không thể thay đổi tiếp.');
+    // Kiểm tra nếu đơn hàng đã thanh toán, không cho phép hủy
+    if ($order->payment_status === 'paid' && $request->order_status === OrderStatus::Cancelled->value) {
+        return back()->with('error', 'Không thể hủy đơn hàng đã thanh toán.');
     }
 
-    // Validate trạng thái đầu vào
+    // Kiểm tra nếu thanh toán thất bại thì không cho sửa trạng thái trừ khi chuyển sang "Đã hủy"
+    if ($order->payment_status === 'failed' && $request->order_status !== OrderStatus::Cancelled->value) {
+        return back()->with('error', 'Đơn hàng thanh toán thất bại chỉ có thể chuyển sang trạng thái "Đã hủy".');
+    }
+
+    if ($order->order_status === OrderStatus::WaitingForCancellation->value && $request->order_status !== OrderStatus::Cancelled->value) {
+    return back()->with('error', 'Đơn hàng đang chờ hủy, chỉ có thể chuyển sang trạng thái "Đã hủy".');
+}
+
+
+    // Kiểm tra trạng thái đầu vào
     $request->validate([
         'order_status' => ['required', Rule::in(OrderStatus::values())],
         'note' => 'nullable|string|max:1000',
     ]);
 
+    // In giá trị của order_status khi form được submit
+    Log::info('Order status submitted: ' . $request->order_status);  // Log giá trị
+
+    // Kiểm tra trạng thái mới có thể tiến lên hay không
     $newStatus = $request->order_status;
 
     // Kiểm tra trạng thái mới có thể tiến lên hay không
     if ($this->statusLevel($newStatus) <= $this->statusLevel($order->order_status)) {
         return back()->with('error', 'Không thể quay lại trạng thái trước. Chỉ có thể tiến lên.');
+    }
+
+    // Nếu trạng thái mới là "Đã giao", cập nhật phương thức thanh toán thành "Đã thanh toán" (paid)
+    if ($newStatus === OrderStatus::Delivered->value && $order->payment_status === 'unpaid') {
+        $order->payment_status = 'paid'; // Cập nhật thanh toán khi nhận hàng thành đã thanh toán
     }
 
     // Cập nhật trạng thái đơn hàng
@@ -129,77 +143,21 @@ class OrderController extends Controller
 }
 
 
+
+
     public function destroy(Order $order)
-    {
-        $order->delete();
-        return back()->with('success', 'Order deleted successfully.');
+{
+
+    if ($order->order_status !== OrderStatus::Cancelled->value) {
+        return back()->with('error', 'Chỉ có thể xóa đơn hàng đã huỷ.');
     }
 
-    public function print($id)
-    {
-        $order = Order::with([
-            'user',
-            'orderDetails.variant.product',
-            'orderDetails.variant.size',
-            'orderDetails.variant.color',
-        ])->findOrFail($id);
 
-        return view('admin.orders.invoice', compact('order'));
-    }
+    $order->delete();
 
-    public function refund($id)
-    {
-        $order = Order::findOrFail($id);
+    return back()->with('success', 'Đơn hàng đã được xóa.');
+}
 
-        // Điều kiện không cho hoàn tiền
-        if ($order->order_status === OrderStatus::Shipping->value) {
-            return back()->with('error', 'Không thể hoàn tiền khi đơn hàng đang giao.');
-        }
-
-        if ($order->order_status === OrderStatus::Canceled->value) {
-            return back()->with('error', 'Đơn hàng đã bị hủy, không thể hoàn tiền.');
-        }
-
-        if ($order->payment_status !== 'paid') {
-            return back()->with('error', 'Đơn hàng chưa thanh toán, không thể hoàn tiền.');
-        }
-
-        // Điều kiện cho hoàn tiền
-        if (!in_array($order->order_status, [OrderStatus::Delivered->value, OrderStatus::Returned->value])) {
-            return back()->with('error', 'Chỉ có thể hoàn tiền đơn hàng đã giao hoặc trả hàng.');
-        }
-
-        // Cập nhật trạng thái hoàn tiền
-        $order->payment_status = 'refund';
-        $order->save();
-
-        // Ghi log
-        OrderStatusLog::create([
-            'order_id' => $order->id,
-            'status' => 'refund',
-            'note' => 'Hoàn tiền đơn hàng bởi admin',
-            'changed_by' => Auth::id(),
-        ]);
-
-        return back()->with('success', 'Đã hoàn tiền cho đơn hàng.');
-    }
-
-    /**
-     * Ánh xạ trạng thái cũ sang tiến trình 5 bước mới
-     */
-    private function mapStatusToProgress($status)
-    {
-        return match ($status) {
-            'draft' => 'confirming',
-            'pending' => 'pending',
-            'processing' => 'processing',
-            'shipping', 'delivering' => 'shipping',
-            'completed', 'delivered' => 'delivered',
-            'canceled' => 'confirming', // hoặc tùy bạn muốn nhảy bước nào
-            'returned' => 'delivered', // hoặc giữ nguyên, nếu không cần progress
-            default => 'pending',
-        };
-    }
 
     private function statusLevel($status): int
     {
@@ -207,13 +165,12 @@ class OrderController extends Controller
         $value = is_object($status) ? $status->value : $status;
 
         return match ($value) {
-            OrderStatus::Confirming->value => 1,
-            OrderStatus::Pending->value    => 2,
-            OrderStatus::Processing->value => 3,
-            OrderStatus::Shipping->value   => 4,
-            OrderStatus::Delivered->value  => 5,
-            OrderStatus::Returned->value   => 6,
-            OrderStatus::Canceled->value   => 7,
+
+            OrderStatus::Pending->value    => 1,
+            OrderStatus::Processing->value => 2,
+            OrderStatus::Shipped->value   => 3,
+            OrderStatus::Delivered->value  => 4,
+            OrderStatus::Cancelled->value   => 4,
             default => 0,
         };
     }
