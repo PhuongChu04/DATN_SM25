@@ -29,6 +29,7 @@ use App\Http\Controllers\Client\AddressController;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderClientController;
+use App\Http\Controllers\Client\ReviewClientController;
 
 Route::get('/test-address', function () {
     $json = File::get(base_path('packages/vudovn/dvhcvn/json/data.json'));
@@ -306,4 +307,9 @@ Route::middleware('checkLogin')->group(function () {
     Route::post('client/orders/{order}/cancel-action', [OrderClientController::class, 'cancelAction'])->name('client.orders.cancelAction');
 
 });
+// Route cho việc đánh giá client
+Route::middleware('checkLogin')->group(function () {
+        Route::get('reviews/create/{orderId}/{productId}', [ReviewClientController::class, 'create'])->name('client.reviews.create');
+        Route::post('reviews/store/{orderId}', [ReviewClientController::class, 'store'])->name('client.reviews.store');
 
+});

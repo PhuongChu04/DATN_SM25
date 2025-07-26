@@ -51,7 +51,7 @@
                     <div class="card-body">
                         <table class="table table-bordered align-middle">
                             <thead class="table-light">
-                                <tr>git add .
+                                <tr>
                                     <th>Sản phẩm</th>
                                     <th>Số lượng</th>
                                     <th>Giá</th>
@@ -112,13 +112,16 @@
                     </div>
                 </div>
 
-                {{-- Trạng thái trả hàng --}}
+
                 <div class="card shadow-sm mb-3">
-                    <div class="card-header fw-bold">Trạng thái trả hàng</div>
+                    <div class="card-header fw-bold">Lý do huỷ đơn</div>
                     <div class="card-body">
-                        <span class="badge bg-secondary">Không có yêu cầu</span>
+                        <span class="badge bg-secondary">
+                            {{ $order->cancel_reason ?? 'Không có lý do huỷ đơn' }}
+                        </span>
                     </div>
                 </div>
+
 
                 {{-- Đánh giá sản phẩm --}}
                 <div class="card shadow-sm">
