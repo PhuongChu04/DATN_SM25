@@ -101,7 +101,7 @@ class CheckoutController extends Controller
                 'order_code'      => 'DH' . strtoupper(Str::random(6)), // Ví dụ: DH4F6G8
                 'name'            => $request->name,
                 'phone'           => $request->phone,
-                'email'           => $request->email,
+                'email' => $user ? $user->email : null,
                 'address'         => $address,
                 'payment_method'  => $request->payment_method,
                 'payment_status'  => 'unpaid',  // Trạng thái chưa thanh toán
@@ -225,7 +225,7 @@ class CheckoutController extends Controller
     // Phương thức xử lý phản hồi từ VNPay
     public function paymentReturn(Request $request)
     {
-        // Lấy cấu hình VNPay 
+        // Lấy cấu hình VNPay
         $vnp_HashSecret = "0FFMB5EJI6AL35QE35TKCP18SYKI6N30";
         $vnp_SecureHash = $request->input('vnp_SecureHash');
         $inputData = $request->except('vnp_SecureHash', 'vnp_SecureHashType');
