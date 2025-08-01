@@ -225,7 +225,7 @@ class CheckoutController extends Controller
     // Phương thức xử lý phản hồi từ VNPay
     public function paymentReturn(Request $request)
     {
-        // Lấy cấu hình VNPay từ config
+        // Lấy cấu hình VNPay 
         $vnp_HashSecret = "0FFMB5EJI6AL35QE35TKCP18SYKI6N30";
         $vnp_SecureHash = $request->input('vnp_SecureHash');
         $inputData = $request->except('vnp_SecureHash', 'vnp_SecureHashType');

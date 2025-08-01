@@ -85,61 +85,59 @@ class OrderController extends Controller
         return view('admin.orders.edit', compact('order'));
     }
 
- public function updateStatus(Request $request, $id)
+public function updateStatus(Request $request, $id)
 {
-    // Lấy đơn hàng
+    // Lấy đơn hàng theo ID
     $order = Order::findOrFail($id);
 
-    // Kiểm tra nếu đơn hàng đã thanh toán, không cho phép hủy
-    if ($order->payment_status === 'paid' && $request->order_status === OrderStatus::Cancelled->value) {
-        return back()->with('error', 'Không thể hủy đơn hàng đã thanh toán.');
-    }
-
-    // Kiểm tra nếu thanh toán thất bại thì không cho sửa trạng thái trừ khi chuyển sang "Đã hủy"
-    if ($order->payment_status === 'failed' && $request->order_status !== OrderStatus::Cancelled->value) {
-        return back()->with('error', 'Đơn hàng thanh toán thất bại chỉ có thể chuyển sang trạng thái "Đã hủy".');
-    }
-
-    if ($order->order_status === OrderStatus::WaitingForCancellation->value && $request->order_status !== OrderStatus::Cancelled->value) {
-    return back()->with('error', 'Đơn hàng đang chờ hủy, chỉ có thể chuyển sang trạng thái "Đã hủy".');
-}
-
-
-    // Kiểm tra trạng thái đầu vào
+    // Validate dữ liệu đầu vào
     $request->validate([
         'order_status' => ['required', Rule::in(OrderStatus::values())],
         'note' => 'nullable|string|max:1000',
     ]);
 
-    // In giá trị của order_status khi form được submit
-    Log::info('Order status submitted: ' . $request->order_status);  // Log giá trị
-
-    // Kiểm tra trạng thái mới có thể tiến lên hay không
     $newStatus = $request->order_status;
+    $currentStatus = $order->order_status;
 
-    // Kiểm tra trạng thái mới có thể tiến lên hay không
-    if ($this->statusLevel($newStatus) <= $this->statusLevel($order->order_status)) {
-        return back()->with('error', 'Không thể quay lại trạng thái trước. Chỉ có thể tiến lên.');
+    // Log trạng thái mới khi submit form
+    Log::info('Order status submitted: ' . $newStatus);
+
+    // Cho phép chuyển sang trạng thái 'Cancelled' từ bất kỳ trạng thái nào, trừ khi đã thanh toán
+    if ($newStatus === OrderStatus::Cancelled->value) {
+        if ($order->payment_status === 'paid') {
+            return back()->with('error', 'Không thể hủy đơn hàng đã thanh toán.');
+        }
+        $order->order_status = $newStatus;
+    } else {
+        // Kiểm tra trạng thái chỉ cho tiến lần lượt từng bước một
+        $currentLevel = $this->statusLevel($currentStatus);
+        $newLevel = $this->statusLevel($newStatus);
+
+        if ($newLevel - $currentLevel !== 1) {
+            return back()->with('error', 'Chỉ có thể cập nhật trạng thái lần lượt theo từng bước.');
+        }
+
+        // Nếu trạng thái mới là "Đã giao" thì cập nhật trạng thái thanh toán thành "paid"
+        if ($newStatus === OrderStatus::Delivered->value && $order->payment_status === 'unpaid') {
+            $order->payment_status = 'paid';
+        }
+
+        // Cập nhật trạng thái đơn hàng mới
+        $order->order_status = $newStatus;
     }
 
-    // Nếu trạng thái mới là "Đã giao", cập nhật phương thức thanh toán thành "Đã thanh toán" (paid)
-    if ($newStatus === OrderStatus::Delivered->value && $order->payment_status === 'unpaid') {
-        $order->payment_status = 'paid'; // Cập nhật thanh toán khi nhận hàng thành đã thanh toán
-    }
-
-    // Cập nhật trạng thái đơn hàng
-    $order->order_status = $newStatus;
+    // Lưu trạng thái mới của đơn hàng vào database
     $order->save();
 
-    // Ghi log
+    // Ghi lại lịch sử thay đổi trạng thái
     OrderStatusLog::create([
         'order_id'   => $order->id,
         'status'     => $newStatus,
-        'note' => $request->note,
+        'note'       => $request->note,
         'changed_by' => Auth::id(),
     ]);
 
-    return back()->with('success', 'Cập nhật trạng thái thành công.');
+    return back()->with('success', 'Cập nhật trạng thái đơn hàng thành công.');
 }
 
 

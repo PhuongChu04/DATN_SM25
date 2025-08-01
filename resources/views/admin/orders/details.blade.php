@@ -103,9 +103,9 @@
             {{-- Thông tin khách hàng --}}
             <div class="col-lg-4">
                 <div class="card shadow-sm mb-3">
-                    <div class="card-header fw-bold">Thông tin khách hàng</div>
+                    <div class="card-header fw-bold">Thông tin người nhận</div>
                     <div class="card-body">
-                        <p><strong>Tên khách hàng:</strong> {{ $order->name }}</p>
+                        <p><strong>Tên người nhận:</strong> {{ $order->name }}</p>
                         <p><strong>Email:</strong> {{ $order->email }}</p>
                         <p><strong>SĐT:</strong> {{ $order->phone }}</p>
                         <p><strong>Địa chỉ:</strong> {{ $order->address }}</p>

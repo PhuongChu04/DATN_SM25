@@ -13,18 +13,14 @@
                     <div class="col-md-6">
                         <label class="form-label">Họ và tên *</label>
                         <input type="text" name="name" class="form-control" required
-                            value="{{ old('name', ($user->first_name ?? '') . ' ' . ($user->last_name ?? '')) }}" readonly>
+                            value="{{ old('name', $defaultAddress->recipient_name ?? '') }}" readonly>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Số điện thoại *</label>
                         <input type="text" name="phone" class="form-control" required
                             value="{{ old('phone', $defaultAddress->phone_number ?? '') }}" readonly>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Email (tùy chọn)</label>
-                        <input type="email" name="email" class="form-control"
-                            value="{{ old('email', $user->email ?? '') }}" readonly>
-                    </div>
+
                     <div class="col-md-6">
                         <label class="form-label">Địa chỉ *</label>
                         <input type="text" name="address" class="form-control" required
@@ -34,6 +30,7 @@
                             $defaultAddress->province : '') }}" readonly>
                     </div>
                 </div>
+
 
                 <button type="button" id="changeAddressButton" class="btn btn-outline-primary w-100 mt-3">
                     Thay đổi địa chỉ
