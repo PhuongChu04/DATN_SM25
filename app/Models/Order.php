@@ -27,6 +27,13 @@ class Order extends Model
         'total_price',
     ];
 
+    //     protected $fillable = [
+    //     'user_id',
+    //     'order_code',
+    //     'total_price',
+    //     'payment_status',
+    //     'order_status',
+    // ];
 
     public function user()
     {

@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\ReviewClientController;
+use App\Http\Controllers\Admin\NotificationController;
+
 
 Route::get('/test-address', function () {
     $json = File::get(base_path('packages/vudovn/dvhcvn/json/data.json'));
@@ -57,6 +59,23 @@ use Faker\Guesser\Name;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
+
+    Route::post('/admin/notifications/{id}/read', [NotificationController::class, 'read']);
+    Route::get('/admin/notifications', function () {
+    return auth()->user()->unreadNotifications;
+    });
+    Route::middleware(['auth'])->group(function () {
+    Route::post('/admin/notifications/{id}/read', function ($id) {
+        /** @var \App\Models\User $user */
+        $user = auth()->user(); 
+        $n = $user->notifications()->findOrFail($id);
+        $n->markAsRead();
+        return response()->json(['status' => 'ok']);
+    });
+    });
+
+
+
 
 
     // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
