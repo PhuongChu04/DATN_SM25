@@ -223,17 +223,17 @@
                             @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
-                                        <div>
-                                            <a href="#" class="image img-style d-block">
+                                        <a href="#category-{{ $category->id }}" class="image img-style d-block">
+                                            <div>
                                                 <img src="{{ asset('storage/' . $category->image) }}"
                                                     alt="{{ $category->name }}">
-                                            </a>
-                                        </div>
+                                            </div>
 
 
-                                        <div class="cls-content text-center">
-                                            <span class="link text-md fw-medium">{{ $category->name }}</span>
-                                        </div>
+                                            <div class="cls-content text-center">
+                                                <span class="link text-md fw-medium">{{ $category->name }}</span>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                             @endforeach
@@ -257,7 +257,8 @@
                     <p class="desc text-main text-md">Khám phá những sản phẩm phổ biến nhất của chúng tôi mà khách hàng
                         không thể có đủ</p>
                 </div>
-                <a href="shop-default.html" class="btn-underline">View all</a>
+
+                <a href="{{ route('client.listProducts') }}" class="btn-underline">View all</a>
             </div>
             <div class="fl-control-sw">
                 <div dir="ltr" class="sw-height swiper tf-swiper"
@@ -281,11 +282,12 @@
                 }'>
                     <div class="swiper-wrapper wow fadeInUp">
                         <!-- Sản phẩm bán chạy -->
-                        @foreach ($products as $item)
+                        {{-- @foreach ($products as $item)
                             <div class="swiper-slide">
                                 <div class="card-product style-center">
                                     <div class="card-product-wrapper">
-                                        <a href="{{route('client.detailProduct', $item->id)}}" class="product-img">
+
+                                        <a href="{{ route('client.detailProduct', $item->id) }}" class="product-img">
                                             <img class="img-product lazyload"
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
@@ -299,15 +301,25 @@
                                         </div>
                                         <ul class="list-product-btn">
                                             <li>
-                                                <a href="#quickAdd" data-bs-toggle="modal"
+
+                                                <a href="javascript:void(0);"
+                                                    onclick="document.getElementById('quick-add-{{ $item->id }}').submit();"
                                                     class="bg-surface hover-tooltip tooltip-left box-icon">
                                                     <span class="icon icon-cart2"></span>
                                                     <span class="tooltip">Quick Add</span>
                                                 </a>
+
+
+                                                <form id="quick-add-{{ $item->id }}"
+                                                    action="{{ route('client.cart.add') }}" method="POST"
+                                                    class="d-none">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                                    <input type="hidden" name="quantity" value="1">
+                                                </form>
                                             </li>
                                             <li class="wishlist">
-                                                <a href="#"
-                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                <a href="#" class="bg-surface hover-tooltip tooltip-left box-icon">
                                                     <span class="icon icon-heart2"></span>
                                                     <span class="tooltip">Add to Wishlist</span>
                                                 </a>
@@ -349,7 +361,83 @@
                                     </div>
                                 </div>
                             </div>
+                        @endforeach --}}
+                        @foreach ($products as $item)
+                            <div class="swiper-slide">
+                                <div class="card-product style-center">
+                                    <div class="card-product-wrapper">
+                                        <a href="{{ route('client.detailProduct', $item->id) }}" class="product-img">
+                                            <img class="img-product lazyload"
+                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                            <img class="img-hover lazyload"
+                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                        </a>
+                                        <div class="on-sale-wrap flex-column type-2">
+                                            <span class="on-sale-item">20% Off</span>
+                                            <span class="on-sale-item trending">Trending</span>
+                                        </div>
+                                        <ul class="list-product-btn">
+
+                                            <li class="wishlist">
+                                                <a href="#" class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                    <span class="icon icon-heart2"></span>
+                                                    <span class="tooltip">Add to Wishlist</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#quickView" data-bs-toggle="modal"
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon quickview">
+                                                    <span class="icon icon-view"></span>
+                                                    <span class="tooltip">Quick View</span>
+                                                </a>
+                                            </li>
+                                            <li class="compare">
+                                                <a href="#compare" data-bs-toggle="modal"
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                    <span class="icon icon-compare"></span>
+                                                    <span class="tooltip">Add to Compare</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-product-info text-center">
+                                        <a href="{{ route('client.detailProduct', $item->id) }}"
+                                            class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                        <p class="price-wrap fw-medium">
+                                            <span
+                                                class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }}
+                                                ₫</span>
+                                            <span
+                                                class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }}
+                                                ₫</span>
+                                        </p>
+                                        <ul class="list-color-product justify-content-center">
+                                            @foreach ($item->colors as $value)
+                                                <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                    <span class="tooltip">{{ $value->name }}</span>
+                                                    <span class="swatch-value"
+                                                        style="background-color: {{ $value->code }}"></span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
+
+                        <script>
+                            function validateForm(formId) {
+                                var form = document.getElementById(formId);
+                                var select = form.querySelector('select[name="id_variant"]');
+                                if (!select.value) {
+                                    alert('Vui lòng chọn biến thể sản phẩm!');
+                                    return false;
+                                }
+                                return true;
+                            }
+                        </script>
 
                     </div>
                     <div class="d-flex d-xl-none sw-dot-default sw-pagination-top-pick justify-content-center">
@@ -387,23 +475,169 @@
             </div>
         </div>
     </div>
-    <!-- /Banner Collection-->
-    <!-- Hot Deal -->
-    <section class="bg-surface flat-spacing-8">
-        <div class="container">
-            <div class="flat-title mb_1 style-between wow fadeInUp">
-                <div class="box-title">
-                    <h4 class="title">Hot Deals</h4>
-                    <p class="desc text-main text-md">Explore our most popular pieces that customers can't get
-                        enough of</p>
+
+
+    <div class="modal fade popup-search" id="search">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="header">
+                    <button class="icon-close icon-close-popup" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="wg-countdown-2">
-                    <span class="js-countdown" data-timer="46556" data-labels="Days,Hours,Mins,Secs"></span>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="looking-for-wrap">
+                                <div class="heading">Bạn đang tìm kiếm gì?</div>
+                                <form class="form-search" action="{{ route('client.shop.search') }}" method="GET">
+                                    <fieldset class="text">
+                                        <input type="text" placeholder="Search" class="" name="search"
+                                            tabindex="0" value="{{ request('search') }}" aria-required="true"
+                                            required="">
+                                    </fieldset>
+                                    <button type="submit">
+                                        <i class="icon icon-search"></i>
+                                    </button>
+                                </form>
+                                <div class="popular-searches justify-content-md-center">
+                                    <div class="text fw-medium">Popular searches:</div>
+                                    <ul>
+                                        <li><a class="link" href="#">Featured</a></li>
+                                        <li><a class="link" href="#">Trendy</a></li>
+                                        <li><a class="link" href="#">New</a></li>
+                                        <li><a class="link" href="#">Sale</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="featured-product">
+                                <div class="text-xl-2 fw-medium featured-product-heading">Featured product</div>
+                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over"
+                                    data-swiper='{
+                                        "slidesPerView": 2,
+                                        "spaceBetween": 12,
+                                        "speed": 800,
+                                        "observer": true,
+                                        "observeParents": true,
+                                        "slidesPerGroup": 2,
+                                        "pagination": { "el": ".sw-pagination-search", "clickable": true },
+                                        "breakpoints": {
+                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },
+"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+                                        }
+                                    }'>
+                                    <div class="swiper-wrapper">
+                                        @foreach ($products as $item)
+                                            <div class="swiper-slide">
+                                                <div class="card-product style-3 card-product-size">
+                                                    <div class="card-product-wrapper">
+                                                        <a href="product-detail.html" class="product-img">
+                                                            <img class="img-product lazyload"
+                                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                alt="image-product">
+                                                            <img class="img-hover lazyload"
+                                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                alt="image-product">
+                                                        </a>
+                                                        <ul class="list-product-btn">
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="box-icon hover-tooltip wishlist">
+                                                                    <span class="icon icon-heart2"></span>
+                                                                    <span class="tooltip">Add to Wishlist</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="btn-quickview box-icon hover-tooltip quickview">
+                                                                    <span class="icon icon-view"></span>
+                                                                    <span class="tooltip">Quick View</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="box-icon hover-tooltip compare btn-compare">
+                                                                    <span class="icon icon-compare"></span>
+                                                                    <span class="tooltip">Add to Compare</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="product-btn-main">
+                                                            <a href="#shoppingCart" data-bs-toggle="offcanvas"
+                                                                class="btn-main-product">
+                                                                <span class="icon icon-cart2"></span>
+                                                                <span class="text-md fw-medium">
+                                                                    Add to Cart
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                        <ul class="size-box">
+                                                            @foreach ($item->sizes as $value)
+                                                                <li class="size-item text-xs text-white">
+                                                                    {{ $value->name }}</li>
+                                                            @endforeach
+
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="card-product-info">
+                                                        <a href="product-detail.html"
+                                                            class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                                        <p class="price-wrap fw-medium">
+                                                            <span
+                                                                class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
+                                                            {{-- <span class="price-old">$100.00</span> --}}
+                                                        </p>
+                                                        <ul class="list-color-product">
+                                                            @foreach ($item->colors as $value)
+                                                                <li
+                                                                    class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                                    <span
+                                                                        class="tooltip color-filter">{{ $value->name }}</span>
+                                                                    <span class="swatch-value"
+                                                                        style="background-color: {{ $value->code }}"></span>
+                                                                    {{-- <img class="lazyload"
+                                                                data-src="images/products/fashion/product-27.jpg"
+                                                                src="images/products/fashion/product-27.jpg"
+                                                                alt="image-product"> --}}
+                                                                </li>
+                                                            @endforeach
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div
+                                        class="d-flex d-xl-none sw-dot-default sw-pagination-search justify-content-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="fl-control-sw wow fadeInUp">
-                <div dir="ltr" class="swiper tf-swiper sw-height"
-                    data-swiper='{
+        </div>
+    </div>
+    <!-- /search -->
+    <div>
+
+        <!-- Products by category -->
+        @foreach ($categoriesWithProducts as $cate)
+            <section class="bg-surface flat-spacing-8" id="category-{{ $cate->id }}">
+                <div class="container">
+                    <div class="flat-title mb_1 style-between wow fadeInUp">
+                        <div class="box-title">
+                            <h4 class="title">{{ $cate->name }}</h4>
+                        </div>
+                    </div>
+                    <div class="fl-control-sw wow fadeInUp">
+                        <div dir="ltr" class="swiper tf-swiper sw-height"
+                            data-swiper='{
                     "slidesPerView": 2,
                     "spaceBetween": 12,
                     "speed": 800,
@@ -421,447 +655,95 @@
                     "1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
                     }
                 }'>
-                    <div class="swiper-wrapper">
-                        <!-- item 1 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/airpod-pro-black.jpg"
-                                            src="images/products/electronic/airpod-pro-black.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/airpod-pro-pink.jpg"
-                                            src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product">
-                                    </a>
-                                    <div class="on-sale-wrap"><span class="on-sale-item">20% Off</span></div>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="countdown-box style-2">
-                                        <div class="js-countdown" data-timer="1007500" data-labels="D  :,H  :,M  :,S">
+                            <div class="swiper-wrapper">
+                                <!-- PRODUCTS -->
+                                @foreach ($cate->products as $item)
+                                    <div class="swiper-slide">
+                                        <div class="card-product style-center">
+                                            <div class="card-product-wrapper">
+                                                <a href="{{ route('client.detailProduct', $item->id) }}"
+                                                    class="product-img">
+                                                    <img class="img-product lazyload"
+                                                        data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                        src="{{ asset('storage/' . $item->image_primary) }}"
+                                                        alt="image-product">
+                                                    <img class="img-hover lazyload"
+                                                        data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                        src="{{ asset('storage/' . $item->image_primary) }}"
+                                                        alt="image-product">
+                                                </a>
+                                                <div class="on-sale-wrap flex-column type-2">
+                                                    <span class="on-sale-item">20% Off</span>
+                                                    <span class="on-sale-item trending">Trending</span>
+                                                </div>
+                                                <ul class="list-product-btn">
+                                                    <li>
+                                                        <a href="#quickAdd" data-bs-toggle="modal"
+                                                            class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                            <span class="icon icon-cart2"></span>
+                                                            <span class="tooltip">Quick Add</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="wishlist">
+                                                        <a href="#"
+                                                            class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                            <span class="icon icon-heart2"></span>
+                                                            <span class="tooltip">Add to Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#quickView" data-bs-toggle="modal"
+                                                            class="bg-surface hover-tooltip tooltip-left box-icon quickview">
+                                                            <span class="icon icon-view"></span>
+                                                            <span class="tooltip">Quick View</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="compare">
+                                                        <a href="#compare" data-bs-toggle="modal"
+                                                            class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                            <span class="icon icon-compare"></span>
+                                                            <span class="tooltip">Add to Compare</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-product-info text-center">
+                                                <a href="product-detail.html"
+                                                    class="name-product link fw-medium text-md">{{ $item->name }} </a>
+                                                <p class="price-wrap fw-medium">
+                                                    <span
+                                                        class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}₫</span>
+                                                    <span class="price-old old-line">190.00₫</span>
+                                                </p>
+                                                <ul class="list-color-product justify-content-center">
+                                                    @foreach ($item->colors as $value)
+                                                        <li
+                                                            class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                            <span class="tooltip">{{ $value->name }}</span>
+                                                            <span class="swatch-value"
+                                                                style="background-color: {{ $value->code }}"></span>
+
+                                                        </li>
+                                                    @endforeach
+
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Apple
-                                        AirPods Pro 2 Wireless Earbuds</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$170.00</span>
-                                        <span class="price-old old-line">$190.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item hover-tooltip tooltip-bot color-swatch active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/airpod-pro-black.jpg"
-                                                src="images/products/electronic/airpod-pro-black.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Red</span>
-                                            <span class="swatch-value bg-red-2"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/airpod-pro-red.jpg"
-                                                src="images/products/electronic/airpod-pro-red.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Pink</span>
-                                            <span class="swatch-value bg-light-pink-10"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/airpod-pro-pink.jpg"
-                                                src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
-                                    <div class="product-progress-sale">
-                                        <div class="progress-sold progress" role="progressbar" aria-valuemin="0"
-                                            aria-valuemax="100">
-                                            <div class="progress-bar bg-orange-3" style="width: 90%"></div>
-                                        </div>
-                                        <p class="text-avaiable text-sm">Available: <span
-                                                class="fw-medium text-red-2">2</span></p>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
+                            <div class="d-flex d-xl-none sw-dot-default sw-pagination-deal justify-content-center"></div>
                         </div>
-                        <!-- item 2 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/ss-smart-watch.jpg"
-                                            src="images/products/electronic/ss-smart-watch.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/ss-smart-watch-white.jpg"
-                                            src="images/products/electronic/ss-smart-watch-white.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="countdown-box style-2">
-                                        <div class="js-countdown" data-timer="810549" data-labels="D  :,H  :,M  :,S">
-                                        </div>
-                                    </div>
-                                    <div class="on-sale-wrap"><span class="on-sale-item">20% Off</span></div>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Samsung
-                                        Galaxy 5 LTE Smart <br class="d-none d-xl-block"> Watch</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$210.00</span>
-                                        <span class="price-old old-line">$230.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Grey</span>
-                                            <span class="swatch-value bg-grey-6"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/ss-smart-watch.jpg"
-                                                src="images/products/electronic/ss-smart-watch.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">White</span>
-                                            <span class="swatch-value bg-white"></span>
-                                            <img class="lazyload"
-                                                data-src="images/products/electronic/ss-smart-watch-white.jpg"
-                                                src="images/products/electronic/ss-smart-watch-white.jpg"
-                                                alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/ss-smart-watch-gray.jpg"
-                                                src="images/products/electronic/ss-smart-watch-gray.jpg"
-                                                alt="image-product">
-                                        </li>
-                                    </ul>
-                                    <div class="product-progress-sale">
-                                        <div class="progress-sold progress" role="progressbar" aria-valuemin="0"
-                                            aria-valuemax="100">
-                                            <div class="progress-bar bg-green-2" style="width: 40%"></div>
-                                        </div>
-                                        <p class="text-avaiable text-sm">Available: <span
-                                                class="fw-medium text-success-5">60</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/earbuds2-black.jpg"
-                                            src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/earbuds2-black.jpg"
-                                            src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="countdown-box style-2">
-                                        <div class="js-countdown" data-timer="1080732" data-labels="D  :,H  :,M  :,S">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Fit
-                                        Pro True Wireless Bluetooth Earbuds</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$155.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/earbuds2-black.jpg"
-                                                src="images/products/electronic/earbuds2-black.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">White</span>
-                                            <span class="swatch-value bg-white"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/earbuds2-white.jpg"
-                                                src="images/products/electronic/earbuds2-white.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Pink</span>
-                                            <span class="swatch-value bg-light-pink-10"></span>
-                                            <img class=" lazyload" data-src="images/products/electronic/earbuds2-pink.jpg"
-                                                src="images/products/electronic/earbuds2-pink.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
-                                    <div class="product-progress-sale">
-                                        <div class="progress-sold progress" role="progressbar" aria-valuemin="0"
-                                            aria-valuemax="100">
-                                            <div class="progress-bar bg-green-2" style="width: 50%"></div>
-                                        </div>
-                                        <p class="text-avaiable text-sm">Available: <span
-                                                class="fw-medium text-success-5">55</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/amazfit-pink.jpg"
-                                            src="images/products/electronic/amazfit-pink.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/amazfit-pink.jpg"
-                                            src="images/products/electronic/amazfit-pink.jpg" alt="image-product">
-                                    </a>
-                                    <ul class="list-product-btn justify-content-start">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="countdown-box style-2">
-                                        <div class="js-countdown" data-timer="900610" data-labels="D  :,H  :,M  :,S">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Amazfit Bip
-                                        5 Smart Watch
-                                        46mm</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$150.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                            <span class="tooltip">Pink</span>
-                                            <span class="swatch-value bg-light-pink-10"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/amazfit-pink.jpg"
-                                                src="images/products/electronic/amazfit-pink.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Sky Blue</span>
-                                            <span class="swatch-value bg-sky-blue"></span>
-                                            <img class=" lazyload" data-src="images/products/electronic/amazfit-blue.jpg"
-                                                src="images/products/electronic/amazfit-blue.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
-                                    <div class="product-progress-sale">
-                                        <div class="progress-sold progress" role="progressbar" aria-valuemin="0"
-                                            aria-valuemax="100">
-                                            <div class="progress-bar bg-orange-3" style="width: 70%"></div>
-                                        </div>
-                                        <p class="text-avaiable text-sm">Available: <span
-                                                class="fw-medium text-red-2">20</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- item 5 -->
-                        <div class="swiper-slide">
-                            <div class="card-product style-center">
-                                <div class="card-product-wrapper">
-                                    <a href="product-detail.html" class="product-img">
-                                        <img class="img-product lazyload"
-                                            data-src="images/products/electronic/airpod-pro-black.jpg"
-                                            src="images/products/electronic/airpod-pro-black.jpg" alt="image-product">
-                                        <img class="img-hover lazyload"
-                                            data-src="images/products/electronic/airpod-pro-pink.jpg"
-                                            src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product">
-                                    </a>
-                                    <div class="on-sale-wrap"><span class="on-sale-item">20% Off</span></div>
-                                    <ul class="list-product-btn">
-                                        <li>
-                                            <a href="#quickAdd" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-cart2"></span>
-                                                <span class="tooltip">Quick Add</span>
-                                            </a>
-                                        </li>
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-heart2"></span>
-                                                <span class="tooltip">Add to Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                <span class="icon icon-view"></span>
-                                                <span class="tooltip">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="compare">
-                                            <a href="#compare" data-bs-toggle="modal"
-                                                class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="countdown-box style-2">
-                                        <div class="js-countdown" data-timer="1007500" data-labels="D  :,H  :,M  :,S">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-product-info text-center">
-                                    <a href="product-detail.html" class="name-product link fw-medium text-md">Apple
-                                        AirPods Pro 2 Wireless Earbuds</a>
-                                    <p class="price-wrap fw-medium">
-                                        <span class="price-new">$170.00</span>
-                                        <span class="price-old old-line">$190.00</span>
-                                    </p>
-                                    <ul class="list-color-product justify-content-center">
-                                        <li class="list-color-item hover-tooltip tooltip-bot color-swatch active">
-                                            <span class="tooltip">Black</span>
-                                            <span class="swatch-value bg-dark"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/airpod-pro-black.jpg"
-                                                src="images/products/electronic/airpod-pro-black.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Red</span>
-                                            <span class="swatch-value bg-red-2"></span>
-                                            <img class="lazyload" data-src="images/products/electronic/airpod-pro-red.jpg"
-                                                src="images/products/electronic/airpod-pro-red.jpg" alt="image-product">
-                                        </li>
-                                        <li class="list-color-item color-swatch hover-tooltip tooltip-bot">
-                                            <span class="tooltip">Pink</span>
-                                            <span class="swatch-value bg-light-pink-10"></span>
-                                            <img class=" lazyload"
-                                                data-src="images/products/electronic/airpod-pro-pink.jpg"
-                                                src="images/products/electronic/airpod-pro-pink.jpg" alt="image-product">
-                                        </li>
-                                    </ul>
-                                    <div class="product-progress-sale">
-                                        <div class="progress-sold progress" role="progressbar" aria-valuemin="0"
-                                            aria-valuemax="100">
-                                            <div class="progress-bar bg-orange-3" style="width: 90%"></div>
-                                        </div>
-                                        <p class="text-avaiable text-sm">Available: <span
-                                                class="fw-medium text-red-2">2</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="swiper-button-next d-none d-xl-flex nav-swiper nav-next-deal"></div>
+                        <div class="swiper-button-prev d-none d-xl-flex nav-swiper nav-prev-deal"></div>
                     </div>
-                    <div class="d-flex d-xl-none sw-dot-default sw-pagination-deal justify-content-center"></div>
                 </div>
-                <div class="swiper-button-next d-none d-xl-flex nav-swiper nav-next-deal"></div>
-                <div class="swiper-button-prev d-none d-xl-flex nav-swiper nav-prev-deal"></div>
-            </div>
-        </div>
-    </section>
-    <!-- /Hot Deal -->
+            </section>
+        @endforeach
+
+
+    </div>
+
 
     <!-- Brand -->
     <div class="flat-spacing-2">
@@ -933,12 +815,12 @@
                 "slidesPerView": 1,
                 "spaceBetween": 12,
                 "speed": 800,
-                "preventInteractionOnTransition": false, 
+                "preventInteractionOnTransition": false,
                 "touchStartPreventDefault": false,
                 "slidesPerGroup": 1,
                 "pagination": { "el": ".sw-pagination-iconbox", "clickable": true },
                 "breakpoints": {
-                    "575": { "slidesPerView": 2, "spaceBetween": 12}, 
+                    "575": { "slidesPerView": 2, "spaceBetween": 12},
                     "768": { "slidesPerView": 3, "spaceBetween": 24},
                     "1200": { "slidesPerView": "auto", "spaceBetween": 59}
                 }

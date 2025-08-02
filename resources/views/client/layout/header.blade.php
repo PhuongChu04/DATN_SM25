@@ -31,13 +31,15 @@
                 </div>
                 <div class="col-xl-2 col-md-4 col-6 text-center">
                     <a href="home-electronic.html" class="logo-header">
-                        <img src="{{ asset('client/images/logo/logo.svg') }}" alt="logo" class="logo">
+                        <img src="{{ asset('client/images/logo/IFN.jpg') }}" alt="logo" class="logo" heigh="">
                     </a>
                 </div>
                 <div class="col-xl-5 col-md-4 col-3">
                     <ul class="nav-icon d-flex justify-content-end align-items-center">
                         <li class="nav-search">
-                            <a href="" action="{{route('client.shop.search')}}" data-bs-toggle="modal" class="nav-icon-item">
+
+                            <a href="#search" data-bs-toggle="modal" class="nav-icon-item">
+
                                 <i class="icon icon-search"></i>
                             </a>
                         </li>

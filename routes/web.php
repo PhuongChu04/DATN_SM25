@@ -9,14 +9,13 @@ use App\Http\Controllers\ADMIN\AuthController as AdminAuthController;
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\BrandController;
-use App\Http\Controllers\CheckoutController;
+//use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\VoucherController;
-use App\Http\Controllers\Client\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\OrderController;
@@ -24,7 +23,18 @@ use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\ShippingRateController;
 use App\Http\Controllers\Client\HomeContrller;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Client\AddressController;
+use Illuminate\Support\Facades\File;
+use App\Http\Controllers\Client\CheckoutController;
+use App\Http\Controllers\Client\OrderClientController;
+use App\Http\Controllers\Client\ReviewClientController;
+
+Route::get('/test-address', function () {
+    $json = File::get(base_path('packages/vudovn/dvhcvn/json/data.json'));
+    $data = json_decode($json, true);
+    return response()->json($data);
+});
 // =================================CLIENT=================================
 
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -47,13 +57,12 @@ use Faker\Guesser\Name;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
-    
+
 
     // Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkUser')->name('homeAdmin');
     // Route::get('/list-product', [AdminProductController::class, 'list'])->middleware('checkAdmin')->name('listProduct');
-    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
+    Route::resource('orders', OrderController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
     Route::get('/order-details', [OrderController::class, 'details'])->name('order.details');
-    Route::post('/order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
     Route::post('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::post('/orders/{id}/refund', [OrderController::class, 'refund'])->name('orders.refund');
     Route::get('/orders/{id}/print', [OrderController::class, 'print'])->name('orders.print');
@@ -204,11 +213,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 //client
 Route::prefix('client')->name('client.')->group(function () {
-    Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient'); 
+    Route::get('/dashboard', [ClientController::class, 'homeClient'])->name('homeClient');
 
 
     //==================TRANG CHỦ==================
     // Route::get('/dashboard', [ClientProductController::class, 'index'])->name('home');
+    Route::get('/get-variant', [ClientProductController::class, 'getVariant'])->name('client.getVariant');
 
     //==================TRANG DANH SÁCH==================
     Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
@@ -219,30 +229,24 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
-    Route::post('/cart/add/{id}', [CheckoutController::class, 'add']);
-     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-
-    // Route để hiển thị trang giỏ hàng
+    Route::group(['middleware' => 'checkLogin'], function () {
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    
-    // Route để cập nhật số lượng
-    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 
-    // Route để xóa sản phẩm
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+    // Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
+
+});
 
 
-   
     // Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     // Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     // Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
 
 
-    // tìm kiếm sản phẩm 
+    // tìm kiếm sản phẩm
     Route::get('/shop/search', [ClientProductController::class, 'searchClient'])->name('shop.search');
-    
-
-
     Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
     Route::get('/addresses/create', [AddressController::class, 'create'])->name('addresses.create');
     Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
@@ -262,6 +266,49 @@ Route::prefix('/auth')->name('auth.')->group(function () {
     Route::post('/register', [AuthController::class, 'postRegister'])->name('postRegisterClient');
     Route::get('/logout', [AuthController::class, 'logoutClient'])->middleware('checkLogin')->name('logoutClient');
 });
+// bình luận
+
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('reviews')->name('reviews.')->group(function () {
+        Route::get('/', [ReviewController::class, 'index'])->name('index');
+        Route::get('/{review}/edit', [ReviewController::class, 'edit'])->name('edit');
+        Route::put('/{review}', [ReviewController::class, 'update'])->name('update');
+        Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
+    });
+});
 
 
 
+
+Route::group(['middleware' => 'sentinel.auth'], function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+});
+
+
+//checkout
+Route::get('/checkout', [CheckoutController::class, 'showForm'])->name('checkout.form');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::post('/checkout/store-address', [CheckoutController::class, 'storeAddress'])->name('checkout.storeAddress');
+
+// vnpay
+Route::post('checkout/vnpay/payment', [CheckoutController::class, 'payment'])->name('vnpay.payment');
+Route::get('checkout/vnpay/callback', [CheckoutController::class, 'paymentReturn'])->name('checkout.vnpay.callback');
+
+//order client
+Route::middleware('checkLogin')->group(function () {
+    Route::get('client/orders', [OrderClientController::class, 'index'])->name('client.orders.index');
+    Route::get('client/orders/{order}', [OrderClientController::class, 'show'])->name('client.orders.show');
+    Route::post('client/orders/{order}/cancel', [OrderClientController::class, 'cancel'])->name('client.orders.cancel');
+    Route::get('client/orders/{order}/cancel-confirm', [OrderClientController::class, 'cancelConfirm'])->name('client.orders.cancelConfirm');
+    Route::post('client/orders/{order}/cancel-finalize', [OrderClientController::class, 'cancelFinalize'])->name('client.orders.cancelFinalize');
+    Route::post('client/orders/{order}/cancel-action', [OrderClientController::class, 'cancelAction'])->name('client.orders.cancelAction');
+
+});
+// Route cho việc đánh giá client
+Route::middleware('checkLogin')->group(function () {
+        Route::get('reviews/create/{orderId}/{productId}', [ReviewClientController::class, 'create'])->name('client.reviews.create');
+        Route::post('reviews/store/{orderId}', [ReviewClientController::class, 'store'])->name('client.reviews.store');
+
+});

@@ -23,38 +23,51 @@
 
                 <div class="my-acount-content account-dashboard">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4>My Addresses</h4>
+                        <h4>Địa chỉ</h4>
                         <a href="{{ route('client.addresses.create') }}" class="btn btn-success">
-                            <i class="fas fa-plus"></i> Add New
+                            <i class="fas fa-plus"></i> Thêm mới
                         </a>
                     </div>
 
                     @foreach ($addresses as $address)
                         <div class="card mb-3 shadow-sm">
                             <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    {{ $address->recipient_name }} - {{ $address->phone_number }}
-                                </h5>
+                                <!-- Hiển thị họ tên và số điện thoại trên hai dòng và làm chúng nhỏ lại -->
                                 <p class="card-text">
-                                    {{ $address->detailed_address }}, {{ $address->ward }}, {{ $address->district }}, {{ $address->province }}
+                                    <strong>Họ tên:</strong>
+                                    {{ $address->recipient_name }}
                                 </p>
+                                <p class="card-text">
+                                    <strong>Số điện thoại:</strong>
+                                    {{ $address->phone_number }}
+                                </p>
+
+
+                                <!-- Hiển thị địa chỉ trên dòng riêng -->
+                                <p class="card-text">
+                                    <strong>Địa chỉ:</strong>
+                                    {{ $address->detailed_address }}, {{ $address->ward }}, {{ $address->province }}
+                                </p>
+
+                                <!-- Hiển thị loại địa chỉ (Home/Office) -->
                                 <span class="badge bg-primary">{{ $address->address_type }}</span>
                                 @if ($address->is_default)
-                                    <span class="badge bg-danger">Default</span>
+                                    <span class="badge bg-danger">Mặc định</span>
                                 @else
                                     <form action="{{ route('client.addresses.set-default', $address->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn btn-outline-primary btn-sm">Set Default</button>
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">Chọn làm mặc định</button>
                                     </form>
                                 @endif
 
                                 <div class="mt-3">
-                                    <a href="{{ route('client.addresses.edit', $address->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <!-- Chỉnh sửa và xóa địa chỉ -->
+                                    <a href="{{ route('client.addresses.edit', $address->id) }}" class="btn btn-warning btn-sm">Sửa</a>
                                     <form action="{{ route('client.addresses.destroy', $address->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this address?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
                                     </form>
 
                                     <!-- ✅ Thêm nút chọn địa chỉ ngay tại đây -->

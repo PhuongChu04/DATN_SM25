@@ -7,37 +7,42 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderDetail extends Model
 {
-     use HasFactory;
+    use HasFactory;
 
-    protected $table = 'order_details';
-    
+    protected $table = 'order_details'; // Bảng tương ứng
+    protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id_order',
-        'id_variant',
-        'variant_data',
+        'order_id',
+        'product_id',
+        'variant_id',
+        'product_name',
         'quantity',
         'unit_price',
-       'total',
+        'total',
     ];
 
-    protected $casts = [
-        'variant_data' => 'array',
-    ];
-
-    // Quan hệ: chi tiết đơn hàng thuộc về một đơn hàng
+    /**
+     * Quan hệ: OrderDetail thuộc về Order
+     */
     public function order()
     {
-        return $this->belongsTo(Order::class, 'id_order');
+        return $this->belongsTo(Order::class, 'order_id');
     }
-public function product()
-{
-    return $this->belongsTo(Product::class);
-}
-    // Quan hệ: chi tiết đơn hàng có thể liên kết với sản phẩm
+
+    /**
+     * Quan hệ: OrderDetail thuộc về Product
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    /**
+     * Quan hệ: OrderDetail thuộc về ProductVariant
+     */
     public function variant()
     {
-        return $this->belongsTo(ProductVariant::class, 'id_variant');
+        return $this->belongsTo(ProductVariant::class, 'variant_id');
     }
-    
 }
