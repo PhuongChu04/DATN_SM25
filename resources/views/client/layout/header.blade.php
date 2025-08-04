@@ -37,7 +37,9 @@
                 <div class="col-xl-5 col-md-4 col-3">
                     <ul class="nav-icon d-flex justify-content-end align-items-center">
                         <li class="nav-search">
+
                             <a href="#search" data-bs-toggle="modal" class="nav-icon-item">
+
                                 <i class="icon icon-search"></i>
                             </a>
                         </li>

@@ -28,11 +28,13 @@ class AuthController extends Controller
     public function postLogin(Request $req) {
         try {
          $credentials = $req->validate([
-                
+
+
                 'email' => 'required|email|exists:users,email',
                 'password' => 'required'
             ]);
-            
+
+
             Sentinel::authenticate($credentials);
              return redirect('/client/dashboard')->with([
                 // alert('Đăng Nhập thành công!')
@@ -161,7 +163,9 @@ public function updateAccountDetail(Request $req)
         Log::info('Thông tin người dùng đã được cập nhật thành công', ['user_id' => $user->id]);
 
         return redirect()->route('client.accountDetail')->with('success', 'Thông tin tài khoản đã được cập nhật thành công!');
-    } catch (\Exception $e) {
+
+    } catch (Exception $e) {
+
         Log::error('Lỗi khi cập nhật thông tin người dùng', [
             'message' => $e->getMessage(),
             'trace' => $e->getTraceAsString(),

@@ -2,24 +2,48 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-       use HasFactory;
-    protected $fillable = ['order_code', 'total_price', 'payment_status', 'order_status'];
+    use HasFactory;
 
-   public function user()
+    protected $table = 'orders';
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'user_id',
+        'order_code',
+        'name',
+        'phone',
+        'email',
+        'address',
+        'payment_method',
+        'payment_status',
+        'order_status',
+        'shipping_fee',
+        'discount',
+        'total_price',
+    ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+
+    public function details()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id');
+    }
+    public function statusLogs()
+    {
+        return $this->hasMany(OrderStatusLog::class, 'order_id');
+    }
+    public function review()
 {
-    return $this->belongsTo(User::class);
-}
-    public function orderDetails()
-{
-    return $this->hasMany(OrderDetail::class,'id_order');
-}
-public function statusLogs()
-{
-    return $this->hasMany(OrderStatusLog::class)->orderBy('created_at');
+    return $this->hasOne(Review::class);
 }
 }

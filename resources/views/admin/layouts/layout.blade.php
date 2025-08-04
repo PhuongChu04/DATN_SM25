@@ -12,6 +12,10 @@
      <meta name="author" content="Techzaa" />
      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+     <!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+ integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
      <!-- App favicon -->
      <link rel="shortcut icon" href="{{ asset('admin/assets/images/favicon.ico') }}">
 
@@ -48,10 +52,7 @@
           @include('admin.layouts.header')
 
           <!-- Activity Timeline -->
-         
 
-          <!-- Right Sidebar (Theme Settings) -->
-          
           @include('admin.layouts.rightbar')
           <!-- ========== Topbar End ========== -->
 
@@ -99,4 +100,7 @@
 
 
 <!-- Mirrored from techzaa.in/larkon/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 26 Apr 2025 18:03:22 GMT -->
+
+
 </html>
+
