@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('content')
-    <div class="page-content">
+    <div class="">
 
         <!-- Start Container Fluid -->
         <div class="container-fluid">
@@ -49,7 +49,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         {{-- <form> --}}
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Tên sản phẩm</label>
@@ -61,7 +61,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         {{-- <div class="mb-3"> --}}
                                         <label for="id_category" class="form-label">Danh Mục</label>
                                         <select name="id_category" id="id_category" class="form-control">
@@ -77,8 +77,6 @@
                                         @enderror
                                         {{-- </div> --}}
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="id_brand" class="form-label">Thương Hiệu</label>
@@ -95,6 +93,9 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="row">
+
+                                    </div>
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Mô Tả</label>
                                         <textarea name="description" id="description" class="form-control">{{ old('description', $product->description) }}</textarea>
@@ -103,7 +104,7 @@
                                         @enderror
                                     </div>
                                     {{-- trạng thái --}}
-                                    <div class="mb-3">
+                                    <div class="">
                                         <label for="status" class="form-label">Trạng Thái</label>
                                         <select name="status" id="status" class="form-control">
                                             <option value="active"
@@ -119,7 +120,7 @@
                                     </div>
 
                                 </div>
-                               
+
 
 
 
@@ -128,13 +129,13 @@
                             {{-- / --}}
 
 
-                            <div class="card">
+                    
                                 <div class="card-header">
                                     <h4 class="card-title">Biến thể sản phẩm</h4>
                                 </div>
                                 <div class="card-body">
                                     @forelse ($product->variants as $index => $variant)
-                                        <div class="row border p-3 mb-3 rounded bg-light">
+                                        <div class="row border pt-3 pb-3 mb-3 rounded bg-light">
                                             <input type="hidden" name="variants[{{ $index }}][id]"
                                                 value="{{ $variant->id }}">
                                             <div class="col-md-3">
@@ -168,42 +169,37 @@
                                                     name="variants[{{ $index }}][price]"
                                                     value="{{ old('variants.' . $index . '.price', $variant->price) }}">
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label class="form-label">Số lượng</label>
                                                 <input type="number" class="form-control"
                                                     name="variants[{{ $index }}][quantity]"
                                                     value="{{ old('variants.' . $index . '.quantity', $variant->quantity) }}">
                                             </div>
-                                            <div>
-                                                <a href="">xóa</a>
+                                            <div class="col-md-1 custom-delete d-flex align-items-end">
+                                                {{-- Xóa biến thể --}}
+                                                <a href="" class="btn btn-danger">xóa</a>
                                             </div>
                                         </div>
-                                        
                                     @empty
                                         <div class="alert alert-warning">Sản phẩm này chưa có biến thể.</div>
                                     @endforelse
                                     <div id="variant-new-list" class="mt-3"></div>
-                                </div>
-                                
-                            </div>
-                            <div class="p-3 bg-light mb-3 rounded">
-                                <div class="row justify-content-end g-3">
-                                    <div class="col-lg-1">
-                                        <button type="button" class="btn btn-success w-100" id="add-variant-btn">+ Thêm biến thể</button>
-
-
-
-
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <button type="submit" class="btn btn-primary w-100">Lưu</button>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <a href="{{ route('admin.product.listProduct') }}"
-                                            class="btn btn-primary w-100">Cancel</a>
+                                    <div class="d-flex  justify-content-end gap-2">
+                                        <div class="">
+                                            <button type="button" class="btn btn-success w-100" id="add-variant-btn">+
+                                                Thêm
+                                                biến thể</button>
+                                        </div>
+                                        <div class="">
+                                            <button type="submit" class="btn btn-primary w-100">Lưu</button>
+                                        </div>
+                                        <div class="">
+                                            <a href="{{ route('admin.product.listProduct') }}"
+                                                class="btn btn-primary w-100">Cancel</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
 
 
                         </div>
@@ -215,12 +211,12 @@
             </div>
         </div>
     </div>
-  @push('scripts')
-<script>
-    let variantIndex = {{ count($product->variants) ?? 0 }};
+    @push('scripts')
+        <script>
+            let variantIndex = {{ count($product->variants) ?? 0 }};
 
-    document.getElementById('add-variant-btn').addEventListener('click', function () {
-        const html = `
+            document.getElementById('add-variant-btn').addEventListener('click', function() {
+                const html = `
         <div class="row variant-item mb-3 border p-2 bg-light rounded">
             <div class="col-md-3">
                 <label>Màu sắc</label>
@@ -250,18 +246,24 @@
                 <button type="button" class="btn btn-danger remove-variant">Xóa</button>
             </div>
         </div>`;
-        document.getElementById('variant-new-list').insertAdjacentHTML('beforeend', html);
-        variantIndex++;
-    });
+                document.getElementById('variant-new-list').insertAdjacentHTML('beforeend', html);
+                variantIndex++;
+            });
 
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('remove-variant')) {
-            e.target.closest('.variant-item').remove();
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-variant')) {
+                    e.target.closest('.variant-item').remove();
+                }
+            });
+        </script>
+    @endpush
+
+
+    <style>
+        .custom-delete {
+            display: flex;
+            align-items: end;
+            justify-content: end;
         }
-    });
-</script>
-@endpush
-
-
-
+    </style>
 @endsection

@@ -1,6 +1,13 @@
 @extends('admin.layouts.layout')
+<style>
+    .custom-delete{
+        display: flex;
+        
+        justify-content: end;
+    }
+</style>
 @section('content')
-    <div class="page-content">
+    <div class="">
 
         <!-- Start Container Fluid -->
         <div class="container-fluid">
@@ -40,7 +47,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         {{-- <form> --}}
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Tên sản phẩm</label>
@@ -60,7 +67,7 @@
                                             </div> --}}
                                         {{-- </form> --}}
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         {{-- <div class="mb-3"> --}}
                                         <label for="id_category" class="form-label">Danh Mục</label>
                                         <select name="id_category" id="id_category" class="form-control">
@@ -76,8 +83,6 @@
                                         @enderror
                                         {{-- </div> --}}
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="id_brand" class="form-label">Thương Hiệu</label>
@@ -94,6 +99,9 @@
                                             @enderror
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Mô Tả</label>
                                         <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
@@ -150,7 +158,7 @@
 
                                 <h5 class="mt-4">Biến thể sản phẩm</h5>
                                 <div id="variant-list">
-                                    <div class="row variant-item mb-2">
+                                    <div class="row variant-item mb-3">
                                         <div class="col-md-3">
                                             <label for="">Màu sắc</label>
                                             <select name="variants[0][id_color]" class="form-control">
@@ -167,7 +175,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label for="">Giá</label>
                                             <input type="number" name="variants[0][price]" class="form-control" required>
                                         </div>
@@ -176,7 +184,7 @@
                                             <input type="number" name="variants[0][quantity]" class="form-control"
                                                 required>
                                         </div>
-                                        <div class="col-md-2 d-flex align-items-end">
+                                        <div class="col-md-1 d-flex align-items-end custom-delete">
                                             <button type="button" class="btn btn-danger remove-variant">Xóa</button>
                                         </div>
                                     </div>
@@ -184,19 +192,20 @@
 
 
                                 {{--  --}}
-                                <div class="p-4 bg-light mb-4 rounded">
-                                    <div class="row justify-content-end g-3">
-                                        <div class="col-lg-1">
-                                            <button type="button" class="btn btn-success w-100" id="add-variant">+ Thêm
+                                <div class=" rounded">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        {{-- <div class="col-lg-3"> --}}
+                                        <div class="">
+                                            <button type="button" class="btn btn-success " id="add-variant">+Thêm
                                                 biến thể</button>
 
                                         </div>
-                                        <div class="col-lg-1">
-                                            <button type="submit" class="btn btn-primary w-100">Lưu</button>
+                                        <div class="">
+                                            <button type="submit" class="btn btn-primary ">Lưu</button>
                                         </div>
-                                        <div class="col-lg-1">
+                                        <div class=" ">
                                             <a href="{{ route('admin.product.listProduct') }}"
-                                                class="btn btn-primary w-100">Cancel</a>
+                                                class="btn btn-primary ">Hủy</a>
                                         </div>
 
                                     </div>
