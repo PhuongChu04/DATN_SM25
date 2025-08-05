@@ -144,8 +144,13 @@
                </div>
 
                <div class="card-footer border-top">
+                  <a href="{{ route('admin.voucher.listVoucher') }}" class="btn btn-outline-secondary">
+                     ⬅️ Quay lại
+                 </a>
                   <button type="submit" name="submit" class="btn btn-primary">Tạo Mã Giảm Giá</button>
+                  
                </div>
+              
             </div>
          </div>
       </div>

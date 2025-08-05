@@ -98,6 +98,11 @@ class VoucherController extends Controller
     
         return redirect()->route('admin.voucher.listVoucher')->with('success', 'Cập nhật voucher thành công!');
     }
+
+    public function detail(string $id){
+        $voucher = $this->voucherService->getVoucherById($id);
+        return view('admin.coupons.detailCoupon', compact('voucher'));
+    }
     public function destroy(string $id)
     {
         // $voucher = $this->voucherService->deleteVoucher($id);

@@ -132,8 +132,13 @@
             </div>
           </div>
           <div class="card-footer border-top text-end">
+            <a href="{{ route('admin.voucher.listVoucher') }}" class="btn btn-outline-secondary">
+              ⬅️ Quay lại
+          </a>
             <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Bạn có muốn cập nhật không?')">Lưu thay đổi</button>
+           
           </div>
+         
         </div>
       </div>
 

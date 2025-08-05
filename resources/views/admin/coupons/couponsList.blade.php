@@ -246,8 +246,9 @@
                                                                  @endif
                                                              </td>
                                                              
-                                                            <td>{{$voucher->start_date}}</td>
-                                                            <td>{{$voucher->end_date}}</td>
+                                                             <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
+                                                             <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
+                                                             
                                                             <td>
                                                                  @if($voucher->status == 0)
                                                                      <span class="badge text-success bg-success-subtle fs-12">
@@ -270,7 +271,7 @@
                                                              
                                                             <td>
                                                                  <div class="d-flex gap-2">
-                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="{{route('admin.voucher.detailVoucher',$voucher->id)}}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                       <a href="{{route('admin.voucher.editVoucher' , $voucher->id)}}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                       <a href="{{route('admin.voucher.deleteVoucher',$voucher->id)}}" class="btn btn-soft-danger btn-sm" onclick="return confirm('bạn có muốn xóa không?')"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                  </div>

@@ -142,6 +142,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/store', [VoucherController::class, 'store'])->name('storeVoucher');
         Route::get('/edit/{id}', [VoucherController::class, 'edit'])->name('editVoucher');
         Route::post('/update/{id}', [VoucherController::class, 'update'])->name('updateVoucher');
+        Route::get('/detail/{id}', [VoucherController::class, 'detail'])->name('detailVoucher');
         Route::get('/delete/{id}', [VoucherController::class, 'destroy'])->name('deleteVoucher');
         Route::get('/trash', [VoucherController::class, 'trash'])->name('trashVoucher');
         Route::get('/restore/{id}', [VoucherController::class, 'restore'])->name('restoreVoucher');
