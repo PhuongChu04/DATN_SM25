@@ -195,7 +195,7 @@
                                         </div>
                                         <div class="">
                                             <a href="{{ route('admin.product.listProduct') }}"
-                                                class="btn btn-primary w-100">Cancel</a>
+                                                class="btn btn-primary w-100">Hủy</a>
                                         </div>
                                     </div>
                                 </div>
