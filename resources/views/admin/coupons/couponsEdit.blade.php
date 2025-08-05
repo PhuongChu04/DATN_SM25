@@ -1,191 +1,156 @@
 @extends('admin.layouts.layout')
 @section('content')
 
+<!-- Start Container Fluid -->
+<div class="container-xxl">
+  <form action="{{route('admin.voucher.updateVoucher',$voucher->id)}}" method="post">
+    @csrf
+    <div class="row">
 
-
-            <!-- Start Container Fluid -->
-
-            <div class="container-xxl">
-               <form action="{{route('admin.voucher.updateVoucher',$voucher->id)}}" method="post">
-                  @csrf
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Trạng Thái</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="form-check">
-                                             <input class="form-check-input" type="radio" name="status" value="0" id="status" @if($voucher->status == 0)checked @endif>
-                                             <label class="form-check-label" for="status">
-                                                  Active
-                                             </label>
-                                        </div>
-                                        
-                                   </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="status" value="1" id="status" @if($voucher->status == 1)checked @endif>
-                                        <label class="form-check-label" for="status">
-                                             In Active
-                                        </label>
-                                   </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="status" value="2" id="status" @if($voucher->status == 2)checked @endif>
-                                        <label class="form-check-label" for="status">
-                                            Future Plan
-                                        </label>
-                                   </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Thời Gian Hiệu Lực</h4>
-                        </div>
-                        <div class="card-body">
-                            
-                                <div class="mb-3">
-                                     <label for="start-date" class="form-label text-dark">Ngày bắt đầu</label>
-                                     <input type="date" id="start-date" name="start_date" value="{{ \Carbon\Carbon::parse($voucher->start_date)->format('Y-m-d') }}" class="form-control " placeholder="dd-mm-yyyy">
-                                </div>
-                           
-                                <div class="mb-3">
-                                     <label for="end-date" class="form-label text-dark">Ngày kết thúc</label>
-                                     <input type="date" id="end-date" name="end_date" value="{{ \Carbon\Carbon::parse($voucher->end_date)->format('Y-m-d') }}" class="form-control " placeholder="dd-mm-yyyy">
-                                </div>
-                           
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-7">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Thông tin giảm giá</h4>
-                        </div>
-                        <div class="card-body">
-                         <div class="row">
-                              <div class="col-lg-6">
-                                   <div class="mb-3">
-                                        <label for="coupons-code" class="form-label">Tên voucher</label>
-                                        <input type="text" id="coupons-name" name="coupons_name" value="{{$voucher->name}}" class="form-control" placeholder="Name enter">
-                                   </div>
-                              </div>
-                              <div class="col-lg-6">
-                                   <div class="mb-3">
-                                        <label for="coupons-code" class="form-label">Số lượng</label>
-                                        <input type="number" id="coupons_quantity" name="coupons_quantity" value="{{$voucher->quantity}}" class="form-control" min="1" placeholder="Quantity enter">
-                                   </div>
-                              </div>
-                         </div>
-                        
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="coupons-code" class="form-label">Mã Giảm giá</label>
-                                        <input type="text" id="coupons-code" name="coupons_code" value="{{$voucher->code}}"   class="form-control" placeholder="Code enter">
-                                   </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    
-                                        {{-- <label for="product-categories" class="form-label">Discount Products</label>
-                                        <select class="form-control" name="product_categories" id="product-categories" data-choices data-choices-groups data-placeholder="Select Categories" name="choices-single-groups">
-                                             <option value="">Choose a categories</option>
-                                             <option value="Fashion">Fashion</option>
-                                             <option value="Electronics">Electronics</option>
-                                             <option value="Footwear">Footwear</option>
-                                             <option value="Sportswear">Sportswear</option>
-                                             <option value="Watches">Watches</option>
-                                             <option value="Furniture">Furniture</option>
-                                             <option value="Appliances">Appliances</option>
-                                             <option value="Headphones">Headphones</option>
-                                             <option value="Other Accessories">Other Accessories</option>
-                                        </select> --}}
-                                  
-                                </div>
-                               
-                            </div>
-                            <h4 class="card-title mb-3 mt-2">Loại Mã GIảm Giá</h4>
-                            <div class="row mb-3">
-                                <div class="col-lg-4">
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="form-check">
-                                             <input class="form-check-input" type="radio" name="type" value="0" id="type" @if($voucher->type == 0)checked @endif>
-                                             <label class="form-check-label" for="type">
-                                                Free Shipping
-                                             </label>
-                                        </div>
-                                        
-                                   </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="type" value="1" id="type"@if($voucher->type == 1)checked @endif>
-                                        <label class="form-check-label" for="type">
-                                            Percentage
-                                        </label>
-                                   </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="type" value="2" id="type"@if($voucher->type == 2)checked @endif>
-                                        <label class="form-check-label" for="type">
-                                            Fixed Amount
-                                        </label>
-                                   </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="">
-                                        <label for="discount-value" class="form-label">Phần trăm giảm giá</label>
-                                        <input type="text" id="discount-value" name="discount_amount" class="form-control" value="{{$voucher->discount_amount}}" placeholder="Discount Amount">
-                                   </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-lg-12">
-                                  <div class="">
-                                      <label for="note" class="form-label">Ghi Chú</label>
-                                      <textarea type="note" id="note" name="note" class="form-control"  placeholder="description">{{$voucher->description}}</textarea>
-                                 </div>
-                              </div>
-                          </div>
-                        </div>
-                        <div class="card-footer border-top">
-                            <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('bạn có muốn update không?')">Lưu</button>
-                        </div>
-                    </div>
-                </div>
+      <!-- Thông tin mã giảm giá -->
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Thông tin mã giảm giá</h4>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="coupons-name" class="form-label">Tên mã giảm giá</label>
+              <input type="text" id="coupons-name" name="coupons_name" value="{{$voucher->name}}" class="form-control" placeholder="Nhập tên">
             </div>
-            </form>
+            <div class="mb-3">
+              <label for="coupons-code" class="form-label">Mã áp dụng</label>
+              <input type="text" id="coupons-code" name="coupons_code" value="{{$voucher->code}}" class="form-control" placeholder="Nhập mã">
             </div>
-            <!-- End Container Fluid -->
+            <div class="mb-3">
+              <label for="coupons_quantity" class="form-label">Số lượng</label>
+              <input type="number" id="coupons_quantity" name="coupons_quantity" value="{{$voucher->quantity}}" class="form-control" min="1" placeholder="Nhập số lượng">
+            </div>
+            <div class="mb-3">
+              <label for="usage_limit_per_user" class="form-label">Số lần sử dụng mỗi người</label>
+              <input type="number" name="usage_limit_per_user" id="usage_limit_per_user" class="form-control" min="1" value="{{$voucher->usage_limit_per_user}}">
+            </div>
+            <div class="mb-3">
+              <label for="min_order_amount" class="form-label">Giá trị đơn tối thiểu</label>
+              <input type="number" name="min_order_amount" id="min_order_amount" class="form-control" value="{{$voucher->min_order_amount}}" placeholder="Giá trị tối thiểu để áp mã">
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- ========== Footer Start ========== -->
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon> <a
-                                href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
-                        </div>
-                    </div>
+      <!-- Cấu hình giảm giá và thời gian hiệu lực -->
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Cấu hình giảm giá</h4>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="type" value="0" id="type_0" @if($voucher->type == 0)checked @endif>
+                  <label class="form-check-label" for="type_0">Miễn phí vận chuyển</label>
                 </div>
-            </footer>
-            <!-- ========== Footer End ========== -->
+              </div>
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="type" value="1" id="type_1" @if($voucher->type == 1)checked @endif>
+                  <label class="form-check-label" for="type_1">Giảm theo %</label>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="type" value="2" id="type_2" @if($voucher->type == 2)checked @endif>
+                  <label class="form-check-label" for="type_2">Giảm theo tiền</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="discount-value" class="form-label">Giá trị giảm</label>
+              <input type="text" id="discount-value" name="discount_amount" class="form-control" value="{{$voucher->discount_amount}}" placeholder="Nhập số tiền hoặc %">
+            </div>
+            <div class="mb-3">
+              <label for="max_discount" class="form-label">Giảm tối đa</label>
+              <input type="text" id="max_discount" name="max_discount" class="form-control" value="{{$voucher->max_discount}}" placeholder="Giảm không quá bao nhiêu">
+            </div>
+          </div>
+        </div>
 
-   
+        <div class="card mt-3">
+          <div class="card-header">
+            <h4 class="card-title">Thời gian hiệu lực</h4>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="start-date" class="form-label text-dark">Ngày bắt đầu</label>
+              <input type="date" id="start-date" name="start_date" value="{{ \Carbon\Carbon::parse($voucher->start_date)->format('Y-m-d') }}" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="end-date" class="form-label text-dark">Ngày kết thúc</label>
+              <input type="date" id="end-date" name="end_date" value="{{ \Carbon\Carbon::parse($voucher->end_date)->format('Y-m-d') }}" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
 
- 
+      <!-- Trạng thái và ghi chú -->
+      <div class="col-lg-12 mt-4">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Trạng thái & Ghi chú</h4>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="status" value="0" id="status_0" @if($voucher->status == 0)checked @endif>
+                  <label class="form-check-label" for="status_0">Đang hoạt động</label>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="status" value="1" id="status_1" @if($voucher->status == 1)checked @endif>
+                  <label class="form-check-label" for="status_1">Không hoạt động</label>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="status" value="2" id="status_2" @if($voucher->status == 2)checked @endif>
+                  <label class="form-check-label" for="status_2">Chờ kích hoạt</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-check mb-3">
+                <input type="hidden" name="is_active" value="0"> {{-- Nếu checkbox không tích, sẽ gửi giá trị này --}}
+                <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active" @if($voucher->is_active) checked @endif>
+                <label class="form-check-label" for="is_active">Mã đang bật</label>
+              </div>
+              
+            <div class="mb-3">
+              <label for="note" class="form-label">Ghi chú</label>
+              <textarea id="note" name="note" class="form-control" placeholder="Ghi chú thêm nếu có">{{$voucher->description}}</textarea>
+            </div>
+          </div>
+          <div class="card-footer border-top text-end">
+            <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Bạn có muốn cập nhật không?')">Lưu thay đổi</button>
+          </div>
+        </div>
+      </div>
 
+    </div>
+  </form>
+</div>
+<!-- End Container Fluid -->
 
+<!-- ========== Footer Start ========== -->
+<footer class="footer">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 text-center">
+        <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon> <a href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- ========== Footer End ========== -->
 @endsection

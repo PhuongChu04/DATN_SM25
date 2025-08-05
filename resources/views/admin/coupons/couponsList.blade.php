@@ -216,7 +216,16 @@
                                                             </td>
                                                             <td>{{$voucher->code}}</td>
                                                             <td>{{$voucher->description}}</td>
-                                                            <td>{{$voucher->discount_amount}} %</td>
+                                                            {{-- <td>{{$voucher->discount_amount}} {{ $voucher->type == 1 ? '%' : 'VND' }}</td> --}}
+                                                            <td>
+                                                                 @if(isset($voucher->discount_amount))
+                                                                 {{$voucher->discount_amount}} {{ $voucher->type == 1 ? '%' : 'VND' }}
+                                                                 @else
+                                                                      <span class="badge bg-light text-muted fs-12">
+                                                                         <i class="bx bx-question-mark"></i> Unknown
+                                                                      </span>
+                                                                 @endif
+                                                            </td>
                                                             <td>
                                                                  @if($voucher->type == 0)
                                                                      <span class="badge bg-light text-dark fs-12">

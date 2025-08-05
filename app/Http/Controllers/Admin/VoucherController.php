@@ -28,14 +28,20 @@ class VoucherController extends Controller
         $data = [
             'name' => $request->coupons_name,
             'code' => $request->coupons_code,
-            'description' => $request->note,
+            'description' => $request->description,
             'discount_amount' => $request->discount_amount,
             'type' => $request->type,
             'quantity' => $request->coupons_quantity,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'status' => $request->status,
+            'max_discount' => $request->max_discount,
+            'min_order_amount' => $request->min_order_amount,
+            'usage_limit_per_user' => $request->usage_limit_per_user,
+            'is_active' => $request->has('is_active') ? 1 : 0,
         ];
+        
+
      
         $this->voucherService->createVoucher($data);
         return redirect()->route('admin.voucher.listVoucher')->with('success', 'Voucher created successfully');
@@ -52,18 +58,22 @@ class VoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        $request->validate([
-            'coupons_name' => 'required|string|max:255',
-            'coupons_code' => 'required|string|max:255|unique:vouchers,code,' . $id,
-            'description' => 'nullable|string',
-            'discount_amount' => 'required|numeric|min:0',
-            'type' => 'required|in:0,1,2',
-            'coupons_quantity' => 'required|integer|min:0',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'status' => 'required|in:0,1,2',
-        ]);
+        
+        // $request->validate([
+        //     'coupons_name' => 'required|string|max:255',
+        //     'coupons_code' => 'required|string|max:255|unique:vouchers,code,' . $id,
+        //     'description' => 'nullable|string',
+        //     'discount_amount' => 'required|numeric|min:0',
+        //     'type' => 'required|in:0,1,2',
+        //     'coupons_quantity' => 'required|integer|min:0',
+        //     'start_date' => 'required|date',
+        //     'end_date' => 'required|date|after_or_equal:start_date',
+        //     'status' => 'required|in:0,1,2',      
+        //     'max_discount' => 'required|numeric|min:0',
+        //     'min_order_amount' => 'required|numeric|min:0',
+        //     'usage_limit_per_user' => 'required|integer|min:0',
+        //     'is_active' => 'required|in:0,1',
+        // ]);
         $data = [
             'name' => $request->coupons_name,
             'code' => $request->coupons_code,
@@ -74,7 +84,14 @@ class VoucherController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'status' => $request->status,
+            'max_discount' => $request->max_discount,
+            'min_order_amount' => $request->min_order_amount,
+            'usage_limit_per_user' => $request->usage_limit_per_user,
+            'is_active' => $request->input('is_active', 0),
+
         ];
+        // dd($data);
+        
     
          $this->voucherService->updateVoucher($data, $id);
         

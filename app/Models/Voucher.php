@@ -12,14 +12,18 @@ class Voucher extends Model
     use SoftDeletes;
     protected $table = 'vouchers';
     protected $fillable = [
-        'name',
-        'code',
+        'name', 
+        'code', 
         'description',
-        'type',
-        'quantity',
-        'discount_amount',
-        'start_date',
-        'end_date',
-        'status',
+        'discount_amount', 
+        'type', 
+        'quantity', 
+        'start_date', 
+        'end_date', 
+        'status', 
+        'max_discount', 
+        'min_order_amount', 
+        'usage_limit_per_user',
+        'is_active', 
     ] ;
 }

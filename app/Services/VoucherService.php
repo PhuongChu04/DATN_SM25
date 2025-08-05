@@ -22,6 +22,7 @@ class VoucherService
 
     public function createVoucher(array $data)
     {
+       
         return Voucher::create($data);
     }
 
