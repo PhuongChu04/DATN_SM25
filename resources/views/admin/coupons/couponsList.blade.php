@@ -187,6 +187,7 @@
                                                             <th>Ngày bắt đầu</th>
                                                             <th>ngày kết thúc</th>
                                                             <th>trạng thái</th>
+                                                            <th>Tình Trạng</th>
                                                             <th></th>
                                                        </tr>
                                                   </thead>
@@ -233,24 +234,39 @@
                                                                      </span>
                                                                  @elseif($voucher->type == 1)
                                                                      <span class="badge bg-light text-dark fs-12">
-                                                                         <i class="bx bx-percent"></i> Percentage
+                                                                         <i class="bx bx-percent"></i> Giảm theo phần trăm
                                                                      </span>
                                                                  @elseif($voucher->type == 2)
                                                                      <span class="badge bg-light text-dark fs-12">
-                                                                         <i class="bx bx-dollar-circle"></i> Fixed Amount
+                                                                         <i class="bx bx-dollar-circle"></i> Giảm tiền cố định
                                                                      </span>
                                                                  @else
                                                                      <span class="badge bg-light text-muted fs-12">
-                                                                         <i class="bx bx-question-mark"></i> Unknown
+                                                                         <i class="bx bx-question-mark"></i> không tồn tại
                                                                      </span>
                                                                  @endif
                                                              </td>
                                                              
                                                              <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
                                                              <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
+
+                                                             @php
+                                                             $now = \Carbon\Carbon::now();
+                                                             $start = \Carbon\Carbon::parse($voucher->start_date);
+                                                             $end = \Carbon\Carbon::parse($voucher->end_date);
+                                                         @endphp
                                                              
                                                             <td>
-                                                                 @if($voucher->status == 0)
+                                                                 @if ($now->lt($start))
+                                                                 <span class="badge bg-secondary">Chưa bắt đầu</span>
+                                                             @elseif ($now->between($start, $end))
+                                                                 <span class="badge bg-success">Đang diễn ra</span>
+                                                             @elseif ($now->gt($end))
+                                                                 <span class="badge bg-danger">Hết hạn</span>
+                                                             @else
+                                                                 <span class="badge bg-dark">Không rõ</span>
+                                                             @endif
+                                                                 {{-- @if($voucher->status == 0)
                                                                      <span class="badge text-success bg-success-subtle fs-12">
                                                                          <i class="bx bx-check-double"></i> Active
                                                                      </span>
@@ -266,6 +282,17 @@
                                                                      <span class="badge text-secondary bg-secondary-subtle fs-12">
                                                                          <i class="bx bx-question-mark"></i> Unknown
                                                                      </span>
+                                                                 @endif --}}
+                                                             </td>
+                                                             <td>
+                                                                 @if ($voucher->is_active == 1)
+                                                                 <span class="badge text-success bg-success-subtle fs-12">
+                                                                       Đang Hoạt Động
+                                                                  </span>
+                                                                  @else
+                                                                  <span class="badge text-danger bg-danger-subtle fs-12">
+                                                                       Không hoạt động
+                                                                  </span>
                                                                  @endif
                                                              </td>
                                                              
