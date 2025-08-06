@@ -52,10 +52,7 @@
                      <label for="usage_limit_per_user" class="form-label">Số lần sử dụng mỗi người</label>
                      <input type="number" name="usage_limit_per_user" id="usage_limit_per_user" class="form-control" min="1" placeholder="">
                   </div>
-                  <div class="mb-3">
-                     <label for="max_discount" class="form-label">Giảm tối đa</label>
-                     <input type="number" name="max_discount" id="max_discount" class="form-control" placeholder="Áp dụng cho %">
-                  </div>
+                  
                   <div class="mb-3">
                      <label for="min_order_amount" class="form-label">Giá trị đơn tối thiểu</label>
                      <input type="number" name="min_order_amount" id="min_order_amount" class="form-control" placeholder="Giá trị tối thiểu để áp mã">
@@ -95,7 +92,7 @@
                   </div>
 
                   <h4 class="card-title mb-3 mt-2">Loại Mã</h4>
-                  <div class="row mb-3">
+                  <div class="row mb-3" >
                      <div class="col-lg-4">
                         <div class="form-check">
                            <input class="form-check-input" type="radio" name="type" value="0" id="type_shipping" checked>
@@ -116,12 +113,18 @@
                      </div>
                   </div>
 
-                  <div class="row">
-                     <div class="col-lg-12">
+                  <div class="row" id="discount-value-group">
+                     <div class="col-lg-12" id="discount-amount-wrapper">
                         <label for="discount-value" class="form-label">Giá trị giảm</label>
                         <input type="text" id="discount-value" name="discount_amount" class="form-control" placeholder="Nhập số tiền giảm">
                      </div>
+                     <div class="col-lg-12 mt-3" id="max-discount-wrapper">
+                        <label for="max_discount" class="form-label">Giảm tối đa</label>
+                        <input type="number" name="max_discount" id="max_discount" class="form-control" placeholder="Áp dụng cho %">
+                     </div>
                   </div>
+                  
+                 
 
                   <div class="row mt-3">
                      <div class="col-lg-12">
@@ -158,18 +161,38 @@
 </div>
 <!-- End Container Fluid -->
 
-<!-- ========== Footer Start ========== -->
-<footer class="footer">
-   <div class="container-fluid">
-      <div class="row">
-         <div class="col-12 text-center">
-            <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Thiết kế bởi
-            <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon>
-            <a href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
-         </div>
-      </div>
-   </div>
-</footer>
-<!-- ========== Footer End ========== -->
+
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+       const radios = document.querySelectorAll('input[name="type"]');
+       const discountGroup = document.getElementById('discount-value-group');
+       const discountAmountWrapper = document.getElementById('discount-amount-wrapper');
+       const maxDiscountWrapper = document.getElementById('max-discount-wrapper');
+   
+       function updateDiscountInputs() {
+           const selected = document.querySelector('input[name="type"]:checked').value;
+   
+           if (selected === '0') { // miễn phí vận chuyển
+               discountGroup.style.display = 'none';
+           } else {
+               discountGroup.style.display = 'flex';
+               if (selected === '1') { // phần trăm
+                   discountAmountWrapper.style.display = 'block';
+                   maxDiscountWrapper.style.display = 'block';
+               } else if (selected === '2') { // số tiền cố định
+                   discountAmountWrapper.style.display = 'block';
+                   maxDiscountWrapper.style.display = 'none';
+               }
+           }
+       }
+   
+       radios.forEach(radio => {
+           radio.addEventListener('change', updateDiscountInputs);
+       });
+   
+       updateDiscountInputs(); // Gọi khi load trang
+   });
+   </script>
+   
 
 @endsection
