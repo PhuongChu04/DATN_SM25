@@ -65,14 +65,19 @@
                 </div>
               </div>
             </div>
-            <div class="mb-3">
-              <label for="discount-value" class="form-label">Giá trị giảm</label>
-              <input type="text" id="discount-value" name="discount_amount" class="form-control" value="{{$voucher->discount_amount}}" placeholder="Nhập số tiền hoặc %">
+
+            {{-- 2 input sẽ ẩn/hiện theo loại mã --}}
+            <div id="discount-wrapper">
+              <div class="mb-3" id="discount-amount-wrapper">
+                <label for="discount-value" class="form-label">Giá trị giảm</label>
+                <input type="text" id="discount-value" name="discount_amount" class="form-control" value="{{$voucher->discount_amount}}" placeholder="Nhập số tiền hoặc %">
+              </div>
+              <div class="mb-3" id="max-discount-wrapper">
+                <label for="max_discount" class="form-label">Giảm tối đa</label>
+                <input type="text" id="max_discount" name="max_discount" class="form-control" value="{{$voucher->max_discount}}" placeholder="Giảm không quá bao nhiêu">
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="max_discount" class="form-label">Giảm tối đa</label>
-              <input type="text" id="max_discount" name="max_discount" class="form-control" value="{{$voucher->max_discount}}" placeholder="Giảm không quá bao nhiêu">
-            </div>
+
           </div>
         </div>
 
@@ -121,11 +126,11 @@
               </div>
             </div>
             <div class="form-check mb-3">
-                <input type="hidden" name="is_active" value="0"> {{-- Nếu checkbox không tích, sẽ gửi giá trị này --}}
-                <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active" @if($voucher->is_active) checked @endif>
-                <label class="form-check-label" for="is_active">Mã đang bật</label>
-              </div>
-              
+              <input type="hidden" name="is_active" value="0">
+              <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active" @if($voucher->is_active) checked @endif>
+              <label class="form-check-label" for="is_active">Mã đang bật</label>
+            </div>
+
             <div class="mb-3">
               <label for="note" class="form-label">Ghi chú</label>
               <textarea id="note" name="note" class="form-control" placeholder="Ghi chú thêm nếu có">{{$voucher->description}}</textarea>
@@ -134,11 +139,9 @@
           <div class="card-footer border-top text-end">
             <a href="{{ route('admin.voucher.listVoucher') }}" class="btn btn-outline-secondary">
               ⬅️ Quay lại
-          </a>
+            </a>
             <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Bạn có muốn cập nhật không?')">Lưu thay đổi</button>
-           
           </div>
-         
         </div>
       </div>
 
@@ -147,15 +150,33 @@
 </div>
 <!-- End Container Fluid -->
 
-<!-- ========== Footer Start ========== -->
-<footer class="footer">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 text-center">
-        <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon> <a href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
-      </div>
-    </div>
-  </div>
-</footer>
-<!-- ========== Footer End ========== -->
+{{-- JS xử lý ẩn hiện input --}}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const radios = document.querySelectorAll('input[name="type"]');
+    const discountWrapper = document.getElementById('discount-wrapper');
+    const discountAmountWrapper = document.getElementById('discount-amount-wrapper');
+    const maxDiscountWrapper = document.getElementById('max-discount-wrapper');
+
+    function updateDiscountInput() {
+      const selectedType = document.querySelector('input[name="type"]:checked').value;
+
+      if (selectedType === '0') {
+        discountWrapper.style.display = 'none';
+      } else if (selectedType === '1') {
+        discountWrapper.style.display = 'block';
+        discountAmountWrapper.style.display = 'block';
+        maxDiscountWrapper.style.display = 'block';
+      } else if (selectedType === '2') {
+        discountWrapper.style.display = 'block';
+        discountAmountWrapper.style.display = 'block';
+        maxDiscountWrapper.style.display = 'none';
+      }
+    }
+
+    radios.forEach(r => r.addEventListener('change', updateDiscountInput));
+    updateDiscountInput();
+  });
+</script>
+
 @endsection
