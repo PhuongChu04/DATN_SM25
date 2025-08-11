@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="col-xl-2 col-md-4 col-6 text-center">
-                    <a href="home-electronic.html" class="logo-header">
+                    <a href="{{route('client.homeClient')}}" class="logo-header">
                         <img src="{{ asset('client/images/logo/IFN.jpg') }}" alt="logo" class="logo" heigh="">
                     </a>
                 </div>
@@ -55,7 +55,7 @@
                             </a>
                         </li>
                         <li class="nav-cart">
-                            <a href="#shoppingCart" data-bs-toggle="offcanvas" class="nav-icon-item position-relative">
+                            <a href="{{route('client.cart.index')}}"  class="nav-icon-item position-relative">
                                 <i class="icon icon-cart fs-4 bi bi-cart-fill"></i>
                                 <!-- Tôi thêm class bi-cart-fill để có icon -->
                                 <span
@@ -76,13 +76,13 @@
             <nav class="box-navigation text-center">
                 <ul class="box-nav-menu">
                     <li class="menu-item">
-                        <a href="{{route('client.homeClient')}}" class="item-link">Home</a>
+                        <a href="{{route('client.homeClient')}}" class="item-link">Trang chủ</a>
                     </li>
                     <li class="menu-item">
-                        <a href="{{route('client.listProducts')}}" class="item-link">Shop</a>
+                        <a href="{{route('client.listProducts')}}" class="item-link">Sản phẩm</a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="item-link">Products</a>
+                        <a href="#" class="item-link">Sale</a>
                     </li>
                     <li class="menu-item position-relative">
                         <a href="#" class="item-link">Pages</a>

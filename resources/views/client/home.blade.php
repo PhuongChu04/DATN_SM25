@@ -2,6 +2,27 @@
 
 @section('content')
     <!-- Slider -->
+    <style>
+        .category-image-container {
+            width: 250px;
+            
+            height: 200px;
+            /* Set the desired height */
+            /* overflow: hidden; */ /* Ẩn bất kỳ phần nào của hình ảnh vượt quá vùng chứa */
+            margin-bottom: 20px;
+        }
+
+        .category-image-container img {
+            width: 100%;
+           /* Làm cho hình ảnh lấp đầy chiều rộng của vùng chứa */
+            height: 100%;
+            /* Làm cho hình ảnh lấp đầy chiều cao của vùng chứa */
+            object-fit: cover;
+            /* Thay đổi kích thước hình ảnh để bao phủ toàn bộ vùng chứa, cắt xén nếu cần thiết */
+            object-position: center;
+            /* Căn giữa hình ảnh trong vùng chứa */
+        }
+    </style>
     <div class="tf-slideshow slider-electronic slider-default">
         <div dir="ltr" class="swiper tf-sw-slideshow slider-effect-fade" data-preview="1" data-tablet="1" data-mobile="1"
             data-centered="false" data-space="0" data-space-mb="0" data-loop="true" data-auto-play="true">
@@ -192,7 +213,7 @@
     <section class="flat-spacing-3">
         <div class="container">
             <div class="flat-title text-start wow fadeInUp">
-                <h4 class="title">Categories</h4>
+                <h4 class="title">Danh mục sản phẩm</h4>
             </div>
             <div class="wow fadeInUp">
                 <div class="fl-control-sw pos3">
@@ -224,7 +245,7 @@
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
                                         <a href="#category-{{ $category->id }}" class="image img-style d-block">
-                                            <div>
+                                            <div class="category-image-container">
                                                 <img src="{{ asset('storage/' . $category->image) }}"
                                                     alt="{{ $category->name }}">
                                             </div>
