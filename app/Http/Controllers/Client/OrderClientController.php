@@ -10,6 +10,7 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel; // Import Sentinel
 class OrderClientController extends Controller
 {
     /**
+     * Đơn hàng
      * Lấy người dùng đã đăng nhập thông qua Sentinel
      */
     protected function getUser()

@@ -396,7 +396,7 @@
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
                                         </a>
                                         <div class="on-sale-wrap flex-column type-2">
-                                            <span class="on-sale-item">20% Off</span>
+                                            <span class="on-sale-item">10% Off</span>
                                             <span class="on-sale-item trending">Trending</span>
                                         </div>
                                         <ul class="list-product-btn">

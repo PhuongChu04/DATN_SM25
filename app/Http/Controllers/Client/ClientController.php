@@ -27,23 +27,26 @@ class ClientController extends Controller
 
     public function homeClient()
     {
-        $categories = $this->categoryService->getAllCategories();
-        //  dd($categories);
-        $products = Product::with('variants')
-    ->whereHas('variants')
-    ->latest()
-    ->take(10)
-    ->get();
+        $categories = Category::orderBy('name')->get();
 
-    
-        $categoriesWithProducts = Category::with(['products' => function ($query) {
-            $query->with(['firstVariant', 'colors'])
-                ->latest()
-                ->take(8);
-        }])
+        //  dd($categories);
+
+        $products = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
+            ->latest('id')
+            ->paginate(10);
+
+        $categoriesWithProducts = Category::with([
+            'products' => function ($query) {
+                $query->with(['firstVariant', 'colors'])
+                    ->latest()
+                    ->take(8);
+            }
+        ])
             ->whereHas('products')
             ->get();
-        return view('client.home',compact('categories', 'products' ,'categoriesWithProducts'));
+        // dd($products);
+
+        return view('client.home', compact('categories', 'products', 'categoriesWithProducts'));
     }
     public function account()
     {

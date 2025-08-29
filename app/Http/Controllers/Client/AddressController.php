@@ -10,6 +10,7 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 class AddressController extends Controller
 {
     /**
+     * Địa chỉ
      * Lấy người dùng đã đăng nhập
      */
     protected function getUser()

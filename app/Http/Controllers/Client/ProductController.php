@@ -49,7 +49,7 @@ class ProductController extends Controller
     {
 
         $products = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
-            ->paginate(20);
+            ->paginate(10);
         // dd($products);
         return view('client.products.shop', compact('products'));
     }
