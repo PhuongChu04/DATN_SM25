@@ -1,22 +1,8 @@
-@extends('client.layout.layout')
-
-@section('content')
- <div class="flat-spacing-13">
-            <div class="container-7">
-                <!-- sidebar-account -->
-                <div class="btn-sidebar-mb d-lg-none">
-                    <button data-bs-toggle="offcanvas" data-bs-target="#mbAccount">
-                        <i class="icon icon-sidebar"></i>
-                    </button>
-                </div>
-                <!-- /sidebar-account -->
-
-                <!-- Section-acount -->
-                {{-- <div class="main-content-account">
+ <div class="main-content-account">
                     <div class="sidebar-account-wrap sidebar-content-wrap sticky-top d-lg-block d-none">
                         <ul class="my-account-nav">
                             <li>
-                                <a href="account-page.html"
+                                <a href="{{route('client.cart.index')}}"
                                     class="text-sm link fw-medium my-account-nav-item active">Dashboard</a>
                             </li>
                             <li>
@@ -72,7 +58,6 @@
                                             <span class="count-number text-sm text-white fw-medium">1</span>
                                         </div>
                                         <div class="text">
-                                            
                                             <div class=" link name-type text-xl fw-medium">Orders</div>
                                             <p class="sub-type text-sm">Check the history of all your orders
                                             </p>
@@ -141,10 +126,4 @@
                             </div>
                         </div>
                     </div>
-                </div> --}}
-                @include('client.layout.menu')
-                <!-- /Account -->
-            </div>
-        </div>
-
-@endsection
+                </div>
