@@ -16,23 +16,23 @@
           <div class="card-body">
             <div class="mb-3">
               <label for="coupons-name" class="form-label">Tên mã giảm giá</label>
-              <input type="text" id="coupons-name" name="coupons_name" value="{{$voucher->name}}" class="form-control" placeholder="Nhập tên">
+              <input type="text" id="coupons-name" name="name" value="{{$voucher->name}}" class="form-control" placeholder="Nhập tên">
             </div>
             <div class="mb-3">
               <label for="coupons-code" class="form-label">Mã áp dụng</label>
-              <input type="text" id="coupons-code" name="coupons_code" value="{{$voucher->code}}" class="form-control" placeholder="Nhập mã">
+              <input type="text" id="coupons-code" name="code" value="{{$voucher->code}}" class="form-control" placeholder="Nhập mã">
             </div>
             <div class="mb-3">
               <label for="coupons_quantity" class="form-label">Số lượng</label>
-              <input type="number" id="coupons_quantity" name="coupons_quantity" value="{{$voucher->quantity}}" class="form-control" min="1" placeholder="Nhập số lượng">
+              <input type="number" id="coupons_quantity" name="quantity" value="{{$voucher->quantity}}" class="form-control" min="1" placeholder="Nhập số lượng">
             </div>
             <div class="mb-3">
               <label for="usage_limit_per_user" class="form-label">Số lần sử dụng mỗi người</label>
-              <input type="number" name="usage_limit_per_user" id="usage_limit_per_user" class="form-control" min="1" value="{{$voucher->usage_limit_per_user}}">
+              <input type="number" name="usage_per_user" id="usage_limit_per_user" class="form-control" min="1" value="{{$voucher->usage_per_user}}">
             </div>
             <div class="mb-3">
               <label for="min_order_amount" class="form-label">Giá trị đơn tối thiểu</label>
-              <input type="number" name="min_order_amount" id="min_order_amount" class="form-control" value="{{$voucher->min_order_amount}}" placeholder="Giá trị tối thiểu để áp mã">
+              <input type="number" name="min_order_value" id="min_order_amount" class="form-control" value="{{$voucher->min_order_value}}" placeholder="Giá trị tối thiểu để áp mã">
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
               </div>
               <div class="mb-3" id="max-discount-wrapper">
                 <label for="max_discount" class="form-label">Giảm tối đa</label>
-                <input type="text" id="max_discount" name="max_discount" class="form-control" value="{{$voucher->max_discount}}" placeholder="Giảm không quá bao nhiêu">
+                <input type="text" id="max_discount" name="max_discount_value" class="form-control" value="{{$voucher->max_discount}}" placeholder="Giảm không quá bao nhiêu">
               </div>
             </div>
 
@@ -105,26 +105,6 @@
             <h4 class="card-title">Trạng thái & Ghi chú</h4>
           </div>
           <div class="card-body">
-            <div class="row mb-3">
-              <div class="col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="status" value="0" id="status_0" @if($voucher->status == 0)checked @endif>
-                  <label class="form-check-label" for="status_0">Đang hoạt động</label>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="status" value="1" id="status_1" @if($voucher->status == 1)checked @endif>
-                  <label class="form-check-label" for="status_1">Không hoạt động</label>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="status" value="2" id="status_2" @if($voucher->status == 2)checked @endif>
-                  <label class="form-check-label" for="status_2">Chờ kích hoạt</label>
-                </div>
-              </div>
-            </div>
             <div class="form-check mb-3">
               <input type="hidden" name="is_active" value="0">
               <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active" @if($voucher->is_active) checked @endif>
@@ -133,7 +113,7 @@
 
             <div class="mb-3">
               <label for="note" class="form-label">Ghi chú</label>
-              <textarea id="note" name="note" class="form-control" placeholder="Ghi chú thêm nếu có">{{$voucher->description}}</textarea>
+              <textarea id="note" name="description" class="form-control" placeholder="Ghi chú thêm nếu có">{{$voucher->description}}</textarea>
             </div>
           </div>
           <div class="card-footer border-top text-end">

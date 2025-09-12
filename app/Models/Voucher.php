@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Voucher extends Model
 {
@@ -31,5 +32,28 @@ class Voucher extends Model
         'created_by',
         'updated_by',
     ];
+    protected $casts = [
+        'applied_products' => 'array',
+        'applied_categories' => 'array',
+        'excluded_products' => 'array',
+        'excluded_categories' => 'array',
+    ];
+   
+
+    public function getTimeRemainingAttribute()
+    {
+        $now = Carbon::now();
+        $end = Carbon::parse($this->end_date);
     
+        if ($now->gt($end)) {
+            return 'Đã hết hạn';
+        }
+    
+        return $now->diffForHumans($end, [
+            'parts' => 3,  // hiện tối đa 3 mốc (vd: 1 tháng 2 ngày 3 giờ)
+            'short' => true, // viết ngắn gọn
+            'syntax' => Carbon::DIFF_ABSOLUTE
+        ]);
+    }
+        
 }

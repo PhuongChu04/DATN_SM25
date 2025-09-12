@@ -142,194 +142,165 @@
 
                     <div class="row">
                          <div class="col-xl-12">
-                              <div class="card">
-                                   <div class="d-flex card-header justify-content-between align-items-center">
-                                        <div>
-                                             {{-- <a href="{{route('admin.voucher.addVoucher')}}" class="card-title">Danh Sách Giảm Giá</a> --}}
-                                             <a href="{{route('admin.voucher.addVoucher')}}" class="btn btn-primary btn-sm" aria-expanded="false">
-                                                  Thêm Mã Giảm Giá
-                                             </a>
-                                        </div>
-                                        <div class="dropdown">
-                                             <a href="{{route('admin.voucher.trashVoucher')}}" class="btn btn-soft-danger btn-sm" aria-expanded="false">
-                                                  Đã Xóa
-                                             </a>
-                                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
-                                                  This Month
-                                             </a>
-                                             <div class="dropdown-menu dropdown-menu-end">
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Download</a>
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Export</a>
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Import</a>
-                                             </div>
-                                        </div>
-                                   </div>
-                                   <div>
-                                        <div class="table-responsive">
-                                             <table class="table align-middle mb-0 table-hover table-centered">
-                                                  <thead class="bg-light-subtle">
-                                                       <tr>
-                                                            <th>STT</th>
-                                                            <th style="width: 20px;">
-                                                                 <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                                      <label class="form-check-label" for="customCheck1"></label>
-                                                                 </div>
-                                                            </th>
-                                                            <th>Trạng thái</th>
-                                                            <th>Tên Vouchers</th>
-                                                            <th>Mã Vouchers</th>
-                                                            <th>Ghi Chú</th>
-                                                            <th>Phần Trăm giảm giá</th>
-                                                            <th>loại</th>
-                                                            <th>Ngày bắt đầu</th>
-                                                            <th>ngày kết thúc</th>
-                                                            
-                                                            <th>Tình Trạng</th>
-                                                            <th></th>
-                                                       </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                       @foreach ($vouchers as $voucher)
-                                                       <tr>
-                                                            <td>
-                                                                 {{ $loop->iteration }}
-                                                            </td>
-                                                            <td>
-                                                                 <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
-                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
-                                                                 </div>
-                                                            </td>
-                                                            <td>
-                                                                 @php
-                                                                 $now = \Carbon\Carbon::now();
-                                                                 $start = \Carbon\Carbon::parse($voucher->start_date);
-                                                                 $end = \Carbon\Carbon::parse($voucher->end_date);
-                                                             @endphp
-                                                                 {{-- @if ($now->lt($start))
-                                                                 <span class="badge bg-secondary">Chưa bắt đầu</span>
-                                                             @elseif ($now->between($start, $end))
-                                                                 <span class="badge bg-success">Đang diễn ra</span>
-                                                             @elseif ($now->gt($end))
-                                                                 <span class="badge bg-danger">Hết hạn</span>
-                                                             @else
-                                                                 <span class="badge bg-dark">Không rõ</span>
-                                                             @endif --}}
-                                                                 @if($voucher->status == 0)
-                                                                     <span class="badge text-success bg-success-subtle fs-12">
-                                                                         <i class="bx bx-check-double"></i> Đang diễn ra
-                                                                     </span>
-                                                                 @elseif($voucher->status == 1)
-                                                                     <span class="badge text-danger bg-danger-subtle fs-12">
-                                                                         <i class="bx bx-x"></i> Hết hạn
-                                                                     </span>
-                                                                 @elseif($voucher->status == 2)
-                                                                     <span class="badge text-warning bg-warning-subtle fs-12">
-                                                                         <i class="bx bx-time"></i> Chưa bắt đầu
-                                                                     </span>
-                                                                 @else
-                                                                     <span class="badge text-secondary bg-secondary-subtle fs-12">
-                                                                         <i class="bx bx-question-mark"></i> Không rõ
-                                                                     </span>
-                                                                 @endif
-                                                             </td>
-                                                            <td>
-                                                                 <div class="d-flex align-items-center gap-2">
-                                                                      {{-- <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-1.png" alt="" class="avatar-md">
-                                                                      </div> --}}
-                                                                      <div>
-                                                                           <a href="#!" class="text-dark fw-medium fs-15">{{$voucher->name}}</a>
-                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Fashion</p>
-                                                                      </div>
-                                                                 </div>
+                             <div class="card">
+                                 <div class="d-flex card-header justify-content-between align-items-center">
+                                     <div>
+                                         <a href="{{route('admin.voucher.addVoucher')}}" class="btn btn-primary btn-sm" aria-expanded="false">
+                                             Thêm Mã Giảm Giá
+                                         </a>
+                                     </div>
+                                     <div class="dropdown">
+                                         <a href="{{route('admin.voucher.trashVoucher')}}" class="btn btn-soft-danger btn-sm" aria-expanded="false">
+                                             Đã Xóa
+                                         </a>
+                                         <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
+                                             This Month
+                                         </a>
+                                         <div class="dropdown-menu dropdown-menu-end">
+                                             <a href="#!" class="dropdown-item">Download</a>
+                                             <a href="#!" class="dropdown-item">Export</a>
+                                             <a href="#!" class="dropdown-item">Import</a>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div>
+                                     <div class="table-responsive">
+                                         <table class="table align-middle mb-0 table-hover table-centered">
+                                             <thead class="bg-light-subtle">
+                                                 <tr>
+                                                     <th>STT</th>
+                                                     <th>
+                                                         <div class="form-check">
+                                                             <input type="checkbox" class="form-check-input" id="customCheck1">
+                                                         </div>
+                                                     </th>
+                                                     <th>Trạng thái</th>
+                                                     <th>Tên Voucher</th>
+                                                     <th>Mã Voucher</th>
+                                                     {{-- <th>Ghi chú</th> --}}
+                                                     <th>Giảm giá</th>
+                                                     {{-- <th>Loại</th>
+                                                     <th>Giảm tối đa</th>
+                                                     <th>Giá trị tối thiểu</th> --}}
+                                                     <th>Số lượt dùng</th>
+                                                     <th>Số lượng mã</th>
+                                                     {{-- <th>Sản phẩm áp dụng</th>
+                                                     <th>Danh mục áp dụng</th> --}}
+                                                     <th>Ngày bắt đầu</th>
+                                                     <th>Ngày kết thúc</th>
+                                                     <th>Tình trạng</th>
+                                                     <th>Hiệu lực</th>
+                                                     {{-- <th>Người tạo</th>
+                                                     <th>Người sửa</th> --}}
+                                                     <th></th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                 @foreach ($vouchers as $voucher)
+                                                 <tr>
+                                                     <td>{{ $loop->iteration }}</td>
+                                                     <td>
+                                                         <div class="form-check">
+                                                             <input type="checkbox" class="form-check-input">
+                                                         </div>
+                                                     </td>
+                                                     <td>
+                                                         @if($voucher->status == 0)
+                                                             <span class="badge text-success bg-success-subtle fs-12">Đang diễn ra</span>
+                                                         @elseif($voucher->status == 1)
+                                                             <span class="badge text-danger bg-danger-subtle fs-12">Hết hạn</span>
+                                                         @elseif($voucher->status == 2)
+                                                             <span class="badge text-warning bg-warning-subtle fs-12">Chưa bắt đầu</span>
+                                                         @else
+                                                             <span class="badge text-secondary bg-secondary-subtle fs-12">Không rõ</span>
+                                                         @endif
+                                                     </td>
+                                                     <td>{{ $voucher->name }}</td>
+                                                     <td>{{ $voucher->code }}</td>
+                                                     {{-- <td>{{ $voucher->description }}</td> --}}
+                                                     <td>
+                                                         @if(isset($voucher->discount_amount))
+                                                             {{ $voucher->discount_amount }} {{ $voucher->type == 1 ? '%' : 'VND' }}
+                                                         @else
+                                                             <span class="badge bg-light text-muted fs-12">Free Ship</span>
+                                                         @endif
+                                                     </td>
+                                                     {{-- <td>
+                                                         @if($voucher->type == 0)
+                                                             <span class="badge bg-light text-dark fs-12">Miễn phí ship</span>
+                                                         @elseif($voucher->type == 1)
+                                                             <span class="badge bg-light text-dark fs-12">Giảm %</span>
+                                                         @elseif($voucher->type == 2)
+                                                             <span class="badge bg-light text-dark fs-12">Giảm tiền</span>
+                                                         @endif
+                                                     </td> --}}
+                                                     {{-- <td>{{ $voucher->max_discount_value ?? '-' }}</td>
+                                                     <td>{{ $voucher->min_order_value ?? '-' }}</td> --}}
+                                                     <td>{{ $voucher->usage_per_user ?? '-' }}</td>
+                                                     <td>{{ $voucher->quantity }}</td>
+                                                     {{-- <td>
+                                                       @php
+                                                           $appliedProducts = json_decode($voucher->applied_products, true) ?? [];
+                                                       @endphp
+                                                       @if(!empty($appliedProducts))
+                                                           {{ implode(', ', $appliedProducts) }}
+                                                       @else
+                                                           -
+                                                       @endif
+                                                   </td>
+                                                   
+                                                   <td>
+                                                       @php
+                                                           $appliedCategories = json_decode($voucher->applied_categories, true) ?? [];
+                                                       @endphp
+                                                       @if(!empty($appliedCategories))
+                                                           {{ implode(', ', $appliedCategories) }}
+                                                       @else
+                                                           -
+                                                       @endif
+                                                   </td> --}}
+                                                     <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
+                                                     <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
+                                                     <td>
+                                                         @if ($voucher->is_active == 1)
+                                                             <span class="badge text-success fs-12">Đang hoạt động</span>
+                                                         @else
+                                                             <span class="badge text-danger fs-12">Không hoạt động</span>
+                                                         @endif
+                                                     </td>
+                                                     <td>
+                                                       <span class="badge text-warning fs-12">{{ $voucher->time_remaining }}</span></td>
 
-                                                            </td>
-                                                            <td>{{$voucher->code}}</td>
-                                                            <td>{{$voucher->description}}</td>
-                                                            {{-- <td>{{$voucher->discount_amount}} {{ $voucher->type == 1 ? '%' : 'VND' }}</td> --}}
-                                                            <td>
-                                                                 @if(isset($voucher->discount_amount))
-                                                                 {{$voucher->discount_amount}} {{ $voucher->type == 1 ? '%' : 'VND' }}
-                                                                 @else
-                                                                      <span class="badge bg-light text-muted fs-12">
-                                                                         <i class="bx bx-question-mark"></i> Unknown
-                                                                      </span>
-                                                                 @endif
-                                                            </td>
-                                                            <td>
-                                                                 @if($voucher->type == 0)
-                                                                     <span class="badge bg-light text-dark fs-12">
-                                                                         <i class="bx bx-send"></i> Miễn Phí Ship
-                                                                     </span>
-                                                                 @elseif($voucher->type == 1)
-                                                                     <span class="badge bg-light text-dark fs-12">
-                                                                         <i class="bx bx-percent"></i> Giảm theo phần trăm
-                                                                     </span>
-                                                                 @elseif($voucher->type == 2)
-                                                                     <span class="badge bg-light text-dark fs-12">
-                                                                         <i class="bx bx-dollar-circle"></i> Giảm tiền cố định
-                                                                     </span>
-                                                                 @else
-                                                                     <span class="badge bg-light text-muted fs-12">
-                                                                         <i class="bx bx-question-mark"></i> không tồn tại
-                                                                     </span>
-                                                                 @endif
-                                                             </td>
-                                                             
-                                                             <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
-                                                             <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
-
-                                                            
-                                                             
-                                                            
-                                                             <td>
-                                                                 @if ($voucher->is_active == 1)
-                                                                 <span class="badge text-success  fs-12">
-                                                                       Đang Hoạt Động
-                                                                  </span>
-                                                                  @else
-                                                                  <span class="badge text-danger  fs-12">
-                                                                       Không hoạt động
-                                                                  </span>
-                                                                 @endif
-                                                             </td>
-                                                             
-                                                            <td>
-                                                                 <div class="d-flex gap-2">
-                                                                      <a href="{{route('admin.voucher.detailVoucher',$voucher->id)}}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                      <a href="{{route('admin.voucher.editVoucher' , $voucher->id)}}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                      <a href="{{route('admin.voucher.deleteVoucher',$voucher->id)}}" class="btn btn-soft-danger btn-sm" onclick="return confirm('bạn có muốn xóa không?')"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                 </div>
-                                                            </td>
-                                                       </tr>
-                                                       @endforeach
-
-    
-                                                  </tbody>
-                                             </table>
-                                        </div>
-                                        <!-- end table-responsive -->
-                                   </div>
-                                   <div class="card-footer border-top">
-                                        <nav aria-label="Page navigation example">
-                                             <ul class="pagination justify-content-end mb-0">
-                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
-                                                  <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
-                                             </ul>
-                                        </nav>
-                                   </div>
-                              </div>
+                                                     {{-- <td>{{ $voucher->created_by ?? '-' }}</td>
+                                                     <td>{{ $voucher->updated_by ?? '-' }}</td> --}}
+                                                     <td>
+                                                         <div class="d-flex gap-2">
+                                                             <a href="{{route('admin.voucher.detailVoucher',$voucher->id)}}" class="btn btn-light btn-sm">Xem</a>
+                                                             <a href="{{route('admin.voucher.editVoucher',$voucher->id)}}" class="btn btn-soft-primary btn-sm">Sửa</a>
+                                                             <a href="{{route('admin.voucher.deleteVoucher',$voucher->id)}}" class="btn btn-soft-danger btn-sm" onclick="return confirm('bạn có muốn xóa không?')">Xóa</a>
+                                                         </div>
+                                                     </td>
+                                                 </tr>
+                                                 @endforeach
+                                             </tbody>
+                                         </table>
+                                     </div>
+                                 </div>
+                                 <div class="card-footer border-top">
+                                     <nav aria-label="Page navigation example">
+                                         <ul class="pagination justify-content-end mb-0">
+                                             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                             <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                             <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                             <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                             <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                         </ul>
+                                     </nav>
+                                 </div>
+                             </div>
                          </div>
-
-                    </div>
+                     </div>
+                     
 
                </div>
                <!-- End Container Fluid -->
