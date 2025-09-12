@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
@@ -155,14 +156,19 @@ class CartController extends Controller
         if (!$user) {
             return redirect()->route('auth.loginClient')->with('message', 'Vui lòng đăng nhập để xem giỏ hàng.');
         }
-
+    
         $cart = Cart::with('details.variant.product')->where('id_user', $user->id)->first();
         $cartItems = $cart ? $cart->details : collect([]);
         $relatedProducts = Product::inRandomOrder()->limit(4)->get();
-
-
-        return view('client.cart.index', compact('cartItems', 'relatedProducts'));
-
+    
+        // 👉 Load các voucher còn hiệu lực
+        $now = now();
+        $vouchers = Voucher::where('is_active', 1)
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>=', $now)
+            ->get();
+    
+        return view('client.cart.index', compact('cartItems', 'relatedProducts', 'vouchers'));
     }
 
     /**
@@ -217,4 +223,72 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Giỏ hàng đã được cập nhật.');
     }
+
+public function applyVoucher(Request $request)
+{
+    $request->validate([
+        'voucher_code' => 'required|string'
+    ]);
+
+    $user = Sentinel::check();
+    if (!$user) {
+        return response()->json(['error' => 'Vui lòng đăng nhập để sử dụng voucher.'], 401);
+    }
+
+    // Lấy giỏ hàng user
+    $cart = Cart::with('details.variant.product')->where('id_user', $user->id)->first();
+    if (!$cart || $cart->details->isEmpty()) {
+        return response()->json(['error' => 'Giỏ hàng trống.'], 400);
+    }
+
+    $total = 0;
+    foreach ($cart->details as $item) {
+        $total += $item->variant->price * $item->quantity;
+    }
+
+    // Tìm voucher
+    $voucher = Voucher::where('code', $request->voucher_code)
+        ->where('is_active', 1)
+        ->where('start_date', '<=', now())
+        ->where('end_date', '>=', now())
+        ->first();
+
+    if (!$voucher) {
+        return response()->json(['error' => 'Mã giảm giá không hợp lệ hoặc đã hết hạn.'], 400);
+    }
+
+    // Check điều kiện tối thiểu
+    if ($voucher->min_order_value && $total < $voucher->min_order_value) {
+        return response()->json(['error' => 'Đơn hàng chưa đạt giá trị tối thiểu để áp dụng voucher.'], 400);
+    }
+
+    // Tính giảm giá
+    $discount = 0;
+    if ($voucher->discount_type === 'percent') {
+        $discount = ($total * $voucher->discount_value) / 100;
+        if ($voucher->max_discount && $discount > $voucher->max_discount) {
+            $discount = $voucher->max_discount;
+        }
+    } elseif ($voucher->discount_type === 'fixed') {
+        $discount = $voucher->discount_value;
+    }
+
+    $finalPrice = max(0, $total - $discount);
+
+    // Lưu voucher vào session để checkout dùng lại
+    session()->put('applied_voucher', [
+        'code' => $voucher->code,
+        'discount' => $discount,
+        'final_price' => $finalPrice,
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'voucher_code' => $voucher->code,
+        'discount' => $discount,
+        'final_price' => $finalPrice,
+        'total' => $total,
+    ]);
 }
+}
+

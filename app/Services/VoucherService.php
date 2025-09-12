@@ -123,6 +123,59 @@ public function bulkRestoreVoucher(array $ids)
 {
     return Voucher::onlyTrashed()->whereIn('id', $ids)->restore();
 }
+public function getByCode(string $code)
+{
+    return Voucher::where('code', $code)->first();
+}
+
+public function applyVoucher($userId, $orderTotal, $voucherCode)
+    {
+        $voucher = $this->getByCode($voucherCode);
+
+        if (!$voucher) {
+            return ['success' => false, 'message' => 'Mã giảm giá không tồn tại'];
+        }
+
+        // kiểm tra ngày hiệu lực
+        $now = now();
+        if ($voucher->start_date > $now || $voucher->end_date < $now) {
+            return ['success' => false, 'message' => 'Mã giảm giá đã hết hạn hoặc chưa bắt đầu'];
+        }
+
+        // kiểm tra số lượng
+        if ($voucher->quantity <= 0) {
+            return ['success' => false, 'message' => 'Mã giảm giá đã hết lượt sử dụng'];
+        }
+
+        // kiểm tra giá trị tối thiểu
+        if ($orderTotal < $voucher->min_order_value) {
+            return ['success' => false, 'message' => 'Đơn hàng chưa đạt giá trị tối thiểu'];
+        }
+
+        // TODO: kiểm tra số lần user đã dùng (cần bảng trung gian voucher_user hoặc order_voucher)
+
+        // tính toán giảm giá
+        $discount = 0;
+        if ($voucher->type == 1) { // %
+            $discount = $orderTotal * ($voucher->discount_amount / 100);
+            if ($voucher->max_discount_value && $discount > $voucher->max_discount_value) {
+                $discount = $voucher->max_discount_value;
+            }
+        } elseif ($voucher->type == 2) { // fixed
+            $discount = $voucher->discount_amount;
+        } elseif ($voucher->type == 0) { // free ship
+            // ví dụ free ship thì để discount = phí ship sau này tính
+            $discount = 0;
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Áp dụng mã thành công',
+            'discount' => $discount,
+            'final_total' => max(0, $orderTotal - $discount),
+            'voucher' => $voucher,
+        ];
+    }
 
 
 

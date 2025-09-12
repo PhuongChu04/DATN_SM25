@@ -22,10 +22,13 @@ class Order extends Model
         'payment_method',
         'payment_status',
         'order_status',
-        'shipping_fee',
-        'discount',
         'total_price',
+        'voucher_code',
+        'discount',
+        'final_price',
     ];
+  
+    
 
 
     public function user()
