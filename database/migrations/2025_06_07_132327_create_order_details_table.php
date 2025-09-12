@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_order')->constrained('orders')->onDelete('cascade');
-            $table->foreignId('id_variant')->nullable()->constrained('product_variants')->onDelete('set null');
-            $table->json('variant_data');
-            $table->integer('quantity');
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('variant_id')->nullable()->constrained('product_variants')->onDelete('set null');
+            $table->string('product_name', 255);
+            $table->unsignedInteger('quantity')->default(1);
             $table->decimal('unit_price', 10, 2);
-            $table->decimal('total', 15, 2);
-            $table->timestamps();
+            $table->decimal('total', 10, 2);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

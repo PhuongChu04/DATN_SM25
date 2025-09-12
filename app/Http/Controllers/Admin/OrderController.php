@@ -54,8 +54,8 @@ class OrderController extends Controller
                         ->paginate(10);
 
         // Tính toán các thống kê đơn hàng
-        $orderCancel     = Order::where('order_status', OrderStatus::Canceled->value)->count();
-        $orderDelivering = Order::where('order_status', OrderStatus::Shipping->value)->count();
+        $orderCancel     = Order::where('order_status', OrderStatus::Cancelled->value)->count();
+        $orderDelivering = Order::where('order_status', OrderStatus::Shipped->value)->count();
         $pendingPayment  = Order::where('payment_status', 'unpaid')->count();
         $orderDelivered  = Order::where('order_status', OrderStatus::Delivered->value)->count();
 
@@ -89,12 +89,12 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         // Không cho hủy đơn đã thanh toán
-        if ($order->payment_status === 'paid' && $request->order_status === OrderStatus::Canceled->value) {
+        if ($order->payment_status === 'paid' && $request->order_status === OrderStatus::Cancelled->value) {
             return back()->with('error', 'Không thể hủy đơn hàng đã thanh toán.');
         }
 
         // Không cho sửa trạng thái nếu thanh toán thất bại (trừ khi hủy)
-        if ($order->payment_status === 'failed' && $request->order_status !== OrderStatus::Canceled->value) {
+        if ($order->payment_status === 'failed' && $request->order_status !== OrderStatus::Cancelled->value) {
             return back()->with('error', 'Đơn hàng thanh toán thất bại chỉ có thể chuyển sang trạng thái "Đã hủy".');
         }
 
@@ -138,7 +138,7 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
-        if ($order->order_status !== OrderStatus::Canceled->value) {
+        if ($order->order_status !== OrderStatus::Cancelled->value) {
             return back()->with('error', 'Chỉ có thể xóa đơn hàng đã huỷ.');
         }
 
@@ -154,9 +154,9 @@ class OrderController extends Controller
         return match ($value) {
             OrderStatus::Pending->value    => 1,
             OrderStatus::Processing->value => 2,
-            OrderStatus::Shipping->value   => 3,
+            OrderStatus::Shipped->value   => 3,
             OrderStatus::Delivered->value  => 4,
-            OrderStatus::Canceled->value   => 5,
+            OrderStatus::Cancelled->value   => 5,
             default => 0,
         };
     }

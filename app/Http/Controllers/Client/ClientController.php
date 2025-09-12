@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Client;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\ProductVariantService;
@@ -22,24 +24,30 @@ class ClientController extends Controller
         $this->productVariantService = $productVariantService;
     }
 
-    
+
     public function homeClient()
     {
-         $categories = $this->categoryService->getAllCategories();
+        $categories = $this->categoryService->getAllCategories();
         //  dd($categories);
-    return view('client.home', compact('categories'));
-       
-      
+        $products = Product::with('variants')
+    ->whereHas('variants')
+    ->latest()
+    ->take(10)
+    ->get();
+
+    
+        $categoriesWithProducts = Category::with(['products' => function ($query) {
+            $query->with(['firstVariant', 'colors'])
+                ->latest()
+                ->take(8);
+        }])
+            ->whereHas('products')
+            ->get();
+        return view('client.home',compact('categories', 'products' ,'categoriesWithProducts'));
     }
     public function account()
     {
         $user = Sentinel::getUser(); // Lấy thông tin người dùng đã đăng nhập
         return view('client.accounts.account', compact('user'));
     }
-
-  
-
-   
 }
-
-

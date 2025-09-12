@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('order_status_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->string('status'); // e.g: refund, processing...
-            $table->string('note')->nullable();
+            $table->string('status', 255);
+            $table->string('note', 255)->nullable();
             $table->foreignId('changed_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });

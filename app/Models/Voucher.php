@@ -12,8 +12,8 @@ class Voucher extends Model
     use SoftDeletes;
     protected $table = 'vouchers';
     protected $fillable = [
-        'name',
-        'code',
+        'name', 
+        'code', 
         'description',
         'type',                // % hay fixed
         'discount_amount',     // giá trị giảm
