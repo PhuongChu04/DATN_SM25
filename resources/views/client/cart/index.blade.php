@@ -95,13 +95,52 @@
                             Tạm Tính<span id="subtotal-value">{{ number_format($subtotal ?? 0, 0, ',', '.') }} ₫</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">Giảm Giá<span>0 ₫</span></li>
+                        {{-- Vận chuyển --}}
                         <li class="list-group-item px-0 bg-transparent">
-                            <p class="mb-2">Vận Chuyển</p>
-                            <div class="form-check d-flex justify-content-between"><div><input class="form-check-input" type="radio" name="shipping" id="free" checked><label class="form-check-label ms-2" for="free">Miễn Phí Vận Chuyển</label></div><span>0 ₫</span></div>
-                            <div class="form-check d-flex justify-content-between"><div><input class="form-check-input" type="radio" name="shipping" id="local"><label class="form-check-label ms-2" for="local">Vận Chuyển Nội Địa</label></div><span>35,000 ₫</span></div>
-
+                            <strong>Vận Chuyển</strong>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent border-top pt-3"><strong class="h5">Tổng Cộng</strong><strong class="h5">{{ number_format($subtotal ?? 0, 0, ',', '.') }} ₫</strong></li>
+
+                        @foreach ($shippings as $shipping)
+                            @php
+                                $price = 0;
+                                $note = ''; // chú thích
+                                if ($shipping->provider_name === 'Nhanh') {
+                                    $price = 20000;
+                                } elseif ($shipping->provider_name === 'Miễn phí vận chuyển') {
+                                    $note = 'Chỉ áp dụng cho đơn từ 100.000₫ trở lên';
+                                }
+                                $disabled = $shipping->provider_name === 'Miễn phí vận chuyển' && $subtotal < 100000;
+                            @endphp
+
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div class="form-check">
+                                    <input class="form-check-input shipping-option"
+                                        type="radio"
+                                        name="shipping"
+                                        value="{{ $shipping->id }}"
+                                        data-price="{{ $price }}"
+                                        {{ $loop->first ? 'checked' : '' }}
+                                        {{ $disabled ? 'disabled' : '' }}>
+                                    <label class="form-check-label">
+                                        {{ $shipping->provider_name }}
+                                        @if ($price > 0)
+                                            ({{ number_format($price, 0, ',', '.') }} ₫)
+                                        @elseif ($note)
+                                            ({{ $note }})
+                                        @else
+                                            (Miễn phí)
+                                        @endif
+                                    </label>
+                                </div>
+                            </li>
+                        @endforeach                
+
+                        {{-- Tổng cộng --}}
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                            Tổng tiền: <span id="total-price">{{ number_format($subtotal, 0, ',', '.') }} ₫</span>
+                        </li>
+                        <input type="hidden" id="subtotal" data-value="{{ $subtotal }}">
+
                     </ul>
                     <a href="{{ route('checkout.form') }}" class="btn btn-dark btn-lg w-100 mt-4">Thanh toán</a>
                     <a href="{{ route('client.homeClient')}}" class="btn btn-outline-dark w-100">Hoặc tiếp tục mua sắm</a>
@@ -233,6 +272,25 @@
 
 @push('scripts')
 <script>
-// Thêm script cho giỏ hàng nếu cần
+    const shippingOptions = document.querySelectorAll('.shipping-option');
+    const totalPriceElem = document.getElementById('total-price');
+    let subtotal = {{ $subtotal }}; // giá gốc
+
+    shippingOptions.forEach(option => {
+        option.addEventListener('change', function() {
+            const shippingPrice = parseInt(this.dataset.price) || 0;
+            const newTotal = subtotal + shippingPrice;
+            totalPriceElem.textContent = newTotal.toLocaleString('vi-VN') + ' ₫';
+        });
+    });
+
+    // Khởi tạo tổng tiền khi load trang (nếu chọn mặc định)
+    const checkedOption = document.querySelector('.shipping-option:checked');
+    if (checkedOption) {
+        const shippingPrice = parseInt(checkedOption.dataset.price) || 0;
+        totalPriceElem.textContent = (subtotal + shippingPrice).toLocaleString('vi-VN') + ' ₫';
+    }
 </script>
 @endpush
+
+

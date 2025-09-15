@@ -9,7 +9,9 @@ use App\Models\ShippingRate;
 use Illuminate\Support\Facades\DB;
 
 class ShippingController extends Controller
-{
+{   
+    protected $table = 'shippings';
+    protected $fillable = ['provider_name'];
     public function index()
     {
         $shippings = Shipping::all();
