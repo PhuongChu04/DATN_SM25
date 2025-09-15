@@ -56,7 +56,7 @@ use Faker\Guesser\Name;
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
+    Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkAdmin')->name('homeAdmin');
        Route::get('/dashboard/revenue-chart-data', [AdminController::class, 'getRevenueChartData'])
         ->name('dashboard.revenueChartData');
 
