@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\BrandController;
 //use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\CategoryClientController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
@@ -226,6 +227,10 @@ Route::prefix('client')->name('client.')->group(function () {
     //==================TRANG DANH SÁCH==================
     Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
 
+    //==================TRANG DANH MỤC==================
+    Route::get('/category/list', [CategoryClientController::class, 'listCategoryClient'])
+        ->name('listCategoryClient');
+
     //==================TRANG CHI TIẾT==================
     Route::get('/dashboard/{id}/detailProduct', [ClientProductController::class, 'detailProduct'])->name('detailProduct');
 
@@ -233,14 +238,14 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
     Route::post('/account-detail', [AuthController::class, 'updateAccountDetail'])->middleware('checkLogin')->name('updateAccountDetail');
     Route::group(['middleware' => 'checkLogin'], function () {
-    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
-    Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-    // Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
+        Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+        Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+        // Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
 
-});
+    });
 
 
     // Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
@@ -311,7 +316,7 @@ Route::middleware('checkLogin')->group(function () {
 });
 // Route cho việc đánh giá client
 Route::middleware('checkLogin')->group(function () {
-        Route::get('reviews/create/{orderId}/{productId}', [ReviewClientController::class, 'create'])->name('client.reviews.create');
-        Route::post('reviews/store/{orderId}', [ReviewClientController::class, 'store'])->name('client.reviews.store');
+    Route::get('reviews/create/{orderId}/{productId}', [ReviewClientController::class, 'create'])->name('client.reviews.create');
+    Route::post('reviews/store/{orderId}', [ReviewClientController::class, 'store'])->name('client.reviews.store');
 
 });

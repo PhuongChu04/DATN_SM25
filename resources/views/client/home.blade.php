@@ -242,22 +242,21 @@
                             <!-- item 1 -->
 
                             @foreach ($categories as $category)
-                                <div class="swiper-slide">
-                                    <div class="wg-cls style-square hover-img">
-                                        <a href="#category-{{ $category->id }}" class="image img-style d-block">
-                                            <div class="category-image-container">
-                                                <img src="{{ asset('storage/' . $category->image) }}"
-                                                    alt="{{ $category->name }}">
-                                            </div>
+    <div class="swiper-slide">
+        <div class="wg-cls style-square hover-img">
+            <a href="{{ route('client.listCategoryClient', ['c' => $category->id]) }}" class="image img-style d-block">
+                <div class="category-image-container">
+                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
+                </div>
 
+                <div class="cls-content text-center">
+                    <span class="link text-md fw-medium">{{ $category->name }}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+@endforeach
 
-                                            <div class="cls-content text-center">
-                                                <span class="link text-md fw-medium">{{ $category->name }}</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            @endforeach
                         </div>
                         <div class="d-flex d-xl-none sw-dot-default sw-pagination-categories justify-content-center">
                         </div>
@@ -396,7 +395,7 @@
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
                                         </a>
                                         <div class="on-sale-wrap flex-column type-2">
-                                            <span class="on-sale-item">20% Off</span>
+                                            <span class="on-sale-item">10% Off</span>
                                             <span class="on-sale-item trending">Trending</span>
                                         </div>
                                         <ul class="list-product-btn">
