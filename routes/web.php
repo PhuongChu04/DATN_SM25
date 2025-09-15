@@ -59,6 +59,9 @@ use Faker\Guesser\Name;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->name('homeAdmin');
+       Route::get('/dashboard/revenue-chart-data', [AdminController::class, 'getRevenueChartData'])
+        ->name('dashboard.revenueChartData');
+
 
     Route::post('/admin/notifications/{id}/read', [NotificationController::class, 'read']);
     Route::get('/admin/notifications', function () {

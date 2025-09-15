@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="product-price">
                                         <div class="display-sm price-new">{{ $product->firstVariant['price'] }}₫</div>
-                                        <div class="display-sm price-old">{{ $product->firstVariant['price'] }}₫</div>
+                                        {{-- <div class="display-sm price-old">{{ $product->firstVariant['price'] }}₫</div> --}}
                                     </div>
                                 </div>
 
