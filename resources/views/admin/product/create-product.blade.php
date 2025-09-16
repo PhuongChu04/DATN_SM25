@@ -1,11 +1,9 @@
 @extends('admin.layouts.layout')
 @section('content')
-    <div class="page-content">
 
-        <!-- Start Container Fluid -->
         <div class="container-fluid">
 
-            <div class="row">
+            {{-- <div class="row"> --}}
 
 
                 <div class="col-xl-12 ">
@@ -117,37 +115,7 @@
 
                                 </div>
 
-                                {{--  --}}
-                                {{-- <h5>Biến thể sản phẩm</h5>
-                                <div id="variant-list">
-                                    <div class="row mb-2 variant-item">
-                                        <div class="col-md-3">
-                                            <label>Màu sắc</label>
-                                            <select name="variants[0][id_color]" class="form-control">
-                                                @foreach ($colors as $color)
-                                                    <option value="{{ $color->id }}">{{ $color->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Kích cỡ</label>
-                                            <select name="variants[0][id_size]" class="form-control">
-                                                @foreach ($sizes as $size)
-                                                    <option value="{{ $size->id }}">{{ $size->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Giá</label>
-                                            <input type="number" name="variants[0][price]" class="form-control">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Số lượng</label>
-                                            <input type="number" name="variants[0][quantity]" class="form-control">
-                                        </div>
-                                    </div>
-                                </div> --}}
-
+                            
                                 <h5 class="mt-4">Biến thể sản phẩm</h5>
                                 <div id="variant-list">
                                     <div class="row variant-item mb-2">
@@ -210,7 +178,7 @@
 
                     </form>
                 </div>
-            </div>
+            {{-- </div> --}}
         </div>
     </div>
     @push('scripts')

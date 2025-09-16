@@ -3,8 +3,7 @@
         <div class="container">
             <div class="row wrapper-header align-items-center">
                 <div class="col-md-4 col-3 d-xl-none">
-                    <a href="#mobileMenu" class="mobile-menu" data-bs-toggle="offcanvas"
-                        aria-controls="mobileMenu">
+                    <a href="#mobileMenu" class="mobile-menu" data-bs-toggle="offcanvas" aria-controls="mobileMenu">
                         <i class="icon icon-categories1"></i>
                     </a>
                 </div>
@@ -31,34 +30,41 @@
                     </div>
                 </div>
                 <div class="col-xl-2 col-md-4 col-6 text-center">
-                    <a href="home-electronic.html" class="logo-header">
-                        <img src="{{ asset('client/images/logo/logo.svg') }}" alt="logo" class="logo">
+                    <a href="{{route('client.homeClient')}}" class="logo-header">
+                        <img src="{{ asset('client/images/logo/IFN.jpg') }}" alt="logo" class="logo" heigh="">
                     </a>
                 </div>
                 <div class="col-xl-5 col-md-4 col-3">
                     <ul class="nav-icon d-flex justify-content-end align-items-center">
                         <li class="nav-search">
+
                             <a href="#search" data-bs-toggle="modal" class="nav-icon-item">
+
                                 <i class="icon icon-search"></i>
                             </a>
                         </li>
                         <li class="nav-account">
-                            <a href="{{ route('client.account') }}"  class="nav-icon-item">
+                            <a href="{{ route('client.account') }}" class="nav-icon-item">
                                 <i class="icon icon-user"></i>
                             </a>
                         </li>
                         <li class="nav-wishlist">
-                            <a href="wish-list.html" class="nav-icon-item">
+                            <a href="#" class="nav-icon-item">
                                 <i class="icon icon-heart"></i>
                                 <span class="count-box">0</span>
                             </a>
                         </li>
                         <li class="nav-cart">
-                            <a href="#shoppingCart" data-bs-toggle="offcanvas" class="nav-icon-item">
-                                <i class="icon icon-cart"></i>
-                                <span class="count-box">0</span>
+                            <a href="{{route('client.cart.index')}}"  class="nav-icon-item position-relative">
+                                <i class="icon icon-cart fs-4 bi bi-cart-fill"></i>
+                                <!-- Tôi thêm class bi-cart-fill để có icon -->
+                                <span
+                                    class="count-box position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    0
+                                </span>
                             </a>
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -70,13 +76,13 @@
             <nav class="box-navigation text-center">
                 <ul class="box-nav-menu">
                     <li class="menu-item">
-                        <a href="{{route('client.home')}}" class="item-link">Home</a>
+                        <a href="{{route('client.homeClient')}}" class="item-link">Trang chủ</a>
                     </li>
                     <li class="menu-item">
-                        <a href="" class="item-link">Shop</a>
+                        <a href="{{route('client.listProducts')}}" class="item-link">Sản phẩm</a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="item-link">Products</a>
+                        <a href="#" class="item-link">Sale</a>
                     </li>
                     <li class="menu-item position-relative">
                         <a href="#" class="item-link">Pages</a>
