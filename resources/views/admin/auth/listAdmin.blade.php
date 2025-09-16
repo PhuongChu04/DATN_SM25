@@ -46,15 +46,16 @@
                                             <span class="badge bg-info">{{ $role->name }}</span>
                                         @endforeach
                                     </td>
-                                   <td>
-    <form action="{{ route('admin.auth.toggleStatus', $value->id) }}" method="POST">
-        @csrf
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" name="status" value="1" onchange="this.form.submit()"
-                {{ $value->status ? 'checked' : '' }}>
-        </div>
-    </form>
-</td>
+                                    <td>
+                                        <form action="{{ route('admin.auth.toggleStatus', $value->id) }}" method="POST" >
+                                            @csrf
+                                            <div class="for
+m-check form-switch">
+                                                <input class="form-check-input" type="checkbox" name="status"
+                                                    value="1" onchange="this.form.submit()"                                                    {{ $value->status ? 'checked' : '' }}>
+                                            </div>
+                                        </form>
+                                    </td>
                                     <td class="text-center">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="#!" class="btn btn-light btn-sm" title="Xem">

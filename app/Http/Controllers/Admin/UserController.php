@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\UserService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -16,11 +18,15 @@ class UserController extends Controller
     {
         $this->userService = $userService;
     }
-    public function list(){
-        $users = User::select('id', 'email', 'first_name','permissions')
-            ->paginate(10);
-        return view('admin.auth.listUser',compact('users'));
-    }
+   public function list()
+{
+    $users = \App\Models\User::select('id', 'email', 'first_name',  'status','permissions')
+        ->leftJoin('role_users', 'users.id', '=', 'role_users.user_id')
+        ->whereNull('role_users.user_id') // Lọc user không có trong bảng role_users
+        ->paginate(10);
+
+    return view('admin.auth.listUser', compact('users'));
+}
     public function createUser(){
 
         return view('admin.auth.addUser'); 

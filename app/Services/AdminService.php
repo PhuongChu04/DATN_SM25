@@ -96,7 +96,7 @@ public function toggleStatus($id, $status)
 {
     try {
         $user = User::findOrFail($id);
-        $user->status = $status ? 1 : 0; // Chuyển đổi boolean thành 1 hoặc 0
+        $user->status = $status ? 1 : 0;
         $user->save();
 
         Log::info('Cập nhật trạng thái người dùng: ', ['id' => $id, 'status' => $user->status]);
@@ -107,4 +107,20 @@ public function toggleStatus($id, $status)
         throw $e;
     }
 }
+// toggleStatusUser
+// public function toggleStatusUser($id, $status)
+// {
+//     try {
+//         $user = User::findOrFail($id);
+//         $user->status = $status ? 1 : 0; // Chuyển đổi boolean thành 1 hoặc 0
+//         $user->save();
+
+//         Log::info('Cập nhật trạng thái người dùng: ', ['id' => $id, 'status' => $user->status]);
+
+//         return $user;
+//     } catch (Exception $e) {
+//         Log::error('Lỗi khi cập nhật trạng thái: ', ['id' => $id, 'message' => $e->getMessage()]);
+//         throw $e;
+//     }
+// }
 }

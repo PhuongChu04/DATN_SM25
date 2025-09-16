@@ -99,9 +99,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminAuthController::class, 'login'])->name('loginAdmin'); //form đăng nhập
         Route::post('/login', [AdminAuthController::class, 'postLogin'])->name('postLoginAdmin');
         Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logoutAdmin');
-
+        //qUẢN LÍ USER
         Route::get('/list', [UserController::class, 'list'])->name('list');
+        // Route::post('{id}/status', [AdminAuthController::class, 'toggleStatusUser'])->name('statusUser');
 
+
+        //TẠO PERMISSION
         Route::get('/register', [RoleController::class, 'createRole'])->name('createRole'); //form tạo role
         Route::post('/create_role', [RoleController::class, 'postCreateRole'])->name('postCreateRole');
         Route::get('/attach-role', [RoleController::class, 'showAttachForm'])->name('attachRoleForm'); //form gán quyền
@@ -283,9 +286,11 @@ Route::prefix('client')->name('client.')->group(function () {
     // Route để chọn địa chỉ giao hàng
     Route::post('/select-address', [AddressController::class, 'selectAddress'])->name('address.select');
 });
+
+
 Route::prefix('/auth')->name('auth.')->group(function () {
-    Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
-    Route::get('/registerclient', [AuthController::class, 'register'])->name('registerClient');
+    Route::get('/login', [AuthController::class, 'login'])->name('loginClient');
+    Route::get('/registerclient', [AuthController::class, 'register'])->middleware('checkLogin')->name('registerClient');
     Route::post('/login', [AuthController::class, 'postLogin'])->name('postLoginClient');
     Route::post('/register', [AuthController::class, 'postRegister'])->name('postRegisterClient');
     Route::get('/logout', [AuthController::class, 'logoutClient'])->middleware('checkLogin')->name('logoutClient');

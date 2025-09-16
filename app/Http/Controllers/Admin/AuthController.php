@@ -33,7 +33,7 @@ class AuthController extends Controller
         // Kiểm tra trạng thái người dùng
         $user = User::where('email', $credentials['email'])->first();
         if ($user && $user->status == 0) {
-            Log::warning('Login failed: User is inactive', ['email' => $credentials['email']]);
+            Log::warning('Đăng nhập không thành công: Tài khoản buộc dừng hoạt động', ['email' => $credentials['email']]);
             return redirect()->back()->withErrors([
                 'error' => 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.'
             ])->withInput();
@@ -42,7 +42,7 @@ class AuthController extends Controller
         if (Sentinel::authenticate($credentials)) {
             return redirect('/admin/dashboard')->with('success', 'Đăng nhập thành công!');
         } else {
-            Log::error('Login failed: Invalid credentials for email ' . $credentials['email']);
+            Log::error('Đăng nhập không thành công: Thông tin đăng nhập email không hợp lệ ' . $credentials['email']);
             return redirect()->back()->withErrors([
                 'error' => 'Email hoặc mật khẩu không đúng.'
             ])->withInput();
@@ -101,7 +101,7 @@ class AuthController extends Controller
         'last_name'  => 'required|string|max:255',
         'email'      => 'required|email|unique:users,email',
         'password'   => 'required|string|min:6',
-        'role'       => 'required|in:super-admin,admin', // Sửa từ super-admin thành super-admin
+        'role'       => 'required|in:super-admin,admin', 
     ]);
 
     $this->adminService->createAdmin($request->only(['first_name', 'last_name', 'email', 'password', 'role']));
@@ -112,6 +112,21 @@ public function deleteUser($id)
 {
     return $this->adminService->deleteUser($id);
 }
+// public function toggleStatus(Request $request, $id)
+// {
+//     try {
+//         $request->validate([
+//             'status' => 'boolean',
+//         ]);
+
+//         $this->adminService->toggleStatus($id, $request->input('status', false));
+
+//         return redirect()->route('admin.auth.listAdmin')->with('success', 'Cập nhật trạng thái người dùng thành công!');
+//     } catch (Exception $e) {
+//         Log::error('Lỗi khi cập nhật trạng thái người dùng: ' . $e->getMessage());
+//         return redirect()->back()->withErrors(['error' => 'Có lỗi xảy ra khi cập nhật trạng thái.']);
+//     }
+// }
 public function toggleStatus(Request $request, $id)
 {
     try {
@@ -121,10 +136,29 @@ public function toggleStatus(Request $request, $id)
 
         $this->adminService->toggleStatus($id, $request->input('status', false));
 
-        return redirect()->route('admin.auth.listAdmin')->with('success', 'Cập nhật trạng thái người dùng thành công!');
+        // Kiểm tra xem user có role admin hay không để chuyển hướng
+        // $user = User::findOrFail($id);
+        // $redirectRoute = $user->hasAnyRole(['admin', 'super-admin']) ? 'auth.listAdmin' : 'auth.list';
+
+        return redirect()->back()->with('success', 'Cập nhật trạng thái người dùng thành công!');
     } catch (Exception $e) {
         Log::error('Lỗi khi cập nhật trạng thái người dùng: ' . $e->getMessage());
         return redirect()->back()->withErrors(['error' => 'Có lỗi xảy ra khi cập nhật trạng thái.']);
     }
 }
+// public function toggleStatusUser(Request $request, $id)
+// {
+//     try {
+//         $request->validate([
+//             'status' => 'boolean',
+//         ]);
+
+//         $this->adminService->toggleStatusUser($id, $request->input('status', false));
+
+//         return redirect()->route('admin.auth.list')->with('success', 'Cập nhật trạng thái người dùng thành công!');
+//     } catch (Exception $e) {
+//         Log::error('Lỗi khi cập nhật trạng thái người dùng: ' . $e->getMessage());
+//         return redirect()->back()->withErrors(['error' => 'Có lỗi xảy ra khi cập nhật trạng thái.']);
+//     }
+// }
 }

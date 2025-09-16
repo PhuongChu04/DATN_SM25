@@ -12,26 +12,23 @@ use Illuminate\Support\Facades\Log;
 class UserService
 {
 
-    public function postRegister(Request $req)
-    {
-        try {
-            $credentials = $req->validate([
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
+  public function postRegister(Request $data)
+{
+     // Đăng ký người dùng qua Sentinel
+        $user = Sentinel::registerAndActivate([
+            'first_name' => $data['first_name'],
+            'last_name'  => $data['last_name'],
+            'email'      => $data['email'],
+            'password'   => $data['password'],
+        ]);
 
-            Sentinel::registerAndActivate($credentials);
+        // Cập nhật trạng thái
+        $user->status = 1;
+        $user->save();
 
-            return redirect('/admin/auth/list')->with([
-                'message' => 'Đăng ký thành công! Vui lòng đăng nhập.'
-            ]);
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors([
-                'error' => 'Đăng ký thất bại: ' . $e->getMessage()
-            ])->withInput();
-        }
+        
+
+        return $user;
     }
     public function userDetail($id)
     {
@@ -102,5 +99,20 @@ class UserService
         return redirect()->back()->withErrors(['error' => 'Có lỗi xảy ra khi xóa người dùng.']);
     }
 }
+// public function toggleStatusUser($id, $status)
+// {
+//     try {
+//         $user = Sentinel::findOrFail($id);
+//         $user->status = (int) $status; // Chuyển đổi thành 0 hoặc 1
+//         $user->save();
+
+//         Log::info('Cập nhật trạng thái người dùng: ', ['id' => $id, 'status' => $user->status]);
+
+//         return $user;
+//     } catch (Exception $e) {
+//         Log::error('Lỗi khi cập nhật trạng thái: ', ['id' => $id, 'message' => $e->getMessage()]);
+//         throw $e;
+//     }
+// }
 
 }

@@ -194,11 +194,18 @@
                 </div>
                 <div class="modal-body">
                     <select name="order_status" class="form-select" required>
-                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Đang chờ</option>
+                        {{-- <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Đang chờ</option>
                         <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Đang xử lý</option>
                         <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Đã vận chuyển</option>
                         <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Đã giao</option>
-                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Đã huỷ</option>
+                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Đã huỷ</option> --}}
+                        <select name="order_status" class="form-select" required>
+                        <option value="pending" >Đang chờ</option>
+                        <option value="processing" >Đang xử lý</option>
+                        <option value="shipped" >Đã vận chuyển</option>
+                        <option value="delivered" >Đã giao</option>
+                        <option value="cancelled" >Đã huỷ</option>
+                    </select>
                     </select>
                 </div>
                 <div class="modal-footer">

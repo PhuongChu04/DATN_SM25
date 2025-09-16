@@ -21,7 +21,7 @@ class OrderController extends Controller
 
         // Kiểm tra người dùng đã đăng nhập chưa
         if (!$user) {
-            return redirect()->route('auth.loginClient')->with('message', 'Vui lòng đăng nhập để xem đơn hàng.');
+            return redirect()->route('admin.auth.loginAdmin')->with('message', 'Vui lòng đăng nhập để xem đơn hàng.');
         }
 
         // Tạo query để tìm kiếm đơn hàng của người dùng
