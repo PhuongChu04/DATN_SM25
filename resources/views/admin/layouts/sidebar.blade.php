@@ -188,6 +188,21 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link menu-arrow" href="#sidebarContacts" data-bs-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="sidebarContacts">
+                    <span class="nav-text"> Liên hệ </span>
+                </a>
+                <div class="collapse" id="sidebarContacts">
+                    <ul class="nav sub-navbar-nav">
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{ route('admin.contacts.index') }}">Danh sách liên hệ</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="nav-item">
                 <a class="nav-link" href="settings.html">
                     <span class="nav-text"> Cài đặt </span>
                 </a>

@@ -30,6 +30,9 @@ use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\ReviewClientController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
+
 
 
 Route::get('/test-address', function () {
@@ -259,7 +262,13 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
     // Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
 
+
+
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 });
+
+
 
 
     // Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
@@ -279,7 +288,7 @@ Route::prefix('client')->name('client.')->group(function () {
     // Route để chọn địa chỉ giao hàng
     Route::post('/select-address', [AddressController::class, 'selectAddress'])->name('address.select');
 
-
+    
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
@@ -298,6 +307,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/{review}', [ReviewController::class, 'update'])->name('update');
         Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
     });
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/contacts', [AdminContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
+    Route::delete('/contacts/{contact}', [AdminContactController::class, 'destroy'])->name('contacts.destroy');
 });
 
 
