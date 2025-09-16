@@ -25,10 +25,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
 
-        'email',
-        'password',
-        'first_name',
-        'last_name',
+       'email', 'password', 'first_name', 'last_name', 'permissions', 'last_login'
     ];
 
     /**
@@ -56,6 +53,14 @@ class User extends Authenticatable
 {
     return $this->hasMany(\App\Models\Address::class);
 }
+ public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users', 'user_id', 'role_id');
+    }
+public function hasRole($slug)
+    {
+        return $this->roles()->where('slug', $slug)->exists();
+    }
 
 
 }

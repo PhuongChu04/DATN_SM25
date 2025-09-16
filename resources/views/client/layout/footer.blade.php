@@ -4,7 +4,7 @@
             <div class="footer-top-wrap">
                 <div class="footer-logo">
                     <a href="home-electronic.html">
-                        <img src="{{ asset('client/images/logo/logo.svg') }}" class="logo" alt="logo">
+                        <img src="{{ asset('client/images/logo/IFN.jpg') }}" class="logo" alt="logo">
                     </a>
                 </div>
                 <ul class="tf-social-icon style-large">

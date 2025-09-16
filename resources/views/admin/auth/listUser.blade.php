@@ -48,7 +48,7 @@
                                 <th>id</th>
                                 <th>Email</th>
                                 <th>first_name</th>
-                                <th>permission</th>
+                                {{-- <th>permission</th> --}}
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -60,7 +60,7 @@
                                     <td>{{ $value->email }}</td>
                                     <td>{{ $value->first_name }}
                                     </td>
-                                    <td>{{ $value->permissions }}</td>
+                                    {{-- <td>{{ $value->permissions }}</td> --}}
                                     <td>
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" role="switch"

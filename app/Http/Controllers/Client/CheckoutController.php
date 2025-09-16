@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
-    // Phương thức hiển thị form checkout
+    // Phương thức hiển thị form checkout, thanh toán
     public function showForm()
     {
         $user = Sentinel::check();

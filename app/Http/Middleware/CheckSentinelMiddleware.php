@@ -11,15 +11,19 @@ class CheckSentinelMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+   public function handle(Request $request, Closure $next): Response
     {
-        if(Sentinel ::check()){
-            return $next($request);
-        }else{
-            return redirect()->route('admin.auth.loginAdmin');
+        $user = Sentinel::check();
+
+        if (!$user) {
+            return redirect()->route('admin.auth.loginAdmin')->with('error', 'Bạn cần đăng nhập.');
         }
+
+        if ($user->inRole('super-admin') || $user->inRole('admin')) {
+            return $next($request);
+        }
+
+        return redirect()->route('admin.auth.loginAdmin')->with('error', 'Bạn không có quyền truy cập.');
     }
 }

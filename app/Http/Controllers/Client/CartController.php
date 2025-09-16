@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 class CartController extends Controller
 {
     /**
+     * Giỏ hàng
      * Xử lý việc thêm sản phẩm vào giỏ hàng
      */
     public function add(Request $request)
