@@ -74,6 +74,41 @@ class ProductController extends Controller
         return view('client.products.detailProduct', compact('product', 'similarProducts'));
     }
 
+    //==================Hiển thị sp sale==================
+    public function saleProducts()
+    {
+
+        $products = Product::query()
+            ->join('product_variants as pv', 'pv.id_product', '=', 'products.id')
+            ->whereNotNull('pv.sale_price')
+            ->whereColumn('pv.sale_price', '<', 'pv.price')
+            ->select('products.*', 'pv.id as variant_id', 'pv.sale_price', 'pv.price as variant_price')
+            ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant', 'albums'])
+            ->paginate(16);
+
+        return view('client.sale.list', compact('products'));
+    }
+
+    //==================Hiển thị sp mới==================
+    public function newProducts($id)
+    {
+
+        $product = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant', 'albums'])
+            ->findOrFail($id);
+
+        $similarProducts = Product::where(function ($query) use ($product) {
+            $query->where('id_category', $product->id_category)
+                ->orWhere('id_brand', $product->id_brand);
+        })
+            ->where('id', '!=', $product->id)
+            ->with('firstVariant', 'colors')
+            ->inRandomOrder()
+            ->take(10)
+            ->get();
+
+        return view('client.products.detailProduct', compact('product', 'similarProducts'));
+    }
+
 
 
 

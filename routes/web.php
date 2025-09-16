@@ -58,7 +58,7 @@ use Faker\Guesser\Name;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkAdmin')->name('homeAdmin');
-       Route::get('/dashboard/revenue-chart-data', [AdminController::class, 'getRevenueChartData'])
+    Route::get('/dashboard/revenue-chart-data', [AdminController::class, 'getRevenueChartData'])
         ->name('dashboard.revenueChartData');
 
 
@@ -228,11 +228,16 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard/list', [ClientProductController::class, 'listProducts'])->name('listProducts');
 
     //==================TRANG DANH MỤC==================
-    Route::get('/category/list', [CategoryClientController::class, 'listCategoryClient'])
-        ->name('listCategoryClient');
+    Route::get('/category/list', [CategoryClientController::class, 'listCategoryClient'])->name('listCategoryClient');
 
     //==================TRANG CHI TIẾT==================
     Route::get('/dashboard/{id}/detailProduct', [ClientProductController::class, 'detailProduct'])->name('detailProduct');
+
+    //==================TRANG SALE==================
+    Route::get('/sale', [ClientProductController::class, 'saleProducts'])->name('saleProducts');
+
+    //==================TRANG SP MỚI==================
+    Route::get('/newProducts', [ClientProductController::class, 'newProducts'])->name('newProducts');
 
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data
@@ -264,8 +269,6 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
     // Route để chọn địa chỉ giao hàng
     Route::post('/select-address', [AddressController::class, 'selectAddress'])->name('address.select');
-
-
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
@@ -312,11 +315,9 @@ Route::middleware('checkLogin')->group(function () {
     Route::get('client/orders/{order}/cancel-confirm', [OrderClientController::class, 'cancelConfirm'])->name('client.orders.cancelConfirm');
     Route::post('client/orders/{order}/cancel-finalize', [OrderClientController::class, 'cancelFinalize'])->name('client.orders.cancelFinalize');
     Route::post('client/orders/{order}/cancel-action', [OrderClientController::class, 'cancelAction'])->name('client.orders.cancelAction');
-
 });
 // Route cho việc đánh giá client
 Route::middleware('checkLogin')->group(function () {
     Route::get('reviews/create/{orderId}/{productId}', [ReviewClientController::class, 'create'])->name('client.reviews.create');
     Route::post('reviews/store/{orderId}', [ReviewClientController::class, 'store'])->name('client.reviews.store');
-
 });
