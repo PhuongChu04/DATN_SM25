@@ -118,18 +118,27 @@
 
                         <hr>
 
+                        {{-- Tổng tiền hàng --}}
                         <div class="d-flex justify-content-between fw-bold mb-2">
                             <span>Tổng tiền hàng</span>
                             <span>{{ number_format($total, 0) }} VNĐ</span>
                         </div>
 
-                        <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
-                            <span>Thanh toán</span>
-                            <span>{{ number_format($total, 0) }} VNĐ</span>
+                        {{-- Phí vận chuyển --}}
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Phí vận chuyển ({{ $shipping->provider_name ?? '---' }})</span>
+                            <span>{{ number_format($shipping->price ?? 0, 0, ',', '.') }} ₫</span>
                         </div>
 
-                        {{-- Hidden field để lưu tổng --}}
-                        <input type="hidden" name="total_amount" value="{{ $total }}">
+                        {{-- Tổng thanh toán --}}
+                        <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
+                            <span>Thanh toán</span>
+                            <span>{{ number_format($total + ($shipping->price ?? 0), 0, ',', '.') }} ₫</span>
+                        </div>
+
+                        {{-- Hidden field để gửi dữ liệu sang controller --}}
+                        <input type="hidden" name="shipping_id" value="{{ $shipping->id ?? '' }}">
+                        <input type="hidden" name="total_amount" value="{{ $total + ($shipping->price ?? 0) }}">
 
                         {{-- Nút thanh toán --}}
                         <button type="submit" name="payment_method" value="vnpay" class="btn btn-dark btn-lg w-100 mb-2">

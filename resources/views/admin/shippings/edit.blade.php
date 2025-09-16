@@ -30,6 +30,17 @@
             @enderror
         </div>
 
+        {{-- Thêm trường giá vận chuyển --}}
+        <div class="mb-3">
+            <label for="price" class="form-label">Giá vận chuyển</label>
+            <input type="number" step="0.01" name="price" id="price"
+                class="form-control @error('price') is-invalid @enderror"
+                value="{{ old('price', $shipping->price) }}" required>
+            @error('price')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        
         <button type="submit" class="btn btn-success">Cập nhật</button>
         <a href="{{ route('admin.shippings.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>

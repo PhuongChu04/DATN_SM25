@@ -95,54 +95,38 @@
                             Tạm Tính<span id="subtotal-value">{{ number_format($subtotal ?? 0, 0, ',', '.') }} ₫</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">Giảm Giá<span>0 ₫</span></li>
-                        {{-- Vận chuyển --}}
+                        {{-- Đơn vị vận chuyển --}}
                         <li class="list-group-item px-0 bg-transparent">
-                            <strong>Vận Chuyển</strong>
-                        </li>
-
-                        @foreach ($shippings as $shipping)
-                            @php
-                                $price = 0;
-                                $note = ''; // chú thích
-                                if ($shipping->provider_name === 'Nhanh') {
-                                    $price = 20000;
-                                } elseif ($shipping->provider_name === 'Miễn phí vận chuyển') {
-                                    $note = 'Chỉ áp dụng cho đơn từ 100.000₫ trở lên';
-                                }
-                                $disabled = $shipping->provider_name === 'Miễn phí vận chuyển' && $subtotal < 100000;
-                            @endphp
-
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <div class="form-check">
+                            <div class="mb-2">Đơn vị vận chuyển</div>
+                            @foreach($shippings as $shipping)
+                                <div class="form-check mb-2">
                                     <input class="form-check-input shipping-option"
                                         type="radio"
-                                        name="shipping"
+                                        name="shipping_id"
+                                        id="ship{{ $shipping->id }}"
                                         value="{{ $shipping->id }}"
-                                        data-price="{{ $price }}"
-                                        {{ $loop->first ? 'checked' : '' }}
-                                        {{ $disabled ? 'disabled' : '' }}>
-                                    <label class="form-check-label">
-                                        {{ $shipping->provider_name }}
-                                        @if ($price > 0)
-                                            ({{ number_format($price, 0, ',', '.') }} ₫)
-                                        @elseif ($note)
-                                            ({{ $note }})
-                                        @else
-                                            (Miễn phí)
-                                        @endif
+                                        data-price="{{ $shipping->price }}"
+                                        {{ $loop->first ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="ship{{ $shipping->id }}">
+                                        {{ $shipping->provider_name }} - {{ number_format($shipping->price, 0, ',', '.') }} ₫
                                     </label>
                                 </div>
-                            </li>
-                        @endforeach                
+                            @endforeach
+                        </li>
 
-                        {{-- Tổng cộng --}}
+                        {{-- Tổng tiền --}}
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
                             Tổng tiền: <span id="total-price">{{ number_format($subtotal, 0, ',', '.') }} ₫</span>
                         </li>
-                        <input type="hidden" id="subtotal" data-value="{{ $subtotal }}">
+
+                        {{-- Input ẩn để gửi shipping_id sang trang checkout --}}
+                        <input type="hidden" id="selected-shipping" name="shipping_id" value="{{ $shippings->first()->id ?? '' }}">
+                        {{-- giữ giá trị subtotal thô (số) --}}
+                        <input type="hidden" id="subtotal" value="{{ $subtotal }}">
+
 
                     </ul>
-                    <a href="{{ route('checkout.form') }}" class="btn btn-dark btn-lg w-100 mt-4">Thanh toán</a>
+                    <a href="{{ route('checkout.form') }}?shipping_id=" id="checkoutBtn" class="btn btn-dark w-100 mt-4">Thanh toán</a>
                     <a href="{{ route('client.homeClient')}}" class="btn btn-outline-dark w-100">Hoặc tiếp tục mua sắm</a>
                 </div>
             </div>
@@ -272,24 +256,31 @@
 
 @push('scripts')
 <script>
-    const shippingOptions = document.querySelectorAll('.shipping-option');
-    const totalPriceElem = document.getElementById('total-price');
-    let subtotal = {{ $subtotal }}; // giá gốc
+    document.addEventListener("DOMContentLoaded", function () {
+        const subtotal = parseInt(document.getElementById("subtotal").value);
+        const totalElement = document.getElementById("total-price");
+        const shippingInputs = document.querySelectorAll(".shipping-option");
+        const selectedShipping = document.getElementById("selected-shipping");
 
-    shippingOptions.forEach(option => {
-        option.addEventListener('change', function() {
-            const shippingPrice = parseInt(this.dataset.price) || 0;
-            const newTotal = subtotal + shippingPrice;
-            totalPriceElem.textContent = newTotal.toLocaleString('vi-VN') + ' ₫';
+        function updateTotal() {
+            const checked = document.querySelector(".shipping-option:checked");
+            const shippingCost = checked ? parseInt(checked.dataset.price) : 0;
+            const total = subtotal + shippingCost;
+
+            totalElement.innerText = total.toLocaleString("vi-VN") + " ₫";
+            if (checked) {
+                selectedShipping.value = checked.value;
+            }
+        }
+
+        // chạy 1 lần khi load
+        updateTotal();
+
+        // lắng nghe sự kiện thay đổi
+        shippingInputs.forEach(input => {
+            input.addEventListener("change", updateTotal);
         });
     });
-
-    // Khởi tạo tổng tiền khi load trang (nếu chọn mặc định)
-    const checkedOption = document.querySelector('.shipping-option:checked');
-    if (checkedOption) {
-        const shippingPrice = parseInt(checkedOption.dataset.price) || 0;
-        totalPriceElem.textContent = (subtotal + shippingPrice).toLocaleString('vi-VN') + ' ₫';
-    }
 </script>
 @endpush
 

@@ -12,6 +12,7 @@
             <tr>
                 <th scope="col" style="width: 5%;">ID</th>
                 <th scope="col">Tên đơn vị vận chuyển</th>
+                <th scope="col">Giá vận chuyển</th> {{-- Thêm cột --}}
                 <th scope="col" style="width: 20%;">Hành động</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
             <tr>
                 <td>{{ $shipping->id }}</td>
                 <td>{{ $shipping->provider_name }}</td>
+                <td>{{ number_format($shipping->price, 0, ',', '.') }} đ</td> {{-- Hiển thị giá --}}
                 <td>
                     <a href="{{ route('admin.shippings.edit', $shipping) }}" class="btn btn-sm btn-warning">Sửa</a>
                     <form method="POST" action="{{ route('admin.shippings.destroy', $shipping) }}" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xoá?');">
@@ -31,10 +33,11 @@
             </tr>
             @empty
             <tr>
-                <td colspan="3" class="text-center">Chưa có đơn vị vận chuyển nào.</td>
+                <td colspan="4" class="text-center">Chưa có đơn vị vận chuyển nào.</td>
             </tr>
             @endforelse
         </tbody>
     </table>
+
 </div>
 @endsection

@@ -53,7 +53,10 @@ class CheckoutController extends Controller
             $cartItems = $cartSession;
         }
 
-        return view('client.checkout.form', compact('cartItems', 'user', 'addresses', 'defaultAddress'));
+        // ✅ Lấy tất cả đơn vị vận chuyển
+        $shippings = \App\Models\Shipping::all();
+
+        return view('client.checkout.form', compact('cartItems', 'user', 'addresses', 'defaultAddress', 'shippings'));
     }
 
     // Phương thức lưu đơn hàng và xử lý thanh toán (COD và VNPay)
@@ -87,6 +90,11 @@ class CheckoutController extends Controller
             $cartItems = $cartSession;
         }
 
+        // ✅ Lấy phí vận chuyển từ DB
+        $shippingId = $request->input('shipping_id');
+        $shipping = \App\Models\Shipping::find($shippingId);
+        $shippingCost = $shipping ? $shipping->price : 0;
+
         // Kiểm tra địa chỉ giao hàng
         $address = $request->address;
         if (!$address) {
@@ -107,6 +115,7 @@ class CheckoutController extends Controller
                 'payment_status'  => 'unpaid',  // Trạng thái chưa thanh toán
                 'order_status'    => 'pending',
                 'total_price'     => 0,
+                'shipping_id'     => $shippingId, // ✅ thêm field shipping_id vào order
             ]);
 
             $total = 0;
@@ -138,8 +147,14 @@ class CheckoutController extends Controller
                 $variant->decrement('quantity', $quantity);
             }
 
-            // Cập nhật tổng tiền cho đơn hàng
-            $order->update(['total_price' => $total]);
+            // ✅ cộng phí ship vào tổng
+            $total += $shippingCost;
+
+            // ✅ cập nhật tổng tiền + shipping_id
+            $order->update([
+                'total_price' => $total,
+                'shipping_id' => $shippingId,
+            ]);
 
             // Xử lý thanh toán VNPay hoặc COD
             if ($request->payment_method === 'vnpay') {
