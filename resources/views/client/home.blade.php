@@ -5,16 +5,17 @@
     <style>
         .category-image-container {
             width: 250px;
-            
+
             height: 200px;
             /* Set the desired height */
-            /* overflow: hidden; */ /* Ẩn bất kỳ phần nào của hình ảnh vượt quá vùng chứa */
+            /* overflow: hidden; */
+            /* Ẩn bất kỳ phần nào của hình ảnh vượt quá vùng chứa */
             margin-bottom: 20px;
         }
 
         .category-image-container img {
             width: 100%;
-           /* Làm cho hình ảnh lấp đầy chiều rộng của vùng chứa */
+            /* Làm cho hình ảnh lấp đầy chiều rộng của vùng chứa */
             height: 100%;
             /* Làm cho hình ảnh lấp đầy chiều cao của vùng chứa */
             object-fit: cover;
@@ -242,20 +243,22 @@
                             <!-- item 1 -->
 
                             @foreach ($categories as $category)
-    <div class="swiper-slide">
-        <div class="wg-cls style-square hover-img">
-            <a href="{{ route('client.listCategoryClient', ['c' => $category->id]) }}" class="image img-style d-block">
-                <div class="category-image-container">
-                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
-                </div>
+                                <div class="swiper-slide">
+                                    <div class="wg-cls style-square hover-img">
+                                        <a href="{{ route('client.listCategoryClient', ['c' => $category->id]) }}"
+                                            class="image img-style d-block">
+                                            <div class="category-image-container">
+                                                <img src="{{ asset('storage/' . $category->image) }}"
+                                                    alt="{{ $category->name }}">
+                                            </div>
 
-                <div class="cls-content text-center">
-                    <span class="link text-md fw-medium">{{ $category->name }}</span>
-                </div>
-            </a>
-        </div>
-    </div>
-@endforeach
+                                            <div class="cls-content text-center">
+                                                <span class="link text-md fw-medium">{{ $category->name }}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
 
                         </div>
                         <div class="d-flex d-xl-none sw-dot-default sw-pagination-categories justify-content-center">
@@ -607,8 +610,11 @@
                                                             class="name-product link fw-medium text-md">{{ $item->name }}</a>
                                                         <p class="price-wrap fw-medium">
                                                             <span
-                                                                class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
-                                                            {{-- <span class="price-old">$100.00</span> --}}
+                                                                class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }}
+                                                                ₫</span>
+                                                            <span
+                                                                class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }}
+                                                                ₫</span>
                                                         </p>
                                                         <ul class="list-color-product">
                                                             @foreach ($item->colors as $value)
@@ -732,8 +738,11 @@
                                                     class="name-product link fw-medium text-md">{{ $item->name }} </a>
                                                 <p class="price-wrap fw-medium">
                                                     <span
-                                                        class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}₫</span>
-                                                    <span class="price-old old-line">190.00₫</span>
+                                                        class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }}
+                                                        ₫</span>
+                                                    <span
+                                                        class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }}
+                                                        ₫</span>
                                                 </p>
                                                 <ul class="list-color-product justify-content-center">
                                                     @foreach ($item->colors as $value)
@@ -766,6 +775,7 @@
 
 
     <!-- Brand -->
+    <!-- Brand -->
     <div class="flat-spacing-2">
         <div class="container">
             <div dir="ltr" class="swiper tf-swiper sw-brand"
@@ -778,53 +788,26 @@
                 "slidesPerGroup": 2,
                 "pagination": { "el": ".sw-pagination-brand", "clickable": true },
                 "breakpoints": {
-                "575": { "slidesPerView": 3},
-                "991": { "slidesPerView": 4},
-                "1200": { "slidesPerView": 6}
+                    "575": { "slidesPerView": 3},
+                    "991": { "slidesPerView": 4},
+                    "1200": { "slidesPerView": 6}
                 }
             }'>
                 <div class="swiper-wrapper">
-                    <!-- item 1 -->
-                    <div class="swiper-slide">
-                        <div class="brand-item wow fadeInLeft">
-                            <img src="images/brand/zara.png" alt="brand">
+                    @foreach ($brands as $key => $brand)
+                        <div class="swiper-slide">
+                            <div class="brand-item wow fadeInLeft" data-wow-delay="{{ $key * 0.1 }}s">
+                                <img src="{{ asset('storage/' . $brand->image) }}" alt="{{ $brand->name }}">
+                            </div>
                         </div>
-                    </div>
-                    <!-- item 2 -->
-                    <div class="swiper-slide">
-                        <div class="brand-item wow fadeInLeft" data-wow-delay="0.1s">
-                            <img src="images/brand/bear.png" alt="brand">
-                        </div>
-                    </div>
-                    <!-- item 3 -->
-                    <div class="swiper-slide">
-                        <div class="brand-item wow fadeInLeft" data-wow-delay="0.2s">
-                            <img src="images/brand/nike.png" alt="brand">
-                        </div>
-                    </div>
-                    <!-- item 4 -->
-                    <div class="swiper-slide">
-                        <div class="brand-item wow fadeInLeft" data-wow-delay="0.3s">
-                            <img src="images/brand/asos.png" alt="brand">
-                        </div>
-                    </div>
-                    <!-- item 5 -->
-                    <div class="swiper-slide">
-                        <div class="brand-item wow fadeInLeft" data-wow-delay="0.4s">
-                            <img src="images/brand/burberry.png" alt="brand">
-                        </div>
-                    </div>
-                    <!-- item 6 -->
-                    <div class="swiper-slide">
-                        <div class="brand-item wow fadeInLeft" data-wow-delay="0.5s">
-                            <img src="images/brand/forever.png" alt="brand">
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <div class="d-flex d-xl-none sw-dot-default sw-pagination-brand justify-content-center"></div>
         </div>
     </div>
+
+    <!-- /Brand -->
     <!-- /Brand -->
     <!-- Icon box -->
     <div class="flat-spacing-18">

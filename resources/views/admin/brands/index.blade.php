@@ -43,6 +43,7 @@
                                             </div>
                                         </th>
                                         <th>STT</th>
+                                        <th>Logo</th>
                                         <th>Tên Thương Hiệu</th>
                                         <th>Ngày Tạo</th>
                                         <th>Action</th>
@@ -59,6 +60,14 @@
                                                 </div>
                                             </td>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                @if ($brand->image)
+                                                    <img src="{{ asset('storage/' . $brand->image) }}"
+                                                        alt="{{ $brand->name }}" width="60">
+                                                @else
+                                                    <span class="text-muted">Chưa có</span>
+                                                @endif
+                                            </td>
                                             <td>{{ $brand->name }}</td>
                                             <td>
                                                 {{ $brand->updated_at->format('d/m/Y H:i') }}</td>
@@ -67,7 +76,8 @@
                                                     <a href="" class="btn btn-light btn-sm"><iconify-icon
                                                             icon="solar:eye-broken"
                                                             class="align-middle fs-18"></iconify-icon></a>
-                                                    <a href="{{route('admin.brands.edit',$brand->id)}}" class="btn btn-soft-primary btn-sm"><iconify-icon
+                                                    <a href="{{ route('admin.brands.edit', $brand->id) }}"
+                                                        class="btn btn-soft-primary btn-sm"><iconify-icon
                                                             icon="solar:pen-2-broken"
                                                             class="align-middle fs-18"></iconify-icon></a>
                                                     <form action="{{ route('admin.brands.destroy', $brand->id) }}"
@@ -86,7 +96,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>

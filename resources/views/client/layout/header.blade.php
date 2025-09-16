@@ -108,7 +108,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="#" class="item-link">Sale</a>
+                           <a href="{{ route('client.sale.index') }}" class="item-link">Sale</a>
                     </li>
                     <li class="menu-item position-relative">
                         <a href="#" class="item-link">Pages</a>

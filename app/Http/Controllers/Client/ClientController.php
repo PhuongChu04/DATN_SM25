@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\ProductVariantService;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 
@@ -30,12 +31,14 @@ class ClientController extends Controller
         $categories = $this->categoryService->getAllCategories();
         //  dd($categories);
         $products = Product::with('variants')
-    ->whereHas('variants')
-    ->latest()
-    ->take(10)
-    ->get();
+            ->whereHas('variants')
+            ->latest()
+            ->take(10)
+            ->get();
+        $brands = Brand::all();
 
-    
+
+
         $categoriesWithProducts = Category::with(['products' => function ($query) {
             $query->with(['firstVariant', 'colors'])
                 ->latest()
@@ -43,7 +46,7 @@ class ClientController extends Controller
         }])
             ->whereHas('products')
             ->get();
-        return view('client.home',compact('categories', 'products' ,'categoriesWithProducts'));
+        return view('client.home', compact('categories', 'products', 'categoriesWithProducts','brands'));
     }
     public function account()
     {

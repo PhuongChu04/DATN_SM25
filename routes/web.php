@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\ReviewClientController;
-
+use App\Http\Controllers\Client\SaleController; 
 Route::get('/test-address', function () {
     $json = File::get(base_path('packages/vudovn/dvhcvn/json/data.json'));
     $data = json_decode($json, true);
@@ -233,6 +233,7 @@ Route::prefix('client')->name('client.')->group(function () {
 
     //==================TRANG CHI TIẾT==================
     Route::get('/dashboard/{id}/detailProduct', [ClientProductController::class, 'detailProduct'])->name('detailProduct');
+    Route::get('/sale', [SaleController::class, 'index'])->name('sale.index');
 
     Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
     Route::get('/acc-detail', [AuthController::class, 'accountDetail'])->middleware('checkLogin')->name('accountDetail'); // show data

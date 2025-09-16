@@ -22,12 +22,22 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:brands,name',
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Brand::create(['name' => $request->name]);
+        $brand = new Brand();
+        $brand->name = $request->name;
 
-        return redirect()->route('admin.brands.index')->with('success', 'Brand added successfully!');
+        // Xử lý upload file
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('brands', 'public');
+            $brand->image = $path; // lưu path vào DB
+        }
+
+        $brand->save();
+
+        return redirect()->route('admin.brands.index')->with('success', 'Thêm thương hiệu thành công');
     }
     public function edit($id)
     {
@@ -38,11 +48,22 @@ class BrandController extends Controller
     {
         $brand = Brand::findOrFail($id);
 
+
         $request->validate([
             'name' => 'required|string|max:255|unique:brands,name,' . $id,
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+        $imagePath = $brand->image;
+        if ($request->hasFile('image')) {
+            // Xóa ảnh cũ nếu có
+            if ($imagePath && \Storage::disk('public')->exists($imagePath)) {
+                \Storage::disk('public')->delete($imagePath);
+            }
+            $imagePath = $request->file('image')->store('brands', 'public');
+        }
         $brand->update([
             'name' => $request->name,
+            'image' => $imagePath
         ]);
 
         return redirect()->route('admin.brands.index')

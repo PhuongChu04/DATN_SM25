@@ -37,8 +37,8 @@ class Product extends Model
     public function searchProducts($keyword)
     {
         return Product::where('name', 'like', '%' . $keyword . '%')
-                      ->orWhere('description', 'like', '%' . $keyword . '%')
-                      ->get();
+            ->orWhere('description', 'like', '%' . $keyword . '%')
+            ->get();
     }
     public function colors()
     {
@@ -67,11 +67,15 @@ class Product extends Model
         )->distinct();
     }
     public function albums()
-{
-    return $this->hasMany(ProductAlbum::class, 'id_product');
-}
-  public function reviews()
+    {
+        return $this->hasMany(ProductAlbum::class, 'id_product');
+    }
+    public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
     }
 }
