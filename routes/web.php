@@ -112,6 +112,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/admin/{id}', [AdminAuthController::class, 'update'])->name('update');
         Route::get('/register', [AdminAuthController::class, 'showRegisterForm'])->name('RegisterAdminForm');
         Route::post('/register', [AdminAuthController::class, 'postRegister'])->name('PostAdminRegister');
+        Route::delete('/delete/{id}', [AdminAuthController::class, 'deleteUser'])->name('DeleteAdminRegister');
+        Route::post('/admin/auth/{id}/toggle-status', [AdminAuthController::class, 'toggleStatus'])->name('toggleStatus');
     });
 
     Route::prefix('/color')->name('color.')->group(function () {

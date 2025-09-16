@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('content')
-   
+
     <div class="container-xxl">
         <div class="card overflow-hiddenCoupons">
 
@@ -46,12 +46,15 @@
                                             <span class="badge bg-info">{{ $role->name }}</span>
                                         @endforeach
                                     </td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" onchange="this.form.submit()"
-                                                {{ $value->status ? 'checked' : '' }}>
-                                        </div>
-                                    </td>
+                                   <td>
+    <form action="{{ route('admin.auth.toggleStatus', $value->id) }}" method="POST">
+        @csrf
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="status" value="1" onchange="this.form.submit()"
+                {{ $value->status ? 'checked' : '' }}>
+        </div>
+    </form>
+</td>
                                     <td class="text-center">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="#!" class="btn btn-light btn-sm" title="Xem">
@@ -63,12 +66,17 @@
                                                 <iconify-icon icon="solar:pen-2-broken"
                                                     class="align-middle fs-18"></iconify-icon>
                                             </a>
-                                            <a href="{{ route('user.deleteUser', $value->id) }}"
-                                                onclick="return confirm('Bạn có chắc chắn xóa người dùng này?')"
-                                                class="btn btn-soft-danger btn-sm" title="Xóa">
-                                                <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
-                                                    class="align-middle fs-18"></iconify-icon>
-                                            </a>
+                                            <form action="{{ route('admin.auth.DeleteAdminRegister', $value->id) }}"
+                                                method="POST" style="display:inline-block;"
+                                                onsubmit="return confirm('Bạn có chắc chắn xóa người dùng này?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-soft-danger btn-sm" title="Xóa">
+                                                    <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
+                                                        class="align-middle fs-18"></iconify-icon>
+                                                </button>
+                                            </form>
+
                                         </div>
                                     </td>
                                 </tr>

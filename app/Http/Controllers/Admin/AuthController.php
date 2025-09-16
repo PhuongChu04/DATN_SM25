@@ -30,6 +30,15 @@ class AuthController extends Controller
         ]);
         Log::info('Login attempt: ', $credentials);
 
+        // Kiểm tra trạng thái người dùng
+        $user = User::where('email', $credentials['email'])->first();
+        if ($user && $user->status == 0) {
+            Log::warning('Login failed: User is inactive', ['email' => $credentials['email']]);
+            return redirect()->back()->withErrors([
+                'error' => 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.'
+            ])->withInput();
+        }
+
         if (Sentinel::authenticate($credentials)) {
             return redirect('/admin/dashboard')->with('success', 'Đăng nhập thành công!');
         } else {
@@ -98,5 +107,24 @@ class AuthController extends Controller
     $this->adminService->createAdmin($request->only(['first_name', 'last_name', 'email', 'password', 'role']));
 
     return redirect()->route('admin.auth.listAdmin')->with('success', 'Đăng ký admin thành công!');
+}
+public function deleteUser($id)
+{
+    return $this->adminService->deleteUser($id);
+}
+public function toggleStatus(Request $request, $id)
+{
+    try {
+        $request->validate([
+            'status' => 'boolean',
+        ]);
+
+        $this->adminService->toggleStatus($id, $request->input('status', false));
+
+        return redirect()->route('admin.auth.listAdmin')->with('success', 'Cập nhật trạng thái người dùng thành công!');
+    } catch (Exception $e) {
+        Log::error('Lỗi khi cập nhật trạng thái người dùng: ' . $e->getMessage());
+        return redirect()->back()->withErrors(['error' => 'Có lỗi xảy ra khi cập nhật trạng thái.']);
+    }
 }
 }
