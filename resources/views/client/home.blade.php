@@ -223,17 +223,17 @@
                             @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <div class="wg-cls style-square hover-img">
-                                        <div>
-                                            <a href="#" class="image img-style d-block">
+                                        <a href="#category-{{ $category->id }}" class="image img-style d-block">
+                                            <div>
                                                 <img src="{{ asset('storage/' . $category->image) }}"
                                                     alt="{{ $category->name }}">
-                                            </a>
-                                        </div>
+                                            </div>
 
 
-                                        <div class="cls-content text-center">
-                                            <span class="link text-md fw-medium">{{ $category->name }}</span>
-                                        </div>
+                                            <div class="cls-content text-center">
+                                                <span class="link text-md fw-medium">{{ $category->name }}</span>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                             @endforeach
@@ -363,80 +363,81 @@
                             </div>
                         @endforeach --}}
                         @foreach ($products as $item)
-    <div class="swiper-slide">
-        <div class="card-product style-center">
-            <div class="card-product-wrapper">
-                <a href="{{ route('client.detailProduct', $item->id) }}" class="product-img">
-                    <img class="img-product lazyload"
-                         data-src="{{ asset('storage/' . $item->image_primary) }}"
-                         src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
-                    <img class="img-hover lazyload"
-                         data-src="{{ asset('storage/' . $item->image_primary) }}"
-                         src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
-                </a>
-                <div class="on-sale-wrap flex-column type-2">
-                    <span class="on-sale-item">20% Off</span>
-                    <span class="on-sale-item trending">Trending</span>
-                </div>
-                <ul class="list-product-btn">
+                            <div class="swiper-slide">
+                                <div class="card-product style-center">
+                                    <div class="card-product-wrapper">
+                                        <a href="{{ route('client.detailProduct', $item->id) }}" class="product-img">
+                                            <img class="img-product lazyload"
+                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                            <img class="img-hover lazyload"
+                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                        </a>
+                                        <div class="on-sale-wrap flex-column type-2">
+                                            <span class="on-sale-item">20% Off</span>
+                                            <span class="on-sale-item trending">Trending</span>
+                                        </div>
+                                        <ul class="list-product-btn">
 
-                    <li class="wishlist">
-                        <a href="#" class="bg-surface hover-tooltip tooltip-left box-icon">
-                            <span class="icon icon-heart2"></span>
-                            <span class="tooltip">Add to Wishlist</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#quickView" data-bs-toggle="modal"
-                           class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                            <span class="icon icon-view"></span>
-                            <span class="tooltip">Quick View</span>
-                        </a>
-                    </li>
-                    <li class="compare">
-                        <a href="#compare" data-bs-toggle="modal"
-                           class="bg-surface hover-tooltip tooltip-left box-icon">
-                            <span class="icon icon-compare"></span>
-                            <span class="tooltip">Add to Compare</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-product-info text-center">
-    <a href="{{ route('client.detailProduct', $item->id) }}"
-       class="name-product link fw-medium text-md">{{ $item->name }}</a>
-    <p class="price-wrap fw-medium">
-        <!-- Hiển thị dải giá thay thế cho giá cũ và mới -->
-        <span class="price-new" style="color: #ff4d4d;">
-            {{ $item->priceRange }} VNĐ
-        </span>
-    </p>
-    <ul class="list-color-product justify-content-center">
-        @foreach ($item->colors as $value)
-            <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                <span class="tooltip">{{ $value->name }}</span>
-                <span class="swatch-value" style="background-color: {{ $value->code }}"></span>
-            </li>
-        @endforeach
-    </ul>
-</div>
+                                            <li class="wishlist">
+                                                <a href="#" class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                    <span class="icon icon-heart2"></span>
+                                                    <span class="tooltip">Add to Wishlist</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#quickView" data-bs-toggle="modal"
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon quickview">
+                                                    <span class="icon icon-view"></span>
+                                                    <span class="tooltip">Quick View</span>
+                                                </a>
+                                            </li>
+                                            <li class="compare">
+                                                <a href="#compare" data-bs-toggle="modal"
+                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                    <span class="icon icon-compare"></span>
+                                                    <span class="tooltip">Add to Compare</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-product-info text-center">
+                                        <a href="{{ route('client.detailProduct', $item->id) }}"
+                                            class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                        <p class="price-wrap fw-medium">
+                                            <span
+                                                class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }}
+                                                ₫</span>
+                                            <span
+                                                class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }}
+                                                ₫</span>
+                                        </p>
+                                        <ul class="list-color-product justify-content-center">
+                                            @foreach ($item->colors as $value)
+                                                <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                    <span class="tooltip">{{ $value->name }}</span>
+                                                    <span class="swatch-value"
+                                                        style="background-color: {{ $value->code }}"></span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
 
-
-        </div>
-    </div>
-@endforeach
-
-<script>
-    function validateForm(formId) {
-        var form = document.getElementById(formId);
-        var select = form.querySelector('select[name="id_variant"]');
-        if (!select.value) {
-            alert('Vui lòng chọn biến thể sản phẩm!');
-            return false;
-        }
-        return true;
-    }
-</script>
+                        <script>
+                            function validateForm(formId) {
+                                var form = document.getElementById(formId);
+                                var select = form.querySelector('select[name="id_variant"]');
+                                if (!select.value) {
+                                    alert('Vui lòng chọn biến thể sản phẩm!');
+                                    return false;
+                                }
+                                return true;
+                            }
+                        </script>
 
                     </div>
                     <div class="d-flex d-xl-none sw-dot-default sw-pagination-top-pick justify-content-center">
@@ -623,6 +624,125 @@
         </div>
     </div>
     <!-- /search -->
+    <div>
+
+        <!-- Products by category -->
+        @foreach ($categoriesWithProducts as $cate)
+            <section class="bg-surface flat-spacing-8" id="category-{{ $cate->id }}">
+                <div class="container">
+                    <div class="flat-title mb_1 style-between wow fadeInUp">
+                        <div class="box-title">
+                            <h4 class="title">{{ $cate->name }}</h4>
+                        </div>
+                    </div>
+                    <div class="fl-control-sw wow fadeInUp">
+                        <div dir="ltr" class="swiper tf-swiper sw-height"
+                            data-swiper='{
+                    "slidesPerView": 2,
+                    "spaceBetween": 12,
+                    "speed": 800,
+                    "observer": true,
+                    "observeParents": true,
+                    "slidesPerGroup": 2,
+                    "navigation": {
+                        "clickable": true,
+                        "nextEl": ".nav-next-deal",
+                        "prevEl": ".nav-prev-deal"
+                    },
+                    "pagination": { "el": ".sw-pagination-deal", "clickable": true },
+                    "breakpoints": {
+                    "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },
+                    "1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+                    }
+                }'>
+                            <div class="swiper-wrapper">
+                                <!-- PRODUCTS -->
+                                @foreach ($cate->products as $item)
+                                    <div class="swiper-slide">
+                                        <div class="card-product style-center">
+                                            <div class="card-product-wrapper">
+                                                <a href="{{ route('client.detailProduct', $item->id) }}"
+                                                    class="product-img">
+                                                    <img class="img-product lazyload"
+                                                        data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                        src="{{ asset('storage/' . $item->image_primary) }}"
+                                                        alt="image-product">
+                                                    <img class="img-hover lazyload"
+                                                        data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                        src="{{ asset('storage/' . $item->image_primary) }}"
+                                                        alt="image-product">
+                                                </a>
+                                                <div class="on-sale-wrap flex-column type-2">
+                                                    <span class="on-sale-item">20% Off</span>
+                                                    <span class="on-sale-item trending">Trending</span>
+                                                </div>
+                                                <ul class="list-product-btn">
+                                                    <li>
+                                                        <a href="#quickAdd" data-bs-toggle="modal"
+                                                            class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                            <span class="icon icon-cart2"></span>
+                                                            <span class="tooltip">Quick Add</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="wishlist">
+                                                        <a href="#"
+                                                            class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                            <span class="icon icon-heart2"></span>
+                                                            <span class="tooltip">Add to Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#quickView" data-bs-toggle="modal"
+                                                            class="bg-surface hover-tooltip tooltip-left box-icon quickview">
+                                                            <span class="icon icon-view"></span>
+                                                            <span class="tooltip">Quick View</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="compare">
+                                                        <a href="#compare" data-bs-toggle="modal"
+                                                            class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                            <span class="icon icon-compare"></span>
+                                                            <span class="tooltip">Add to Compare</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-product-info text-center">
+                                                <a href="product-detail.html"
+                                                    class="name-product link fw-medium text-md">{{ $item->name }} </a>
+                                                <p class="price-wrap fw-medium">
+                                                    <span
+                                                        class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}₫</span>
+                                                    <span class="price-old old-line">190.00₫</span>
+                                                </p>
+                                                <ul class="list-color-product justify-content-center">
+                                                    @foreach ($item->colors as $value)
+                                                        <li
+                                                            class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                            <span class="tooltip">{{ $value->name }}</span>
+                                                            <span class="swatch-value"
+                                                                style="background-color: {{ $value->code }}"></span>
+
+                                                        </li>
+                                                    @endforeach
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="d-flex d-xl-none sw-dot-default sw-pagination-deal justify-content-center"></div>
+                        </div>
+                        <div class="swiper-button-next d-none d-xl-flex nav-swiper nav-next-deal"></div>
+                        <div class="swiper-button-prev d-none d-xl-flex nav-swiper nav-prev-deal"></div>
+                    </div>
+                </div>
+            </section>
+        @endforeach
+
+
+    </div>
 
 
     <!-- Brand -->

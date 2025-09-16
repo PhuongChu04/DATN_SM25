@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
@@ -26,45 +27,31 @@ class ProductController extends Controller
     }
 
     //==================Hiển thị trang chủ==================
-    public function index()
-    {
-        $products = Product::latest('id')
-    ->whereHas('variants') // chỉ lấy sản phẩm có ít nhất 1 biến thể
-    ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
-    ->paginate(10);
-        $categories = $this->categoryService->getAllCategories();
+    // public function index()
+    // {
+    //     $products = Product::latest('id')
+    //         ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
+    //         ->paginate(10);
 
-        // dd($products);
-        return view('client.products.home', compact('products', 'categories'));
-    }
+    //     $categories = $this->categoryService->getAllCategories();
 
-    public function getVariant(Request $request)
-    {
-        $productId = $request->query('product_id');
-        $colorId = $request->query('color_id');
-        $sizeId = $request->query('size_id');
+    //     $categoriesWithProducts = Category::with(['products' => function ($query) {
+    //         $query->with(['firstVariant', 'colors'])
+    //             ->latest()
+    //             ->take(8);
+    //     }])
+    //         ->whereHas('products')
+    //         ->get();
 
-        $variant = ProductVariant::where('product_id', $productId)
-                                ->where('color_id', $colorId)
-                                ->where('size_id', $sizeId)
-                                ->first();
-
-        if ($variant) {
-            return response()->json(['variant_id' => $variant->id]);
-        }
-
-        return response()->json(['variant_id' => null], 404);
-    }
-
+    //     return view('client.home', compact('products', 'categories', 'categoriesWithProducts'));
+    // }
 
     //==================Hiển thị shop - danh sách sản phẩm==================
     public function listProducts()
     {
 
-         $products = Product::latest('id')
-    ->whereHas('variants') // chỉ lấy sản phẩm có ít nhất 1 biến thể
-    ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
-    ->paginate(10);
+        $products = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
+            ->paginate(20);
         // dd($products);
         return view('client.products.shop', compact('products'));
     }
@@ -105,37 +92,9 @@ class ProductController extends Controller
 }
 
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

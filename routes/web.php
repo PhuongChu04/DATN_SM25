@@ -16,7 +16,6 @@ use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\VoucherController;
-use App\Http\Controllers\Client\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\OrderController;
@@ -236,10 +235,7 @@ Route::prefix('client')->name('client.')->group(function () {
 
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-    Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
-    
-
-
+    // Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
 
 });
 

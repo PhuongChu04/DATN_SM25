@@ -623,13 +623,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Xử lý số lượng
     btnIncrease.addEventListener('click', () => {
-        qtyInput.value = parseInt(qtyInput.value) + 1;
+        qtyInput.value = parseInt(qtyInput.value) ++;
         inputQty.value = qtyInput.value;
     });
 
     btnDecrease.addEventListener('click', () => {
         if (parseInt(qtyInput.value) > 1) {
-            qtyInput.value = parseInt(qtyInput.value) - 1;
+            // qtyInput.value = parseInt(qtyInput.value) - 1;
             inputQty.value = qtyInput.value;
         }
     });
