@@ -106,6 +106,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/create_role', [RoleController::class, 'postCreateRole'])->name('postCreateRole');
         Route::get('/attach-role', [RoleController::class, 'showAttachForm'])->name('attachRoleForm'); //form gán quyền
         Route::post('/attach-role', [RoleController::class, 'attachUserRole'])->name('attachUserRole');
+        //list admin
+        Route::get('/listAdmin', [AdminAuthController::class, 'list'])->name('listAdmin');
+        Route::get('/admin/{id}/detail', [AdminAuthController::class, 'detail'])->name('detail');
+    Route::put('/admin/{id}', [AdminAuthController::class, 'update'])->name('update');
+     Route::get('/register', [AdminAuthController::class, 'showRegisterForm'])->name('RegisterAdminForm');
+    Route::post('/register', [AdminAuthController::class, 'postRegister'])->name('PostAdminRegister');
+
+
     });
 
     Route::prefix('/color')->name('color.')->group(function () {

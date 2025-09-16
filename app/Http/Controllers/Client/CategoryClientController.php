@@ -26,8 +26,8 @@ class CategoryClientController extends Controller
         $products = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant'])
             ->when($categoryId, fn($q) => $q->where('id_category', $categoryId))
             ->latest()                // = orderBy('created_at', 'desc')
-            ->paginate(12)            // tuỳ bạn đổi 10/12/24…
-            ->withQueryString();      // giữ lại ?c=... khi chuyển trang
+            ->paginate(12);         // tuỳ bạn đổi 10/12/24…
+            // ->withQueryString();      // giữ lại ?c=... khi chuyển trang
 
         return view('client.category.listCategories', compact('categories', 'products', 'categoryId', 'categoryName'));
     }
