@@ -29,13 +29,12 @@ class ClientController extends Controller
     {
         $categories = $this->categoryService->getAllCategories();
         //  dd($categories);
-        $products = Product::with('variants')
-    ->whereHas('variants')
-    ->latest()
-    ->take(10)
-    ->get();
+        $products = Product::query()
+            ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant', 'albums'])
+            ->orderByDesc('id')
+            ->paginate(10);
 
-    
+
         $categoriesWithProducts = Category::with(['products' => function ($query) {
             $query->with(['firstVariant', 'colors'])
                 ->latest()
@@ -43,7 +42,7 @@ class ClientController extends Controller
         }])
             ->whereHas('products')
             ->get();
-        return view('client.home',compact('categories', 'products' ,'categoriesWithProducts'));
+        return view('client.home', compact('categories', 'products', 'categoriesWithProducts'));
     }
     public function account()
     {

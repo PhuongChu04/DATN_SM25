@@ -111,7 +111,7 @@
                         <a href="{{ route('client.saleProducts') }}" class="item-link">Sale</a>
                     </li>
                     <li class="menu-item position-relative">
-                        <a href="#" class="item-link">Hàng mới</a>
+                        <a href="{{ route('client.newProducts') }}" class="item-link">Hàng mới</a>
                     </li>
                     <li class="menu-item position-relative">
                         <a href="#" class="item-link">Blog</a>

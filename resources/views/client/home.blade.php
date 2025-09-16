@@ -5,16 +5,17 @@
     <style>
         .category-image-container {
             width: 250px;
-            
+
             height: 200px;
             /* Set the desired height */
-            /* overflow: hidden; */ /* Ẩn bất kỳ phần nào của hình ảnh vượt quá vùng chứa */
+            /* overflow: hidden; */
+            /* Ẩn bất kỳ phần nào của hình ảnh vượt quá vùng chứa */
             margin-bottom: 20px;
         }
 
         .category-image-container img {
             width: 100%;
-           /* Làm cho hình ảnh lấp đầy chiều rộng của vùng chứa */
+            /* Làm cho hình ảnh lấp đầy chiều rộng của vùng chứa */
             height: 100%;
             /* Làm cho hình ảnh lấp đầy chiều cao của vùng chứa */
             object-fit: cover;
@@ -242,20 +243,22 @@
                             <!-- item 1 -->
 
                             @foreach ($categories as $category)
-    <div class="swiper-slide">
-        <div class="wg-cls style-square hover-img">
-            <a href="{{ route('client.listCategoryClient', ['c' => $category->id]) }}" class="image img-style d-block">
-                <div class="category-image-container">
-                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
-                </div>
+                                <div class="swiper-slide">
+                                    <div class="wg-cls style-square hover-img">
+                                        <a href="{{ route('client.listCategoryClient', ['c' => $category->id]) }}"
+                                            class="image img-style d-block">
+                                            <div class="category-image-container">
+                                                <img src="{{ asset('storage/' . $category->image) }}"
+                                                    alt="{{ $category->name }}">
+                                            </div>
 
-                <div class="cls-content text-center">
-                    <span class="link text-md fw-medium">{{ $category->name }}</span>
-                </div>
-            </a>
-        </div>
-    </div>
-@endforeach
+                                            <div class="cls-content text-center">
+                                                <span class="link text-md fw-medium">{{ $category->name }}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
 
                         </div>
                         <div class="d-flex d-xl-none sw-dot-default sw-pagination-categories justify-content-center">
@@ -425,13 +428,26 @@
                                     <div class="card-product-info text-center">
                                         <a href="{{ route('client.detailProduct', $item->id) }}"
                                             class="name-product link fw-medium text-md">{{ $item->name }}</a>
+
+                                        @php
+                                            $variant = $item->firstVariant ?? null;
+                                        @endphp
+
                                         <p class="price-wrap fw-medium">
-                                            <span
-                                                class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }}
-                                                ₫</span>
-                                            <span
-                                                class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }}
-                                                ₫</span>
+                                            @if ($variant && $variant->sale_price && $variant->sale_price < $variant->price)
+                                                <span class="price-new text-red-500 fw-bold">
+                                                    {{ number_format($variant->sale_price, 0, ',', '.') }}đ
+                                                </span>
+                                                <span class="price-old line-through text-gray-400 ml-2">
+                                                    {{ number_format($variant->price, 0, ',', '.') }}đ
+                                                </span>
+                                            @elseif ($variant)
+                                                <span class="price-normal">
+                                                    {{ number_format($variant->price, 0, ',', '.') }}đ
+                                                </span>
+                                            @else
+                                                <span class="price-normal">N/A</span>
+                                            @endif
                                         </p>
                                         <ul class="list-color-product justify-content-center">
                                             @foreach ($item->colors as $value)
@@ -605,10 +621,25 @@
                                                     <div class="card-product-info">
                                                         <a href="product-detail.html"
                                                             class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                                        @php
+                                                            $variant = $item->firstVariant ?? null;
+                                                        @endphp
+
                                                         <p class="price-wrap fw-medium">
-                                                            <span
-                                                                class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
-                                                            {{-- <span class="price-old">$100.00</span> --}}
+                                                            @if ($variant && $variant->sale_price && $variant->sale_price < $variant->price)
+                                                                <span class="price-new text-red-500 fw-bold">
+                                                                    {{ number_format($variant->sale_price, 0, ',', '.') }}đ
+                                                                </span>
+                                                                <span class="price-old line-through text-gray-400 ml-2">
+                                                                    {{ number_format($variant->price, 0, ',', '.') }}đ
+                                                                </span>
+                                                            @elseif ($variant)
+                                                                <span class="price-normal">
+                                                                    {{ number_format($variant->price, 0, ',', '.') }}đ
+                                                                </span>
+                                                            @else
+                                                                <span class="price-normal">N/A</span>
+                                                            @endif
                                                         </p>
                                                         <ul class="list-color-product">
                                                             @foreach ($item->colors as $value)

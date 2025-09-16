@@ -90,23 +90,15 @@ class ProductController extends Controller
     }
 
     //==================Hiển thị sp mới==================
-    public function newProducts($id)
+    public function newProducts()
     {
 
-        $product = Product::with(['brand', 'category', 'colors', 'sizes', 'firstVariant', 'albums'])
-            ->findOrFail($id);
+        $products = Product::query()
+            ->with(['brand', 'category', 'colors', 'sizes', 'firstVariant', 'albums'])
+            ->orderByDesc('id')
+            ->paginate(16);
 
-        $similarProducts = Product::where(function ($query) use ($product) {
-            $query->where('id_category', $product->id_category)
-                ->orWhere('id_brand', $product->id_brand);
-        })
-            ->where('id', '!=', $product->id)
-            ->with('firstVariant', 'colors')
-            ->inRandomOrder()
-            ->take(10)
-            ->get();
-
-        return view('client.products.detailProduct', compact('product', 'similarProducts'));
+        return view('client.products.newProducts', compact('products'));
     }
 
 
