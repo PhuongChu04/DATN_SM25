@@ -1,159 +1,140 @@
 @extends('admin.layouts.layout')
 
 @section('content')
+<div class="container-xxl py-5">
+    <form action="{{ route('admin.color.bulkDeleteColor') }}" method="POST">
+        @csrf
+        @method('DELETE')
 
+        <div class="card shadow-lg border-0 rounded-3">
+            <div class="d-flex card-header justify-content-between align-items-center bg-gradient-primary text-white rounded-top-3 p-3">
+                <h4 class="mb-0 fw-bold">🎨 Danh Sách Màu</h4>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('admin.color.addColor') }}" class="btn btn-light btn-sm fw-semibold">
+                        <i class="bi bi-plus-circle me-1"></i> Thêm màu
+                    </a>
+                    <a href="{{ route('admin.color.trashColor') }}" class="btn btn-danger btn-sm fw-semibold">
+                        <i class="bi bi-trash me-1"></i> Đã xóa
+                    </a>
+                </div>
+            </div>
 
-               <!-- Start Container Fluid -->
-               <div class="container-xxl">
-                    <form action="{{route('admin.color.bulkDeleteColor')}}">
-                         @csrf
-                         @method('DELETE')
-                    <div class="row">
-                         <div class="col-xl-12">
-                              <div class="card">
-                                   <div class="d-flex card-header justify-content-between align-items-center">
-                                        <div>
-                                             
-                                             <a href="{{route('admin.color.addColor')}}" type="button" class="btn btn-secondary mb-3">Thêm màu</a>
-                                             <h4 class="card-title">Danh Sách Màu</h4>
-                                        </div>
-                                        <div class="dropdown">
-                                             <a href="{{route('admin.color.trashColor')}}" class="btn btn-soft-danger btn-sm" aria-expanded="false">
-                                                  Đã Xóa
-                                             </a>
-                                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
-                                                  This Month
-                                             </a>
-                                             <div class="dropdown-menu dropdown-menu-end">
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Download</a>
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Export</a>
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Import</a>
-                                             </div>
-                                        </div>
-                                   </div>
-                                   <div>
-                                        <div class="table-responsive">
-                                             <table class="table align-middle mb-0 table-hover table-centered">
-                                                  <thead class="bg-light-subtle">
-                                                       <tr>
-                                                            <th style="width: 20px;">
-                                                                 <div class="form-check">
-                                                                      <input type="checkbox" class="form-check-input" id="checkAll">
-                                                                      <label class="form-check-label" for="checkAll"></label>
-                                                                 </div>
-                                                            </th>
-                                                            <th>STT</th>
-                                                            
-                                                            <th>Tên Màu</th>
-                                                            <th>Mã Màu</th>
-                                                            <th>Màu</th>
-                                                            <th>Tạo Ngày</th>
-                                                            
-                                                            <th></th>
-                                                       </tr>
-                                                  </thead>
-                                               
-                                                  <tbody >
-                                   
-                                                       
-                                                      @foreach($colors as $color)
-                                                       <tr>
-                                                            <td>
-                                                                 <div class="form-check">
-                                                                      <input type="checkbox" name="ids[]" value="{{$color->id}}" class="form-check-input checkbox-item" >
-                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
-                                                                 </div>
-                                                            </td>
-                                                            <td>
-                                                                 {{ $loop->iteration }}
-                                                            </td>
-                                                          
-                                                            
-                                                            <td>{{$color->name}}</td>
-                                                            <td>{{$color->code}}</td>
-                                                            <td>
-                                                                 <div style="display: flex; align-items: center; gap: 8px;">
-                                                                      <div style="width: 20px; height: 20px; background-color: {{ $color->code }}; border: 1px solid #ccc; border-radius: 3px;"></div>
-                                                                      {{ $color->code }}
-                                                                  </div>
-                                                            </td>
-                                                            <td>{{$color->updated_at}}</td>
-                                                           
-                                                            <td>
-                                                                 <div class="d-flex gap-2">
-                                                                      {{-- <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a> --}}
-                                                                      <a href="{{route('admin.color.editColor', $color->id)}}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                      <a href="{{route('admin.color.deleteColor', $color->id)}}" class="btn btn-soft-danger btn-sm" onclick="return confirm('Bạn có muốn xóa màu này không?')"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                 </div>
-                                                            </td>
-                                                       </tr>
-                                                       @endforeach
-                                                
-                                                       
-                                                  </tbody>
-                                             </table>
-                                        </div>
-                                        <!-- end table-responsive -->
-                                   </div>
-                                   <div class="card-footer border-top">
-                                        
-                                        <nav aria-label="Page navigation example">
-                                             
-                                             <ul class="pagination justify-content-end mb-0">
-                                                  <button type="submit" class="btn btn-primary me-4" onclick="return confirm('bạn có muốn xóa các mục đã chọn?')">Xóa các mục đã chọn</button>
-                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
-                                                  <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
-                                             </ul>
-                                        </nav>
-                                   </div>
-                              </div>
-                         </div>
-                    </div>
+            <div class="table-responsive">
+                <table class="table align-middle table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 40px;">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkAll">
+                                </div>
+                            </th>
+                            <th>STT</th>
+                            <th>Tên Màu</th>
+                            <th>Mã Màu</th>
+                            <th>Màu Preview</th>
+                            <th>Ngày Cập Nhật</th>
+                            <th class="text-end">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($colors as $color)
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ids[]" value="{{ $color->id }}" class="form-check-input checkbox-item">
+                                </div>
+                            </td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td class="fw-semibold">{{ $color->name }}</td>
+                            <td><span class="badge bg-light text-dark border">{{ $color->code }}</span></td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="color-box" style="background-color: {{ $color->code }}"></div>
+                                    {{ $color->code }}
+                                </div>
+                            </td>
+                            <td>
+                                @if($color->updated_at)
+                                    {{ $color->updated_at->format('d/m/Y') }}
+                                @else
+                                    <span class="text-muted">Chưa cập nhật</span>
+                                @endif
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ route('admin.color.editColor', $color->id) }}" 
+                                       class="btn btn-outline-primary btn-sm">
+                                       <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="{{ route('admin.color.deleteColor', $color->id) }}" 
+                                       class="btn btn-outline-danger btn-sm"
+                                       onclick="return confirm('Bạn có chắc muốn xóa màu này không?')">
+                                       <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-               </div>
-          </form>
-               <!-- End Container Fluid -->
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <button type="submit" class="btn btn-danger fw-semibold"
+                        onclick="return confirm('Bạn có muốn xóa các mục đã chọn?')">
+                    <i class="bi bi-trash me-1"></i> Xóa các mục đã chọn
+                </button>
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item"><a class="page-link" href="#">«</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">»</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </form>
+</div>
 
-               <!-- ========== Footer Start ========== -->
-               <footer class="footer">
-                   <div class="container-fluid">
-                       <div class="row">
-                           <div class="col-12 text-center">
-                               <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon> <a
-                                   href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
-                           </div>
-                       </div>
-                   </div>
-               </footer>
-               <!-- ========== Footer End ========== -->
-               
-               <script>
-                       document.addEventListener('DOMContentLoaded', function () {
-                       const checkAll = document.getElementById('checkAll');
-                       const checkboxes = document.querySelectorAll('.checkbox-item');
-               
-                       // Khi bấm "Chọn tất cả"
-                       checkAll.addEventListener('change', function () {
-                           checkboxes.forEach(cb => {
-                               cb.checked = checkAll.checked;
-                           });
-                       });
-               
-                       // Nếu thay đổi checkbox con → kiểm tra lại checkbox tổng
-                       checkboxes.forEach(cb => {
-                           cb.addEventListener('change', function () {
-                               const allChecked = [...checkboxes].every(input => input.checked);
-                               checkAll.checked = allChecked;
-                           });
-                       });
-                   });
-                   </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const checkAll = document.getElementById('checkAll');
+    const checkboxes = document.querySelectorAll('.checkbox-item');
+
+    checkAll.addEventListener('change', function () {
+        checkboxes.forEach(cb => cb.checked = checkAll.checked);
+    });
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', function () {
+            checkAll.checked = [...checkboxes].every(input => input.checked);
+        });
+    });
+});
+</script>
 @endsection
 
 
+<style>
+     .color-box {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.table thead th {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+.table tbody td {
+    vertical-align: middle;
+}
+.btn-outline-primary, .btn-outline-danger {
+    border-radius: 8px;
+}
+</style>

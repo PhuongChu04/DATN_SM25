@@ -299,61 +299,46 @@
 
 @push('scripts')
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let subtotal = parseInt("{{ $subtotal ?? 0 }}"); 
-        let discountValueEl = document.getElementById("discount-value");
-        let totalValueEl = document.getElementById("total-value");
-        let inputVoucher = document.getElementById("selectedVoucher");
-
-        // hidden input
-        let discountInput = document.getElementById("discount-input");
-        let finalPriceInput = document.getElementById("final-price-input");
-
-        function formatCurrency(number) {
-            return new Intl.NumberFormat('vi-VN').format(number) + " ₫";
-        }
-
-        document.querySelectorAll(".btn-voucher-select").forEach(button => {
-            button.addEventListener("click", function () {
-                let code = this.getAttribute("data-code");
-                let type = parseInt(this.getAttribute("data-type"));
-                let amount = parseInt(this.getAttribute("data-amount")) || 0;
-                let maxDiscount = parseInt(this.getAttribute("data-max")) || 0;
-
-                let discount = 0;
-                let total = subtotal;
-
-                if (type === 0) { 
-                    discountValueEl.textContent = "Miễn phí ship";
-                    discount = 0;
-                    total = subtotal;
-                } 
-                else if (type === 1) { 
-                    discount = Math.floor(subtotal * (amount / 100));
-                    if (maxDiscount > 0 && discount > maxDiscount) {
-                        discount = maxDiscount;
-                    }
-                    discountValueEl.textContent = "-" + formatCurrency(discount);
-                    total = subtotal - discount;
-                } 
-                else if (type === 2) { 
-                    discount = amount;
-                    discountValueEl.textContent = "-" + formatCurrency(discount);
-                    total = subtotal - discount;
-                }
-
-                if (total < 0) total = 0;
-
-                inputVoucher.value = code;
-                inputVoucher.classList.add("voucher-applied");
-
-                totalValueEl.textContent = formatCurrency(total);
-
-                discountInput.value = discount;
-                finalPriceInput.value = total;
-            });
+   document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".btn-increase").forEach(button => {
+        button.addEventListener("click", function () {
+            let input = this.closest(".input-group").querySelector(".quantity-product");
+            let value = parseInt(input.value) || 1;
+            input.value = value + 1;
+            input.dispatchEvent(new Event('change')); // kích hoạt event để tính lại tổng tiền nếu cần
         });
     });
+    document.querySelectorAll(".btn-decrease").forEach(button => {
+        button.addEventListener("click", function () {
+            let input = this.closest(".input-group").querySelector(".quantity-product");
+            let value = parseInt(input.value) || 1;
+            if (value > 1) {
+                input.value = value - 1;
+                input.dispatchEvent(new Event('change'));
+            }
+        });
+    });
+    document.querySelectorAll(".quantity-product").forEach(input => {
+        input.addEventListener("change", function () {
+            let price = parseInt(this.closest(".row").querySelector(".item-total-price").dataset.price);
+            let quantity = parseInt(this.value) || 1;
+            let totalItem = price * quantity;
+            let itemTotalEl = this.closest(".row").querySelector(".item-total-price");
+            itemTotalEl.textContent = new Intl.NumberFormat('vi-VN').format(totalItem) + " ₫";
+            let subtotal = 0;
+            document.querySelectorAll(".quantity-product").forEach(qtyInput => {
+                let qty = parseInt(qtyInput.value) || 1;
+                let itemPrice = parseInt(qtyInput.closest(".row").querySelector(".item-total-price").dataset.price);
+                subtotal += qty * itemPrice;
+            });
+            let subtotalEl = document.getElementById("subtotal-value");
+            let totalEl = document.getElementById("total-value");
+            subtotalEl.textContent = new Intl.NumberFormat('vi-VN').format(subtotal) + " ₫";
+            totalEl.textContent = new Intl.NumberFormat('vi-VN').format(subtotal) + " ₫";
+            document.getElementById("final-price-input").value = subtotal;
+        });
+    });
+});
 </script>
 @endpush
 
