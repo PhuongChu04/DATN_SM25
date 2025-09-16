@@ -66,7 +66,7 @@
                                         <label for="id_category" class="form-label">Danh Mục</label>
                                         <select name="id_category" id="id_category" class="form-control">
                                             <option value="">-- Vui lòng chọn danh mục --</option>
-                                            @foreach ($categories as $category)
+                                            @foreach ($cate as $category)
                                                 <option value="{{ $category->id }}"
                                                     {{ old('id_category', $product->id_category) == $category->id ? 'selected' : '' }}>
                                                     {{ $category->name }}</option>
@@ -129,76 +129,97 @@
                             {{-- / --}}
 
 
-                    
-                                <div class="card-header">
-                                    <h4 class="card-title">Biến thể sản phẩm</h4>
-                                </div>
-                                <div class="card-body">
-                                    @forelse ($product->variants as $index => $variant)
-                                        <div class="row border pt-3 pb-3 mb-3 rounded bg-light">
-                                            <input type="hidden" name="variants[{{ $index }}][id]"
-                                                value="{{ $variant->id }}">
-                                            <div class="col-md-3">
-                                                <label class="form-label">Màu sắc</label>
-                                                <select name="variants[{{ $index }}][id_color]"
-                                                    class="form-control">
-                                                    @foreach ($colors as $color)
-                                                        <option value="{{ $color->id }}"
-                                                            {{ $variant->id_color == $color->id ? 'selected' : '' }}>
-                                                            {{ $color->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
 
-                                            <div class="col-md-3">
-                                                <label class="form-label">Kích cỡ</label>
-                                                <select name="variants[{{ $index }}][id_size]" class="form-control">
-                                                    @foreach ($sizes as $size)
-                                                        <option value="{{ $size->id }}"
-                                                            {{ $variant->id_size == $size->id ? 'selected' : '' }}>
-                                                            {{ $size->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                            <div class="card-header">
+                                <h4 class="card-title">Biến thể sản phẩm</h4>
+                            </div>
+                            <div class="card-body">
+                                @forelse ($product->variants as $index => $variant)
+                                    <div class="row border pt-3 pb-3 mb-3 rounded bg-light">
+                                        <input type="hidden" name="variants[{{ $index }}][id]"
+                                            value="{{ $variant->id }}">
+                                        <div class="col-md-3">
+                                            <label class="form-label">Màu sắc</label>
+                                            <select name="variants[{{ $index }}][id_color]" class="form-control">
+                                                @foreach ($colors as $color)
+                                                    <option value="{{ $color->id }}"
+                                                        {{ $variant->id_color == $color->id ? 'selected' : '' }}>
+                                                        {{ $color->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
-                                            <div class="col-md-3">
-                                                <label class="form-label">Giá</label>
-                                                <input type="number" class="form-control"
-                                                    name="variants[{{ $index }}][price]"
-                                                    value="{{ old('variants.' . $index . '.price', $variant->price) }}">
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label class="form-label">Số lượng</label>
-                                                <input type="number" class="form-control"
-                                                    name="variants[{{ $index }}][quantity]"
-                                                    value="{{ old('variants.' . $index . '.quantity', $variant->quantity) }}">
-                                            </div>
-                                            <div class="col-md-1 custom-delete d-flex align-items-end">
-                                                {{-- Xóa biến thể --}}
-                                                <a href="" class="btn btn-danger">xóa</a>
-                                            </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Kích cỡ</label>
+                                            <select name="variants[{{ $index }}][id_size]" class="form-control">
+                                                @foreach ($sizes as $size)
+                                                    <option value="{{ $size->id }}"
+                                                        {{ $variant->id_size == $size->id ? 'selected' : '' }}>
+                                                        {{ $size->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                    @empty
-                                        <div class="alert alert-warning">Sản phẩm này chưa có biến thể.</div>
-                                    @endforelse
-                                    <div id="variant-new-list" class="mt-3"></div>
-                                    <div class="d-flex  justify-content-end gap-2">
-                                        <div class="">
-                                            <button type="button" class="btn btn-success w-100" id="add-variant-btn">+
-                                                Thêm
-                                                biến thể</button>
+
+                                        @foreach ($product->variants as $index => $variant)
+                                            <div class="row g-3 align-items-end">
+                                                <div class="col-md-3">
+                                                    <label class="form-label">Giá</label>
+                                                    <input type="number" class="form-control"
+                                                        name="variants[{{ $index }}][price]" step="0.01"
+                                                        value="{{ old('variants.' . $index . '.price', $variant->price) }}">
+                                                    @error("variants.$index.price")
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label">Giá sale (tuỳ chọn)</label>
+                                                    <input type="number" class="form-control"
+                                                        name="variants[{{ $index }}][sale_price]" step="0.01"
+                                                        placeholder="Để trống nếu không sale"
+                                                        value="{{ old('variants.' . $index . '.sale_price', $variant->sale_price) }}">
+                                                    @error("variants.$index.sale_price")
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+
+                                                {{-- các field khác: màu, size, quantity... --}}
+                                                <input type="hidden" name="variants[{{ $index }}][id]"
+                                                    value="{{ $variant->id }}">
+                                            </div>
+                                        @endforeach
+                                        <div class="col-md-2">
+                                            <label class="form-label">Số lượng</label>
+                                            <input type="number" class="form-control"
+                                                name="variants[{{ $index }}][quantity]"
+                                                value="{{ old('variants.' . $index . '.quantity', $variant->quantity) }}">
                                         </div>
-                                        <div class="">
-                                            <button type="submit" class="btn btn-primary w-100">Lưu</button>
-                                        </div>
-                                        <div class="">
-                                            <a href="{{ route('admin.product.listProduct') }}"
-                                                class="btn btn-primary w-100">Hủy</a>
+                                        <div class="col-md-1 custom-delete d-flex align-items-end">
+                                            {{-- Xóa biến thể --}}
+                                            <a href="" class="btn btn-danger">xóa</a>
                                         </div>
                                     </div>
+                                @empty
+                                    <div class="alert alert-warning">Sản phẩm này chưa có biến thể.</div>
+                                @endforelse
+                                <div id="variant-new-list" class="mt-3"></div>
+                                <div class="d-flex  justify-content-end gap-2">
+                                    <div class="">
+                                        <button type="button" class="btn btn-success w-100" id="add-variant-btn">+
+                                            Thêm
+                                            biến thể</button>
+                                    </div>
+                                    <div class="">
+                                        <button type="submit" class="btn btn-primary w-100">Lưu</button>
+                                    </div>
+                                    <div class="">
+                                        <a href="{{ route('admin.product.listProduct') }}"
+                                            class="btn btn-primary w-100">Hủy</a>
+                                    </div>
                                 </div>
+                            </div>
 
 
 

@@ -12,6 +12,7 @@ use App\Services\ProductService;
 use App\Services\ProductVariantService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -26,86 +27,167 @@ class ProductController extends Controller
     public function list()
     {
         $products = $this->productService->getAllProducts();
-
         return view('admin.product.list-product', compact('products'));
     }
     public function create()
     {
         $brands = Brand::all();
-        $categories = Category::all();
+        $cate = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
-        return view('admin.product.create-product', compact('brands', 'categories', 'colors', 'sizes'));
+        return view('admin.product.create-product', compact('cate', 'brands', 'colors', 'sizes'));
     }
+
     public function postCreate(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:250|unique:products,name',
             'description' => 'nullable|string',
             'id_brand' => 'required|exists:brands,id',
             'id_category' => 'required|exists:categories,id',
             'image_primary' => 'required|image|mimes:jpg,png,jpeg|max:2048',
             'status' => 'in:active,inactive',
-            // validate mảng biến thể
-            'variants' => 'required|array',
+
+            // mảng biến thể
+            'variants' => 'required|array|min:1',
             'variants.*.id_color' => 'required|exists:colors,id',
             'variants.*.id_size' => 'required|exists:sizes,id',
-            'variants.*.price' => 'required|numeric|min:0',
             'variants.*.quantity' => 'required|integer|min:0',
+            'variants.*.price' => 'required|numeric|min:0',
+            'variants.*.sale_price' => 'nullable|numeric|min:0',
         ]);
+
+        // Ràng buộc sale_price < price cho từng biến thể (nếu có sale_price)
+        $validator->after(function ($v) use ($request) {
+            foreach (($request->input('variants') ?? []) as $idx => $var) {
+                if (isset($var['sale_price']) && $var['sale_price'] !== null && $var['sale_price'] !== '') {
+                    $sale = (float)$var['sale_price'];
+                    $price = (float)($var['price'] ?? 0);
+                    if ($sale >= $price) {
+                        $v->errors()->add("variants.$idx.sale_price", "Giá sale phải nhỏ hơn giá gốc (hàng #" . ($idx + 1) . ").");
+                    }
+                }
+            }
+        });
+
+        $validator->validate();
+
+        // Tạo sản phẩm
         $product = $this->productService->createProduct($request->all());
+
         if ($product) {
-            // Tạo biến thể
+            // Tạo biến thể (có cả sale_price)
             foreach ($request->variants as $variant) {
                 $variant['id_product'] = $product->id;
+                // Nếu rỗng thì set null
+                if (($variant['sale_price'] ?? '') === '') {
+                    $variant['sale_price'] = null;
+                }
                 $this->productVariantService->createProductVariant($variant);
             }
 
             return redirect()->route('admin.product.listProduct')
                 ->with('success', 'Thêm sản phẩm và biến thể thành công');
         }
+
+        return back()->withErrors(['error' => 'Không thể tạo sản phẩm.'])->withInput();
     }
+
     public function edit($id)
     {
         $product = $this->productService->getProductById($id);
         $brands = Brand::all();
-        $categories = Category::all();
+        $cate = Category::all();
 
         $colors = Color::all();
         $sizes = Size::all();
-        return view('admin.product.edit-product', compact('product', 'brands', 'categories', 'colors', 'sizes'));
+        return view('admin.product.edit-product', compact('product', 'brands', 'cate', 'colors', 'sizes'));
     }
+
     public function postEdit(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:250|unique:products,name,' . $id,
-            'description' => 'nullable|string',
-            'id_brand' => 'required|exists:brands,id',
-            'id_category' => 'required|exists:categories,id',
+        // Validate phần product
+        $validator = Validator::make($request->all(), [
+            'name'          => 'required|string|max:250|unique:products,name,' . $id,
+            'description'   => 'nullable|string',
+            'id_brand'      => 'required|exists:brands,id',
+            'id_category'   => 'required|exists:categories,id',
             'image_primary' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'status' => 'in:active,inactive',
+            'status'        => 'in:active,inactive',
+
+            // --- biến thể cũ ---
+            'variants'                  => 'nullable|array',
+            'variants.*.id'             => 'required_with:variants|integer|exists:product_variants,id',
+            'variants.*.id_color'       => 'nullable|integer|exists:colors,id',
+            'variants.*.id_size'        => 'nullable|integer|exists:sizes,id',
+            'variants.*.quantity'       => 'nullable|integer|min:0',
+            'variants.*.price'          => 'nullable|numeric|min:0',
+            'variants.*.sale_price'     => 'nullable|numeric|min:0',
+
+            // --- biến thể mới ---
+            'variants_new'              => 'nullable|array',
+            'variants_new.*.id_color'   => 'required_with:variants_new|integer|exists:colors,id',
+            'variants_new.*.id_size'    => 'required_with:variants_new|integer|exists:sizes,id',
+            'variants_new.*.quantity'   => 'required_with:variants_new|integer|min:0',
+            'variants_new.*.price'      => 'required_with:variants_new|numeric|min:0',
+            'variants_new.*.sale_price' => 'nullable|numeric|min:0',
         ]);
+
+        // Ràng buộc: sale_price < price cho từng item (cũ & mới)
+        $validator->after(function ($v) use ($request) {
+            foreach (($request->input('variants') ?? []) as $idx => $var) {
+                $price = isset($var['price']) ? (float)$var['price'] : null;
+                $sale  = isset($var['sale_price']) && $var['sale_price'] !== '' ? (float)$var['sale_price'] : null;
+                if ($sale !== null && $price !== null && $sale >= $price) {
+                    $v->errors()->add("variants.$idx.sale_price", "Giá sale phải nhỏ hơn giá gốc (hàng #" . ($idx + 1) . ").");
+                }
+            }
+            foreach (($request->input('variants_new') ?? []) as $idx => $var) {
+                $price = isset($var['price']) ? (float)$var['price'] : null;
+                $sale  = isset($var['sale_price']) && $var['sale_price'] !== '' ? (float)$var['sale_price'] : null;
+                if ($sale !== null && $price !== null && $sale >= $price) {
+                    $v->errors()->add("variants_new.$idx.sale_price", "Giá sale phải nhỏ hơn giá gốc (mới #" . ($idx + 1) . ").");
+                }
+            }
+        });
+
+        $validator->validate();
+
+        // Cập nhật product
         $product = $this->productService->updateProduct($request->all(), $id);
-        if ($product) {
-            // Cập nhật biến thể cũ
-            if ($request->has('variants')) {
-                foreach ($request->variants as $variantData) {
-                    if (!empty($variantData['id'])) {
-                        $this->productVariantService->updateProductVariant($variantData, $variantData['id']);
-                    }
-                }
-            }
-            // Thêm mới biến thể mới
-            if ($request->has('variants_new')) {
-                foreach ($request->variants_new as $variantNew) {
-                    $variantNew['id_product'] = $id;
-                    $this->productVariantService->createProductVariant($variantNew);
-                }
-            }
-            return redirect()->route('admin.product.listProduct')->with('success', 'Cập nhật sản phẩm thành công');
+        if (!$product) {
+            return redirect()->route('admin.product.edit', $id)
+                ->with('error', 'Cập nhật sản phẩm thất bại');
         }
-        return redirect()->route('admin.product.edit')->with('error', 'Cập nhật sản phẩm thất bại');
+
+        // --- cập nhật biến thể cũ ---
+        if ($request->filled('variants')) {
+            foreach ($request->variants as $variantData) {
+                if (!empty($variantData['id'])) {
+                    // sale_price rỗng -> null
+                    if (!isset($variantData['sale_price']) || $variantData['sale_price'] === '') {
+                        $variantData['sale_price'] = null;
+                    }
+                    $this->productVariantService->updateProductVariant($variantData, $variantData['id']);
+                }
+            }
+        }
+
+        // --- thêm biến thể mới ---
+        if ($request->filled('variants_new')) {
+            foreach ($request->variants_new as $variantNew) {
+                $variantNew['id_product'] = $id;
+                if (!isset($variantNew['sale_price']) || $variantNew['sale_price'] === '') {
+                    $variantNew['sale_price'] = null;
+                }
+                $this->productVariantService->createProductVariant($variantNew);
+            }
+        }
+
+        return redirect()->route('admin.product.listProduct')
+            ->with('success', 'Cập nhật sản phẩm thành công');
     }
+
     public function detail($id)
     {
         $product = $this->productService->getProductById($id);
