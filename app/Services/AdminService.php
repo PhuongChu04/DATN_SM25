@@ -18,7 +18,8 @@ class AdminService
             $query->whereIn('slug', ['super-admin', 'admin']);
         })->paginate($perPage);
     }
-     public function getAdminById($id)
+
+    public function getAdminById($id)
     {
         return User::with('roles')->findOrFail($id);
     }
@@ -33,7 +34,6 @@ class AdminService
             'last_name' => $data['last_name'] ?? $user->last_name,
         ]);
 
-        // cập nhật roles
         if (isset($data['roles'])) {
             $user->roles()->sync($data['roles']);
         }
@@ -45,26 +45,31 @@ class AdminService
     {
         return Role::all();
     }
-    //add
 
     public function createAdmin(array $data)
     {
-        // Tạo user
-        $user = User::create([
+        Log::info('Creating admin with data: ', $data);
+
+        // Đăng ký người dùng qua Sentinel
+        $user = Sentinel::registerAndActivate([
             'first_name' => $data['first_name'],
             'last_name'  => $data['last_name'],
             'email'      => $data['email'],
-            'password'   => Hash::make($data['password']),
-            'status'     => 1, // active
+            'password'   => $data['password'],
         ]);
 
-        // Kiểm tra role tồn tại trước khi attach
+        // Cập nhật trạng thái
+        $user->status = 1;
+        $user->save();
+
+        // Gắn role
         if (!empty($data['role'])) {
             $role = Role::where('slug', $data['role'])->first();
             if ($role) {
                 $user->roles()->attach($role->id);
+                Log::info('Attached role: ' . $data['role'] . ' to user: ' . $user->email);
             } else {
-                Log::error('Role không tồn tại: '.$data['role']);
+                Log::error('Role không tồn tại: ' . $data['role']);
             }
         }
 

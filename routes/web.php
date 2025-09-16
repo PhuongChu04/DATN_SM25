@@ -58,7 +58,7 @@ use Faker\Guesser\Name;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkAdmin')->name('homeAdmin');
-       Route::get('/dashboard/revenue-chart-data', [AdminController::class, 'getRevenueChartData'])
+    Route::get('/dashboard/revenue-chart-data', [AdminController::class, 'getRevenueChartData'])
         ->name('dashboard.revenueChartData');
 
 
@@ -109,11 +109,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         //list admin
         Route::get('/listAdmin', [AdminAuthController::class, 'list'])->name('listAdmin');
         Route::get('/admin/{id}/detail', [AdminAuthController::class, 'detail'])->name('detail');
-    Route::put('/admin/{id}', [AdminAuthController::class, 'update'])->name('update');
-     Route::get('/register', [AdminAuthController::class, 'showRegisterForm'])->name('RegisterAdminForm');
-    Route::post('/register', [AdminAuthController::class, 'postRegister'])->name('PostAdminRegister');
-
-
+        Route::put('/admin/{id}', [AdminAuthController::class, 'update'])->name('update');
+        Route::get('/register', [AdminAuthController::class, 'showRegisterForm'])->name('RegisterAdminForm');
+        Route::post('/register', [AdminAuthController::class, 'postRegister'])->name('PostAdminRegister');
     });
 
     Route::prefix('/color')->name('color.')->group(function () {
@@ -162,6 +160,43 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/bulk-delete', [VoucherController::class, 'bulkDelete'])->name('bulkDeleteVoucher');
         Route::get('/bulk-restore', [VoucherController::class, 'bulkRestore'])->name('bulkRestoreVoucher');
     });
+
+
+    //brand
+    Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
+
+    Route::get('/brands/create', [BrandController::class, 'create'])->name('brands.create');
+    Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
+
+    Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
+
+    Route::get('/brands/{id}/edit', [BrandController::class, 'edit'])->name('brands.edit');
+    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+
+//ship
+ // Shipping routes
+    Route::get('/shippings', [ShippingController::class, 'index'])->name('shippings.index');
+    Route::get('/shippings/create', [ShippingController::class, 'create'])->name('shippings.create');
+    Route::post('/shippings', [ShippingController::class, 'store'])->name('shippings.store');
+    Route::get('/shippings/{shipping}/edit', [ShippingController::class, 'edit'])->name('shippings.edit');
+    Route::put('/shippings/{shipping}', [ShippingController::class, 'update'])->name('shippings.update');
+    Route::delete('/shippings/{shipping}', [ShippingController::class, 'destroy'])->name('shippings.destroy');
+
+    // Shipping Rates routes
+    Route::get('/shipping-rates', [ShippingRateController::class, 'index'])->name('shipping-rates.index');
+    Route::get('/shipping-rates/create', [ShippingRateController::class, 'create'])->name('shipping-rates.create');
+    Route::post('/shipping-rates', [ShippingRateController::class, 'store'])->name('shipping-rates.store');
+    Route::get('/shipping-rates/{shippingRate}/edit', [ShippingRateController::class, 'edit'])->name('shipping-rates.edit');
+    Route::put('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'update'])->name('shipping-rates.update');
+    Route::delete('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'destroy'])->name('shipping-rates.destroy');
+    //Bình luận 
+     Route::prefix('reviews')->name('reviews.')->group(function () {
+        Route::get('/', [ReviewController::class, 'index'])->name('index');
+        Route::get('/{review}/edit', [ReviewController::class, 'edit'])->name('edit');
+        Route::put('/{review}', [ReviewController::class, 'update'])->name('update');
+        Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
+    });
+
 });
 
 
@@ -192,36 +227,9 @@ Route::prefix('listCategory')->name('listCategory.')->group(function () {
 });
 //brand
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
 
-    Route::get('/brands/create', [BrandController::class, 'create'])->name('brands.create');
-    Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
 
-    Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
 
-    Route::get('/brands/{id}/edit', [BrandController::class, 'edit'])->name('brands.edit');
-    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-});
-
-Route::prefix('admin')->name('admin.')->group(function () {
-
-    // Shipping routes
-    Route::get('/shippings', [ShippingController::class, 'index'])->name('shippings.index');
-    Route::get('/shippings/create', [ShippingController::class, 'create'])->name('shippings.create');
-    Route::post('/shippings', [ShippingController::class, 'store'])->name('shippings.store');
-    Route::get('/shippings/{shipping}/edit', [ShippingController::class, 'edit'])->name('shippings.edit');
-    Route::put('/shippings/{shipping}', [ShippingController::class, 'update'])->name('shippings.update');
-    Route::delete('/shippings/{shipping}', [ShippingController::class, 'destroy'])->name('shippings.destroy');
-
-    // Shipping Rates routes
-    Route::get('/shipping-rates', [ShippingRateController::class, 'index'])->name('shipping-rates.index');
-    Route::get('/shipping-rates/create', [ShippingRateController::class, 'create'])->name('shipping-rates.create');
-    Route::post('/shipping-rates', [ShippingRateController::class, 'store'])->name('shipping-rates.store');
-    Route::get('/shipping-rates/{shippingRate}/edit', [ShippingRateController::class, 'edit'])->name('shipping-rates.edit');
-    Route::put('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'update'])->name('shipping-rates.update');
-    Route::delete('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'destroy'])->name('shipping-rates.destroy');
-});
 
 //client
 Route::prefix('client')->name('client.')->group(function () {
@@ -272,8 +280,6 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
     // Route để chọn địa chỉ giao hàng
     Route::post('/select-address', [AddressController::class, 'selectAddress'])->name('address.select');
-
-
 });
 Route::prefix('/auth')->name('auth.')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'login'])->name('loginClient');
@@ -285,14 +291,7 @@ Route::prefix('/auth')->name('auth.')->group(function () {
 // bình luận
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::prefix('reviews')->name('reviews.')->group(function () {
-        Route::get('/', [ReviewController::class, 'index'])->name('index');
-        Route::get('/{review}/edit', [ReviewController::class, 'edit'])->name('edit');
-        Route::put('/{review}', [ReviewController::class, 'update'])->name('update');
-        Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
-    });
-});
+
 
 
 
@@ -320,11 +319,9 @@ Route::middleware('checkLogin')->group(function () {
     Route::get('client/orders/{order}/cancel-confirm', [OrderClientController::class, 'cancelConfirm'])->name('client.orders.cancelConfirm');
     Route::post('client/orders/{order}/cancel-finalize', [OrderClientController::class, 'cancelFinalize'])->name('client.orders.cancelFinalize');
     Route::post('client/orders/{order}/cancel-action', [OrderClientController::class, 'cancelAction'])->name('client.orders.cancelAction');
-
 });
 // Route cho việc đánh giá client
 Route::middleware('checkLogin')->group(function () {
     Route::get('reviews/create/{orderId}/{productId}', [ReviewClientController::class, 'create'])->name('client.reviews.create');
     Route::post('reviews/store/{orderId}', [ReviewClientController::class, 'store'])->name('client.reviews.store');
-
 });

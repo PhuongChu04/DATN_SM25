@@ -51,7 +51,7 @@
                     <label for="role" class="form-label">Quyền</label>
                     <select name="role" id="role" class="form-select" required>
                         <option value="">-- Chọn quyền --</option>
-                        <option value="super-admin" {{ old('role') == 'super_admin' ? 'selected' : '' }}>Super Admin</option>
+                        <option value="super-admin" {{ old('role') == 'super-admin' ? 'selected' : '' }}>Super Admin</option>
                         <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                     </select>
                     @error('role')
