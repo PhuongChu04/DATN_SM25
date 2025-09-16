@@ -213,12 +213,14 @@
 
                                     </div>
                                     <div class="product-price">
+
                                             <p class="display-sm price-new">
                                                 <!-- Hiển thị dải giá thay thế cho giá cũ và mới -->
                                                 <span class="price-new" style="color: #ff4d4d;">
                                                     {{ $priceRange }}
                                                 </span>
                                             </p>
+
                                     </div>
                                 </div>
 
