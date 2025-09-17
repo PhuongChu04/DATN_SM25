@@ -330,11 +330,11 @@ Route::prefix('/auth')->name('auth.')->group(function () {
 
 
 
-// Route::prefix('admin')->name('admin.')->group(function () {
-//     Route::get('/contacts', [AdminContactController::class, 'index'])->name('contacts.index');
-//     Route::get('/contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
-//     Route::delete('/contacts/{contact}', [AdminContactController::class, 'destroy'])->name('contacts.destroy');
-// });
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/contacts', [AdminContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
+    Route::delete('/contacts/{contact}', [AdminContactController::class, 'destroy'])->name('contacts.destroy');
+});
 
 
 
