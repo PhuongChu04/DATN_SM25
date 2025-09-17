@@ -2742,7 +2742,7 @@
     <!-- /Reset pass -->
 
     <!-- search -->
-    <div class="modal fade popup-search" id="search">
+    {{-- <div class="modal fade popup-search" id="search">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="header">
@@ -3161,7 +3161,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- /search -->
 
     <!-- shoppingCart -->

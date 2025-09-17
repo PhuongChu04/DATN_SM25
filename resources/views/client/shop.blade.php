@@ -535,7 +535,7 @@
         </div>
     </section>
 
-   <!-- search -->
+    {{-- <!-- search -->
     <div class="modal fade popup-search" id="search">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
@@ -549,8 +549,9 @@
                                 <div class="heading">Bạn đang tìm kiếm gì?</div>
                                 <form class="form-search" action="{{ route('client.shop.search') }}" method="GET">
                                     <fieldset class="text">
-                                        <input type="text" placeholder="Search" class="" name="search" tabindex="0"
-                                            value="{{ request('search') }}" aria-required="true" required="">
+                                        <input type="text" placeholder="Search" class="" name="search"
+                                            tabindex="0" value="{{ request('search') }}" aria-required="true"
+                                            required="">
                                     </fieldset>
                                     <button type="submit">
                                         <i class="icon icon-search"></i>
@@ -570,7 +571,8 @@
                         <div class="col-lg-12">
                             <div class="featured-product">
                                 <div class="text-xl-2 fw-medium featured-product-heading">Featured product</div>
-                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over" data-swiper='{
+                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over"
+                                    data-swiper='{
                                         "slidesPerView": 2,
                                         "spaceBetween": 12,
                                         "speed": 800,
@@ -579,94 +581,95 @@
                                         "slidesPerGroup": 2,
                                         "pagination": { "el": ".sw-pagination-search", "clickable": true },
                                         "breakpoints": {
-                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },
-
-"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
 
                                         }
                                     }'>
                                     <div class="swiper-wrapper">
                                         @foreach ($products as $item)
                                             <div class="swiper-slide">
-                                            <div class="card-product style-3 card-product-size">
-                                                <div class="card-product-wrapper">
-                                                    <a href="product-detail.html" class="product-img">
-                                                        <img class="img-product lazyload"
-                                                            data-src="{{asset('storage/'.$item->image_primary)}}"
-                                                            src="{{asset('storage/'.$item->image_primary)}}"
-                                                            alt="image-product">
-                                                        <img class="img-hover lazyload"
-                                                            data-src="{{asset('storage/'.$item->image_primary)}}"
-                                                            src="{{asset('storage/'.$item->image_primary)}}"
-                                                            alt="image-product">
-                                                    </a>
-                                                    <ul class="list-product-btn">
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-                                                                class="box-icon hover-tooltip wishlist">
-                                                                <span class="icon icon-heart2"></span>
-                                                                <span class="tooltip">Add to Wishlist</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-                                                                class="btn-quickview box-icon hover-tooltip quickview">
-                                                                <span class="icon icon-view"></span>
-                                                                <span class="tooltip">Quick View</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-
-class="box-icon hover-tooltip compare btn-compare">
-
-                                                                <span class="icon icon-compare"></span>
-                                                                <span class="tooltip">Add to Compare</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="product-btn-main">
-                                                        <a href="#shoppingCart" data-bs-toggle="offcanvas"
-                                                            class="btn-main-product">
-                                                            <span class="icon icon-cart2"></span>
-                                                            <span class="text-md fw-medium">
-                                                                Add to Cart
-                                                            </span>
+                                                <div class="card-product style-3 card-product-size">
+                                                    <div class="card-product-wrapper">
+                                                        <a href="product-detail.html" class="product-img">
+                                                            <img class="img-product lazyload"
+                                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                alt="image-product">
+                                                            <img class="img-hover lazyload"
+                                                                data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                alt="image-product">
                                                         </a>
+                                                        <ul class="list-product-btn">
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="box-icon hover-tooltip wishlist">
+                                                                    <span class="icon icon-heart2"></span>
+                                                                    <span class="tooltip">Add to Wishlist</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="btn-quickview box-icon hover-tooltip quickview">
+                                                                    <span class="icon icon-view"></span>
+                                                                    <span class="tooltip">Quick View</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    class="box-icon hover-tooltip compare btn-compare">
+
+                                                                    <span class="icon icon-compare"></span>
+                                                                    <span class="tooltip">Add to Compare</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="product-btn-main">
+                                                            <a href="#shoppingCart" data-bs-toggle="offcanvas"
+                                                                class="btn-main-product">
+                                                                <span class="icon icon-cart2"></span>
+                                                                <span class="text-md fw-medium">
+                                                                    Add to Cart
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                        <ul class="size-box">
+                                                            @foreach ($item->sizes as $value)
+                                                                <li class="size-item text-xs text-white">
+                                                                    {{ $value->name }}</li>
+                                                            @endforeach
+
+                                                        </ul>
                                                     </div>
-                                                    <ul class="size-box">
-                                                        @foreach ($item->sizes as $value)
-                                                            <li class="size-item text-xs text-white">{{$value->name}}</li>
-                                                        @endforeach
+                                                    <div class="card-product-info">
+                                                        <a href="product-detail.html"
+                                                            class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                                        <p class="price-wrap fw-medium">
+                                                            <span
+                                                                class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
+                                                            {{-- <span class="price-old">$100.00</span> --}}
+                                                        </p>
+                                                        <ul class="list-color-product">
+                                                            @foreach ($item->colors as $value)
+                                                                <li
+                                                                    class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                                    <span
+                                                                        class="tooltip color-filter">{{ $value->name }}</span>
+                                                                    <span class="swatch-value"
+                                                                        style="background-color: {{ $value->code }}"></span>
 
-                                                    </ul>
-                                                </div>
-                                                <div class="card-product-info">
-                                                    <a href="product-detail.html"
-                                                        class="name-product link fw-medium text-md">{{$item->name}}</a>
-                                                    <p class="price-wrap fw-medium">
-                                                        <span class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
-                                                        {{-- <span class="price-old">$100.00</span> --}}
-                                                    </p>
-                                                    <ul class="list-color-product">
-                                                        @foreach ($item->colors as $value)
-                                                            <li
-                                                            class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                                            <span class="tooltip color-filter">{{$value->name}}</span>
-                                                            <span class="swatch-value" style="background-color: {{$value->code}}"></span>
-
-{{-- <img class="lazyload"
+                                                                    {{-- <img class="lazyload"
 
                                                                 data-src="images/products/fashion/product-27.jpg"
                                                                 src="images/products/fashion/product-27.jpg"
                                                                 alt="image-product"> --}}
-                                                        </li>
-                                                        @endforeach
+                                                                </li>
+                                                            @endforeach
 
-                                                    </ul>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         @endforeach
                                     </div>
                                     <div
@@ -680,7 +683,7 @@ class="box-icon hover-tooltip compare btn-compare">
             </div>
         </div>
     </div>
-    <!-- /search -->
+    <!-- /search --> 
     <!-- shoppingCart -->
     <div class="offcanvas offcanvas-end popup-style-1 popup-shopping-cart" id="shoppingCart">
         <div class="canvas-wrapper">
@@ -727,12 +730,12 @@ class="box-icon hover-tooltip compare btn-compare">
                                         </div>
                                         <p class="price-wrap text-sm fw-medium">
                                             <span class="new-price text-primary">$130.00</span>
-                                            <span
-                                                class="old-price text-decoration-line-through text-dark-1">$150.00</span>
+                                            <span class="old-price text-decoration-line-through text-dark-1">$150.00</span>
                                         </p>
                                         <div class="wg-quantity small">
                                             <button class="btn-quantity minus-btn">-</button>
-                                            <input class="quantity-product font-4" type="text" name="number" value="1">
+                                            <input class="quantity-product font-4" type="text" name="number"
+                                                value="1">
                                             <button class="btn-quantity plus-btn">+</button>
                                         </div>
                                     </div>
@@ -760,12 +763,12 @@ class="box-icon hover-tooltip compare btn-compare">
                                         </div>
                                         <p class="price-wrap text-sm fw-medium">
                                             <span class="new-price text-primary">$130.00</span>
-                                            <span
-                                                class="old-price text-decoration-line-through text-dark-1">$150.00</span>
+                                            <span class="old-price text-decoration-line-through text-dark-1">$150.00</span>
                                         </p>
                                         <div class="wg-quantity small">
                                             <button class="btn-quantity minus-btn">-</button>
-                                            <input class="quantity-product font-4" type="text" name="number" value="1">
+                                            <input class="quantity-product font-4" type="text" name="number"
+                                                value="1">
                                             <button class="btn-quantity plus-btn">+</button>
                                         </div>
                                     </div>
@@ -777,15 +780,14 @@ class="box-icon hover-tooltip compare btn-compare">
                                     <div class="tf-minicart-recommendations-title text-md fw-medium">You may also
                                         like</div>
                                     <div class="d-flex gap-10">
-                                        <div
-                                            class="swiper-button-prev nav-swiper arrow-1 size-30 nav-prev-also-product">
+                                        <div class="swiper-button-prev nav-swiper arrow-1 size-30 nav-prev-also-product">
                                         </div>
-                                        <div
-                                            class="swiper-button-next nav-swiper arrow-1 size-30 nav-next-also-product">
+                                        <div class="swiper-button-next nav-swiper arrow-1 size-30 nav-next-also-product">
                                         </div>
                                     </div>
                                 </div>
-                                <div dir="ltr" class="swiper tf-swiper" data-swiper='{
+                                <div dir="ltr" class="swiper tf-swiper"
+                                    data-swiper='{
                                             "slidesPerView": 1,
                                             "spaceBetween": 10,
                                             "speed": 800,
@@ -805,8 +807,7 @@ class="box-icon hover-tooltip compare btn-compare">
                                                     <a href="product-detail.html">
                                                         <img class="lazyload"
                                                             data-src="images/products/fashion/product-1.jpg"
-                                                            src="images/products/fashion/product-1.jpg"
-                                                            alt="img-product">
+                                                            src="images/products/fashion/product-1.jpg" alt="img-product">
                                                     </a>
                                                 </div>
                                                 <div class="tf-mini-cart-info justify-content-center">
@@ -829,8 +830,7 @@ class="box-icon hover-tooltip compare btn-compare">
                                                     <a href="product-detail.html">
                                                         <img class="lazyload"
                                                             data-src="images/products/fashion/product-2.jpg"
-                                                            src="images/products/fashion/product-2.jpg"
-                                                            alt="img-product">
+                                                            src="images/products/fashion/product-2.jpg" alt="img-product">
                                                     </a>
                                                 </div>
                                                 <div class="tf-mini-cart-info justify-content-center">
@@ -853,8 +853,7 @@ class="box-icon hover-tooltip compare btn-compare">
                                                     <a href="product-detail.html">
                                                         <img class="lazyload"
                                                             data-src="images/products/fashion/product-3.jpg"
-                                                            src="images/products/fashion/product-3.jpg"
-                                                            alt="img-product">
+                                                            src="images/products/fashion/product-3.jpg" alt="img-product">
                                                     </a>
                                                 </div>
                                                 <div class="tf-mini-cart-info justify-content-center">
@@ -904,7 +903,8 @@ class="box-icon hover-tooltip compare btn-compare">
                             </div>
                             <div class="tf-cart-checkbox">
                                 <div class="tf-checkbox-wrapp">
-                                    <input class="" type="checkbox" id="CartDrawer-Form_agree" name="agree_checkbox">
+                                    <input class="" type="checkbox" id="CartDrawer-Form_agree"
+                                        name="agree_checkbox">
                                     <div>
                                         <i class="icon-check"></i>
                                     </div>
@@ -1014,7 +1014,8 @@ class="box-icon hover-tooltip compare btn-compare">
                             </div>
                             <div class="field">
                                 <p class="text-sm">Zipcode</p>
-                                <input type="text" data-opend-focus id="zipcode" name="address[zip]" value="">
+                                <input type="text" data-opend-focus id="zipcode" name="address[zip]"
+                                    value="">
                             </div>
                             <div id="zipcode-message" class="error" style="display: none;">
                                 We found one shipping rate available for undefined.
@@ -1425,6 +1426,4 @@ class="box-icon hover-tooltip compare btn-compare">
         </div>
     </div>
     <!-- /Filter Shop -->
-
-
 @endsection

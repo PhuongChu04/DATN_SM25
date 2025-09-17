@@ -461,68 +461,51 @@
                 <div class="wrapper-shop tf-grid-layout tf-col-4" id="gridLayout">
                     <!-- List Products -->
                     @foreach ($products as $item)
-                        <div class="card-product grid card-product-size" data-availability="In stock"
-                            data-brand="Vineta">
-                            <div class="card-product-wrapper">
-                                <a href="{{route('client.detailProduct', $item->id)}}" class="product-img">
-                                    <img class="img-product lazyload"
-                                        data-src="{{ asset('storage/' . $item->image_primary) }}"
-                                        src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
-                                    <img class="img-hover lazyload"
-                                        data-src="{{ asset('storage/' . $item->image_primary) }}"
-                                        src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
-                                </a>
-                                <ul class="list-product-btn">
-                                    <li>
-                                        <a href="#shoppingCart" data-bs-toggle="offcanvas"
-                                            class="box-icon hover-tooltip tooltip-left">
-                                            <span class="icon icon-cart2"></span>
-                                            <span class="tooltip">Add to Cart</span>
-                                        </a>
-                                    </li>
-                                    <li class="wishlist">
-                                        <a href="javascript:void(0);" class="box-icon hover-tooltip tooltip-left">
-                                            <span class="icon icon-heart2"></span>
-                                            <span class="tooltip">Add to Wishlist</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#quickView" data-bs-toggle="modal"
-                                            class="box-icon quickview hover-tooltip tooltip-left">
-                                            <span class="icon icon-view"></span>
-                                            <span class="tooltip">Quick View</span>
-                                        </a>
-                                    </li>
-                                    <li class="compare">
-                                        <a href="#compare" data-bs-toggle="modal" aria-controls="compare"
-                                            class="box-icon hover-tooltip tooltip-left">
-                                            <span class="icon icon-compare"></span>
-                                            <span class="tooltip">Add to Compare</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="size-box">
-                                    @foreach ($item->sizes as $value)
-                                        <li class="size-item text-xs text-white">{{ $value->name }}</li>
-                                    @endforeach
-                                </ul>
+                        <div class="swiper-slide">
+                            <div class="card-product style-center">
+                                <div class="card-product-wrapper">
+                                    <a href="{{ route('client.detailProduct', $item->id) }}" class="product-img">
+                                        <img class="img-product lazyload"
+                                            data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                            src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                        <img class="img-hover lazyload"
+                                            data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                            src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
+                                    </a>
 
-                            </div>
-                            <div class="card-product-info">
-                                <a href="product-detail.html"
-                                    class="name-product link fw-medium text-md">{{ $item->name }}</a>
-                                <p class="price-wrap fw-medium">
-                                    <span class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}₫</span>
-                                </p>
-                                <ul class="list-color-product">
-                                    @foreach ($item->colors as $value)
-                                        <li class="list-color-item color-swatch active hover-tooltip tooltip-bot line">
-                                            <span class="tooltip color-filter">{{ $value->name }}</span>
-                                            <span class="swatch-value"
-                                                style="background-color: {{ $value->code }}"></span>
+                                    <ul class="list-product-btn">
+
+                                        <li class="wishlist">
+                                            <a href="#" class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                <span class="icon icon-heart2"></span>
+                                                <span class="tooltip">Add to Wishlist</span>
+                                            </a>
                                         </li>
-                                    @endforeach
-                                </ul>
+
+
+                                    </ul>
+                                </div>
+                                <div class="card-product-info text-center">
+                                    <a href="{{ route('client.detailProduct', $item->id) }}"
+                                        class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                    <p class="price-wrap fw-medium">
+                                        <span
+                                            class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }}
+                                            ₫</span>
+                                        <span
+                                            class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }}
+                                            ₫</span>
+                                    </p>
+                                    <ul class="list-color-product justify-content-center">
+                                        @foreach ($item->colors as $value)
+                                            <li class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                <span class="tooltip">{{ $value->name }}</span>
+                                                <span class="swatch-value"
+                                                    style="background-color: {{ $value->code }}"></span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -533,42 +516,44 @@
             <div class="pagination-item">{{ $products->links() }}</div>
         </div>
 
-        <!-- search -->
-    <div class="modal fade popup-search" id="search">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-                <div class="header">
-                    <button class="icon-close icon-close-popup" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="looking-for-wrap">
-                                <div class="heading">Bạn đang tìm kiếm gì?</div>
-                                <form class="form-search" action="{{ route('client.shop.search') }}" method="GET">
-                                    <fieldset class="text">
-                                        <input type="text" placeholder="Search" class="" name="search" tabindex="0"
-                                            value="{{ request('search') }}" aria-required="true" required="">
-                                    </fieldset>
-                                    <button type="submit">
-                                        <i class="icon icon-search"></i>
-                                    </button>
-                                </form>
-                                <div class="popular-searches justify-content-md-center">
-                                    <div class="text fw-medium">Popular searches:</div>
-                                    <ul>
-                                        <li><a class="link" href="#">Featured</a></li>
-                                        <li><a class="link" href="#">Trendy</a></li>
-                                        <li><a class="link" href="#">New</a></li>
-                                        <li><a class="link" href="#">Sale</a></li>
-                                    </ul>
+        {{-- <!-- search -->
+        <div class="modal fade popup-search" id="search">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content">
+                    <div class="header">
+                        <button class="icon-close icon-close-popup" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="looking-for-wrap">
+                                    <div class="heading">Bạn đang tìm kiếm gì?</div>
+                                    <form class="form-search" action="{{ route('client.shop.search') }}" method="GET">
+                                        <fieldset class="text">
+                                            <input type="text" placeholder="Search" class="" name="search"
+                                                tabindex="0" value="{{ request('search') }}" aria-required="true"
+                                                required="">
+                                        </fieldset>
+                                        <button type="submit">
+                                            <i class="icon icon-search"></i>
+                                        </button>
+                                    </form>
+                                    <div class="popular-searches justify-content-md-center">
+                                        <div class="text fw-medium">Popular searches:</div>
+                                        <ul>
+                                            <li><a class="link" href="#">Featured</a></li>
+                                            <li><a class="link" href="#">Trendy</a></li>
+                                            <li><a class="link" href="#">New</a></li>
+                                            <li><a class="link" href="#">Sale</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="featured-product">
-                                <div class="text-xl-2 fw-medium featured-product-heading">Featured product</div>
-                                <div dir="ltr" class="swiper tf-swiper wrap-sw-over" data-swiper='{
+                            <div class="col-lg-12">
+                                <div class="featured-product">
+                                    <div class="text-xl-2 fw-medium featured-product-heading">Featured product</div>
+                                    <div dir="ltr" class="swiper tf-swiper wrap-sw-over"
+                                        data-swiper='{
                                         "slidesPerView": 2,
                                         "spaceBetween": 12,
                                         "speed": 800,
@@ -577,92 +562,67 @@
                                         "slidesPerGroup": 2,
                                         "pagination": { "el": ".sw-pagination-search", "clickable": true },
                                         "breakpoints": {
-                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },
-"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
                                         }
                                     }'>
-                                    <div class="swiper-wrapper">
-                                        @foreach ($products as $item)
-                                            <div class="swiper-slide">
-                                            <div class="card-product style-3 card-product-size">
-                                                <div class="card-product-wrapper">
-                                                    <a href="product-detail.html" class="product-img">
-                                                        <img class="img-product lazyload"
-                                                            data-src="{{asset('storage/'.$item->image_primary)}}"
-                                                            src="{{asset('storage/'.$item->image_primary)}}"
-                                                            alt="image-product">
-                                                        <img class="img-hover lazyload"
-                                                            data-src="{{asset('storage/'.$item->image_primary)}}"
-                                                            src="{{asset('storage/'.$item->image_primary)}}"
-                                                            alt="image-product">
-                                                    </a>
-                                                    <ul class="list-product-btn">
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-                                                                class="box-icon hover-tooltip wishlist">
-                                                                <span class="icon icon-heart2"></span>
-                                                                <span class="tooltip">Add to Wishlist</span>
+                                        <div class="swiper-wrapper">
+                                            @foreach ($products as $item)
+                                                <div class="swiper-slide">
+                                                    <div class="card-product style-center">
+                                                        <div class="card-product-wrapper">
+                                                            <a href="{{ route('client.detailProduct', $item->id) }}"
+                                                                class="product-img">
+                                                                <img class="img-product lazyload"
+                                                                    data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                    src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                    alt="image-product">
+                                                                <img class="img-hover lazyload"
+                                                                    data-src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                    src="{{ asset('storage/' . $item->image_primary) }}"
+                                                                    alt="image-product">
                                                             </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-                                                                class="btn-quickview box-icon hover-tooltip quickview">
-                                                                <span class="icon icon-view"></span>
-                                                                <span class="tooltip">Quick View</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"
-class="box-icon hover-tooltip compare btn-compare">
-                                                                <span class="icon icon-compare"></span>
-                                                                <span class="tooltip">Add to Compare</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="product-btn-main">
-                                                        <a href="#shoppingCart" data-bs-toggle="offcanvas"
-                                                            class="btn-main-product">
-                                                            <span class="icon icon-cart2"></span>
-                                                            <span class="text-md fw-medium">
-                                                                Add to Cart
-                                                            </span>
-                                                        </a>
+
+                                                            <ul class="list-product-btn">
+
+                                                                <li class="wishlist">
+                                                                    <a href="#"
+                                                                        class="bg-surface hover-tooltip tooltip-left box-icon">
+                                                                        <span class="icon icon-heart2"></span>
+                                                                        <span class="tooltip">Add to Wishlist</span>
+                                                                    </a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                        <div class="card-product-info text-center">
+                                                            <a href="{{ route('client.detailProduct', $item->id) }}"
+                                                                class="name-product link fw-medium text-md">{{ $item->name }}</a>
+                                                            <p class="price-wrap fw-medium">
+                                                                <span
+                                                                    class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }}
+                                                                    ₫</span>
+                                                                <span
+                                                                    class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }}
+                                                                    ₫</span>
+                                                            </p>
+                                                            <ul class="list-color-product justify-content-center">
+                                                                @foreach ($item->colors as $value)
+                                                                    <li
+                                                                        class="list-color-item color-swatch hover-tooltip tooltip-bot active">
+                                                                        <span class="tooltip">{{ $value->name }}</span>
+                                                                        <span class="swatch-value"
+                                                                            style="background-color: {{ $value->code }}"></span>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                    <ul class="size-box">
-                                                        @foreach ($item->sizes as $value)
-                                                            <li class="size-item text-xs text-white">{{$value->name}}</li>
-                                                        @endforeach
-
-                                                    </ul>
                                                 </div>
-                                                <div class="card-product-info">
-                                                    <a href="product-detail.html"
-                                                        class="name-product link fw-medium text-md">{{$item->name}}</a>
-                                                    <p class="price-wrap fw-medium">
-                                                        <span class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
-                                                        {{-- <span class="price-old">$100.00</span> --}}
-                                                    </p>
-                                                    <ul class="list-color-product">
-                                                        @foreach ($item->colors as $value)
-                                                            <li
-                                                            class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                                            <span class="tooltip color-filter">{{$value->name}}</span>
-                                                            <span class="swatch-value" style="background-color: {{$value->code}}"></span>
-{{-- <img class="lazyload"
-                                                                data-src="images/products/fashion/product-27.jpg"
-                                                                src="images/products/fashion/product-27.jpg"
-                                                                alt="image-product"> --}}
-                                                        </li>
-                                                        @endforeach
-
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
-                                        @endforeach
-                                    </div>
-                                    <div
-                                        class="d-flex d-xl-none sw-dot-default sw-pagination-search justify-content-center">
+                                        <div
+                                            class="d-flex d-xl-none sw-dot-default sw-pagination-search justify-content-center">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -671,8 +631,7 @@ class="box-icon hover-tooltip compare btn-compare">
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /search -->
+        <!-- /search --> --}}
 
 
     </section>

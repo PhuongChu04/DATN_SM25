@@ -5,16 +5,17 @@
     <style>
         .category-image-container {
             width: 250px;
-            
+
             height: 200px;
             /* Set the desired height */
-            /* overflow: hidden; */ /* Ẩn bất kỳ phần nào của hình ảnh vượt quá vùng chứa */
+            /* overflow: hidden; */
+            /* Ẩn bất kỳ phần nào của hình ảnh vượt quá vùng chứa */
             margin-bottom: 20px;
         }
 
         .category-image-container img {
             width: 100%;
-           /* Làm cho hình ảnh lấp đầy chiều rộng của vùng chứa */
+            /* Làm cho hình ảnh lấp đầy chiều rộng của vùng chứa */
             height: 100%;
             /* Làm cho hình ảnh lấp đầy chiều cao của vùng chứa */
             object-fit: cover;
@@ -242,20 +243,22 @@
                             <!-- item 1 -->
 
                             @foreach ($categories as $category)
-    <div class="swiper-slide">
-        <div class="wg-cls style-square hover-img">
-            <a href="{{ route('client.listCategoryClient', ['c' => $category->id]) }}" class="image img-style d-block">
-                <div class="category-image-container">
-                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
-                </div>
+                                <div class="swiper-slide">
+                                    <div class="wg-cls style-square hover-img">
+                                        <a href="{{ route('client.listCategoryClient', ['c' => $category->id]) }}"
+                                            class="image img-style d-block">
+                                            <div class="category-image-container">
+                                                <img src="{{ asset('storage/' . $category->image) }}"
+                                                    alt="{{ $category->name }}">
+                                            </div>
 
-                <div class="cls-content text-center">
-                    <span class="link text-md fw-medium">{{ $category->name }}</span>
-                </div>
-            </a>
-        </div>
-    </div>
-@endforeach
+                                            <div class="cls-content text-center">
+                                                <span class="link text-md fw-medium">{{ $category->name }}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
 
                         </div>
                         <div class="d-flex d-xl-none sw-dot-default sw-pagination-categories justify-content-center">
@@ -394,10 +397,7 @@
                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                 src="{{ asset('storage/' . $item->image_primary) }}" alt="image-product">
                                         </a>
-                                        <div class="on-sale-wrap flex-column type-2">
-                                            <span class="on-sale-item">10% Off</span>
-                                            <span class="on-sale-item trending">Trending</span>
-                                        </div>
+
                                         <ul class="list-product-btn">
 
                                             <li class="wishlist">
@@ -406,20 +406,7 @@
                                                     <span class="tooltip">Add to Wishlist</span>
                                                 </a>
                                             </li>
-                                            <li>
-                                                <a href="#quickView" data-bs-toggle="modal"
-                                                    class="bg-surface hover-tooltip tooltip-left box-icon quickview">
-                                                    <span class="icon icon-view"></span>
-                                                    <span class="tooltip">Quick View</span>
-                                                </a>
-                                            </li>
-                                            <li class="compare">
-                                                <a href="#compare" data-bs-toggle="modal"
-                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
-                                                    <span class="icon icon-compare"></span>
-                                                    <span class="tooltip">Add to Compare</span>
-                                                </a>
-                                            </li>
+
                                         </ul>
                                     </div>
                                     <div class="card-product-info text-center">
@@ -497,7 +484,8 @@
     </div>
 
 
-    <div class="modal fade popup-search" id="search">
+    <!-- search --> 
+    {{-- <div class="modal fade popup-search" id="search">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="header">
@@ -542,16 +530,16 @@
                                         "slidesPerGroup": 2,
                                         "pagination": { "el": ".sw-pagination-search", "clickable": true },
                                         "breakpoints": {
-                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },
-"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
+                                        "768": { "slidesPerView": 3, "spaceBetween": 12, "slidesPerGroup": 3 },"1200": { "slidesPerView": 4, "spaceBetween": 24, "slidesPerGroup": 4}
                                         }
                                     }'>
                                     <div class="swiper-wrapper">
                                         @foreach ($products as $item)
                                             <div class="swiper-slide">
-                                                <div class="card-product style-3 card-product-size">
+                                                <div class="card-product style-center">
                                                     <div class="card-product-wrapper">
-                                                        <a href="product-detail.html" class="product-img">
+                                                        <a href="{{ route('client.detailProduct', $item->id) }}"
+                                                            class="product-img">
                                                             <img class="img-product lazyload"
                                                                 data-src="{{ asset('storage/' . $item->image_primary) }}"
                                                                 src="{{ asset('storage/' . $item->image_primary) }}"
@@ -561,73 +549,41 @@
                                                                 src="{{ asset('storage/' . $item->image_primary) }}"
                                                                 alt="image-product">
                                                         </a>
+
                                                         <ul class="list-product-btn">
-                                                            <li>
-                                                                <a href="javascript:void(0);"
-                                                                    class="box-icon hover-tooltip wishlist">
+
+                                                            <li class="wishlist">
+                                                                <a href="#"
+                                                                    class="bg-surface hover-tooltip tooltip-left box-icon">
                                                                     <span class="icon icon-heart2"></span>
                                                                     <span class="tooltip">Add to Wishlist</span>
                                                                 </a>
                                                             </li>
-                                                            <li>
-                                                                <a href="javascript:void(0);"
-                                                                    class="btn-quickview box-icon hover-tooltip quickview">
-                                                                    <span class="icon icon-view"></span>
-                                                                    <span class="tooltip">Quick View</span>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:void(0);"
-                                                                    class="box-icon hover-tooltip compare btn-compare">
-                                                                    <span class="icon icon-compare"></span>
-                                                                    <span class="tooltip">Add to Compare</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="product-btn-main">
-                                                            <a href="#shoppingCart" data-bs-toggle="offcanvas"
-                                                                class="btn-main-product">
-                                                                <span class="icon icon-cart2"></span>
-                                                                <span class="text-md fw-medium">
-                                                                    Add to Cart
-                                                                </span>
-                                                            </a>
-                                                        </div>
-                                                        <ul class="size-box">
-                                                            @foreach ($item->sizes as $value)
-                                                                <li class="size-item text-xs text-white">
-                                                                    {{ $value->name }}</li>
-                                                            @endforeach
 
                                                         </ul>
                                                     </div>
-
-                                                    <div class="card-product-info">
-                                                        <a href="product-detail.html"
+                                                    <div class="card-product-info text-center">
+                                                        <a href="{{ route('client.detailProduct', $item->id) }}"
                                                             class="name-product link fw-medium text-md">{{ $item->name }}</a>
                                                         <p class="price-wrap fw-medium">
                                                             <span
-                                                                class="price-new">{{ $item->firstVariant->price ?? 'N/A' }}</span>
-                                                            {{-- <span class="price-old">$100.00</span> --}}
+                                                                class="price-new">{{ number_format($item->firstVariant->price ?? 0, 0, ',', '.') }}
+                                                                ₫</span>
+                                                            <span
+                                                                class="price-old old-line">{{ number_format(($item->firstVariant->price ?? 0) * 1.2, 0, ',', '.') }}
+                                                                ₫</span>
                                                         </p>
-                                                        <ul class="list-color-product">
+                                                        <ul class="list-color-product justify-content-center">
                                                             @foreach ($item->colors as $value)
                                                                 <li
                                                                     class="list-color-item color-swatch hover-tooltip tooltip-bot active">
-                                                                    <span
-                                                                        class="tooltip color-filter">{{ $value->name }}</span>
+                                                                    <span class="tooltip">{{ $value->name }}</span>
                                                                     <span class="swatch-value"
                                                                         style="background-color: {{ $value->code }}"></span>
-                                                                    {{-- <img class="lazyload"
-                                                                data-src="images/products/fashion/product-27.jpg"
-                                                                src="images/products/fashion/product-27.jpg"
-                                                                alt="image-product"> --}}
                                                                 </li>
                                                             @endforeach
-
                                                         </ul>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         @endforeach
@@ -642,8 +598,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /search -->
+    </div> --}}
+    <!-- /search --> 
     <div>
 
         <!-- Products by category -->
