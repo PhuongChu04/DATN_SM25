@@ -140,7 +140,7 @@ class AuthController extends Controller
      public function accountDetail()
     {
         $user = Sentinel::getUser(); // Lấy user đang đăng nhập
-        return view('client.accounts.accountDetail', compact('user'));
+        return view('client.accounts.account', compact('user'));
     }
 public function updateAccountDetail(Request $req)
 {

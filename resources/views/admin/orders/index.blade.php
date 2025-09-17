@@ -72,6 +72,7 @@
                     <option value="cancelled" {{ request('order_status') == 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
                     <option value="waiting_for_cancellation" {{ request('order_status') == 'waiting_for_cancellation' ? 'selected' : '' }}>Xin huỷ đơn hàng</option>
                 </select>
+                
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
@@ -150,9 +151,9 @@
                                     <button onclick="showEditModal({{ $order->id }})" class="btn btn-sm btn-outline-warning me-1" title="Chỉnh sửa">
                                         <i class="bi bi-pencil-fill"></i>
                                     </button>
-                                    <button onclick="showDeleteModal({{ $order->id }})" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                    {{-- <button onclick="showDeleteModal({{ $order->id }})" class="btn btn-sm btn-outline-danger" title="Xóa">
                                         <i class="bi bi-trash-fill"></i>
-                                    </button>
+                                    </button> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -194,17 +195,17 @@
                 </div>
                 <div class="modal-body">
                     <select name="order_status" class="form-select" required>
-                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Đang chờ</option>
+                        {{-- <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Đang chờ</option>
                         <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Đang xử lý</option>
                         <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Đã vận chuyển</option>
                         <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Đã giao</option>
-                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Đã huỷ</option>
-                        {{-- <select name="order_status" class="form-select" required>
+                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Đã huỷ</option> --}}
+                        {{-- <select name="order_status" class="form-select" required> --}}
                         <option value="pending" >Đang chờ</option>
                         <option value="processing" >Đang xử lý</option>
                         <option value="shipped" >Đã vận chuyển</option>
                         <option value="delivered" >Đã giao</option>
-                        <option value="cancelled" >Đã huỷ</option> --}}
+                        <option value="cancelled" >Đã huỷ</option>
                     </select>
                     </select>
                 </div>

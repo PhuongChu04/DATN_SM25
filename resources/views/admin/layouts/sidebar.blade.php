@@ -63,9 +63,9 @@
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{ route('admin.brands.index') }}">Danh sách</a>
                         </li>
-                        <li class="sub-nav-item">
+                        {{-- <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{ route('admin.brands.create') }}">Tạo mới</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </li>
@@ -88,7 +88,7 @@
                 </div>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarShippingRate" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarShippingRate">
                     <span class="nav-text"> Phí vận chuyển </span>
@@ -104,7 +104,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarCategory" data-bs-toggle="collapse" role="button"
@@ -205,23 +205,23 @@
             </li>
 
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="settings.html">
                     <span class="nav-text"> Cài đặt </span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="menu-title mt-2">Người dùng</li>
 
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarRoles" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarRoles">
-                    <span class="nav-text"> Vai trò </span>
+                    <span class="nav-text"> Khách hàng </span>
                 </a>
                 <div class="collapse" id="sidebarRoles">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.auth.list') }}">Người dùng</a>
+                            <a class="sub-nav-link" href="{{ route('admin.auth.list') }}">Tài khoản</a>
                         </li>
                     </ul>
                 </div>

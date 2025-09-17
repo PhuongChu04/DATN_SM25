@@ -130,12 +130,25 @@ class ProductController extends Controller
 
 
     public function destroy($id)
-    {
-        if ($this->productService->deleteProduct($id)) {
-            return redirect()->route('admin.product.listProduct')->with('success', 'Xóa sản phẩm thành công');
-        }
-        return redirect()->route('admin.product.listProduct')->with('error', 'Xóa sản phẩm thất bại');
+{
+    // ✅ kiểm tra xem sản phẩm có tồn tại trong order_details không
+    $hasOrder = \App\Models\OrderDetail::where('product_id', $id)->exists();
+
+    if ($hasOrder) {
+        return redirect()->route('admin.product.listProduct')
+            ->with('error', 'Không thể xóa sản phẩm vì đã tồn tại trong đơn hàng');
     }
+
+    // nếu không tồn tại trong đơn hàng thì xóa bình thường
+    if ($this->productService->deleteProduct($id)) {
+        return redirect()->route('admin.product.listProduct')
+            ->with('success', 'Xóa sản phẩm thành công');
+    }
+
+    return redirect()->route('admin.product.listProduct')
+        ->with('error', 'Xóa sản phẩm thất bại');
+}
+
     public function forceDelete($id) //vĩnh viễn
     {
         if ($this->productService->delete($id)) {
