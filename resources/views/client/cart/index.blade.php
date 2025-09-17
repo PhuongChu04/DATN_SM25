@@ -299,43 +299,50 @@
 
 @push('scripts')
 <script>
-   document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".btn-increase").forEach(button => {
-        button.addEventListener("click", function () {
-            let input = this.closest(".input-group").querySelector(".quantity-product");
-            let value = parseInt(input.value) || 1;
-            input.value = value + 1;
-            input.dispatchEvent(new Event('change')); // kích hoạt event để tính lại tổng tiền nếu cần
-        });
-    });
-    document.querySelectorAll(".btn-decrease").forEach(button => {
-        button.addEventListener("click", function () {
-            let input = this.closest(".input-group").querySelector(".quantity-product");
-            let value = parseInt(input.value) || 1;
-            if (value > 1) {
-                input.value = value - 1;
-                input.dispatchEvent(new Event('change'));
-            }
-        });
-    });
-    document.querySelectorAll(".quantity-product").forEach(input => {
-        input.addEventListener("change", function () {
-            let price = parseInt(this.closest(".row").querySelector(".item-total-price").dataset.price);
-            let quantity = parseInt(this.value) || 1;
-            let totalItem = price * quantity;
-            let itemTotalEl = this.closest(".row").querySelector(".item-total-price");
-            itemTotalEl.textContent = new Intl.NumberFormat('vi-VN').format(totalItem) + " ₫";
-            let subtotal = 0;
-            document.querySelectorAll(".quantity-product").forEach(qtyInput => {
-                let qty = parseInt(qtyInput.value) || 1;
-                let itemPrice = parseInt(qtyInput.closest(".row").querySelector(".item-total-price").dataset.price);
-                subtotal += qty * itemPrice;
-            });
+  document.addEventListener("DOMContentLoaded", function () {
+    // Khi chọn voucher
+    document.querySelectorAll(".btn-voucher-select").forEach(btn => {
+        btn.addEventListener("click", function () {
+            let code = this.dataset.code;
+            let type = parseInt(this.dataset.type);
+            let amount = parseFloat(this.dataset.amount);
+            let maxDiscount = parseFloat(this.dataset.max);
+
+            // Hiện mã vào input
+            let selectedVoucher = document.getElementById("selectedVoucher");
+            selectedVoucher.value = code;
+            selectedVoucher.classList.add("voucher-applied");
+
+            // Lấy subtotal
             let subtotalEl = document.getElementById("subtotal-value");
             let totalEl = document.getElementById("total-value");
-            subtotalEl.textContent = new Intl.NumberFormat('vi-VN').format(subtotal) + " ₫";
-            totalEl.textContent = new Intl.NumberFormat('vi-VN').format(subtotal) + " ₫";
-            document.getElementById("final-price-input").value = subtotal;
+            let discountEl = document.getElementById("discount-value");
+
+            let subtotal = parseInt(totalEl.dataset.subtotal);
+
+            let discount = 0;
+            if (type === 0) {
+                // miễn phí ship => giảm 35k (hoặc đúng phí ship của mày)
+                discount = 35000;
+            } else if (type === 1) {
+                // giảm %
+                discount = subtotal * (amount / 100);
+                if (maxDiscount > 0) discount = Math.min(discount, maxDiscount);
+            } else {
+                // giảm tiền cố định
+                discount = amount;
+            }
+
+            let finalPrice = subtotal - discount;
+            if (finalPrice < 0) finalPrice = 0;
+
+            // Update hiển thị
+            discountEl.textContent = new Intl.NumberFormat('vi-VN').format(discount) + " ₫";
+            totalEl.textContent = new Intl.NumberFormat('vi-VN').format(finalPrice) + " ₫";
+
+            // Update input hidden
+            document.getElementById("discount-input").value = discount;
+            document.getElementById("final-price-input").value = finalPrice;
         });
     });
 });
