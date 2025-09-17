@@ -27,6 +27,8 @@ class ClientController extends Controller
 
     public function homeClient()
     {
+
+
         $categories = $this->categoryService->getAllCategories();
         //  dd($categories);
         $products = Product::with('variants')
@@ -34,6 +36,11 @@ class ClientController extends Controller
     ->latest()
     ->take(10)
     ->get();
+
+     $topProducts = Product::withSum('orderDetails', 'quantity')
+            ->orderByDesc('order_details_sum_quantity')
+            ->limit(5)
+            ->get();
 
     
         $categoriesWithProducts = Category::with(['products' => function ($query) {
@@ -43,7 +50,7 @@ class ClientController extends Controller
         }])
             ->whereHas('products')
             ->get();
-        return view('client.home',compact('categories', 'products' ,'categoriesWithProducts'));
+        return view('client.home',compact('categories', 'products' ,'categoriesWithProducts','topProducts'));
     }
     public function account()
     {

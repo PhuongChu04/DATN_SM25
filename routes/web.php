@@ -273,6 +273,8 @@ Route::prefix('client')->name('client.')->group(function () {
     //==================TRANG DANH MỤC==================
     Route::get('/category/list', [CategoryClientController::class, 'listCategoryClient'])
         ->name('listCategoryClient');
+    //Sale
+    // Route::get('/sale', [SaleController::class, 'index'])->name('sale.index');/
 
     //==================TRANG CHI TIẾT==================
     Route::get('/dashboard/{id}/detailProduct', [ClientProductController::class, 'detailProduct'])->name('detailProduct');
