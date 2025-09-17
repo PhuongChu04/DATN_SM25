@@ -2,6 +2,45 @@
 
 @section('content')
     <!-- Breadcrumb -->
+    <style>/* Viền cho cả input-group */
+/* Viền cho cả input-group */
+.quantity-group {
+    border: 0.5px solid #0a0a0a;
+    overflow: hidden;
+}
+
+/* Nút màu cam (#ff6f61) */
+.btn-orange {
+    background-color: #ff6f61;
+    color: #fff;
+    border: none;
+}
+
+.btn-orange:hover {
+    background-color: #e65b50; /* cam đậm hơn khi hover */
+    color: #fff;
+}
+
+/* Nút xanh Bootstrap (#198754) */
+.btn-green {
+    background-color: #ff6f61;
+    color: #fff;
+    border: none;
+}
+
+.btn-green:hover {
+    background-color: #ce2a1e; /* xanh đậm hơn khi hover */
+    color: #fff;
+}
+
+/* Input giữa */
+.quantity-group input {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+    </style>
     <div class="breadcrumb-sec">
         <div class="container">
             <div class="breadcrumb-wrap">
@@ -134,6 +173,7 @@
                                     <input type="hidden" name="id_size" id="input-size" value="">
 
                                     <div class="tf-product-variant">
+                                        <!-- Màu sắc -->
                                         <div class="variant-picker-item variant-color">
                                             <div class="variant-picker-label">Colors:</div>
                                             <div class="variant-picker-values">
@@ -148,10 +188,11 @@
                                                 @endforeach
                                             </div>
                                         </div>
+
+                                        <!-- Kích thước -->
                                         <div class="variant-picker-item variant-size">
                                             <div class="variant-picker-label">
-                                                <div>Size: <span
-                                                        class="variant-picker-label-value value-currentSize"></span></div>
+                                                Size: <span class="variant-picker-label-value value-currentSize"></span>
                                             </div>
                                             <div class="variant-picker-values">
                                                 @foreach ($product->sizes as $item)
@@ -163,24 +204,31 @@
                                         </div>
                                     </div>
 
+                                    <!-- Số lượng -->
                                     <div class="tf-product-total-quantity">
                                         <div class="group-btn">
-                                            <div class="wg-quantity">
-                                                <button type="button" class="btn-quantity btn-decrease">-</button>
-                                                <input class="quantity-product" type="text" name="number"
-                                                    value="1" id="quantity-product">
-                                                <button type="button" class="btn-quantity btn-increase">+</button>
-                                            </div>
+                              <div class="input-group quantity-group rounded-pill" style="width: 160px;">
+    <button class="btn btn-orange btn-decrease" type="button">-</button>
+    <input type="text" class="form-control text-center border-0" id="quantity-product" value="1" readonly>
+    <button class="btn btn-green btn-increase" type="button">+</button>
+</div>
 
-                                            <button type="submit" class="tf-btn animate-btn btn-add-to-cart">
-                                                Thêm giỏ hàng
-                                            </button>
+
+
+
+
+                                            <button type="submit" class="tf-btn animate-btn btn-add-to-cart">Thêm giỏ
+                                                hàng</button>
                                         </div>
 
                                         <a href="javascript:void(0);" class="tf-btn btn-primary w-100 animate-btn">Mua
                                             ngay</a>
                                     </div>
+                                    
                                 </form>
+
+
+
 
                                 <div class="tf-product-extra-link">
                                     <a href="javascript:void(0);" class="product-extra-icon link btn-add-wishlist">
@@ -519,71 +567,78 @@
     <!-- /Recently Viewed -->
 @endsection
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const qtyInput = document.getElementById('quantity-product');
-    const inputQty = document.getElementById('input-quantity');
-    const inputColor = document.getElementById('input-color');
-    const inputSize = document.getElementById('input-size');
-    const btnIncrease = document.querySelector('.btn-increase');
-    const btnDecrease = document.querySelector('.btn-decrease');
-    const colorButtons = document.querySelectorAll('.color-btn');
-    const sizeButtons = document.querySelectorAll('.size-btn');
-    const variantPickerLabel = document.querySelector('.value-currentSize');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Các input hidden
+        const inputQty = document.getElementById('input-quantity');
+        const inputColor = document.getElementById('input-color');
+        const inputSize = document.getElementById('input-size');
 
-    // Lấy giá trị mặc định
-    // let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId || '';
-    // let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId || '';
+        // Hiển thị số lượng
+        const qtyDisplay = document.getElementById('quantity-product');
+        let currentQty = parseInt(qtyDisplay.value) || 1;
+        qtyDisplay.value = currentQty;
+        inputQty.value = currentQty;
 
+        // Nút tăng/giảm số lượng
+        const btnIncrease = document.querySelector('.btn-increase');
+        const btnDecrease = document.querySelector('.btn-decrease');
 
+        btnIncrease.addEventListener('click', () => {
+            currentQty++;
+            qtyDisplay.value = currentQty;
+            inputQty.value = currentQty;
+        });
 
-    // Xử lý chọn màu
-    colorButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            colorButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            selectedColorId = button.dataset.colorId;
-            updateVariantInputs();
+        btnDecrease.addEventListener('click', () => {
+            if (currentQty > 1) {
+                currentQty--;
+                qtyDisplay.value = currentQty;
+                inputQty.value = currentQty;
+            }
+        });
+
+        // Chọn màu
+        const colorButtons = document.querySelectorAll('.color-btn');
+        let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId || '';
+        colorButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedColorId = btn.dataset.colorId;
+                inputColor.value = selectedColorId;
+            });
+        });
+        if (selectedColorId) inputColor.value = selectedColorId;
+
+        // Chọn size
+        const sizeButtons = document.querySelectorAll('.size-btn');
+        const variantPickerLabel = document.querySelector('.value-currentSize');
+        let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId || '';
+        let selectedSizeText = document.querySelector('.size-btn.active')?.dataset.size || '';
+        variantPickerLabel.textContent = selectedSizeText;
+        sizeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sizeButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedSizeId = btn.dataset.sizeId;
+                selectedSizeText = btn.dataset.size;
+                variantPickerLabel.textContent = selectedSizeText;
+                inputSize.value = selectedSizeId;
+            });
+        });
+        if (selectedSizeId) inputSize.value = selectedSizeId;
+
+        // Submit form: kiểm tra trước khi gửi
+        const formAddToCart = document.getElementById('form-add-to-cart');
+        formAddToCart.addEventListener('submit', function(e) {
+            inputQty.value = currentQty;
+            inputColor.value = selectedColorId;
+            inputSize.value = selectedSizeId;
+
+            if (!selectedColorId || !selectedSizeId) {
+                e.preventDefault();
+                alert('Vui lòng chọn màu và kích thước.');
+            }
         });
     });
-
-    // Xử lý chọn kích thước
-    sizeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            sizeButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            selectedSizeId = button.dataset.sizeId;
-            variantPickerLabel.textContent = button.dataset.size;
-            updateVariantInputs();
-        });
-    });
-
-    // Xử lý số lượng
-    btnIncrease.addEventListener('click', () => {
-        qtyInput.value = parseInt(qtyInput.value) + 1;
-        inputQty.value = qtyInput.value;
-    });
-
-    btnDecrease.addEventListener('click', () => {
-        if (parseInt(qtyInput.value) > 1) {
-            qtyInput.value = parseInt(qtyInput.value) - 1;
-            inputQty.value = qtyInput.value;
-        }
-    });
-    // Cập nhật input-color và input-size
-    function updateVariantInputs() {
-    if (!selectedColorId || !selectedSizeId) {
-        alert('Vui lòng chọn màu và kích thước.');
-        return; // dừng hàm lại nếu chưa đủ điều kiện
-    }
-
-    inputColor.value = selectedColorId;
-    inputSize.value = selectedSizeId;
-}
-    qtyInput.addEventListener('input', () => {
-        inputQty.value = qtyInput.value;
-    });
-
-    // Gọi lần đầu để thiết lập giá trị mặc định
-    updateVariantInputs();
-});
 </script>
