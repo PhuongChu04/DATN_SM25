@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Shipping extends Model
 {   
     use HasFactory;
-    protected $fillable = ['provider_name'];
+    protected $table = 'shippings';
+    protected $fillable = ['provider_name' , 'price' ,];
 
     public function rates()
     {

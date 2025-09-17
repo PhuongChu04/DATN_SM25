@@ -9,7 +9,9 @@ use App\Models\ShippingRate;
 use Illuminate\Support\Facades\DB;
 
 class ShippingController extends Controller
-{
+{   
+    protected $table = 'shippings';
+    protected $fillable = ['provider_name', 'price'];
     public function index()
     {
         $shippings = Shipping::all();
@@ -23,9 +25,15 @@ class ShippingController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['provider_name' => 'required']);
-        Shipping::create($request->only('provider_name'));
-        return redirect()->route('admin.shippings.index')->with('success', 'Thêm đơn vị thành công');
+        $request->validate([
+            'provider_name' => 'required',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        Shipping::create($request->only(['provider_name', 'price']));
+
+        return redirect()->route('admin.shippings.index')
+                        ->with('success', 'Thêm đơn vị thành công');
     }
 
     public function edit(Shipping $shipping)
@@ -35,9 +43,15 @@ class ShippingController extends Controller
 
     public function update(Request $request, Shipping $shipping)
     {
-        $request->validate(['provider_name' => 'required']);
-        $shipping->update($request->only('provider_name'));
-        return redirect()->route('admin.shippings.index')->with('success', 'Cập nhật thành công');
+        $request->validate([
+            'provider_name' => 'required',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        $shipping->update($request->only(['provider_name', 'price']));
+
+        return redirect()->route('admin.shippings.index')
+                        ->with('success', 'Cập nhật thành công');
     }
 
     public function destroy(Shipping $shipping)

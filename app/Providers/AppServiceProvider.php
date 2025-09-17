@@ -6,6 +6,8 @@ use App\Models\Category;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Order;
+use App\Observers\OrderObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
             $categories = Category::whereNotNull('id_parent')->orderBy('name')->get();
             $view->with('categories', $categories);
         });
+        Order::observe(OrderObserver::class);
     }
 }

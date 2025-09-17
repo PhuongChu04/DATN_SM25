@@ -69,10 +69,20 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
                                     </form>
+
+                                    <!-- ✅ Thêm nút chọn địa chỉ ngay tại đây -->
+                                    <form action="{{ route('client.address.select') }}" method="POST" class="d-inline ms-2">
+                                        @csrf
+                                        <input type="hidden" name="address_id" value="{{ $address->id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">Chọn địa chỉ này</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+
+                    {{-- Pagination --}}
+
 
                     @if ($addresses->isEmpty())
                         <div class="alert alert-info">You don't have any saved addresses yet.</div>

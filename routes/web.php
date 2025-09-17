@@ -30,6 +30,11 @@ use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\ReviewClientController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
+
+
 
 Route::get('/test-address', function () {
     $json = File::get(base_path('packages/vudovn/dvhcvn/json/data.json'));
@@ -60,6 +65,23 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'homeAdmin'])->middleware('checkAdmin')->name('homeAdmin');
     Route::get('/dashboard/revenue-chart-data', [AdminController::class, 'getRevenueChartData'])
         ->name('dashboard.revenueChartData');
+
+
+    Route::post('/admin/notifications/{id}/read', [NotificationController::class, 'read']);
+    Route::get('/admin/notifications', function () {
+    return auth()->user()->unreadNotifications;
+    });
+    Route::middleware(['auth'])->group(function () {
+    Route::post('/admin/notifications/{id}/read', function ($id) {
+        /** @var \App\Models\User $user */
+        $user = auth()->user(); 
+        $n = $user->notifications()->findOrFail($id);
+        $n->markAsRead();
+        return response()->json(['status' => 'ok']);
+    });
+    });
+
+
 
 
 
@@ -266,7 +288,13 @@ Route::prefix('client')->name('client.')->group(function () {
         Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
         // Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
 
-    });
+
+
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+});
+
+
 
 
     // Route::get('/acc', [ClientController::class, 'account'])->middleware('checkLogin')->name('account');
@@ -299,6 +327,12 @@ Route::prefix('/auth')->name('auth.')->group(function () {
 
 
 
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/contacts', [AdminContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
+    Route::delete('/contacts/{contact}', [AdminContactController::class, 'destroy'])->name('contacts.destroy');
+});
 
 
 

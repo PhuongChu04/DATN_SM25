@@ -114,9 +114,12 @@
                         <a href="#" class="item-link">Pages</a>
                     </li>
                     <li class="menu-item position-relative">
-                        <a href="#" class="item-link">Blog</a>
-
+                        <a href="#" class="item-link">Blog</a>                      
                     </li>
+                    <li class="menu-item position-relative">
+                        <a class="item-link" href="{{ route('client.contact.index') }}">Liên hệ</a>
+                    </li>
+
                     <li class="menu-item"><a
                             href="https://themeforest.net/item/vince-multipurpose-ecommerce-html5-template/57202368?s_rank=5"
                             target="_blank" class="item-link">Buy Theme!</a></li>

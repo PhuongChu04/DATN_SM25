@@ -10,6 +10,7 @@ use App\Models\CartDetail;
 use App\Models\ProductVariant;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Support\Facades\Log;
+use App\Models\Shipping;
 
 class CartController extends Controller
 {
@@ -154,17 +155,28 @@ class CartController extends Controller
     {
         $user = Sentinel::check();
         if (!$user) {
-            return redirect()->route('auth.loginClient')->with('message', 'Vui lòng đăng nhập để xem giỏ hàng.');
+            return redirect()->route('auth.loginClient')
+                ->with('message', 'Vui lòng đăng nhập để xem giỏ hàng.');
         }
 
-        $cart = Cart::with('details.variant.product')->where('id_user', $user->id)->first();
+        $cart = Cart::with('details.variant.product')
+            ->where('id_user', $user->id)
+            ->first();
+
         $cartItems = $cart ? $cart->details : collect([]);
         $relatedProducts = Product::inRandomOrder()->limit(4)->get();
 
+        // ✅ Tính subtotal (tổng tiền hàng)
+        $subtotal = $cartItems->sum(function ($item) {
+            return $item->variant->price * $item->quantity;
+        });
 
-        return view('client.cart.index', compact('cartItems', 'relatedProducts'));
+        // Lấy shipping từ DB
+        $shippings = Shipping::all();
 
+        return view('client.cart.index', compact('cartItems', 'relatedProducts', 'subtotal', 'shippings'));
     }
+
 
     /**
      * Xóa sản phẩm khỏi giỏ hàng
@@ -218,4 +230,5 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Giỏ hàng đã được cập nhật.');
     }
+
 }
