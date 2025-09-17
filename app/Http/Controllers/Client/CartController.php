@@ -11,6 +11,7 @@ use App\Models\ProductVariant;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Support\Facades\Log;
 
+
 class CartController extends Controller
 {
     /**
@@ -218,4 +219,60 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Giỏ hàng đã được cập nhật.');
     }
+    public function buyNow(Request $request)
+{
+    try {
+        // Validate input tương tự add()
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'id_color'   => 'required|exists:colors,id',
+            'id_size'    => 'required|exists:sizes,id',
+            'quantity'   => 'required|integer|min:1',
+        ]);
+
+        $productId = (int) $request->input('product_id');
+        $colorId   = (int) $request->input('id_color');
+        $sizeId    = (int) $request->input('id_size');
+        $quantity  = (int) $request->input('quantity', 1);
+
+        // Tìm variant theo id_product/id_color/id_size (đúng schema hiện tại của bạn)
+        $variant = ProductVariant::where('id_product', $productId)
+            ->where('id_color', $colorId)
+            ->where('id_size', $sizeId)
+            ->with(['product', 'color', 'size'])
+            ->first();
+
+        if (!$variant) {
+            return back()->with('error', 'Không tìm thấy biến thể sản phẩm phù hợp.');
+        }
+
+        // Kiểm tra tồn kho
+        if ($variant->quantity === null || $variant->quantity < $quantity) {
+            return back()->with('error', 'Số lượng yêu cầu vượt quá tồn kho.');
+        }
+
+        // Tạo "giỏ hàng tạm" chỉ chứa sản phẩm này (ở dạng mảng để checkout.blade đọc được)
+        $buyNowCart = [[
+            'id_variant' => $variant->id,
+            'quantity'   => $quantity,
+            'name'       => $variant->product->name,
+            'price'      => $variant->price,
+            'image'      => $variant->product->image_primary,
+            'color'      => optional($variant->color)->name ?? 'N/A',
+            'size'       => optional($variant->size)->name ?? 'N/A',
+        ]];
+
+        // Lưu session, gắn cờ buy_now
+        session()->put('buy_now_cart', $buyNowCart);
+        session()->put('buy_now', true);
+
+        // Chuyển thẳng sang trang Checkout
+        return redirect()->route('checkout.form');
+
+    } catch (\Exception $e) {
+        Log::error('Mua ngay lỗi: '.$e->getMessage(), ['trace' => $e->getTraceAsString()]);
+        return back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+    }
+}
+
 }

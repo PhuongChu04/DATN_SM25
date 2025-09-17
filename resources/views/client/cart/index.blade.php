@@ -73,7 +73,7 @@
                         </div>
                     @endforeach
 
-                    
+
 
                     {{-- Nút Update Cart --}}
                     <div class="d-flex justify-content-end mt-4">
@@ -233,6 +233,27 @@
 
 @push('scripts')
 <script>
-// Thêm script cho giỏ hàng nếu cần
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-increase').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            let input = this.parentElement.querySelector('.quantity-product');
+            let value = parseInt(input.value) || 1;
+            input.value = value + 1;
+            input.dispatchEvent(new Event('input')); // để trigger update nếu bạn muốn tính tổng tự động
+        });
+    });
+
+    document.querySelectorAll('.btn-decrease').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            let input = this.parentElement.querySelector('.quantity-product');
+            let value = parseInt(input.value) || 1;
+            if (value > 1) {
+                input.value = value - 1;
+                input.dispatchEvent(new Event('input'));
+            }
+        });
+    });
+});
 </script>
 @endpush
+

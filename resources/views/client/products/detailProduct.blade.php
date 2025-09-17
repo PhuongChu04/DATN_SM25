@@ -241,10 +241,9 @@
                                 <form id="form-add-to-cart" action="{{ route('client.cart.add') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <input type="hidden" name="quantity" id="input-quantity" value="1">
                                     <input type="hidden" name="id_color" id="input-color" value="">
                                     <input type="hidden" name="id_size" id="input-size" value="">
-
+                                     <p id="stock-display" style="color: red; font-weight: bold;">Chọn màu và size để xem tồn kho</p>
                                     <div class="tf-product-variant">
                                         <div class="variant-picker-item variant-color">
                                             <div class="variant-picker-label">Colors:</div>
@@ -260,6 +259,8 @@
                                                 @endforeach
                                             </div>
                                         </div>
+
+
                                         <div class="variant-picker-item variant-size">
                                             <div class="variant-picker-label">
                                                 <div>Size: <span
@@ -279,8 +280,11 @@
                                         <div class="group-btn">
                                             <div class="wg-quantity">
                                                 <button type="button" class="btn-quantity btn-decrease">-</button>
-                                                <input class="quantity-product" type="text" name="number"
-                                                    value="1" id="quantity-product">
+                                                <input class="quantity-product"
+                                                        type="number"
+                                                        name="quantity"
+                                                        id="quantity-product-{{ $product->id }}"
+                                                        value="1" min="1" step="1">
                                                 <button type="button" class="btn-quantity btn-increase">+</button>
                                             </div>
 
@@ -586,7 +590,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const qtyInput = document.getElementById('quantity-product');
+    const qtyInput = document.getElementById('quantity-product-{{ $product->id }}');
     const inputQty = document.getElementById('input-quantity');
     const inputColor = document.getElementById('input-color');
     const inputSize = document.getElementById('input-size');
@@ -595,61 +599,125 @@ document.addEventListener('DOMContentLoaded', function () {
     const colorButtons = document.querySelectorAll('.color-btn');
     const sizeButtons = document.querySelectorAll('.size-btn');
     const variantPickerLabel = document.querySelector('.value-currentSize');
-
-    // Lấy giá trị mặc định
-    // let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId || '';
-    // let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId || '';
+    const formAddToCart = document.getElementById('form-add-to-cart');
+    let currentStock = Infinity; // mặc định chưa chọn biến thể => không giới hạn
 
 
+    // Giá trị mặc định
+    let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId || '';
+    let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId || '';
 
-    // Xử lý chọn màu
-    colorButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            colorButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            selectedColorId = button.dataset.colorId;
-            updateVariantInputs();
-        });
-    });
+    // Chọn màu
+colorButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        colorButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        selectedColorId = button.dataset.colorId;
+        updateVariantInputs();
 
-    // Xử lý chọn kích thước
-    sizeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            sizeButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            selectedSizeId = button.dataset.sizeId;
-            variantPickerLabel.textContent = button.dataset.size;
-            updateVariantInputs();
-        });
-    });
-
-    // Xử lý số lượng
-    btnIncrease.addEventListener('click', () => {
-        qtyInput.value = parseInt(qtyInput.value) ++;
-        inputQty.value = qtyInput.value;
-    });
-
-    btnDecrease.addEventListener('click', () => {
-        if (parseInt(qtyInput.value) > 1) {
-            // qtyInput.value = parseInt(qtyInput.value) - 1;
-            inputQty.value = qtyInput.value;
+        if (selectedColorId && selectedSizeId) {
+            updateStockDisplay({{ $product->id }}, selectedColorId, selectedSizeId);
         }
     });
-    // Cập nhật input-color và input-size
-    function updateVariantInputs() {
-    if (!selectedColorId || !selectedSizeId) {
-        alert('Vui lòng chọn màu và kích thước.');
-        return; // dừng hàm lại nếu chưa đủ điều kiện
-    }
+});
 
-    inputColor.value = selectedColorId;
-    inputSize.value = selectedSizeId;
-}
+// Chọn size
+sizeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        sizeButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        selectedSizeId = button.dataset.sizeId;
+        variantPickerLabel.textContent = button.dataset.size;
+        updateVariantInputs();
+
+        if (selectedColorId && selectedSizeId) {
+            updateStockDisplay({{ $product->id }}, selectedColorId, selectedSizeId);
+        }
+    });
+});
+
+
+    // Nút tăng số lượng
+   btnIncrease.addEventListener('click', () => {
+    console.log("clicked +");
+    setQty((parseInt(qtyInput.value, 10) || 1) + 1);
+     let currentValue = parseInt(qtyInput.value, 10) || 1;
+     if (currentValue < currentStock) {
+        qtyInput.value = currentValue + 1;
+        inputQty.value = qtyInput.value;
+    } else {
+        alert("Bạn đã đạt số lượng tối đa trong kho!");
+    }
+});
+btnDecrease.addEventListener('click', () => {
+    console.log("clicked -");
+    setQty((parseInt(qtyInput.value, 10) || 1) - 1);
+});
+
+
+    // Đồng bộ khi nhập tay số lượng
     qtyInput.addEventListener('input', () => {
         inputQty.value = qtyInput.value;
     });
 
-    // Gọi lần đầu để thiết lập giá trị mặc định
+    // Cập nhật input hidden
+    function updateVariantInputs() {
+        inputColor.value = selectedColorId;
+        inputSize.value = selectedSizeId;
+    }
+
+    // Kiểm tra trước khi submit form
+    formAddToCart.addEventListener('submit', (e) => {
+        if (!selectedColorId || !selectedSizeId) {
+            e.preventDefault();
+            alert('Vui lòng chọn màu và kích thước.');
+        }
+    });
+
+    // Gọi lần đầu để set giá trị mặc định
     updateVariantInputs();
 });
+function updateStockDisplay(productId, colorId, sizeId) {
+  const url = `{{ route('admin.product.stock') }}?product_id=${productId}&color_id=${colorId}&size_id=${sizeId}`;
+
+  fetch(url, { method: 'GET' })
+    .then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      const stockEl = document.getElementById('stock-display');
+      if (!stockEl) return;
+
+      // === QUAN TRỌNG: khai báo qty ở đây ===
+      const qty = Number(data?.quantity ?? data?.stock ?? 0);
+
+      if (data?.success) {
+        stockEl.textContent = `Còn lại: ${qty} sản phẩm`;
+        stockEl.style.color = qty > 0 ? 'green' : 'red';
+
+        // Nếu bạn muốn giới hạn nút tăng theo tồn kho:
+        currentStock = qty;
+
+        // Nếu số đang nhập > tồn kho thì hạ xuống cho an toàn (không bắt buộc)
+        const cur = parseInt(document.getElementById('quantity-product-{{ $product->id }}').value, 10) || 1;
+        if (cur > qty) {
+          document.getElementById('quantity-product-{{ $product->id }}').value = qty || 1;
+        }
+      } else {
+        stockEl.textContent = 'Không có hàng';
+        stockEl.style.color = 'red';
+        currentStock = 0; // nếu dùng giới hạn
+      }
+    })
+    .catch(err => {
+      console.error('Lỗi fetch tồn kho:', err);
+      const stockEl = document.getElementById('stock-display');
+      if (stockEl) {
+        stockEl.textContent = 'Lỗi khi lấy tồn kho';
+        stockEl.style.color = 'red';
+      }
+    });
+}
+
 </script>

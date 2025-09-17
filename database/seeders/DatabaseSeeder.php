@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
                 // ColorSeeder::class,
                 // SizesSeeder::class,
                 // ProductVariantSeeder::class,
+                RoleSeeder::class,
                 SuperAdminSeeder::class,
                 // OrderSeeder::class,
                 // OrderDetailSeeder::class,

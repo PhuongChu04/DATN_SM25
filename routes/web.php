@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\ReviewClientController;
+use App\Http\Controllers\Admin\StockController;
 
 Route::get('/test-address', function () {
     $json = File::get(base_path('packages/vudovn/dvhcvn/json/data.json'));
@@ -191,13 +192,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/shipping-rates/{shippingRate}/edit', [ShippingRateController::class, 'edit'])->name('shipping-rates.edit');
     Route::put('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'update'])->name('shipping-rates.update');
     Route::delete('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'destroy'])->name('shipping-rates.destroy');
-    //Bình luận 
+    //Bình luận
      Route::prefix('reviews')->name('reviews.')->group(function () {
         Route::get('/', [ReviewController::class, 'index'])->name('index');
         Route::get('/{review}/edit', [ReviewController::class, 'edit'])->name('edit');
         Route::put('/{review}', [ReviewController::class, 'update'])->name('update');
         Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
     });
+     // ===== Route lấy tồn kho sản phẩm (color + size) =====
+   Route::get(uri: '/product/stock', action: [StockController::class, 'getStock'])->name(name: 'product.stock');
+
 
 });
 
@@ -262,6 +266,7 @@ Route::prefix('client')->name('client.')->group(function () {
         Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
         Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
         // Route::post('/check-variant', [ProductController::class, 'checkVariant'])->name('checkVariant');
+        Route::post('/buy-now', [CartController::class, 'buyNow'])->name('cart.buyNow');
 
     });
 
@@ -327,3 +332,5 @@ Route::middleware('checkLogin')->group(function () {
     Route::get('reviews/create/{orderId}/{productId}', [ReviewClientController::class, 'create'])->name('client.reviews.create');
     Route::post('reviews/store/{orderId}', [ReviewClientController::class, 'store'])->name('client.reviews.store');
 });
+
+

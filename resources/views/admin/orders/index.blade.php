@@ -147,9 +147,14 @@
                                     <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-outline-primary me-1" title="Xem chi tiết">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    <button onclick="showEditModal({{ $order->id }})" class="btn btn-sm btn-outline-warning me-1" title="Chỉnh sửa">
+                                    <button
+                                        class="btn btn-sm btn-outline-warning me-1 btn-edit-order"
+                                        data-id="{{ $order->id }}"
+                                        data-status="{{ $order->order_status }}"
+                                        title="Chỉnh sửa">
                                         <i class="bi bi-pencil-fill"></i>
                                     </button>
+
                                     <button onclick="showDeleteModal({{ $order->id }})" class="btn btn-sm btn-outline-danger" title="Xóa">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
@@ -164,22 +169,26 @@
         {{ $orders->withQueryString()->links() }}
     </div>
 
-    @push('scripts')
-        <script>
-            function showEditModal(orderId) {
-                // Cập nhật action của form trong modal
-                document.getElementById('formEditOrder').action = '/admin/orders/' + orderId + '/update-status';
+   @push('scripts')
+<script>
+    document.querySelectorAll('.btn-edit-order').forEach(button => {
+        button.addEventListener('click', function () {
+            let orderId = this.dataset.id;
+            let orderStatus = this.dataset.status;
 
-                // Mở modal
-                new bootstrap.Modal(document.getElementById('modalEditOrder')).show();
-            }
+            // Cập nhật action của form
+            document.getElementById('formEditOrder').action = '/admin/orders/' + orderId + '/update-status';
 
-            function showDeleteModal(orderId) {
-                document.getElementById('formDeleteOrder').action = '/admin/orders/' + orderId;
-                new bootstrap.Modal(document.getElementById('modalDeleteOrder')).show();
-            }
-        </script>
-    @endpush
+            // Set trạng thái hiện tại
+            document.getElementById('orderStatusSelect').value = orderStatus;
+
+            // Mở modal
+            new bootstrap.Modal(document.getElementById('modalEditOrder')).show();
+        });
+    });
+</script>
+@endpush
+
 
    {{-- Modal: Chỉnh sửa trạng thái đơn hàng --}}
 <div class="modal fade" id="modalEditOrder" tabindex="-1" aria-hidden="true">
@@ -193,13 +202,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <select name="order_status" class="form-select" required>
-                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Đang chờ</option>
-                        <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Đang xử lý</option>
-                        <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Đã vận chuyển</option>
-                        <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Đã giao</option>
-                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Đã huỷ</option>
+                    <select id="orderStatusSelect" name="order_status" class="form-select" required>
+                        <option value="pending">Đang chờ</option>
+                        <option value="processing">Đang xử lý</option>
+                        <option value="shipped">Đã vận chuyển</option>
+                        <option value="delivered">Đã giao</option>
+                        <option value="cancelled">Đã huỷ</option>
                     </select>
+
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Cập nhật</button>
