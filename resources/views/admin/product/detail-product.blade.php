@@ -138,36 +138,44 @@
                                 <h4 class="card-title">Biến thể sản phẩm</h4>
                             </div>
                             <div class="card-body">
-                                @forelse ($product->variants as $variant)
-                                    <div class="row border p-3 mb-2 rounded bg-light">
-                                        <div class="col-md-3">
-                                            <label class="form-label">Màu sắc</label>
-                                            <div class="d-flex align-items-center">
-                                                <div
-                                                    style="width: 20px; height: 20px; border-radius: 50%; background-color: {{ $variant->color->code }}; margin-right: 10px;">
-                                                </div>
-                                                <span>{{ $variant->color->name ?? 'Không xác định' }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label">Kích cỡ</label>
-                                            <input type="text" class="form-control"
-                                                value="{{ $variant->size->name ?? 'Không xác định' }}" disabled>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label">Giá</label>
-                                            <input type="text" class="form-control"
-                                                value="{{ number_format($variant->price, 0, ',', '.') }} đ" disabled>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label">Số lượng</label>
-                                            <input type="text" class="form-control" value="{{ $variant->quantity }}"
-                                                disabled>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="alert alert-warning">Sản phẩm này chưa có biến thể.</div>
-                                @endforelse
+                               @forelse ($product->variants as $variant)
+    <div class="row border p-3 mb-2 rounded bg-light">
+        <div class="col-md-2">
+            <label class="form-label">Màu sắc</label>
+            <div class="d-flex align-items-center">
+                <div style="width: 20px; height: 20px; border-radius: 50%; background-color: {{ $variant->color->code }}; margin-right: 10px;"></div>
+                <span>{{ $variant->color->name ?? 'Không xác định' }}</span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Kích cỡ</label>
+            <input type="text" class="form-control"
+                value="{{ $variant->size->name ?? 'Không xác định' }}" disabled>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Giá</label>
+            <input type="text" class="form-control"
+                value="{{ number_format($variant->price, 0, ',', '.') }} đ" disabled>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Số lượng</label>
+            <input type="text" class="form-control" value="{{ $variant->quantity }}" disabled>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Ảnh biến thể</label><br>
+            @if ($variant->image)
+                <img src="{{ asset('storage/' . $variant->image) }}"
+                     alt="Ảnh biến thể"
+                     width="80" class="img-thumbnail">
+            @else
+                <span class="text-muted">Chưa có ảnh</span>
+            @endif
+        </div>
+    </div>
+@empty
+    <div class="alert alert-warning">Sản phẩm này chưa có biến thể.</div>
+@endforelse
+
                             </div>
                         </div>
                 </div>

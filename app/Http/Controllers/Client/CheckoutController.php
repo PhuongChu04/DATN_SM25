@@ -14,19 +14,34 @@ use App\Models\Address;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use App\Models\ProductVariant;
 
 class CheckoutController extends Controller
 {
     // Phương thức hiển thị form checkout, thanh toán
-    public function showForm()
-    {
-        $user = Sentinel::check();
-        $cartItems = [];
-        $addresses = []; // Danh sách địa chỉ người dùng
-        $defaultAddress = null; // Địa chỉ mặc định
+ public function showForm()
+{
+    $user = Sentinel::check();
+    $cartItems = [];
+    $addresses = [];
+    $defaultAddress = null;
 
+    // Nếu user đã login thì luôn load địa chỉ
+    if ($user) {
+        $addresses = Address::where('user_id', $user->id)->get();
+        $defaultAddress = Address::where('user_id', $user->id)
+                                ->where('is_default', 1)
+                                ->first();
+    }
+    if (!session()->has('buy_now')) {
+        session()->forget(['buy_now', 'buy_now_cart']);
+    }
+
+    // Ưu tiên: nếu có session "buy now" thì lấy luôn
+    if (session('buy_now') && session()->has('buy_now_cart')) {
+        $cartItems = session('buy_now_cart');
+    } else {
         if ($user) {
-            // Lấy giỏ hàng từ database
             $cart = Cart::with('details.variant.product')
                         ->where('id_user', $user->id)
                         ->first();
@@ -36,40 +51,41 @@ class CheckoutController extends Controller
             } else {
                 return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng trống');
             }
-
-            // Lấy tất cả địa chỉ của người dùng
-            $addresses = Address::where('user_id', $user->id)->get();
-
-            // Lấy địa chỉ mặc định của người dùng
-            $defaultAddress = Address::where('user_id', $user->id)
-                                     ->where('is_default', 1)
-                                     ->first();
         } else {
-            // Lấy giỏ hàng từ session nếu người dùng chưa đăng nhập
             $cartSession = session()->get('cart', []);
             if (empty($cartSession)) {
                 return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng trống');
             }
             $cartItems = $cartSession;
         }
-
-        return view('client.checkout.form', compact('cartItems', 'user', 'addresses', 'defaultAddress'));
     }
 
+    return view('client.checkout.form', compact('cartItems', 'user', 'addresses', 'defaultAddress'));
+}
+
+
+
     // Phương thức lưu đơn hàng và xử lý thanh toán (COD và VNPay)
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name'            => 'required|string',
-            'phone'           => 'required|string',
-            'address'         => 'required|string',
-            'email'           => 'nullable|email',
-            'payment_method'  => 'required|in:vnpay,cod',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'name'            => 'required|string',
+        'phone'           => 'required|string',
+        'address'         => 'required|string',
+        'email'           => 'nullable|email',
+        'payment_method'  => 'required|in:vnpay,cod',
+    ]);
 
-        $user = Sentinel::check();
-        $cartItems = [];
+    $user = Sentinel::check();
+    $cartItems = [];
+    $fromBuyNow = false;
+    $cart = null;
 
+    // 👉 Ưu tiên: nếu có session "buy now"
+    if (session('buy_now') && session()->has('buy_now_cart')) {
+        $cartItems = session('buy_now_cart');
+        $fromBuyNow = true;
+    } else {
         if ($user) {
             $cart = Cart::with('details.variant.product')
                         ->where('id_user', $user->id)
@@ -86,39 +102,74 @@ class CheckoutController extends Controller
             }
             $cartItems = $cartSession;
         }
+    }
 
-        // Kiểm tra địa chỉ giao hàng
-        $address = $request->address;
-        if (!$address) {
-            return back()->with('error', 'Vui lòng chọn địa chỉ giao hàng.');
-        }
+    // Kiểm tra địa chỉ giao hàng
+    $address = $request->address;
+    if (!$address) {
+        return back()->with('error', 'Vui lòng chọn địa chỉ giao hàng.');
+    }
 
-        DB::beginTransaction();
-        try {
-            // Tạo đơn hàng với trạng thái 'unpaid' (chưa thanh toán)
-            $order = Order::create([
-                'user_id'         => $user ? $user->id : null,
-                'order_code'      => 'DH' . strtoupper(Str::random(6)), // Ví dụ: DH4F6G8
-                'name'            => $request->name,
-                'phone'           => $request->phone,
-                'email' => $user ? $user->email : null,
-                'address'         => $address,
-                'payment_method'  => $request->payment_method,
-                'payment_status'  => 'unpaid',  // Trạng thái chưa thanh toán
-                'order_status'    => 'pending',
-                'total_price'     => 0,
-            ]);
+    DB::beginTransaction();
+    try {
+        // Tạo đơn hàng
+        $order = Order::create([
+            'user_id'        => $user ? $user->id : null,
+            'order_code'     => 'DH' . strtoupper(Str::random(6)),
+            'name'           => $request->name,
+            'phone'          => $request->phone,
+            'email'          => $user ? $user->email : null,
+            'address'        => $address,
+            'payment_method' => $request->payment_method,
+            'payment_status' => $request->payment_method === 'vnpay' ? 'failed' : 'unpaid',
+            'order_status'   => 'pending',
+            'total_price'    => 0,
+        ]);
 
-            $total = 0;
+        $total = 0;
 
-            // Lưu chi tiết đơn hàng từ giỏ hàng
+        // Nếu là "Mua ngay" → cartItems là array
+        if ($fromBuyNow) {
             foreach ($cartItems as $item) {
-                $variant = $item->variant;
+                $variant = ProductVariant::with('product')->find($item['id_variant']);
+                if (!$variant || !$variant->product) continue;
+
+                $quantity = (int)$item['quantity'];
+                if ($variant->quantity < $quantity) {
+                    DB::rollBack();
+                    return back()->with('error', 'Số lượng vượt quá tồn kho cho ' . $variant->product->name);
+                }
+
+                $price = $variant->price;
+                $lineTotal = $price * $quantity;
+
+                OrderDetail::create([
+                    'order_id'     => $order->id,
+                    'product_id'   => $variant->product->id,
+                    'variant_id'   => $variant->id,
+                    'product_name' => $variant->product->name,
+                    'quantity'     => $quantity,
+                    'unit_price'   => $price,
+                    'total'        => $lineTotal,
+                ]);
+
+                $total += $lineTotal;
+
+                $variant->decrement('quantity', $quantity);
+            }
+        } else {
+            // Nếu từ giỏ hàng (DB hoặc session)
+            foreach ($cartItems as $item) {
+                $variant = $item->variant ?? null;
+                if (!$variant) continue;
+
                 $product = $variant->product;
-
-                if (!$variant || !$product) continue;
-
                 $quantity = $item->quantity;
+                if ($variant->quantity < $quantity) {
+                    DB::rollBack();
+                    return back()->with('error', 'Số lượng vượt quá tồn kho cho ' . $product->name);
+                }
+
                 $price = $variant->price;
                 $lineTotal = $price * $quantity;
 
@@ -134,43 +185,54 @@ class CheckoutController extends Controller
 
                 $total += $lineTotal;
 
-                // Trừ tồn kho
                 $variant->decrement('quantity', $quantity);
             }
+        }
 
-            // Cập nhật tổng tiền cho đơn hàng
-            $order->update(['total_price' => $total]);
+        // Cập nhật tổng tiền
+        $order->update(['total_price' => $total]);
 
-            // Xử lý thanh toán VNPay hoặc COD
-            if ($request->payment_method === 'vnpay') {
-                // Tạo đơn hàng với trạng thái 'unpaid' trước, sau đó xử lý thanh toán VNPay
-                 $order->update([
-                    'payment_status' => 'failed',
-                    'order_status' => 'pending',
-                ]);
-                // Xóa giỏ hàng DB
-                CartDetail::where('id_cart', $cart->id)->delete();
-                DB::commit();
-                  return $this->processVNPay($order, $total);
-            }
+        // Thanh toán VNPay
+        if ($request->payment_method === 'vnpay') {
+            DB::commit();
 
-            // Nếu thanh toán COD, cập nhật trạng thái thanh toán ngay lập tức
-            if ($request->payment_method === 'cod') {
-                $order->update([
-                    'payment_status' => 'unpaid',
-                    'order_status' => 'pending',
-                ]);
-                // Xóa giỏ hàng DB
-                CartDetail::where('id_cart', $cart->id)->delete();
-                DB::commit();
-                return redirect()->route('client.cart.index')->with('success', 'Đặt hàng thành công! Vui lòng thanh toán khi nhận hàng.');
-            }
+            $this->clearCart($fromBuyNow, $cart);
 
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Lỗi: ' . $e->getMessage());
+            return $this->processVNPay($order, $total);
+        }
+
+        // Thanh toán COD
+        if ($request->payment_method === 'cod') {
+            DB::commit();
+
+            $this->clearCart($fromBuyNow, $cart);
+
+            return redirect()->route('client.cart.index')
+                             ->with('success', 'Đặt hàng thành công! Vui lòng thanh toán khi nhận hàng.');
+        }
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Lỗi: ' . $e->getMessage());
+    }
+}
+
+/**
+ * Xóa giỏ hàng hoặc session sau khi đặt hàng
+ */
+private function clearCart($fromBuyNow, $cart = null)
+{
+    if ($fromBuyNow) {
+        session()->forget(['buy_now', 'buy_now_cart']);
+    } else {
+        if ($cart) {
+            CartDetail::where('id_cart', $cart->id)->delete();
+        } else {
+            session()->forget('cart');
         }
     }
+}
+
 
     // Xử lý thanh toán VNPay
     private function processVNPay($order, $total)
@@ -278,4 +340,21 @@ class CheckoutController extends Controller
             return redirect()->route('client.cart.index')->with('error', 'Thanh toán không thành công: ' . $request->input('vnp_ResponseMessage'));
         }
     }
+    public function continuePayment($orderId)
+{
+    $order = Order::findOrFail($orderId);
+
+    // Chỉ cho phép retry nếu trạng thái là thất bại hoặc chưa thanh toán
+    if (!in_array($order->payment_status, ['failed', 'unpaid'])) {
+        return redirect()->route('client.orders.index')
+            ->with('error', 'Đơn hàng này không thể thanh toán lại.');
+    }
+
+    // Tính lại tổng tiền
+    $total = $order->total_price;
+
+    // Gọi lại processVNPay
+    return $this->processVNPay($order, $total);
+}
+
 }

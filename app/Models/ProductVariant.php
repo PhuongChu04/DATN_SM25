@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductVariant extends Model
 {
+    use HasFactory, SoftDeletes;
+
+    protected $dates = ['deleted_at'];
      protected $table = 'product_variants';
 
     protected $fillable = [
@@ -16,6 +20,7 @@ class ProductVariant extends Model
         'id_size',
         'price',
         'status',
+        'image',
     ];
 
     public function product()

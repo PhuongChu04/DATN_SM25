@@ -326,6 +326,7 @@ Route::middleware('checkLogin')->group(function () {
     Route::get('client/orders/{order}/cancel-confirm', [OrderClientController::class, 'cancelConfirm'])->name('client.orders.cancelConfirm');
     Route::post('client/orders/{order}/cancel-finalize', [OrderClientController::class, 'cancelFinalize'])->name('client.orders.cancelFinalize');
     Route::post('client/orders/{order}/cancel-action', [OrderClientController::class, 'cancelAction'])->name('client.orders.cancelAction');
+    Route::get('client/orders/{order}/continue-payment', [CheckoutController::class, 'continuePayment'])->name('order.continuePayment');
 });
 // Route cho việc đánh giá client
 Route::middleware('checkLogin')->group(function () {

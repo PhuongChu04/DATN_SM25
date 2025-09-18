@@ -293,10 +293,14 @@
                                             </button>
                                         </div>
 
-                                        <a href="javascript:void(0);" class="tf-btn btn-primary w-100 animate-btn">Mua
-                                            ngay</a>
+
+
                                     </div>
                                 </form>
+                                <button type="button" class="tf-btn btn-primary w-100 animate-btn"
+                                                        onclick="return buyNowStandalone({{ $product->id }})">
+                                                Mua ngay
+                                                </button>
 
                                 <div class="tf-product-extra-link">
                                     <a href="javascript:void(0);" class="product-extra-icon link btn-add-wishlist">
@@ -587,11 +591,49 @@
     </section>
     <!-- /Recently Viewed -->
 @endsection
+<script>
+function buyNowStandalone(productId){
+  // tự đọc lựa chọn hiện tại từ DOM, không phụ thuộc biến toàn cục
+  const colorEl = document.querySelector('.color-btn.active');
+  const sizeEl  = document.querySelector('.size-btn.active');
+  if(!colorEl || !sizeEl){
+    alert('Vui lòng chọn màu và kích thước.');
+    return false;
+  }
+  const selectedColorId = colorEl.dataset.colorId;
+  const selectedSizeId  = sizeEl.dataset.sizeId;
+  const qtyInput = document.getElementById('quantity-product-' + productId);
+  const qtyValue = parseInt(qtyInput?.value, 10) || 1;
+
+  // tạo form tạm và submit sang buyNow
+  const f = document.createElement('form');
+  f.method = 'POST';
+  f.action = "{{ route('client.cart.buyNow') }}";
+
+  const token = document.createElement('input');
+  token.type='hidden'; token.name='_token'; token.value="{{ csrf_token() }}"; f.appendChild(token);
+
+  const pid = document.createElement('input');
+  pid.type='hidden'; pid.name='product_id'; pid.value=productId; f.appendChild(pid);
+
+  const c = document.createElement('input');
+  c.type='hidden'; c.name='id_color'; c.value=selectedColorId; f.appendChild(c);
+
+  const s = document.createElement('input');
+  s.type='hidden'; s.name='id_size'; s.value=selectedSizeId; f.appendChild(s);
+
+  const q = document.createElement('input');
+  q.type='hidden'; q.name='quantity'; q.value=qtyValue; f.appendChild(q);
+
+  document.body.appendChild(f);
+  f.submit();
+  return false;
+}
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const qtyInput = document.getElementById('quantity-product-{{ $product->id }}');
-    const inputQty = document.getElementById('input-quantity');
     const inputColor = document.getElementById('input-color');
     const inputSize = document.getElementById('input-size');
     const btnIncrease = document.querySelector('.btn-increase');
@@ -600,6 +642,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sizeButtons = document.querySelectorAll('.size-btn');
     const variantPickerLabel = document.querySelector('.value-currentSize');
     const formAddToCart = document.getElementById('form-add-to-cart');
+
     let currentStock = Infinity; // mặc định chưa chọn biến thể => không giới hạn
 
 
@@ -644,7 +687,7 @@ sizeButtons.forEach(button => {
      let currentValue = parseInt(qtyInput.value, 10) || 1;
      if (currentValue < currentStock) {
         qtyInput.value = currentValue + 1;
-        inputQty.value = qtyInput.value;
+
     } else {
         alert("Bạn đã đạt số lượng tối đa trong kho!");
     }
@@ -657,7 +700,7 @@ btnDecrease.addEventListener('click', () => {
 
     // Đồng bộ khi nhập tay số lượng
     qtyInput.addEventListener('input', () => {
-        inputQty.value = qtyInput.value;
+
     });
 
     // Cập nhật input hidden
@@ -676,6 +719,8 @@ btnDecrease.addEventListener('click', () => {
 
     // Gọi lần đầu để set giá trị mặc định
     updateVariantInputs();
+
+
 });
 function updateStockDisplay(productId, colorId, sizeId) {
   const url = `{{ route('admin.product.stock') }}?product_id=${productId}&color_id=${colorId}&size_id=${sizeId}`;
@@ -689,7 +734,7 @@ function updateStockDisplay(productId, colorId, sizeId) {
       const stockEl = document.getElementById('stock-display');
       if (!stockEl) return;
 
-      // === QUAN TRỌNG: khai báo qty ở đây ===
+
       const qty = Number(data?.quantity ?? data?.stock ?? 0);
 
       if (data?.success) {
@@ -718,6 +763,7 @@ function updateStockDisplay(productId, colorId, sizeId) {
         stockEl.style.color = 'red';
       }
     });
+
 }
 
 </script>

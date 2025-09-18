@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Models\ProductVariant;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductVariantService
 {
@@ -20,6 +23,9 @@ class ProductVariantService
     public function createProductVariant($data)
     {
         try {
+            if (isset($data['image']) && $data['image']->isValid()) {
+                $data['image'] = $data['image']->store('variants', 'public');
+            }
             return ProductVariant::create($data);
         } catch (\Exception $e) {
             Log::error('Lỗi khi tạo biến thể sản phẩm: ' . $e->getMessage());
@@ -28,21 +34,38 @@ class ProductVariantService
     }
 
     public function updateProductVariant($data, $id)
-    {
-        try {
-            $variant = ProductVariant::findOrFail($id);
-            $variant->update($data);
-            return $variant;
-        } catch (\Exception $e) {
-            Log::error('Lỗi khi cập nhật biến thể sản phẩm: ' . $e->getMessage());
-            return false;
+{
+    try {
+        $variant = ProductVariant::findOrFail($id);
+
+        if (isset($data['image']) && $data['image']->isValid()) {
+            // Xoá ảnh cũ nếu có
+            if ($variant->image) {
+                Storage::disk('public')->delete($variant->image);
+            }
+            $data['image'] = $data['image']->store('variants', 'public');
         }
+
+        $variant->update($data);
+        return $variant;
+    } catch (\Exception $e) {
+        Log::error('Lỗi khi cập nhật biến thể sản phẩm: ' . $e->getMessage());
+        return false;
     }
+}
 
     public function deleteProductVariant($id)
     {
         try {
             $variant = ProductVariant::findOrFail($id);
+
+            // Nếu biến thể đã từng có trong OrderDetail -> chỉ soft delete
+            if (OrderDetail::where('variant_id', $id)->exists()) {
+                $variant->delete();
+                return true;
+            }
+
+            // Nếu chưa có trong đơn hàng -> vẫn chỉ soft delete
             $variant->delete();
             return true;
         } catch (\Exception $e) {
@@ -72,6 +95,12 @@ class ProductVariantService
     {
         try {
             $variant = ProductVariant::onlyTrashed()->findOrFail($id);
+
+            // Nếu đã tồn tại trong OrderDetail thì KHÔNG được xoá vĩnh viễn
+            if (OrderDetail::where('variant_id', $id)->exists()) {
+                return false;
+            }
+
             $variant->forceDelete();
             return true;
         } catch (\Exception $e) {
@@ -83,7 +112,17 @@ class ProductVariantService
     public function bulkDelete(array $ids)
     {
         try {
-            ProductVariant::whereIn('id', $ids)->delete();
+            foreach ($ids as $id) {
+                $variant = ProductVariant::find($id);
+                if ($variant) {
+                    // Nếu đã từng có trong đơn hàng -> chỉ soft delete
+                    if (OrderDetail::where('variant_id', $id)->exists()) {
+                        $variant->delete();
+                    } else {
+                        $variant->delete();
+                    }
+                }
+            }
             return true;
         } catch (\Exception $e) {
             Log::error('Lỗi khi xóa hàng loạt biến thể sản phẩm: ' . $e->getMessage());
@@ -101,7 +140,4 @@ class ProductVariantService
             return false;
         }
     }
-
- 
-  
 }
