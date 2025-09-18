@@ -92,6 +92,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/bulk-restore', [AdminProductController::class, 'bulkRestore'])->name('bulkRestore');
         // phần search
         Route::get('/search', [AdminProductController::class, 'search'])->name('search');
+        // biến thể
+        Route::get('/variant-trash', [AdminProductController::class, 'variantTrash'])->name('variant.trash');
+    Route::post('/variant-restore', [AdminProductController::class, 'variantRestore'])->name('variant.restore');
+    Route::post('/variant-force-delete',[AdminProductController::class, 'variantForceDelete'])->name('variant.forceDelete');  
     });
 
 

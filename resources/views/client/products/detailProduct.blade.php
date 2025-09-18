@@ -3,6 +3,7 @@
 @section('content')
 <style>
     /* Style cho widget-accordion */
+
 .widget-accordion {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -132,69 +133,109 @@
             <div class="container">
                 <div class="row">
                     <!-- Product Images -->
-                    <div class="col-md-6">
-                        <div class="tf-product-media-wrap sticky-top">
-                            <div class="product-thumbs-slider">
-                                <div dir="ltr" class="swiper tf-product-media-thumbs other-image-zoom" data-preview="4"
-                                    data-direction="vertical">
-                                    <div class="swiper-wrapper stagger-wrap">
-                                        <!-- black -->
-                                        <div class="swiper-slide stagger-item" data-color="black" data-size="small">
-                                            <div class="item">
-                                                <img class="lazyload"
-                                                    data-src="{{ asset('storage/' . $product['image_primary']) }}"
-                                                    src="{{ asset('storage/' . $product['image_primary']) }}"
-                                                    alt="img-product">
-                                            </div>
-                                        </div>
-                                        @foreach ($product->albums as $item)
-                                            <div class="swiper-slide stagger-item" data-color="black" data-size="medium">
+                        <div class="col-md-6">
+                            <div class="tf-product-media-wrap sticky-top">
+                                <div class="product-thumbs-slider">
+                                    <!-- Thumbnails -->
+                                    <div dir="ltr" class="swiper tf-product-media-thumbs other-image-zoom" data-preview="4"
+                                        data-direction="vertical">
+                                        <div class="swiper-wrapper stagger-wrap">
+                                            <!-- Ảnh chính -->
+                                            <div class="swiper-slide stagger-item">
                                                 <div class="item">
                                                     <img class="lazyload"
-                                                        data-src="{{ asset('storage/' . $item['image_path']) }}"
-                                                        src="{{ asset('storage/' . $item['image_path']) }}"
+                                                        data-src="{{ asset('storage/' . $product->image_primary) }}"
+                                                        src="{{ asset('storage/' . $product->image_primary) }}"
                                                         alt="img-product">
                                                 </div>
                                             </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="flat-wrap-media-product">
-                                    <div dir="ltr" class="swiper tf-product-media-main" id="gallery-swiper-started">
-                                        <div class="swiper-wrapper">
-                                            <!-- black -->
-                                            <div class="swiper-slide" data-color="black" data-size="small">
-                                                <a href="{{ asset('storage/' . $product['image_primary']) }}"
-                                                    target="_blank" class="item" data-pswp-width="552px"
-                                                    data-pswp-height="827px">
-                                                    <img class="tf-image-zoom lazyload"
-                                                        data-zoom="{{ asset('storage/' . $product['image_primary']) }}"
-                                                        data-src="{{ asset('storage/' . $product['image_primary']) }}"
-                                                        src="{{ asset('storage/' . $product['image_primary']) }}"
-                                                        alt="img-product">
-                                                </a>
-                                            </div>
+
+                                            <!-- Album -->
                                             @foreach ($product->albums as $item)
-                                                <div class="swiper-slide" data-color="black" data-size="medium">
-                                                    <a href="{{ asset('storage/' . $item['image_path']) }}" target="_blank"
-                                                        class="item" data-pswp-width="552px" data-pswp-height="827px">
-                                                        <img class="tf-image-zoom lazyload"
-                                                            data-zoom="{{ asset('storage/' . $item['image_path']) }}"
-                                                            data-src="{{ asset('storage/' . $item['image_path']) }}"
-                                                            src="{{ asset('storage/' . $item['image_path']) }}"
+                                                <div class="swiper-slide stagger-item">
+                                                    <div class="item">
+                                                        <img class="lazyload"
+                                                            data-src="{{ asset('storage/' . $item->image_path) }}"
+                                                            src="{{ asset('storage/' . $item->image_path) }}"
                                                             alt="img-product">
-                                                    </a>
+                                                    </div>
                                                 </div>
+                                            @endforeach
+
+                                            <!-- Ảnh biến thể -->
+                                            @foreach ($product->variants as $variant)
+                                                @if($variant->image)
+                                                    <div class="swiper-slide stagger-item">
+                                                        <div class="item">
+                                                            <img class="lazyload"
+                                                                data-src="{{ asset('storage/' . $variant->image) }}"
+                                                                src="{{ asset('storage/' . $variant->image) }}"
+                                                                alt="variant-image">
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="swiper-button-next nav-swiper thumbs-next"></div>
-                                    <div class="swiper-button-prev nav-swiper thumbs-prev"></div>
+
+                                    <!-- Main gallery -->
+                                    <div class="flat-wrap-media-product">
+                                        <div dir="ltr" class="swiper tf-product-media-main" id="gallery-swiper-started">
+                                            <div class="swiper-wrapper">
+                                                <!-- Ảnh chính -->
+                                                <div class="swiper-slide">
+                                                    <a href="{{ asset('storage/' . $product->image_primary) }}"
+                                                        target="_blank" class="item" data-pswp-width="552px" data-pswp-height="827px">
+                                                        <img class="tf-image-zoom lazyload"
+                                                            data-zoom="{{ asset('storage/' . $product->image_primary) }}"
+                                                            data-src="{{ asset('storage/' . $product->image_primary) }}"
+                                                            src="{{ asset('storage/' . $product->image_primary) }}"
+                                                            alt="img-product">
+                                                    </a>
+                                                </div>
+
+                                                <!-- Album -->
+                                                @foreach ($product->albums as $item)
+                                                    <div class="swiper-slide">
+                                                        <a href="{{ asset('storage/' . $item->image_path) }}" target="_blank"
+                                                            class="item" data-pswp-width="552px" data-pswp-height="827px">
+                                                            <img class="tf-image-zoom lazyload"
+                                                                data-zoom="{{ asset('storage/' . $item->image_path) }}"
+                                                                data-src="{{ asset('storage/' . $item->image_path) }}"
+                                                                src="{{ asset('storage/' . $item->image_path) }}"
+                                                                alt="img-product">
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+
+                                                <!-- Ảnh biến thể -->
+                                                @foreach ($product->variants as $variant)
+                                                    @if($variant->image)
+                                                        <div class="swiper-slide"
+                                                            data-color-id="{{ $variant->id_color }}"
+                                                            data-size-id="{{ $variant->id_size }}">
+                                                            <a href="{{ asset('storage/' . $variant->image) }}" target="_blank"
+                                                                class="item" data-pswp-width="552px" data-pswp-height="827px">
+                                                                <img class="tf-image-zoom lazyload"
+                                                                    data-zoom="{{ asset('storage/' . $variant->image) }}"
+                                                                    data-src="{{ asset('storage/' . $variant->image) }}"
+                                                                    src="{{ asset('storage/' . $variant->image) }}"
+                                                                    alt="variant-image">
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+
+                                            </div>
+                                        </div>
+                                        <div class="swiper-button-next nav-swiper thumbs-next"></div>
+                                        <div class="swiper-button-prev nav-swiper thumbs-prev"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <!-- /Product Images -->
+
                     <!-- Product Info -->
                     <div class="col-md-6">
                         <div class="tf-zoom-main"></div>
@@ -246,7 +287,9 @@
                                      <p id="stock-display" style="color: red; font-weight: bold;">Chọn màu và size để xem tồn kho</p>
                                     <div class="tf-product-variant">
                                         <div class="variant-picker-item variant-color">
-                                            <div class="variant-picker-label">Colors:</div>
+                                            <div class="variant-picker-label">
+                                                <div>Color: <span class="variant-picker-label-value value-currentColor"></span></div>
+                                            </div>
                                             <div class="variant-picker-values">
                                                 @foreach ($product->colors as $item)
                                                     <div class="hover-tooltip tooltip-bot color-btn {{ $loop->first ? 'active' : '' }}"
@@ -641,6 +684,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const colorButtons = document.querySelectorAll('.color-btn');
     const sizeButtons = document.querySelectorAll('.size-btn');
     const variantPickerLabel = document.querySelector('.value-currentSize');
+    const variantColorLabel = document.querySelector('.value-currentColor');
     const formAddToCart = document.getElementById('form-add-to-cart');
 
     let currentStock = Infinity; // mặc định chưa chọn biến thể => không giới hạn
@@ -655,7 +699,15 @@ colorButtons.forEach(button => {
     button.addEventListener('click', () => {
         colorButtons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
+
         selectedColorId = button.dataset.colorId;
+
+        // cập nhật hiển thị tên màu
+        const variantColorLabel = document.querySelector('.value-currentColor');
+        if (variantColorLabel) {
+            variantColorLabel.textContent = button.dataset.color;
+        }
+
         updateVariantInputs();
 
         if (selectedColorId && selectedSizeId) {
@@ -663,6 +715,7 @@ colorButtons.forEach(button => {
         }
     });
 });
+
 
 // Chọn size
 sizeButtons.forEach(button => {
@@ -767,3 +820,53 @@ function updateStockDisplay(productId, colorId, sizeId) {
 }
 
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Swiper chính của gallery
+    const gallerySwiper = document.querySelector('#gallery-swiper-started').swiper;
+
+    // Lấy nút chọn color và size
+    const colorButtons = document.querySelectorAll('.color-btn');
+    const sizeButtons = document.querySelectorAll('.size-btn');
+
+    let selectedColorId = null;
+    let selectedSizeId = null;
+
+    // Khi chọn color
+    colorButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectedColorId = btn.dataset.colorId;
+            trySwitchVariantImage();
+        });
+    });
+
+    // Khi chọn size
+    sizeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectedSizeId = btn.dataset.sizeId;
+            trySwitchVariantImage();
+        });
+    });
+
+    function trySwitchVariantImage() {
+        if (!selectedColorId || !selectedSizeId) return;
+
+        const slides = document.querySelectorAll('#gallery-swiper-started .swiper-slide');
+        let targetIndex = -1;
+
+        slides.forEach((slide, idx) => {
+            if (
+                slide.dataset.colorId == selectedColorId &&
+                slide.dataset.sizeId == selectedSizeId
+            ) {
+                targetIndex = idx;
+            }
+        });
+
+        if (targetIndex >= 0 && gallerySwiper) {
+            gallerySwiper.slideTo(targetIndex);
+        }
+    }
+});
+</script>
+

@@ -92,22 +92,29 @@ class ProductVariantService
     }
 
     public function forceDeleteProductVariant($id)
-    {
-        try {
-            $variant = ProductVariant::onlyTrashed()->findOrFail($id);
+        {
+            try {
+                $variant = ProductVariant::onlyTrashed()->findOrFail($id);
 
-            // Nếu đã tồn tại trong OrderDetail thì KHÔNG được xoá vĩnh viễn
-            if (OrderDetail::where('variant_id', $id)->exists()) {
+                // Nếu đã tồn tại trong OrderDetail thì KHÔNG được xoá vĩnh viễn
+                if (OrderDetail::where('variant_id', $id)->exists()) {
+                    return false;
+                }
+
+                // Xoá file ảnh nếu có
+                if ($variant->image) {
+                    Storage::disk('public')->delete($variant->image);
+                }
+
+                // Xoá cứng record
+                $variant->forceDelete();
+                return true;
+            } catch (\Exception $e) {
+                Log::error('Lỗi khi xóa vĩnh viễn biến thể sản phẩm: ' . $e->getMessage());
                 return false;
             }
-
-            $variant->forceDelete();
-            return true;
-        } catch (\Exception $e) {
-            Log::error('Lỗi khi xóa vĩnh viễn biến thể sản phẩm: ' . $e->getMessage());
-            return false;
         }
-    }
+
 
     public function bulkDelete(array $ids)
     {

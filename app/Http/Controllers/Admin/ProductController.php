@@ -187,4 +187,58 @@ class ProductController extends Controller
         }
         return view('admin.product.list-product', compact('products', 'search'));
     }
+        // Trang danh sách biến thể đã xoá
+    public function variantTrash()
+    {
+        $trashedVariants = $this->productVariantService->getTrashedProductVariants();
+        return view('admin.product.variant-trash', compact('trashedVariants'));
+    }
+
+    // Khôi phục biến thể (một hoặc nhiều)
+    public function variantRestore(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return redirect()->route('admin.product.variant.trash')->with('error', 'Chưa chọn biến thể nào');
+        }
+
+        if ($this->productVariantService->bulkRestore($ids)) {
+            return redirect()->route('admin.product.variant.trash')->with('success', 'Khôi phục biến thể thành công');
+        }
+
+        return redirect()->route('admin.product.variant.trash')->with('error', 'Khôi phục biến thể thất bại');
+    }
+
+    // Xoá vĩnh viễn biến thể (một hoặc nhiều)
+    public function variantForceDelete(Request $request)
+        {
+            $ids = $request->input('ids', []);
+            if (empty($ids)) {
+                return redirect()->route('admin.product.variant.trash')->with('error', 'Chưa chọn biến thể nào');
+            }
+
+            $success = [];
+            $failed = [];
+
+            foreach ($ids as $id) {
+                if ($this->productVariantService->forceDeleteProductVariant($id)) {
+                    $success[] = $id;
+                } else {
+                    $failed[] = $id;
+                }
+            }
+
+            if (!empty($success) && empty($failed)) {
+                return redirect()->route('admin.product.variant.trash')
+                    ->with('success', 'Đã xoá vĩnh viễn các biến thể đã chọn');
+            } elseif (!empty($success) && !empty($failed)) {
+                return redirect()->route('admin.product.variant.trash')
+                    ->with('success', 'Một số biến thể đã được xoá vĩnh viễn')
+                    ->with('error', 'Một số biến thể không thể xoá do đã có trong đơn hàng');
+            } else {
+                return redirect()->route('admin.product.variant.trash')
+                    ->with('error', 'Không thể xoá vĩnh viễn biến thể nào (đã có trong đơn hàng)');
+            }
+        }
+
 }

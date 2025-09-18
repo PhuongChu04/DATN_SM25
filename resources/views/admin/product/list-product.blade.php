@@ -14,7 +14,9 @@
                         </a>
 
                         <a href="{{ route('admin.product.trash') }}" class="btn btn-soft-danger btn-sm">Đã Xóa</a>
-
+                        <a href="{{ route('admin.product.variant.trash') }}" class="btn btn-soft-danger btn-sm">
+                                    Biến thể đã xoá
+                                </a>
 
                         <div class="dropdown">
                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown"

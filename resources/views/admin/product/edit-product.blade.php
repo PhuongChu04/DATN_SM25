@@ -157,6 +157,8 @@
                                 <button type="button" class="btn btn-success" id="add-variant-btn">+ Thêm biến thể</button>
                                 <button type="submit" class="btn btn-primary">Lưu</button>
                                 <a href="{{ route('admin.product.listProduct') }}" class="btn btn-secondary">Hủy</a>
+                                {{-- Nút sang trang biến thể đã xoá --}}
+                                
                             </div>
                         </div>
                     </div>
