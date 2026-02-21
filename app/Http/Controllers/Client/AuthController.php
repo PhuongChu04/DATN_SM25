@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\CartDetail;
+use App\Models\ProductVariant;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Exception;
@@ -25,21 +28,13 @@ class AuthController extends Controller
     public function postLogin(Request $req) {
         try {
          $credentials = $req->validate([
-                
+
+
                 'email' => 'required|email|exists:users,email',
                 'password' => 'required'
             ]);
-            // $user = Sentinel::authenticate($credentials);
 
-            // if ($user) {
-            //     return redirect()->route('client.dashboard')->with([
-            //         'message' => 'Đăng nhập thành công!'
-            //     ]);
-            // }
 
-            // return redirect()->back()->withErrors([
-            //     'error' => 'Email hoặc mật khẩu không đúng.'
-            // ])->withInput();
             Sentinel::authenticate($credentials);
              return redirect('/client/dashboard')->with([
                 // alert('Đăng Nhập thành công!')
@@ -50,6 +45,33 @@ class AuthController extends Controller
             ])->withInput();
         }
     }
+    public function syncSessionCart($user)
+{
+    $sessionCart = session()->get('cart', []);
+    if (!empty($sessionCart)) {
+        $cart = Cart::firstOrCreate(['id_user' => $user->id]);
+        foreach ($sessionCart as $variantId => $item) {
+            $cartDetail = CartDetail::where('id_cart', $cart->id)
+                                   ->where('id_variant', $variantId)
+                                   ->first();
+            $variant = ProductVariant::find($variantId);
+            if ($variant && $variant->stock >= $item['quantity']) {
+                if ($cartDetail) {
+                    $cartDetail->quantity += $item['quantity'];
+                    $cartDetail->save();
+                } else {
+                    CartDetail::create([
+                        'id_cart' => $cart->id,
+                        'id_variant' => $variantId,
+                        'quantity' => $item['quantity'],
+                    ]);
+                }
+            }
+        }
+        // Xóa session sau khi đồng bộ
+        session()->forget('cart');
+    }
+}
     public function postRegister(Request $req)
     {
         try {
@@ -141,7 +163,9 @@ public function updateAccountDetail(Request $req)
         Log::info('Thông tin người dùng đã được cập nhật thành công', ['user_id' => $user->id]);
 
         return redirect()->route('client.accountDetail')->with('success', 'Thông tin tài khoản đã được cập nhật thành công!');
-    } catch (\Exception $e) {
+
+    } catch (Exception $e) {
+
         Log::error('Lỗi khi cập nhật thông tin người dùng', [
             'message' => $e->getMessage(),
             'trace' => $e->getTraceAsString(),

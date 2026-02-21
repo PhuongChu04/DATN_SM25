@@ -11,22 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-          Schema::create('product_variants', function (Blueprint $table) {
-    $table->id();
-    $table->unsignedBigInteger('id_product');
-    $table->unsignedInteger('quantity')->default(0);
-    $table->unsignedBigInteger('id_color');
-    $table->unsignedBigInteger('id_size');
-    $table->decimal('price', 10, 2)->default(0);
-    $table->string('status')->default('active');
-    $table->timestamps();
-    $table->softDeletes();
+        Schema::create('product_variants', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_product');
+            $table->unsignedInteger('quantity')->default(0);
+            $table->unsignedBigInteger('id_color');
+            $table->unsignedBigInteger('id_size');
+            $table->decimal('price', 10, 0)->default(0);
+            $table->decimal('sale_price', 10, 0)->nullable();
+            $table->string('status')->default('active');
+            $table->timestamps();
+            $table->softDeletes();
 
-    // Các ràng buộc khóa ngoại
-    $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
-    $table->foreign('id_color')->references('id')->on('colors')->onDelete('cascade');
-    $table->foreign('id_size')->references('id')->on('sizes')->onDelete('cascade');
-});
+            // Các ràng buộc khóa ngoại
+            $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('id_color')->references('id')->on('colors')->onDelete('cascade');
+            $table->foreign('id_size')->references('id')->on('sizes')->onDelete('cascade');
+        });
     }
 
     /**

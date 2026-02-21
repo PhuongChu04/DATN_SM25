@@ -13,17 +13,20 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->nullable()->constrained('users')->onDelete('set null')->index();
-            $table->json('user_data');
-            $table->json('address_data');
-            $table->json('voucher_data')->nullable();
-            $table->string('status', 50)->default('pending');
-            $table->string('note')->nullable();
-            $table->decimal('subtotal', 15, 2);
-            $table->decimal('shipping', 10, 2)->nullable();
-            $table->decimal('total', 15, 2);
-            $table->string('payment_method');
-            $table->timestamps();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->string('order_code', 20)->unique();
+            $table->string('name', 255);
+            $table->string('phone', 20);
+            $table->string('email', 255)->nullable();
+            $table->text('address');
+            $table->enum('payment_method', ['vnpay', 'cod'])->default('cod');
+            $table->enum('payment_status', ['unpaid', 'paid', 'refund'])->default('unpaid');
+            $table->enum('order_status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
+            $table->decimal('shipping_fee', 10, 2)->default(0.00);
+            $table->decimal('discount', 10, 2)->default(0.00);
+            $table->decimal('total_price', 10, 2)->default(0.00);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
