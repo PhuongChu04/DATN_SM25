@@ -8,9 +8,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Address;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+
 
     /**
      * The attributes that are mass assignable.
@@ -18,11 +24,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        
-        'email',
-        'password',
-        'first_name',
-        'last_name',
+
+       'email', 'password', 'first_name', 'last_name', 'permissions', 'last_login','status'
     ];
 
     /**
@@ -44,4 +47,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function addresses()
+{
+    return $this->hasMany(\App\Models\Address::class);
+}
+ public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users', 'user_id', 'role_id');
+    }
+public function hasRole($slug)
+    {
+        return $this->roles()->where('slug', $slug)->exists();
+    }
+
+
 }

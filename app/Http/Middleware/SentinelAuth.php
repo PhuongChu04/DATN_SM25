@@ -13,14 +13,24 @@ class SentinelAuth
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-       if (Sentinel::check()) {
-            return $next($request);
+   public function handle(Request $request, Closure $next): Response
+{
+    if (Sentinel::check()) {
+        $user = Sentinel::getUser();
+
+        // kiểm tra status
+        if ($user->status == 0) {
+            Sentinel::logout();
+            return redirect()->route('auth.loginClient')
+                ->with('error', 'Tài khoản của bạn đã bị khóa.');
         }
 
-        return redirect()->route('auth.loginClient')->with([
-            'message' => 'Vui lòng đăng nhập để tiếp tục.'
-        ]);
+        return $next($request);
     }
+
+    return redirect()->route('auth.loginClient')
+        ->with('message', 'Vui lòng đăng nhập để tiếp tục.');
+}
+
+
 }

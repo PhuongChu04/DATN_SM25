@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\CartDetail;
+use App\Models\ProductVariant;
+use App\Models\User;
+use App\Services\UserService;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Exception;
@@ -13,6 +18,13 @@ use function Laravel\Prompts\alert;
 
 class AuthController extends Controller
 {
+
+     protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
     public function login()
     {
         return view('client.auth.login');
@@ -25,52 +37,101 @@ class AuthController extends Controller
     public function postLogin(Request $req) {
         try {
          $credentials = $req->validate([
-                
+
+
                 'email' => 'required|email|exists:users,email',
                 'password' => 'required'
             ]);
-            // $user = Sentinel::authenticate($credentials);
+             Log::info('Login attempt: ', $credentials);
 
-            // if ($user) {
-            //     return redirect()->route('client.dashboard')->with([
-            //         'message' => 'Đăng nhập thành công!'
-            //     ]);
-            // }
 
-            // return redirect()->back()->withErrors([
-            //     'error' => 'Email hoặc mật khẩu không đúng.'
-            // ])->withInput();
-            Sentinel::authenticate($credentials);
-             return redirect('/client/dashboard')->with([
-                // alert('Đăng Nhập thành công!')
-            ]);
+            // Kiểm tra trạng thái người dùng
+        $user = User::where('email', $credentials['email'])->first();
+        if ($user && $user->status == 0) {
+            Log::warning('Đăng nhập không thành công: Tài khoản buộc dừng hoạt động', ['email' => $credentials['email']]);
+             return redirect()->route('auth.loginClient')
+                ->with('error', 'Tài khoản của bạn đã bị khóa.')->withInput();
+        }
+
+        if (Sentinel::authenticate($credentials)) {
+            return redirect('/client/dashboard')->with('success', 'Đăng nhập thành công!');
+        } else {
+            Log::error('Đăng nhập không thành công: Thông tin đăng nhập email không hợp lệ ' . $credentials['email']);
+            return redirect()->back()->withErrors([
+                'error' => 'Email hoặc mật khẩu không đúng.'
+            ])->withInput();
+        }
         }catch (Exception $e) {
             return redirect()->back()->withErrors([
                 'error' => 'Email hoặc password sai: ' . $e->getMessage()
             ])->withInput();
         }
     }
-    public function postRegister(Request $req)
-    {
-        try {
-            $credentials = $req->validate([
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
-
-            Sentinel::registerAndActivate($credentials);
-
-            return redirect('/auth/dashboard')->with([
-                'message' => 'Đăng ký thành công! Vui lòng đăng nhập.'
-            ]);
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors([
-                'error' => 'Đăng ký thất bại: ' . $e->getMessage()
-            ])->withInput();
+    public function syncSessionCart($user)
+{
+    $sessionCart = session()->get('cart', []);
+    if (!empty($sessionCart)) {
+        $cart = Cart::firstOrCreate(['id_user' => $user->id]);
+        foreach ($sessionCart as $variantId => $item) {
+            $cartDetail = CartDetail::where('id_cart', $cart->id)
+                                   ->where('id_variant', $variantId)
+                                   ->first();
+            $variant = ProductVariant::find($variantId);
+            if ($variant && $variant->stock >= $item['quantity']) {
+                if ($cartDetail) {
+                    $cartDetail->quantity += $item['quantity'];
+                    $cartDetail->save();
+                } else {
+                    CartDetail::create([
+                        'id_cart' => $cart->id,
+                        'id_variant' => $variantId,
+                        'quantity' => $item['quantity'],
+                    ]);
+                }
+            }
         }
+        // Xóa session sau khi đồng bộ
+        session()->forget('cart');
     }
+}
+    public function postRegister(Request $req)
+{
+    try {
+        // Xác thực dữ liệu đầu vào
+        $data = $req->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6'
+        ]);
+
+        // Đăng ký và kích hoạt người dùng qua Sentinel
+        $user = Sentinel::registerAndActivate([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ]);
+
+        // Cập nhật trạng thái
+        $user->status = 1; // Hoặc 0 nếu muốn khóa mặc định
+        $user->save();
+
+        Log::info('Đăng ký người dùng thành công', [
+            'email' => $data['email'],
+            'status' => $user->status
+        ]);
+
+        return redirect('/auth/dashboard')->with([
+            'message' => 'Đăng ký thành công! Vui lòng đăng nhập.'
+        ]);
+    } catch (Exception $e) {
+        Log::error('Đăng ký thất bại: ', ['error' => $e->getMessage()]);
+        return redirect()->back()->withErrors([
+            'error' => 'Đăng ký thất bại: ' . $e->getMessage()
+        ])->withInput();
+    }
+}
     public function logoutClient(){
         Sentinel::logout();
         return redirect()->route('client.homeClient');
@@ -79,7 +140,7 @@ class AuthController extends Controller
      public function accountDetail()
     {
         $user = Sentinel::getUser(); // Lấy user đang đăng nhập
-        return view('client.accounts.accountDetail', compact('user'));
+        return view('client.accounts.account', compact('user'));
     }
 public function updateAccountDetail(Request $req)
 {
@@ -141,7 +202,9 @@ public function updateAccountDetail(Request $req)
         Log::info('Thông tin người dùng đã được cập nhật thành công', ['user_id' => $user->id]);
 
         return redirect()->route('client.accountDetail')->with('success', 'Thông tin tài khoản đã được cập nhật thành công!');
-    } catch (\Exception $e) {
+
+    } catch (Exception $e) {
+
         Log::error('Lỗi khi cập nhật thông tin người dùng', [
             'message' => $e->getMessage(),
             'trace' => $e->getTraceAsString(),

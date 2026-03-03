@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -28,7 +28,7 @@ class CategoryController extends Controller
         return view('admin.category.addCategory', compact('categories'));
     }
 
-    /** 
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -38,13 +38,13 @@ class CategoryController extends Controller
         $request->validate(
             [
                 'name' => [
-                    'required',              
-                    Rule::unique('categories') 
+                    'required',
+                    Rule::unique('categories')
                 ],
                 'image' => [
-                    'required',               
-                    'image',                  
-                    'max:2048'                
+                    'required',
+                    'image',
+                    'max:2048'
                 ],
 
             ],
@@ -59,7 +59,9 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
             // Tự động lưu vào storage/app/category và trả về path
             // dd($request->file('image'));
-            $data['image'] = Storage::put('public/category', $request->file('image'));
+            // $data['image'] = Storage::put('public/category', $request->file('image'));
+            $data['image'] = str_replace('public/', '', Storage::put('public/category', $request->file('image')));
+
         }
         $data['id_parent'] = $request->input('id_parent');
 
@@ -102,7 +104,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        
+
         ], [
             'name.required' => 'Tên danh mục không được để trống.',
             'name.unique' => 'Tên danh mục đã tồn tại.',
@@ -110,7 +112,7 @@ class CategoryController extends Controller
             'image.image' => 'File tải lên phải là hình ảnh.',
             'image.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif, svg.',
             'image.max' => 'Kích thước hình ảnh không được vượt quá 2MB.',
-            
+
         ]);
 
         $data = $request->except('image'); // Lấy tất cả dữ liệu trừ 'image'
@@ -121,7 +123,9 @@ class CategoryController extends Controller
         $newImagePath = null; // Biến để lưu đường dẫn ảnh mới nếu có
 
         if ($request->hasFile('image')) { // Luôn dùng hasFile để kiểm tra file được upload
-            $newImagePath = Storage::put('public/category', $request->file('image')); // Lưu ảnh mới
+            // $newImagePath = Storage::put('public/category', $request->file('image')); // Lưu ảnh mới
+            $newImagePath = $request->file('image')->store('category', 'public');
+
             $data["image"] = $newImagePath; // Cập nhật đường dẫn ảnh MỚI vào mảng $data
         }
         $data['id_parent'] = $request->input('id_parent');
@@ -139,9 +143,9 @@ class CategoryController extends Controller
 
 
         if ($is_update) {
-            return redirect()->route("admin.listCategory.list")->with("success", "Sửa thành công sản phẩm!");
+            return redirect()->route("listCategory.list")->with("success", "Sửa thành công sản phẩm!");
         } else {
-            return redirect()->route("admin.listCategory.list")->with("error", "Sửa không thành công!");
+            return redirect()->route("listCategory.list")->with("error", "Sửa không thành công!");
         }
     }
 

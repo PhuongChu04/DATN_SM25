@@ -177,6 +177,7 @@
         }
     }
 </style>
+
 <br>
     <div class="mb-4; mt-3" >
         <div class="login-popup">
@@ -185,32 +186,44 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="popup-inner">
-                <form action="{{ route('auth.postLoginClient') }}" accept-charset="utf-8" class="form-login" method="POST">
-                    @csrf
-                     @if (session('message'))
-                            <div class="alert alert-success">
-                                {{ session('message') }}
-                            </div>
-                        @endif
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email <span class="required">*</span></label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password <span class="required">*</span></label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password"
-                            name="password">
-                    </div>
-                    <div class="mb-3 text-end">
-                        <a href="#resetPass" data-bs-toggle="offcanvas" class="text-decoration-none text-primary">Forgot
-                            your password?</a>
-                    </div>
-                    <div class="d-flex flex-column gap-2">
-                        <button class="btn btn-primary w-100" type="submit">Sign In</button>
-                        <a href="{{ route('auth.registerClient') }}"  class="btn btn-outline-dark w-100">Create an Account</a>
-                        
-                    </div>
-                </form>
+                
+             {{-- Hiển thị thông báo lỗi --}}
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+{{-- Hiển thị thông báo thành công --}}
+@if(session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+@endif
+
+<form action="{{ route('auth.postLoginClient') }}" accept-charset="utf-8" class="form-login" method="POST">
+    @csrf
+    <div class="mb-3">
+        <label for="email" class="form-label">Email <span class="required">*</span></label>
+        <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password <span class="required">*</span></label>
+        <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password">
+    </div>
+    <div class="mb-3 text-end">
+        <a href="#resetPass" data-bs-toggle="offcanvas" class="text-decoration-none text-primary">
+            Forgot your password?
+        </a>
+    </div>
+    <div class="d-flex flex-column gap-2">
+        <button class="btn btn-primary w-100" type="submit">Sign In</button>
+        <a href="{{ route('auth.registerClient') }}" class="btn btn-outline-dark w-100">Create an Account</a>
+    </div>
+</form>
+
+
+
                 <div class="other-login">
                     <p class="divider-text"><span>Or sign in with</span></p>
                     <div class="social-login">

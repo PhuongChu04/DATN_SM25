@@ -20,10 +20,17 @@ class CheckUserRole
         if (!$user) {
             return redirect()->route('admin.auth.loginAdmin')->with('error', 'Bạn cần đăng nhập.');
         }
+         if ($user->status == 0) {
+            Sentinel::logout();
+            return redirect()->route('admin.auth.loginAdmin')->with('error', 'Tài khoản của bạn đã bị khóa.');
+        }
 
         // Kiểm tra xem user có vai trò admin hoặc superadmin
         if ($user->inRole('admin') || $user->inRole('super-admin')) {
             return $next($request); // Cho phép truy cập
+        }
+        if($user->inRole('super-admin')){
+            return redirect()->route('admin.auth.listAdmin')->with('error','Bạn không có quyền truy cập.');
         }
 
         // Ngược lại, chuyển hướng
